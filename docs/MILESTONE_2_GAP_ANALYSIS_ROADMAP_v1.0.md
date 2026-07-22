@@ -1,9 +1,22 @@
-# Milestone 2 Gap Analysis & Development Roadmap v1.0
+# Milestone 2 — Foundation & Executable Core: Gap Analysis & Development Roadmap v1.1
 
 **Tarih:** 2026-07-22
 **Kapsam:** Milestone 1 sonrası tüm geliştirme yolu
 **Yazan:** Validation Lead
-**Durum:** Taslak — Product Owner onayı bekliyor
+**Durum:** Önceliklendirme kilitlendi — Sprint 1 GO bekliyor
+
+---
+
+## Revizyon Notu (v1.0 → v1.1)
+
+Product Owner incelemesinde v1.0'daki mimari varsayımı doğrulama isteği geldi. Doğrulama sonucu **iki gerçek çelişki** bulundu ve düzeltildi:
+
+1. **Monorepo varsayımı yanlıştı.** v1.0, `packages/web`/`packages/api`/`packages/cards`/`packages/shared` öneriyordu. Ama `docs/07-TECHNICAL_CONSTITUTION.md:15` ve `docs/DECISION_LOG.md` ADR-003 (Accepted) açıkça **"no monorepo complexity, single Next.js app"** diyor. Kök `package.json`'daki `workspaces: ["packages/*"]` ve `turbo.json` bu kilitli karara aykırı, erken (muhtemelen Aşama 1 öncesi) bir taslaktan kalmıştı. **Düzeltme:** `package.json`'dan workspace tanımı kaldırıldı, `turbo.json` silindi. Mimari artık ADR-003'e sadık: tek Next.js 16 app, `src/` ağacı (Technical Constitution'daki Code Organization bölümüne göre).
+2. **Reversed kart varsayımı yanlıştı.** Sprint 1 demo örneğinde `"orientation": "reversed"` kullanılmıştı. Ama ADR-002 (Accepted) **"Reversed Cards Excluded from MVP"** diyor. **Düzeltme:** Sprint 1 çıktısı artık her zaman `"orientation": "upright"` döner; alan şemada durur (post-MVP için) ama MVP'de sabit değer alır.
+
+Ayrıca not edilen ama bu sürümde henüz aksiyon alınmayan bir üçüncü tutarsızlık: `docs/MVP_PLAN_REVISED.md` Aşama 9, ORM olarak Prisma öneriyor; ADR-009 ise Drizzle'ı kilitlemiş. Bu, Sprint 2/3'te auth+persistence çalışması başlamadan önce çözülmeli, Sprint 1'i bloklamıyor.
+
+Bu bölümün geri kalanı bu iki düzeltmeyi yansıtacak şekilde güncellenmiştir.
 
 ---
 
@@ -30,7 +43,7 @@ Bu rapor yeni bir plan icat etmiyor — mevcut planı denetliyor, gerçek repo d
 | Design System (Aşama 3) | ⏳ Spec var, kod yok | `docs/MVP_PLAN_REVISED.md:215-291` |
 | **Major Arcana Asset Pipeline (Aşama 4 = Milestone 1)** | ✅ **Tamamlandı, donduruldu** | 66 asset dosyası, 3 manifest katmanı, Red Team Charter |
 | Tarot Bilgi Tabanı (Aşama 5) | ❌ Spec var, veri yok | `data/cards/*.json` yok |
-| Intake Engine (Aşama 6) | ❌ Spec var, kod yok | `src/`, `packages/` yok |
+| Intake Engine (Aşama 6) | ❌ Spec var, kod yok | `src/` yok |
 | Reading Engine + AI Layer (Aşama 7) | ❌ Spec var, kod yok | Claude entegrasyonu yok |
 | Card Selection/Shuffle (Aşama 8) | ❌ Spec var, kod yok | — |
 | Auth/Guest Session/Save (Aşama 9) | ❌ Spec var, kod yok | — |
@@ -39,7 +52,7 @@ Bu rapor yeni bir plan icat etmiyor — mevcut planı denetliyor, gerçek repo d
 
 ### 1.2 Kritik Gözlem
 
-Repo'da `package.json` monorepo yapısını (`workspaces: ["packages/*"]`) tanımlıyor ama **`packages/` dizini fiziksel olarak yok**. Yani Aşama 1'deki "proje altyapısı" bile iskelet halinde — turborepo config var, gerçek paket yok.
+Repo'da kök `package.json`, düzeltilmeden önce monorepo yapısını (`workspaces: ["packages/*"]`) tanımlıyordu ama **`packages/` dizini fiziksel olarak hiç yoktu**, ve bu tanım ADR-003'ün kilitlediği "single Next.js app" kararıyla çelişiyordu. Bu tutarsızlık v1.1'de giderildi (bkz. Revizyon Notu): workspace tanımı ve `turbo.json` kaldırıldı. Yani Aşama 1'deki "proje altyapısı" hem iskelet hem de yanlış mimariye göre kurulmuştu.
 
 Bu, kullanıcının önerdiği önceliklendirmeyi (P1: Reading Flow UX / Interpretation Engine / Persona Detection) doğruluyor ama şunu da netleştiriyor: **bunlar "eksik özellik" değil, "hiç başlanmamış inşaat."**
 
@@ -65,6 +78,10 @@ Milestone 4: Insight Engine Platform                [Tarot ötesi modüller]
 
 **Milestone 2 = Aşama 5 + 6 + 7 + 8 + 9'un koda dökülmesi.** Aşama 10 (analytics/security/100-user test) Milestone 2'nin *çıkış kapısı*dır, ayrı milestone değil — çünkü mevcut MVP_EXIT_CRITERIA.md zaten tüm ürünü (persona, auth, reading, safety) tek bir rubric'te birleştiriyor.
 
+**İsimlendirme düzeltmesi (v1.1):** Milestone 2'nin ilk yarısı doğrudan UX'e değil, **çalıştırılabilir çekirdeğe** odaklanmalı — bu yüzden bu aşama "Foundation & Executable Core" olarak adlandırıldı. Wireframe/persona/UX işi (spec olarak zaten olgun) bu çekirdek üzerine ikinci yarıda inşa edilir; önce çalışan bir motor, sonra deneyim katmanı.
+
+**Mimari (ADR-003 uyumlu, monorepo değil):** Tek Next.js 16 app, kök dizinde `src/` ağacı — `docs/07-TECHNICAL_CONSTITUTION.md`'nin zaten tanımladığı yapı (`src/app`, `src/server/{reading-engine,intake}`, `src/lib`, `src/db`, `src/__tests__`). `packages/*` yok, ayrı backend yok.
+
 ### 2.1 Milestone 2 Hedef Akışı (spec'ten, değişmedi)
 
 ```
@@ -82,18 +99,18 @@ Bu akış zaten `AŞAMA_2_WIREFRAME_SPEC.md`'de saniye saniye bütçelenmiş (to
 
 | # | Bileşen | Spec Durumu | Kod Durumu | Blocker mu? |
 |---|---|---|---|---|
-| 1 | Monorepo iskeleti (`packages/web`, `packages/api`) | ✅ | ❌ Yok | **EVET — her şeyin önkoşulu** |
+| 1 | Next.js 16 app iskeleti (`src/` ağacı, ADR-003 uyumlu) | ✅ | ❌ Yok | **EVET — her şeyin önkoşulu** |
 | 2 | 22 kart JSON veri şeması (anlam, pozisyon, bağlam, red-flag) | ✅ Şema örneği var | ❌ Veri yok | EVET (Reading Engine için) |
 | 3 | Intake question flow config | ✅ Akış tanımlı | ❌ Kod yok | Hayır (paralel yazılabilir) |
 | 4 | Persona detection logic | ✅ 5 persona tanımlı | ❌ Kod yok | Hayır |
 | 5 | Deterministic + Synthesis + AI Language 3 katmanlı Reading Engine | ✅ Şema + prompt tanımlı | ❌ Kod yok | EVET (ürünün kalbi) |
 | 6 | Claude API entegrasyonu | ✅ Prompt template var | ❌ Yok | EVET |
 | 7 | Card selection/shuffle UI | ✅ Zaman bütçesi var | ❌ Yok | Hayır |
-| 8 | Auth (guest/magic-link/Google) | ✅ DB şeması var | ❌ Yok | Orta (guest-only ile MVP mümkün) |
+| 8 | Auth (guest/magic-link/Google) | ✅ DB şeması var (ORM: Drizzle, ADR-009) | ❌ Yok | Orta (guest-only ile MVP mümkün) |
 | 9 | Analytics event tracking (12 event) | ✅ JSON şema hazır | ❌ Yok | Hayır (sona bırakılabilir) |
 | 10 | Ethical red-lines validator (Zod) | ✅ Kural listesi var | ❌ Yok | EVET (yasal/etik risk) |
 
-**Sonuç:** 10 kritik bileşenden 4'ü ("blocker") olmadan hiçbir çalışan demo mümkün değil: **(1) monorepo iskeleti, (2) kart veri şeması, (5) reading engine, (6) Claude entegrasyonu.**
+**Sonuç:** 10 kritik bileşenden 4'ü ("blocker") olmadan hiçbir çalışan demo mümkün değil: **(1) Next.js app iskeleti, (2) kart veri şeması, (5) reading engine, (6) Claude entegrasyonu.**
 
 ---
 
@@ -101,9 +118,10 @@ Bu akış zaten `AŞAMA_2_WIREFRAME_SPEC.md`'de saniye saniye bütçelenmiş (to
 
 | Öncelik | Kalem | Gerekçe |
 |---|---|---|
-| **P0** | Monorepo iskeleti (`packages/web`, `packages/cards`, `packages/shared`) çalışır hale getir | Hiçbir şey bunsuz derlenmiyor |
+| **P0** | Tek Next.js 16 app iskeleti (`src/app`, `src/server`, `src/lib`) çalışır hale getir | Hiçbir şey bunsuz derlenmiyor; ADR-003 uyumlu, monorepo yok |
 | **P0** | 22 kart JSON veri seti (Aşama 5 şeması ile) | Reading Engine'in girdisi |
 | **P0** | Deterministic Reading Engine (Layer 1+2, AI'siz) | AI olmadan bile "çalışan bir okuma" üretir — en hızlı demo yolu |
+| **P0** | Vitest test runner kurulumu (`tests/assets.test.js` Vitest'e taşınır) | Şu an repo'da hiçbir test runner kurulu değil; Technical Constitution Vitest'i kilitliyor |
 | **P1** | Claude API entegrasyonu (Layer 3) | Kullanıcı gördüğü asıl deneyim; kullanıcının vurguladığı "90 saniyede fark" burada |
 | **P1** | Intake Engine + Persona Detection | Kişiselleştirme olmadan ürün jenerik hisseder |
 | **P1** | Card Selection/Shuffle UI | Ritüel hissi olmadan "başka bir tarot uygulaması" gibi görünür |
@@ -112,7 +130,7 @@ Bu akış zaten `AŞAMA_2_WIREFRAME_SPEC.md`'de saniye saniye bütçelenmiş (to
 | **P2** | Analytics event pipeline | Ölçüm olmadan da demo çalışır; ama 100-kullanıcı testinden önce şart |
 | **P3** | Ses efektleri, tema seçenekleri, gelişmiş animasyon | Kullanıcının da belirttiği gibi düşük etki |
 
-**Kullanıcının önerisiyle örtüşme:** Kullanıcının P1 listesi (Reading Flow UX, Interpretation Engine, Persona Detection) ile bu matris hizalı; tek fark, monorepo iskeleti + kart verisi + deterministic engine'i P0 olarak öne çekiyorum çünkü bunlar olmadan P1 kalemlerinin hiçbiri test edilemez.
+**Kullanıcının önerisiyle örtüşme:** Kullanıcının P1 listesi (Reading Flow UX, Interpretation Engine, Persona Detection) ile bu matris hizalı; tek fark, app iskeleti + kart verisi + deterministic engine + test runner'ı P0 olarak öne çekiyorum çünkü bunlar olmadan P1 kalemlerinin hiçbiri test edilemez.
 
 ---
 
@@ -123,8 +141,9 @@ Bu akış zaten `AŞAMA_2_WIREFRAME_SPEC.md`'de saniye saniye bütçelenmiş (to
 | HQ görsel çözünürlüğü (2048×3072, 9.77x interpolated upscale) | Milestone 1 | Belgelenmiş, Phase 2'de 1024×1536 gerçek yüksek-çözünürlük ile değiştirilmesi önerilir |
 | Red Team denetimi henüz tamamlanmadı (Gates 2,3,4,5,9) | Milestone 1 | Milestone 2 kodlamasını bloklamaz, ama production entegrasyonunu bloklar |
 | Lisans/provenance incelemesi (Gate 8) | Milestone 1 | Hukuki inceleme bekliyor — production launch'ı bloklar |
-| `packages/*` iskeleti `package.json`'da tanımlı ama dizinler yok | Aşama 1 | P0 olarak bu raporda ele alındı |
-| Test suite (`tests/assets.test.js`) kodlandı, hiç çalıştırılmadı | Milestone 1 | Red Team'in ilk işi bu olmalı |
+| ~~`packages/*` iskeleti `package.json`'da tanımlı ama ADR-003'e aykırıydı~~ | Aşama 1 | ✅ Çözüldü (v1.1): workspace tanımı + `turbo.json` kaldırıldı |
+| Test suite (`tests/assets.test.js`) Jest sözdizimiyle yazıldı, ama repo'da ne Jest ne Vitest kurulu | Milestone 1 | Sprint 1 P0: Vitest kur, testi taşı, çalıştır |
+| `MVP_PLAN_REVISED.md` Aşama 9 Prisma öneriyor, ADR-009 Drizzle'ı kilitlemiş | Aşama 9 spec | Sprint 2/3'te auth+persistence başlamadan önce çözülmeli; Sprint 1'i bloklamıyor |
 
 ---
 
@@ -160,11 +179,31 @@ Bu akış zaten `AŞAMA_2_WIREFRAME_SPEC.md`'de saniye saniye bütçelenmiş (to
 
 ## 9. Sprint Planı (Öneri — 3 Sprint, ~6 hafta)
 
-### Sprint 1: İskelet + Deterministic Çekirdek
-- `packages/web`, `packages/api`, `packages/cards`, `packages/shared` dizinlerini kur
+### Sprint 1: Foundation & Executable Core
+- ADR-003 uyumlu tek Next.js 16 app iskeletini kur (`src/app`, `src/server`, `src/lib`, `src/db`, `src/__tests__`) — `packages/*` yok, ayrı backend yok
+- Vitest test runner kur, `tests/assets.test.js`'i Vitest'e taşı ve çalıştır (Milestone 1'in kendi test suite'inin ilk kez çalıştırılması)
 - 22 kart JSON veri setini Aşama 5 şemasıyla doldur (uzman/danışman review dahil)
-- Deterministic Reading Engine (Layer 1+2, AI'siz) — 3 kart açılımı için çalışan çıktı
-- **Çıkış kanıtı:** CLI'dan `npx reading --cards=00-fool,05-hierophant,14-temperance` çalışıp Zod-valid JSON üretir
+- Deterministic Reading Engine (Layer 1+2, AI'siz) — 3 kart açılımı için çalışan çıktı, **ADR-002 gereği her zaman `orientation: "upright"`**
+- **Çıkış kanıtı (kilitli acceptance criteria):**
+  ```
+  npm install
+  npm run test          # Vitest, assets.test.js dahil tümü yeşil
+  npm run build         # Next.js build hatasız
+  npm run demo:reading  # deterministik, seed'e bağlı çıktı
+  ```
+  `demo:reading` örnek çıktısı:
+  ```json
+  {
+    "seed": "demo-001",
+    "spread": "three-card",
+    "cards": [
+      { "id": "00-fool", "position": "past", "orientation": "upright" },
+      { "id": "11-justice", "position": "present", "orientation": "upright" },
+      { "id": "17-star", "position": "future", "orientation": "upright" }
+    ]
+  }
+  ```
+  Aynı seed (`demo-001`) her çalıştırmada byte-identical aynı JSON'ı üretmeli — Milestone 1'deki "reproducibility" ilkesinin Reading Engine'e taşınmış hali.
 
 ### Sprint 2: AI Layer + Intake + Temel UI
 - Claude entegrasyonu (Layer 3) + red-line validator aynı PR'da
@@ -187,7 +226,7 @@ Bu akış zaten `AŞAMA_2_WIREFRAME_SPEC.md`'de saniye saniye bütçelenmiş (to
 
 Milestone 2 şu ana kadar tamamlandı sayılamaz:
 
-- [ ] `packages/*` altında derlenen, çalışan bir monorepo var
+- [ ] ADR-003 uyumlu, `src/` altında derlenen, çalışan tek bir Next.js app var (monorepo yok)
 - [ ] En az 3 kart için deterministic reading engine çıktısı Zod şemasına uyuyor
 - [ ] Claude API entegrasyonu canlı bir okuma üretiyor VE red-line validator hiçbir yasaklı ifadeye izin vermiyor
 - [ ] Bir kullanıcı landing'den reading display'e tarayıcıda gerçekten gidebiliyor (mock değil)
@@ -200,6 +239,6 @@ Milestone 2 şu ana kadar tamamlandı sayılamaz:
 
 ---
 
-**Versiyon:** 1.0
+**Versiyon:** 1.1
 **Sonraki İnceleme:** Sprint 1 çıkış kanıtı teslim edildiğinde
-**İlişkili Dokümanlar:** `docs/MVP_PLAN_REVISED.md` (Aşama 5-10 detayları), `docs/10-MVP_EXIT_CRITERIA.md`, `AŞAMA_2_*` (wireframe/persona/funnel spec'leri), `validation/RED_TEAM_AUDIT_CHARTER_v1.0.md` (Milestone 1 paralel süreç)
+**İlişkili Dokümanlar:** `docs/MVP_PLAN_REVISED.md` (Aşama 5-10 detayları), `docs/10-MVP_EXIT_CRITERIA.md`, `docs/07-TECHNICAL_CONSTITUTION.md` (ADR-003 mimari), `docs/DECISION_LOG.md` (ADR-002, ADR-003, ADR-009), `AŞAMA_2_*` (wireframe/persona/funnel spec'leri), `validation/RED_TEAM_AUDIT_CHARTER_v1.0.md` (Milestone 1 paralel süreç)
