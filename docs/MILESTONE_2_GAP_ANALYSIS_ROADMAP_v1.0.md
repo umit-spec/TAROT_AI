@@ -3,7 +3,7 @@
 **Tarih:** 2026-07-22
 **Kapsam:** Milestone 1 sonrası tüm geliştirme yolu
 **Yazan:** Validation Lead
-**Durum:** Önceliklendirme kilitlendi — Sprint 1 GO bekliyor
+**Durum:** Sprint 1 ✅ kapandı, Sprint 2 ✅ kapandı (PASS WITH DOCUMENTED DEBT) — Milestone 2 checkpoint review bekliyor, sonra Sprint 3 GO kararı
 
 ---
 
@@ -179,7 +179,10 @@ Bu akış zaten `AŞAMA_2_WIREFRAME_SPEC.md`'de saniye saniye bütçelenmiş (to
 
 ## 9. Sprint Planı (Öneri — 3 Sprint, ~6 hafta)
 
-### Sprint 1: Foundation & Executable Core
+### Sprint 1: Foundation & Executable Core ✅ KAPANDI
+
+**Durum:** GO with recorded debt. Kanıt: bu dokümanın kendisi + `docs/SECURITY_DEBT_LOG.md` (SECURITY-DEBT-001, Sprint 1'de açıldı).
+
 - ADR-003 uyumlu tek Next.js 16 app iskeletini kur (`src/app`, `src/server`, `src/lib`, `src/db`, `src/__tests__`) — `packages/*` yok, ayrı backend yok
 - Vitest test runner kur, `tests/assets.test.js`'i Vitest'e taşı ve çalıştır (Milestone 1'in kendi test suite'inin ilk kez çalıştırılması)
 - 22 kart JSON veri setini Aşama 5 şemasıyla doldur (uzman/danışman review dahil)
@@ -205,11 +208,22 @@ Bu akış zaten `AŞAMA_2_WIREFRAME_SPEC.md`'de saniye saniye bütçelenmiş (to
   ```
   Aynı seed (`demo-001`) her çalıştırmada byte-identical aynı JSON'ı üretmeli — Milestone 1'deki "reproducibility" ilkesinin Reading Engine'e taşınmış hali.
 
-### Sprint 2: AI Layer + Intake + Temel UI
-- Claude entegrasyonu (Layer 3) + red-line validator aynı PR'da
-- Intake Engine (topic + persona detection, hard-coded rules)
-- Landing → Topic → Questions → Reading Display minimal React akışı (stil yok, işlevsellik var)
-- **Çıkış kanıtı:** Tarayıcıda uçtan uca bir okuma tamamlanabiliyor, süre ölçülüyor
+### Sprint 2: Intake, Provider Abstraction and Safe Narration ✅ KAPANDI
+
+**Durum:** PASS WITH DOCUMENTED DEBT. Kanıt: `validation/reports/SPRINT-2-FOUNDATION-CORE/BUILD_EVIDENCE_REPORT.md`.
+
+Fiilen teslim edilen kapsam, orijinal plandan farklı sıralandı (kullanıcının
+kapanış talimatıyla kilitlendi): UI **bilinçli olarak ertelendi**, önce
+`InterpretationProvider` mimarisi + Intake Engine + Claude adapter'ın
+mock-HTTP ile doğrulanması yapıldı — ADR-011'in gerektirdiği sıra buydu.
+
+- ✅ ESLint 9 flat-config restore (S2-P0)
+- ✅ `InterpretationProvider` arayüzü + `MockProvider` (deterministik)
+- ✅ Intake Engine (kural-tabanlı, LLM'siz, session-scoped persona taksonomisi)
+- ✅ `ClaudeProvider` adapter (mock-HTTP testli, canlı çağrı yok — ayrı `integration:anthropic` kapısı bekliyor)
+- ✅ Red-line validator (Layer 1 + Layer 3 çıktısını kapsayacak şekilde genişletildi)
+- ❌ Landing → Topic → Questions → Reading Display UI akışı — **yapılmadı, Sprint 3'e ertelendi**
+- **Çıkış kanıtı:** 49/49 test, lint/typecheck/build temiz — detay: yukarıdaki BUILD_EVIDENCE_REPORT.md
 
 ### Sprint 3: Deneyim Katmanı + Guest Save
 - Card selection/shuffle animasyonu + Design System bileşenleri
@@ -226,9 +240,9 @@ Bu akış zaten `AŞAMA_2_WIREFRAME_SPEC.md`'de saniye saniye bütçelenmiş (to
 
 Milestone 2 şu ana kadar tamamlandı sayılamaz:
 
-- [ ] ADR-003 uyumlu, `src/` altında derlenen, çalışan tek bir Next.js app var (monorepo yok)
-- [ ] En az 3 kart için deterministic reading engine çıktısı Zod şemasına uyuyor
-- [ ] Claude API entegrasyonu canlı bir okuma üretiyor VE red-line validator hiçbir yasaklı ifadeye izin vermiyor
+- [x] ADR-003 uyumlu, `src/` altında derlenen, çalışan tek bir Next.js app var (monorepo yok) — Sprint 1
+- [x] En az 3 kart için deterministic reading engine çıktısı Zod şemasına uyuyor — Sprint 1
+- [ ] Claude API entegrasyonu canlı bir okuma üretiyor VE red-line validator hiçbir yasaklı ifadeye izin vermiyor — **kısmen**: red-line validator ✅ (Sprint 2), Claude entegrasyonu mock-HTTP ile doğrulandı ✅ ama canlı çağrı ❌ (ayrı `integration:anthropic` kapısı bekliyor)
 - [ ] Bir kullanıcı landing'den reading display'e tarayıcıda gerçekten gidebiliyor (mock değil)
 - [ ] Time-to-First-Insight gerçekten ölçülüyor (hedef ≤90 sn, mevcut sonuç ne olursa olsun raporlanmalı)
 - [ ] En az 5 gerçek kullanıcı (persona başına 1) informal test yapmış ve geri bildirim toplanmış
@@ -239,6 +253,12 @@ Milestone 2 şu ana kadar tamamlandı sayılamaz:
 
 ---
 
-**Versiyon:** 1.1
-**Sonraki İnceleme:** Sprint 1 çıkış kanıtı teslim edildiğinde
-**İlişkili Dokümanlar:** `docs/MVP_PLAN_REVISED.md` (Aşama 5-10 detayları), `docs/10-MVP_EXIT_CRITERIA.md`, `docs/07-TECHNICAL_CONSTITUTION.md` (ADR-003 mimari), `docs/DECISION_LOG.md` (ADR-002, ADR-003, ADR-009), `AŞAMA_2_*` (wireframe/persona/funnel spec'leri), `validation/RED_TEAM_AUDIT_CHARTER_v1.0.md` (Milestone 1 paralel süreç)
+**Versiyon:** 1.2
+**Sonraki İnceleme:** Sprint 3 GO kararından önce, Milestone 2 checkpoint review
+**İlişkili Dokümanlar:** `docs/MVP_PLAN_REVISED.md` (Aşama 5-10 detayları), `docs/10-MVP_EXIT_CRITERIA.md`, `docs/07-TECHNICAL_CONSTITUTION.md` (ADR-003 mimari), `docs/DECISION_LOG.md` (ADR-002, ADR-003, ADR-009, ADR-011), `docs/SECURITY_DEBT_LOG.md`, `docs/UX_DEBT_LOG.md`, `AŞAMA_2_*` (wireframe/persona/funnel spec'leri), `validation/RED_TEAM_AUDIT_CHARTER_v1.0.md` (Milestone 1 paralel süreç), `validation/reports/SPRINT-2-FOUNDATION-CORE/BUILD_EVIDENCE_REPORT.md` (Sprint 2 kapanış kanıtı)
+
+### Changelog
+
+- **v1.2 (2026-07-22):** Sprint 1 ve Sprint 2 kapanış durumu işlendi (bkz. Bölüm 9). Milestone 2 başarı kriterleri listesindeki tamamlanan 2 madde işaretlendi.
+- **v1.1 (2026-07-22):** Monorepo ve reversed-kart varsayım hataları düzeltildi (bkz. Revizyon Notu).
+- **v1.0 (2026-07-22):** İlk gap analizi ve yol haritası.
