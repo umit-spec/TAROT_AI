@@ -1,46 +1,46 @@
 {
-  "id": "01-the-magician",
+  "id": "12-hanged-man",
   "name": {
-    "en": "The Magician",
-    "tr": "Simyac\u0131"
+    "en": "The Hanged Man",
+    "tr": "Asılı Adam"
   },
-  "number": 1,
+  "number": 12,
   "arcana": "major",
   "source": {
     "type": "provided_illustration",
     "montage": "1000214766.png",
     "extraction_date": "2026-07-22",
     "position": {
-      "row": 1,
-      "column": 2
+      "row": 2,
+      "column": 5
     },
     "crop_coordinates": {
-      "x": 99,
-      "y": 13,
-      "width": 80,
-      "height": 314
+      "x": 366,
+      "y": 327,
+      "width": 146,
+      "height": 329
     }
   },
   "assets": {
     "web": {
-      "path": "assets/tarot-cards/01-the-magician.webp",
+      "path": "assets/tarot-cards/12-hanged-man.webp",
       "dimensions": [
         512,
         768
       ],
       "format": "webp",
-      "file_size": 7504,
-      "checksum": "8f7c439b005b6b09c9e45d5063c46703acf4dbc48aa2e6fab1560c65e94ce85f"
+      "file_size": 14310,
+      "checksum": "ebf3a3dc89b21431c73915ebbfe12ded11c53d181378d95917f8a8a6f1085d43"
     },
     "hq": {
-      "path": "assets/tarot-cards/01-the-magician-hq.webp",
+      "path": "assets/tarot-cards/12-hanged-man-hq.webp",
       "dimensions": [
         2048,
         3072
       ],
       "format": "webp",
-      "file_size": 20298,
-      "checksum": "8c066983d23e02ad86779f1f67999caf784247e6acdab007dff294595d2de754"
+      "file_size": 28858,
+      "checksum": "62e0636af0d40c78dfd7708f6efdc140b6fe26225cbd0e49df4a0cc0f1bb3ed5"
     }
   },
   "provenance": {

@@ -29,7 +29,7 @@
     "strip_metadata": true
   },
   "cards": {
-    "00-the-fool": {
+    "00-fool": {
       "position": {
         "row": 1,
         "column": 1
@@ -43,7 +43,7 @@
       },
       "output": {
         "web": {
-          "path": "assets/tarot-cards/00-the-fool.webp",
+          "path": "assets/tarot-cards/00-fool.webp",
           "dimensions": [
             512,
             768
@@ -53,7 +53,7 @@
           "checksum": "9d4fab3f6079abf34fb303c17cf0a1ef85997320cc67ab474c29c4477bd9ebe7"
         },
         "hq": {
-          "path": "assets/tarot-cards/00-the-fool-hq.webp",
+          "path": "assets/tarot-cards/00-fool-hq.webp",
           "dimensions": [
             2048,
             3072
@@ -64,7 +64,7 @@
         }
       }
     },
-    "01-the-magician": {
+    "01-magician": {
       "position": {
         "row": 1,
         "column": 2
@@ -78,7 +78,7 @@
       },
       "output": {
         "web": {
-          "path": "assets/tarot-cards/01-the-magician.webp",
+          "path": "assets/tarot-cards/01-magician.webp",
           "dimensions": [
             512,
             768
@@ -88,7 +88,7 @@
           "checksum": "8f7c439b005b6b09c9e45d5063c46703acf4dbc48aa2e6fab1560c65e94ce85f"
         },
         "hq": {
-          "path": "assets/tarot-cards/01-the-magician-hq.webp",
+          "path": "assets/tarot-cards/01-magician-hq.webp",
           "dimensions": [
             2048,
             3072
@@ -99,7 +99,7 @@
         }
       }
     },
-    "02-the-high-priestess": {
+    "02-high-priestess": {
       "position": {
         "row": 1,
         "column": 3
@@ -113,7 +113,7 @@
       },
       "output": {
         "web": {
-          "path": "assets/tarot-cards/02-the-high-priestess.webp",
+          "path": "assets/tarot-cards/02-high-priestess.webp",
           "dimensions": [
             512,
             768
@@ -123,7 +123,7 @@
           "checksum": "00990bce490ab63cc1c83722e3e6084265ab5a5ac2352e7a49efceb0d7fd3d3e"
         },
         "hq": {
-          "path": "assets/tarot-cards/02-the-high-priestess-hq.webp",
+          "path": "assets/tarot-cards/02-high-priestess-hq.webp",
           "dimensions": [
             2048,
             3072
@@ -134,7 +134,7 @@
         }
       }
     },
-    "03-the-empress": {
+    "03-empress": {
       "position": {
         "row": 1,
         "column": 4
@@ -148,7 +148,7 @@
       },
       "output": {
         "web": {
-          "path": "assets/tarot-cards/03-the-empress.webp",
+          "path": "assets/tarot-cards/03-empress.webp",
           "dimensions": [
             512,
             768
@@ -158,7 +158,7 @@
           "checksum": "44002440969fbe36df4fa68c245a9100ec97f87afc94a534d24aa6d8777b067d"
         },
         "hq": {
-          "path": "assets/tarot-cards/03-the-empress-hq.webp",
+          "path": "assets/tarot-cards/03-empress-hq.webp",
           "dimensions": [
             2048,
             3072
@@ -169,7 +169,7 @@
         }
       }
     },
-    "04-the-emperor": {
+    "04-emperor": {
       "position": {
         "row": 1,
         "column": 5
@@ -183,7 +183,7 @@
       },
       "output": {
         "web": {
-          "path": "assets/tarot-cards/04-the-emperor.webp",
+          "path": "assets/tarot-cards/04-emperor.webp",
           "dimensions": [
             512,
             768
@@ -193,7 +193,7 @@
           "checksum": "6cb932d0ff5da31aa582edafd3db6463e6289f96b80376fda64dcd42765c617b"
         },
         "hq": {
-          "path": "assets/tarot-cards/04-the-emperor-hq.webp",
+          "path": "assets/tarot-cards/04-emperor-hq.webp",
           "dimensions": [
             2048,
             3072
@@ -204,7 +204,7 @@
         }
       }
     },
-    "05-the-hierophant": {
+    "05-hierophant": {
       "position": {
         "row": 1,
         "column": 6
@@ -218,7 +218,7 @@
       },
       "output": {
         "web": {
-          "path": "assets/tarot-cards/05-the-hierophant.webp",
+          "path": "assets/tarot-cards/05-hierophant.webp",
           "dimensions": [
             512,
             768
@@ -228,7 +228,7 @@
           "checksum": "8de8aa3766817463ad8b52a8df9e0925ab8113c55f33b94d095d4faaeeb18d4c"
         },
         "hq": {
-          "path": "assets/tarot-cards/05-the-hierophant-hq.webp",
+          "path": "assets/tarot-cards/05-hierophant-hq.webp",
           "dimensions": [
             2048,
             3072
@@ -239,7 +239,7 @@
         }
       }
     },
-    "06-the-lovers": {
+    "06-lovers": {
       "position": {
         "row": 1,
         "column": 7
@@ -253,7 +253,7 @@
       },
       "output": {
         "web": {
-          "path": "assets/tarot-cards/06-the-lovers.webp",
+          "path": "assets/tarot-cards/06-lovers.webp",
           "dimensions": [
             512,
             768
@@ -263,7 +263,7 @@
           "checksum": "577f1b29f044e15064dcc8a1628008a7ce363e9c734c31dd16cf031a24699eec"
         },
         "hq": {
-          "path": "assets/tarot-cards/06-the-lovers-hq.webp",
+          "path": "assets/tarot-cards/06-lovers-hq.webp",
           "dimensions": [
             2048,
             3072
@@ -274,7 +274,7 @@
         }
       }
     },
-    "07-the-chariot": {
+    "07-chariot": {
       "position": {
         "row": 1,
         "column": 8
@@ -288,7 +288,7 @@
       },
       "output": {
         "web": {
-          "path": "assets/tarot-cards/07-the-chariot.webp",
+          "path": "assets/tarot-cards/07-chariot.webp",
           "dimensions": [
             512,
             768
@@ -298,7 +298,7 @@
           "checksum": "e835da62506447f07486fb22bfb9722abec46ebe9c0383973d8acd4766cb0d8f"
         },
         "hq": {
-          "path": "assets/tarot-cards/07-the-chariot-hq.webp",
+          "path": "assets/tarot-cards/07-chariot-hq.webp",
           "dimensions": [
             2048,
             3072
@@ -344,7 +344,7 @@
         }
       }
     },
-    "09-the-hermit": {
+    "09-hermit": {
       "position": {
         "row": 2,
         "column": 2
@@ -358,7 +358,7 @@
       },
       "output": {
         "web": {
-          "path": "assets/tarot-cards/09-the-hermit.webp",
+          "path": "assets/tarot-cards/09-hermit.webp",
           "dimensions": [
             512,
             768
@@ -368,7 +368,7 @@
           "checksum": "6536dcb05c224f633170f4522c769266281bbd4c13ac886ac965b29c9f176516"
         },
         "hq": {
-          "path": "assets/tarot-cards/09-the-hermit-hq.webp",
+          "path": "assets/tarot-cards/09-hermit-hq.webp",
           "dimensions": [
             2048,
             3072
@@ -449,7 +449,7 @@
         }
       }
     },
-    "12-the-hanged-man": {
+    "12-hanged-man": {
       "position": {
         "row": 2,
         "column": 5
@@ -463,7 +463,7 @@
       },
       "output": {
         "web": {
-          "path": "assets/tarot-cards/12-the-hanged-man.webp",
+          "path": "assets/tarot-cards/12-hanged-man.webp",
           "dimensions": [
             512,
             768
@@ -473,7 +473,7 @@
           "checksum": "ebf3a3dc89b21431c73915ebbfe12ded11c53d181378d95917f8a8a6f1085d43"
         },
         "hq": {
-          "path": "assets/tarot-cards/12-the-hanged-man-hq.webp",
+          "path": "assets/tarot-cards/12-hanged-man-hq.webp",
           "dimensions": [
             2048,
             3072
@@ -554,7 +554,7 @@
         }
       }
     },
-    "15-the-devil": {
+    "15-devil": {
       "position": {
         "row": 2,
         "column": 8
@@ -568,7 +568,7 @@
       },
       "output": {
         "web": {
-          "path": "assets/tarot-cards/15-the-devil.webp",
+          "path": "assets/tarot-cards/15-devil.webp",
           "dimensions": [
             512,
             768
@@ -578,7 +578,7 @@
           "checksum": "ad560585a6c9239a3bc1538db01dda31e5f24eec5caa922a5d8b057440812ac5"
         },
         "hq": {
-          "path": "assets/tarot-cards/15-the-devil-hq.webp",
+          "path": "assets/tarot-cards/15-devil-hq.webp",
           "dimensions": [
             2048,
             3072
@@ -589,7 +589,7 @@
         }
       }
     },
-    "16-the-tower": {
+    "16-tower": {
       "position": {
         "row": 3,
         "column": 1
@@ -603,7 +603,7 @@
       },
       "output": {
         "web": {
-          "path": "assets/tarot-cards/16-the-tower.webp",
+          "path": "assets/tarot-cards/16-tower.webp",
           "dimensions": [
             512,
             768
@@ -613,7 +613,7 @@
           "checksum": "7da765e0624d9485b7845c6af56762b2ceda548797cb467cd34abff9ee01971f"
         },
         "hq": {
-          "path": "assets/tarot-cards/16-the-tower-hq.webp",
+          "path": "assets/tarot-cards/16-tower-hq.webp",
           "dimensions": [
             2048,
             3072
@@ -624,7 +624,7 @@
         }
       }
     },
-    "17-the-star": {
+    "17-star": {
       "position": {
         "row": 3,
         "column": 2
@@ -638,7 +638,7 @@
       },
       "output": {
         "web": {
-          "path": "assets/tarot-cards/17-the-star.webp",
+          "path": "assets/tarot-cards/17-star.webp",
           "dimensions": [
             512,
             768
@@ -648,7 +648,7 @@
           "checksum": "5e494fdc6fef0b22ebc382468a9810421c5207e84ebb0a452c6e23784aba04ac"
         },
         "hq": {
-          "path": "assets/tarot-cards/17-the-star-hq.webp",
+          "path": "assets/tarot-cards/17-star-hq.webp",
           "dimensions": [
             2048,
             3072
@@ -659,7 +659,7 @@
         }
       }
     },
-    "18-the-moon": {
+    "18-moon": {
       "position": {
         "row": 3,
         "column": 3
@@ -673,7 +673,7 @@
       },
       "output": {
         "web": {
-          "path": "assets/tarot-cards/18-the-moon.webp",
+          "path": "assets/tarot-cards/18-moon.webp",
           "dimensions": [
             512,
             768
@@ -683,7 +683,7 @@
           "checksum": "bc1421e8c6b435af181332156acb5a51c2e29c02e3a0ba3eb2a718b4f9f82dfc"
         },
         "hq": {
-          "path": "assets/tarot-cards/18-the-moon-hq.webp",
+          "path": "assets/tarot-cards/18-moon-hq.webp",
           "dimensions": [
             2048,
             3072
@@ -694,7 +694,7 @@
         }
       }
     },
-    "19-the-sun": {
+    "19-sun": {
       "position": {
         "row": 3,
         "column": 4
@@ -708,7 +708,7 @@
       },
       "output": {
         "web": {
-          "path": "assets/tarot-cards/19-the-sun.webp",
+          "path": "assets/tarot-cards/19-sun.webp",
           "dimensions": [
             512,
             768
@@ -718,7 +718,7 @@
           "checksum": "3bd29965bcc933dd68463c99ee2050f3b03869b4fdee9b1aa46dd81d45c2ecbb"
         },
         "hq": {
-          "path": "assets/tarot-cards/19-the-sun-hq.webp",
+          "path": "assets/tarot-cards/19-sun-hq.webp",
           "dimensions": [
             2048,
             3072
@@ -764,7 +764,7 @@
         }
       }
     },
-    "21-the-world": {
+    "21-world": {
       "position": {
         "row": 3,
         "column": 6
@@ -778,7 +778,7 @@
       },
       "output": {
         "web": {
-          "path": "assets/tarot-cards/21-the-world.webp",
+          "path": "assets/tarot-cards/21-world.webp",
           "dimensions": [
             512,
             768
@@ -788,7 +788,7 @@
           "checksum": "706b2eb5947031f6a8b09b330264a7d8d34ce9a918053adfc547d8bde505b929"
         },
         "hq": {
-          "path": "assets/tarot-cards/21-the-world-hq.webp",
+          "path": "assets/tarot-cards/21-world-hq.webp",
           "dimensions": [
             2048,
             3072

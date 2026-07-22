@@ -1,46 +1,46 @@
 {
-  "id": "18-the-moon",
+  "id": "03-empress",
   "name": {
-    "en": "The Moon",
-    "tr": "Ay"
+    "en": "The Empress",
+    "tr": "İmparatoriçe"
   },
-  "number": 18,
+  "number": 3,
   "arcana": "major",
   "source": {
     "type": "provided_illustration",
     "montage": "1000214766.png",
     "extraction_date": "2026-07-22",
     "position": {
-      "row": 3,
-      "column": 3
+      "row": 1,
+      "column": 4
     },
     "crop_coordinates": {
-      "x": 179,
-      "y": 656,
-      "width": 108,
-      "height": 334
+      "x": 287,
+      "y": 13,
+      "width": 79,
+      "height": 314
     }
   },
   "assets": {
     "web": {
-      "path": "assets/tarot-cards/18-the-moon.webp",
+      "path": "assets/tarot-cards/03-empress.webp",
       "dimensions": [
         512,
         768
       ],
       "format": "webp",
-      "file_size": 8426,
-      "checksum": "bc1421e8c6b435af181332156acb5a51c2e29c02e3a0ba3eb2a718b4f9f82dfc"
+      "file_size": 6144,
+      "checksum": "44002440969fbe36df4fa68c245a9100ec97f87afc94a534d24aa6d8777b067d"
     },
     "hq": {
-      "path": "assets/tarot-cards/18-the-moon-hq.webp",
+      "path": "assets/tarot-cards/03-empress-hq.webp",
       "dimensions": [
         2048,
         3072
       ],
       "format": "webp",
-      "file_size": 21582,
-      "checksum": "5cbd26240cf59cd42428bb5f4362bb51b76aefa726a96d19fd5171e4b1af368c"
+      "file_size": 18814,
+      "checksum": "b3d2da00a6a32edf5f87b8751f386723acf43bd4cbecd474a14f9b9d61ccafda"
     }
   },
   "provenance": {

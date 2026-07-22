@@ -1,10 +1,10 @@
 {
-  "id": "04-the-emperor",
+  "id": "06-lovers",
   "name": {
-    "en": "The Emperor",
-    "tr": "\u0130mparator"
+    "en": "The Lovers",
+    "tr": "Âşıklar"
   },
-  "number": 4,
+  "number": 6,
   "arcana": "major",
   "source": {
     "type": "provided_illustration",
@@ -12,35 +12,35 @@
     "extraction_date": "2026-07-22",
     "position": {
       "row": 1,
-      "column": 5
+      "column": 7
     },
     "crop_coordinates": {
-      "x": 366,
+      "x": 743,
       "y": 13,
-      "width": 146,
+      "width": 198,
       "height": 314
     }
   },
   "assets": {
     "web": {
-      "path": "assets/tarot-cards/04-the-emperor.webp",
+      "path": "assets/tarot-cards/06-lovers.webp",
       "dimensions": [
         512,
         768
       ],
       "format": "webp",
-      "file_size": 10598,
-      "checksum": "6cb932d0ff5da31aa582edafd3db6463e6289f96b80376fda64dcd42765c617b"
+      "file_size": 13640,
+      "checksum": "577f1b29f044e15064dcc8a1628008a7ce363e9c734c31dd16cf031a24699eec"
     },
     "hq": {
-      "path": "assets/tarot-cards/04-the-emperor-hq.webp",
+      "path": "assets/tarot-cards/06-lovers-hq.webp",
       "dimensions": [
         2048,
         3072
       ],
       "format": "webp",
-      "file_size": 24284,
-      "checksum": "66359a9126adef5b97b490f4cfa4d3448cca94ca256353a54f86606d7ed3e8d9"
+      "file_size": 28622,
+      "checksum": "1fe499a00bd5c4afeb6bd070571bbc661177e47034f029543c3849158f988f3d"
     }
   },
   "provenance": {

@@ -1,46 +1,46 @@
 {
-  "id": "16-the-tower",
+  "id": "05-hierophant",
   "name": {
-    "en": "The Tower",
-    "tr": "Kule"
+    "en": "The Hierophant",
+    "tr": "Hiyerofant"
   },
-  "number": 16,
+  "number": 5,
   "arcana": "major",
   "source": {
     "type": "provided_illustration",
     "montage": "1000214766.png",
     "extraction_date": "2026-07-22",
     "position": {
-      "row": 3,
-      "column": 1
+      "row": 1,
+      "column": 6
     },
     "crop_coordinates": {
-      "x": 12,
-      "y": 656,
-      "width": 179,
-      "height": 334
+      "x": 512,
+      "y": 13,
+      "width": 231,
+      "height": 314
     }
   },
   "assets": {
     "web": {
-      "path": "assets/tarot-cards/16-the-tower.webp",
+      "path": "assets/tarot-cards/05-hierophant.webp",
       "dimensions": [
         512,
         768
       ],
       "format": "webp",
-      "file_size": 8694,
-      "checksum": "7da765e0624d9485b7845c6af56762b2ceda548797cb467cd34abff9ee01971f"
+      "file_size": 17732,
+      "checksum": "8de8aa3766817463ad8b52a8df9e0925ab8113c55f33b94d095d4faaeeb18d4c"
     },
     "hq": {
-      "path": "assets/tarot-cards/16-the-tower-hq.webp",
+      "path": "assets/tarot-cards/05-hierophant-hq.webp",
       "dimensions": [
         2048,
         3072
       ],
       "format": "webp",
-      "file_size": 21904,
-      "checksum": "2383b07ce02bd925d23c6ee2ce299b7b2c914d687cec8189b1cdd89310cdba73"
+      "file_size": 34252,
+      "checksum": "9945f25e4062492e7d04770029cad220bb27f1761b69b2384037e5f0faa021c5"
     }
   },
   "provenance": {

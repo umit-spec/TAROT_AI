@@ -1,46 +1,46 @@
 {
-  "id": "12-the-hanged-man",
+  "id": "17-star",
   "name": {
-    "en": "The Hanged Man",
-    "tr": "As\u0131l\u0131 Adam"
+    "en": "The Star",
+    "tr": "Yıldız"
   },
-  "number": 12,
+  "number": 17,
   "arcana": "major",
   "source": {
     "type": "provided_illustration",
     "montage": "1000214766.png",
     "extraction_date": "2026-07-22",
     "position": {
-      "row": 2,
-      "column": 5
+      "row": 3,
+      "column": 2
     },
     "crop_coordinates": {
-      "x": 366,
-      "y": 327,
-      "width": 146,
-      "height": 329
+      "x": 99,
+      "y": 656,
+      "width": 80,
+      "height": 334
     }
   },
   "assets": {
     "web": {
-      "path": "assets/tarot-cards/12-the-hanged-man.webp",
+      "path": "assets/tarot-cards/17-star.webp",
       "dimensions": [
         512,
         768
       ],
       "format": "webp",
-      "file_size": 14310,
-      "checksum": "ebf3a3dc89b21431c73915ebbfe12ded11c53d181378d95917f8a8a6f1085d43"
+      "file_size": 5708,
+      "checksum": "5e494fdc6fef0b22ebc382468a9810421c5207e84ebb0a452c6e23784aba04ac"
     },
     "hq": {
-      "path": "assets/tarot-cards/12-the-hanged-man-hq.webp",
+      "path": "assets/tarot-cards/17-star-hq.webp",
       "dimensions": [
         2048,
         3072
       ],
       "format": "webp",
-      "file_size": 28858,
-      "checksum": "62e0636af0d40c78dfd7708f6efdc140b6fe26225cbd0e49df4a0cc0f1bb3ed5"
+      "file_size": 18152,
+      "checksum": "ebbb6e11a47e1f42b129a426946e603801a4eb6f22c4f5de8a86b0f5523adf34"
     }
   },
   "provenance": {

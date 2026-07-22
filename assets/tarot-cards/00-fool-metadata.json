@@ -1,46 +1,46 @@
 {
-  "id": "21-the-world",
+  "id": "00-fool",
   "name": {
-    "en": "The World",
-    "tr": "D\u00fcnya"
+    "en": "The Fool",
+    "tr": "Deli"
   },
-  "number": 21,
+  "number": 0,
   "arcana": "major",
   "source": {
     "type": "provided_illustration",
     "montage": "1000214766.png",
     "extraction_date": "2026-07-22",
     "position": {
-      "row": 3,
-      "column": 6
+      "row": 1,
+      "column": 1
     },
     "crop_coordinates": {
-      "x": 512,
-      "y": 656,
-      "width": 231,
-      "height": 334
+      "x": 12,
+      "y": 13,
+      "width": 179,
+      "height": 314
     }
   },
   "assets": {
     "web": {
-      "path": "assets/tarot-cards/21-the-world.webp",
+      "path": "assets/tarot-cards/00-fool.webp",
       "dimensions": [
         512,
         768
       ],
       "format": "webp",
-      "file_size": 14750,
-      "checksum": "706b2eb5947031f6a8b09b330264a7d8d34ce9a918053adfc547d8bde505b929"
+      "file_size": 13766,
+      "checksum": "9d4fab3f6079abf34fb303c17cf0a1ef85997320cc67ab474c29c4477bd9ebe7"
     },
     "hq": {
-      "path": "assets/tarot-cards/21-the-world-hq.webp",
+      "path": "assets/tarot-cards/00-fool-hq.webp",
       "dimensions": [
         2048,
         3072
       ],
       "format": "webp",
-      "file_size": 30294,
-      "checksum": "d0ba8b56a01a932d0929d8712bb1f38697f5651c3256ef6a889a8ded4b344be9"
+      "file_size": 28996,
+      "checksum": "b3916633f14a7c6ab9e84729ea4e8af8051e94307827111896d23f70fdafe33d"
     }
   },
   "provenance": {

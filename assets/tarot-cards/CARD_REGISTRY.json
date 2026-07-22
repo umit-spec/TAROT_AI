@@ -6,76 +6,76 @@
   "status": "extracted",
   "cards": [
     {
-      "id": "00-the-fool",
+      "id": "00-fool",
       "name_en": "The Fool",
       "name_tr": "Deli",
       "number": 0,
       "arcana": "major",
-      "image": "assets/tarot-cards/00-the-fool.webp",
-      "image_hq": "assets/tarot-cards/00-the-fool-hq.webp"
+      "image": "assets/tarot-cards/00-fool.webp",
+      "image_hq": "assets/tarot-cards/00-fool-hq.webp"
     },
     {
-      "id": "01-the-magician",
+      "id": "01-magician",
       "name_en": "The Magician",
-      "name_tr": "Simyac\u0131",
+      "name_tr": "B\u00fcy\u00fcc\u00fc",
       "number": 1,
       "arcana": "major",
-      "image": "assets/tarot-cards/01-the-magician.webp",
-      "image_hq": "assets/tarot-cards/01-the-magician-hq.webp"
+      "image": "assets/tarot-cards/01-magician.webp",
+      "image_hq": "assets/tarot-cards/01-magician-hq.webp"
     },
     {
-      "id": "02-the-high-priestess",
+      "id": "02-high-priestess",
       "name_en": "The High Priestess",
       "name_tr": "Y\u00fcksek Rahibe",
       "number": 2,
       "arcana": "major",
-      "image": "assets/tarot-cards/02-the-high-priestess.webp",
-      "image_hq": "assets/tarot-cards/02-the-high-priestess-hq.webp"
+      "image": "assets/tarot-cards/02-high-priestess.webp",
+      "image_hq": "assets/tarot-cards/02-high-priestess-hq.webp"
     },
     {
-      "id": "03-the-empress",
+      "id": "03-empress",
       "name_en": "The Empress",
       "name_tr": "\u0130mparatori\u00e7e",
       "number": 3,
       "arcana": "major",
-      "image": "assets/tarot-cards/03-the-empress.webp",
-      "image_hq": "assets/tarot-cards/03-the-empress-hq.webp"
+      "image": "assets/tarot-cards/03-empress.webp",
+      "image_hq": "assets/tarot-cards/03-empress-hq.webp"
     },
     {
-      "id": "04-the-emperor",
+      "id": "04-emperor",
       "name_en": "The Emperor",
       "name_tr": "\u0130mparator",
       "number": 4,
       "arcana": "major",
-      "image": "assets/tarot-cards/04-the-emperor.webp",
-      "image_hq": "assets/tarot-cards/04-the-emperor-hq.webp"
+      "image": "assets/tarot-cards/04-emperor.webp",
+      "image_hq": "assets/tarot-cards/04-emperor-hq.webp"
     },
     {
-      "id": "05-the-hierophant",
+      "id": "05-hierophant",
       "name_en": "The Hierophant",
       "name_tr": "Hiyerofant",
       "number": 5,
       "arcana": "major",
-      "image": "assets/tarot-cards/05-the-hierophant.webp",
-      "image_hq": "assets/tarot-cards/05-the-hierophant-hq.webp"
+      "image": "assets/tarot-cards/05-hierophant.webp",
+      "image_hq": "assets/tarot-cards/05-hierophant-hq.webp"
     },
     {
-      "id": "06-the-lovers",
+      "id": "06-lovers",
       "name_en": "The Lovers",
-      "name_tr": "Sevgili",
+      "name_tr": "\u00c2\u015f\u0131klar",
       "number": 6,
       "arcana": "major",
-      "image": "assets/tarot-cards/06-the-lovers.webp",
-      "image_hq": "assets/tarot-cards/06-the-lovers-hq.webp"
+      "image": "assets/tarot-cards/06-lovers.webp",
+      "image_hq": "assets/tarot-cards/06-lovers-hq.webp"
     },
     {
-      "id": "07-the-chariot",
+      "id": "07-chariot",
       "name_en": "The Chariot",
       "name_tr": "Sava\u015f Arabas\u0131",
       "number": 7,
       "arcana": "major",
-      "image": "assets/tarot-cards/07-the-chariot.webp",
-      "image_hq": "assets/tarot-cards/07-the-chariot-hq.webp"
+      "image": "assets/tarot-cards/07-chariot.webp",
+      "image_hq": "assets/tarot-cards/07-chariot-hq.webp"
     },
     {
       "id": "08-strength",
@@ -87,13 +87,13 @@
       "image_hq": "assets/tarot-cards/08-strength-hq.webp"
     },
     {
-      "id": "09-the-hermit",
+      "id": "09-hermit",
       "name_en": "The Hermit",
-      "name_tr": "Eremit",
+      "name_tr": "Ermi\u015f",
       "number": 9,
       "arcana": "major",
-      "image": "assets/tarot-cards/09-the-hermit.webp",
-      "image_hq": "assets/tarot-cards/09-the-hermit-hq.webp"
+      "image": "assets/tarot-cards/09-hermit.webp",
+      "image_hq": "assets/tarot-cards/09-hermit-hq.webp"
     },
     {
       "id": "10-wheel-of-fortune",
@@ -114,13 +114,13 @@
       "image_hq": "assets/tarot-cards/11-justice-hq.webp"
     },
     {
-      "id": "12-the-hanged-man",
+      "id": "12-hanged-man",
       "name_en": "The Hanged Man",
       "name_tr": "As\u0131l\u0131 Adam",
       "number": 12,
       "arcana": "major",
-      "image": "assets/tarot-cards/12-the-hanged-man.webp",
-      "image_hq": "assets/tarot-cards/12-the-hanged-man-hq.webp"
+      "image": "assets/tarot-cards/12-hanged-man.webp",
+      "image_hq": "assets/tarot-cards/12-hanged-man-hq.webp"
     },
     {
       "id": "13-death",
@@ -134,74 +134,74 @@
     {
       "id": "14-temperance",
       "name_en": "Temperance",
-      "name_tr": "\u0130temlendirme",
+      "name_tr": "Denge",
       "number": 14,
       "arcana": "major",
       "image": "assets/tarot-cards/14-temperance.webp",
       "image_hq": "assets/tarot-cards/14-temperance-hq.webp"
     },
     {
-      "id": "15-the-devil",
+      "id": "15-devil",
       "name_en": "The Devil",
       "name_tr": "\u015eeytan",
       "number": 15,
       "arcana": "major",
-      "image": "assets/tarot-cards/15-the-devil.webp",
-      "image_hq": "assets/tarot-cards/15-the-devil-hq.webp"
+      "image": "assets/tarot-cards/15-devil.webp",
+      "image_hq": "assets/tarot-cards/15-devil-hq.webp"
     },
     {
-      "id": "16-the-tower",
+      "id": "16-tower",
       "name_en": "The Tower",
       "name_tr": "Kule",
       "number": 16,
       "arcana": "major",
-      "image": "assets/tarot-cards/16-the-tower.webp",
-      "image_hq": "assets/tarot-cards/16-the-tower-hq.webp"
+      "image": "assets/tarot-cards/16-tower.webp",
+      "image_hq": "assets/tarot-cards/16-tower-hq.webp"
     },
     {
-      "id": "17-the-star",
+      "id": "17-star",
       "name_en": "The Star",
       "name_tr": "Y\u0131ld\u0131z",
       "number": 17,
       "arcana": "major",
-      "image": "assets/tarot-cards/17-the-star.webp",
-      "image_hq": "assets/tarot-cards/17-the-star-hq.webp"
+      "image": "assets/tarot-cards/17-star.webp",
+      "image_hq": "assets/tarot-cards/17-star-hq.webp"
     },
     {
-      "id": "18-the-moon",
+      "id": "18-moon",
       "name_en": "The Moon",
       "name_tr": "Ay",
       "number": 18,
       "arcana": "major",
-      "image": "assets/tarot-cards/18-the-moon.webp",
-      "image_hq": "assets/tarot-cards/18-the-moon-hq.webp"
+      "image": "assets/tarot-cards/18-moon.webp",
+      "image_hq": "assets/tarot-cards/18-moon-hq.webp"
     },
     {
-      "id": "19-the-sun",
+      "id": "19-sun",
       "name_en": "The Sun",
       "name_tr": "G\u00fcne\u015f",
       "number": 19,
       "arcana": "major",
-      "image": "assets/tarot-cards/19-the-sun.webp",
-      "image_hq": "assets/tarot-cards/19-the-sun-hq.webp"
+      "image": "assets/tarot-cards/19-sun.webp",
+      "image_hq": "assets/tarot-cards/19-sun-hq.webp"
     },
     {
       "id": "20-judgement",
       "name_en": "Judgement",
-      "name_tr": "K\u0131yamet",
+      "name_tr": "Yarg\u0131",
       "number": 20,
       "arcana": "major",
       "image": "assets/tarot-cards/20-judgement.webp",
       "image_hq": "assets/tarot-cards/20-judgement-hq.webp"
     },
     {
-      "id": "21-the-world",
+      "id": "21-world",
       "name_en": "The World",
       "name_tr": "D\u00fcnya",
       "number": 21,
       "arcana": "major",
-      "image": "assets/tarot-cards/21-the-world.webp",
-      "image_hq": "assets/tarot-cards/21-the-world-hq.webp"
+      "image": "assets/tarot-cards/21-world.webp",
+      "image_hq": "assets/tarot-cards/21-world-hq.webp"
     }
   ]
 }

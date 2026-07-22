@@ -1,46 +1,46 @@
 {
-  "id": "15-the-devil",
+  "id": "21-world",
   "name": {
-    "en": "The Devil",
-    "tr": "\u015eeytan"
+    "en": "The World",
+    "tr": "Dünya"
   },
-  "number": 15,
+  "number": 21,
   "arcana": "major",
   "source": {
     "type": "provided_illustration",
     "montage": "1000214766.png",
     "extraction_date": "2026-07-22",
     "position": {
-      "row": 2,
-      "column": 8
+      "row": 3,
+      "column": 6
     },
     "crop_coordinates": {
-      "x": 941,
-      "y": 327,
-      "width": 199,
-      "height": 329
+      "x": 512,
+      "y": 656,
+      "width": 231,
+      "height": 334
     }
   },
   "assets": {
     "web": {
-      "path": "assets/tarot-cards/15-the-devil.webp",
+      "path": "assets/tarot-cards/21-world.webp",
       "dimensions": [
         512,
         768
       ],
       "format": "webp",
-      "file_size": 15074,
-      "checksum": "ad560585a6c9239a3bc1538db01dda31e5f24eec5caa922a5d8b057440812ac5"
+      "file_size": 14750,
+      "checksum": "706b2eb5947031f6a8b09b330264a7d8d34ce9a918053adfc547d8bde505b929"
     },
     "hq": {
-      "path": "assets/tarot-cards/15-the-devil-hq.webp",
+      "path": "assets/tarot-cards/21-world-hq.webp",
       "dimensions": [
         2048,
         3072
       ],
       "format": "webp",
-      "file_size": 30472,
-      "checksum": "a9afd54fc8ef7adb320516e8a6a465587db63608881eb257db0fdec3b369a996"
+      "file_size": 30294,
+      "checksum": "d0ba8b56a01a932d0929d8712bb1f38697f5651c3256ef6a889a8ded4b344be9"
     }
   },
   "provenance": {

@@ -1,10 +1,10 @@
 {
-  "id": "06-the-lovers",
+  "id": "07-chariot",
   "name": {
-    "en": "The Lovers",
-    "tr": "Sevgili"
+    "en": "The Chariot",
+    "tr": "Savaş Arabası"
   },
-  "number": 6,
+  "number": 7,
   "arcana": "major",
   "source": {
     "type": "provided_illustration",
@@ -12,35 +12,35 @@
     "extraction_date": "2026-07-22",
     "position": {
       "row": 1,
-      "column": 7
+      "column": 8
     },
     "crop_coordinates": {
-      "x": 743,
+      "x": 941,
       "y": 13,
-      "width": 198,
+      "width": 199,
       "height": 314
     }
   },
   "assets": {
     "web": {
-      "path": "assets/tarot-cards/06-the-lovers.webp",
+      "path": "assets/tarot-cards/07-chariot.webp",
       "dimensions": [
         512,
         768
       ],
       "format": "webp",
-      "file_size": 13640,
-      "checksum": "577f1b29f044e15064dcc8a1628008a7ce363e9c734c31dd16cf031a24699eec"
+      "file_size": 13508,
+      "checksum": "e835da62506447f07486fb22bfb9722abec46ebe9c0383973d8acd4766cb0d8f"
     },
     "hq": {
-      "path": "assets/tarot-cards/06-the-lovers-hq.webp",
+      "path": "assets/tarot-cards/07-chariot-hq.webp",
       "dimensions": [
         2048,
         3072
       ],
       "format": "webp",
-      "file_size": 28622,
-      "checksum": "1fe499a00bd5c4afeb6bd070571bbc661177e47034f029543c3849158f988f3d"
+      "file_size": 28422,
+      "checksum": "690dc26048efe01e65b7495e6ff613b4293d52ac1dd7d3b0919ef22e20116dca"
     }
   },
   "provenance": {

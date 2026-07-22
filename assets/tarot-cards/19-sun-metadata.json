@@ -1,8 +1,8 @@
 {
-  "id": "19-the-sun",
+  "id": "19-sun",
   "name": {
     "en": "The Sun",
-    "tr": "G\u00fcne\u015f"
+    "tr": "Güneş"
   },
   "number": 19,
   "arcana": "major",
@@ -23,7 +23,7 @@
   },
   "assets": {
     "web": {
-      "path": "assets/tarot-cards/19-the-sun.webp",
+      "path": "assets/tarot-cards/19-sun.webp",
       "dimensions": [
         512,
         768
@@ -33,7 +33,7 @@
       "checksum": "3bd29965bcc933dd68463c99ee2050f3b03869b4fdee9b1aa46dd81d45c2ecbb"
     },
     "hq": {
-      "path": "assets/tarot-cards/19-the-sun-hq.webp",
+      "path": "assets/tarot-cards/19-sun-hq.webp",
       "dimensions": [
         2048,
         3072

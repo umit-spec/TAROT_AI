@@ -1,46 +1,46 @@
 {
-  "id": "17-the-star",
+  "id": "02-high-priestess",
   "name": {
-    "en": "The Star",
-    "tr": "Y\u0131ld\u0131z"
+    "en": "The High Priestess",
+    "tr": "Yüksek Rahibe"
   },
-  "number": 17,
+  "number": 2,
   "arcana": "major",
   "source": {
     "type": "provided_illustration",
     "montage": "1000214766.png",
     "extraction_date": "2026-07-22",
     "position": {
-      "row": 3,
-      "column": 2
+      "row": 1,
+      "column": 3
     },
     "crop_coordinates": {
-      "x": 99,
-      "y": 656,
-      "width": 80,
-      "height": 334
+      "x": 179,
+      "y": 13,
+      "width": 108,
+      "height": 314
     }
   },
   "assets": {
     "web": {
-      "path": "assets/tarot-cards/17-the-star.webp",
+      "path": "assets/tarot-cards/02-high-priestess.webp",
       "dimensions": [
         512,
         768
       ],
       "format": "webp",
-      "file_size": 5708,
-      "checksum": "5e494fdc6fef0b22ebc382468a9810421c5207e84ebb0a452c6e23784aba04ac"
+      "file_size": 7806,
+      "checksum": "00990bce490ab63cc1c83722e3e6084265ab5a5ac2352e7a49efceb0d7fd3d3e"
     },
     "hq": {
-      "path": "assets/tarot-cards/17-the-star-hq.webp",
+      "path": "assets/tarot-cards/02-high-priestess-hq.webp",
       "dimensions": [
         2048,
         3072
       ],
       "format": "webp",
-      "file_size": 18152,
-      "checksum": "ebbb6e11a47e1f42b129a426946e603801a4eb6f22c4f5de8a86b0f5523adf34"
+      "file_size": 21086,
+      "checksum": "3cb75878909292d967cad84a27576f91fa9fcc9ebacbdd13a430a933ef9ecbdb"
     }
   },
   "provenance": {

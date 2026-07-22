@@ -1,46 +1,46 @@
 {
-  "id": "09-the-hermit",
+  "id": "04-emperor",
   "name": {
-    "en": "The Hermit",
-    "tr": "Eremit"
+    "en": "The Emperor",
+    "tr": "İmparator"
   },
-  "number": 9,
+  "number": 4,
   "arcana": "major",
   "source": {
     "type": "provided_illustration",
     "montage": "1000214766.png",
     "extraction_date": "2026-07-22",
     "position": {
-      "row": 2,
-      "column": 2
+      "row": 1,
+      "column": 5
     },
     "crop_coordinates": {
-      "x": 99,
-      "y": 327,
-      "width": 80,
-      "height": 329
+      "x": 366,
+      "y": 13,
+      "width": 146,
+      "height": 314
     }
   },
   "assets": {
     "web": {
-      "path": "assets/tarot-cards/09-the-hermit.webp",
+      "path": "assets/tarot-cards/04-emperor.webp",
       "dimensions": [
         512,
         768
       ],
       "format": "webp",
-      "file_size": 5848,
-      "checksum": "6536dcb05c224f633170f4522c769266281bbd4c13ac886ac965b29c9f176516"
+      "file_size": 10598,
+      "checksum": "6cb932d0ff5da31aa582edafd3db6463e6289f96b80376fda64dcd42765c617b"
     },
     "hq": {
-      "path": "assets/tarot-cards/09-the-hermit-hq.webp",
+      "path": "assets/tarot-cards/04-emperor-hq.webp",
       "dimensions": [
         2048,
         3072
       ],
       "format": "webp",
-      "file_size": 18400,
-      "checksum": "10a992692fa757369ab18be09eea6ba7dbbaedc5d1ca4b85fb02f474fa7ad4e6"
+      "file_size": 24284,
+      "checksum": "66359a9126adef5b97b490f4cfa4d3448cca94ca256353a54f86606d7ed3e8d9"
     }
   },
   "provenance": {

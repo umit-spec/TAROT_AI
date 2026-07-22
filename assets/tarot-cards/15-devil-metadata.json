@@ -1,46 +1,46 @@
 {
-  "id": "07-the-chariot",
+  "id": "15-devil",
   "name": {
-    "en": "The Chariot",
-    "tr": "Sava\u015f Arabas\u0131"
+    "en": "The Devil",
+    "tr": "Şeytan"
   },
-  "number": 7,
+  "number": 15,
   "arcana": "major",
   "source": {
     "type": "provided_illustration",
     "montage": "1000214766.png",
     "extraction_date": "2026-07-22",
     "position": {
-      "row": 1,
+      "row": 2,
       "column": 8
     },
     "crop_coordinates": {
       "x": 941,
-      "y": 13,
+      "y": 327,
       "width": 199,
-      "height": 314
+      "height": 329
     }
   },
   "assets": {
     "web": {
-      "path": "assets/tarot-cards/07-the-chariot.webp",
+      "path": "assets/tarot-cards/15-devil.webp",
       "dimensions": [
         512,
         768
       ],
       "format": "webp",
-      "file_size": 13508,
-      "checksum": "e835da62506447f07486fb22bfb9722abec46ebe9c0383973d8acd4766cb0d8f"
+      "file_size": 15074,
+      "checksum": "ad560585a6c9239a3bc1538db01dda31e5f24eec5caa922a5d8b057440812ac5"
     },
     "hq": {
-      "path": "assets/tarot-cards/07-the-chariot-hq.webp",
+      "path": "assets/tarot-cards/15-devil-hq.webp",
       "dimensions": [
         2048,
         3072
       ],
       "format": "webp",
-      "file_size": 28422,
-      "checksum": "690dc26048efe01e65b7495e6ff613b4293d52ac1dd7d3b0919ef22e20116dca"
+      "file_size": 30472,
+      "checksum": "a9afd54fc8ef7adb320516e8a6a465587db63608881eb257db0fdec3b369a996"
     }
   },
   "provenance": {
