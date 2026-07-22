@@ -378,17 +378,62 @@ pair-relation model and NotebookLM pipeline get designed for real.
 
 ---
 
+### ADR-012: Knowledge Layer sits between Reading Engine and Provider; ground-truth invariant extends to it
+
+**Status:** Accepted
+
+**Context:** Sprint 3 introduces a Knowledge Layer (`PairRelation`,
+`PositionRule`, `DomainModifier`, `PersonaModifier`, `SafetyConstraint`) so
+Claude's semantic input is richer than raw card data alone - without this,
+API/UI would ossify around today's minimal interpretation shape and break
+when a real pair-relation matrix / NotebookLM pipeline lands (the exact
+outcome ADR-011 was written to prevent). The open question: does adding a
+new layer between Reading Engine and Provider weaken the "LLM never
+invents a card meaning" guarantee ADR-011 established?
+
+**Decision:** No - the ground-truth invariant extends one layer over,
+unchanged in kind:
+- `DeterministicReading` (already-drawn cards) remains the sole source of
+  *which* cards, in *what* order. No new layer may select or reorder cards.
+- A `KnowledgeProvider` (mirroring `InterpretationProvider`'s swappable
+  design - `LocalJsonKnowledgeProvider` today, a future DB-backed one
+  later) resolves a read-only `KnowledgeContext` *about* an
+  already-drawn reading - it looks up relations for the cards it's given,
+  it does not choose them.
+- `InterpretationProvider` (Claude, Mock) receives this richer context but
+  the rule is unchanged: it narrates given semantic content, it does not
+  invent new semantic content (a pair relation's `semanticEffect` comes
+  from the Knowledge Provider, never synthesized by the LLM).
+- `IntakeContext.safetyFlags` gating (crisis_* -> refuse to generate)
+  remains a caller-level decision (now: the API route), not something any
+  provider or the Knowledge Layer enforces itself.
+
+**Consequences:**
+- Sprint 3's API/UI can be built against a stable contract even though the
+  actual knowledge data (pair relations, etc.) is a small proof-of-concept
+  set today, not the full matrix - swapping `LocalJsonKnowledgeProvider`
+  for a future database-backed one changes zero call sites.
+- The full pair-relation matrix, NotebookLM pipeline, and citation
+  structure remain explicitly deferred (ADR-011's deferral list is
+  unchanged by this ADR - only the *contract* moves up to Sprint 3, not
+  the data).
+
+**Revisit:** When the full knowledge matrix / NotebookLM pipeline is
+designed (Milestone 3, unchanged from ADR-011).
+
+---
+
 ## Future Decision Points
 
 These decisions will likely be needed post-MVP:
 
-- **ADR-012:** 56 Küçük Arkana expansion strategy (when?)
-- **ADR-013:** Reversed cards inclusion (MVP+ or later?)
-- **ADR-014:** Multi-language support (roadmap?)
-- **ADR-015:** Other modules (Dream Analysis, Journaling — priority?)
-- **ADR-016:** Real payment integration (post-MVP test?)
-- **ADR-017:** Backend separation (if API load warrants?)
-- **ADR-018:** AI model upgrade path (Claude → GPT-4.5 parity?)
+- **ADR-013:** 56 Küçük Arkana expansion strategy (when?)
+- **ADR-014:** Reversed cards inclusion (MVP+ or later?)
+- **ADR-015:** Multi-language support (roadmap?)
+- **ADR-016:** Other modules (Dream Analysis, Journaling — priority?)
+- **ADR-017:** Real payment integration (post-MVP test?)
+- **ADR-018:** Backend separation (if API load warrants?)
+- **ADR-019:** AI model upgrade path (Claude → GPT-4.5 parity?)
 
 ---
 
@@ -407,18 +452,18 @@ Example:
 ```bash
 # After deciding on something big:
 git add docs/decisions/ADR-011-*.md
-git commit -m "ADR-012: [Decision Title] - [reason in 1 line]"
+git commit -m "ADR-013: [Decision Title] - [reason in 1 line]"
 ```
 
 ---
 
 ## Current Status
 
-**Total Decisions Recorded:** 11
+**Total Decisions Recorded:** 12
 **Pending Review:** 0
 **Rejected (documented for learning):** 0
 
-All Aşama 1 founding decisions plus ADR-011 (Sprint 2 knowledge architecture) are documented and signed off.
+All Aşama 1 founding decisions plus ADR-011 (Sprint 2 knowledge architecture) and ADR-012 (Sprint 3 Knowledge Layer boundary) are documented and signed off.
 
 ---
 
