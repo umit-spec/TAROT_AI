@@ -41,6 +41,10 @@ export interface GenerateInterpretedReadingInput {
   seed: string;
   spread: SpreadType;
   intake: IntakeContext;
+  // Raw user question text, if collected - forwarded untouched to whatever
+  // provider needs it (Claude does; Mock ignores it). Never used here for
+  // classification - that already happened in the Intake Engine.
+  questionText?: string;
   provider: InterpretationProvider;
 }
 
@@ -49,9 +53,10 @@ const fallbackProvider = new MockProvider();
 async function runProvider(
   provider: InterpretationProvider,
   reading: DeterministicReading,
-  intake: IntakeContext
+  intake: IntakeContext,
+  questionText: string
 ): Promise<InterpretationOutput> {
-  const raw = await provider.generate({ reading, persona: intake.persona });
+  const raw = await provider.generate({ reading, intake, questionText });
   // Union, not overwrite: a provider could someday add its own flags
   // (e.g. detecting tone issues) on top of what Intake already found.
   const safetyFlags = Array.from(new Set([...raw.safetyFlags, ...intake.safetyFlags]));
@@ -78,11 +83,13 @@ export async function generateInterpretedReading(
     topic: toCardContext(input.intake.questionDomain),
   });
 
+  const questionText = input.questionText ?? '';
+
   try {
-    const output = await runProvider(input.provider, reading, input.intake);
+    const output = await runProvider(input.provider, reading, input.intake, questionText);
     return { output, providerUsed: input.provider.name };
   } catch {
-    const output = await runProvider(fallbackProvider, reading, input.intake);
+    const output = await runProvider(fallbackProvider, reading, input.intake, questionText);
     return { output, providerUsed: fallbackProvider.name };
   }
 }
@@ -90,4 +97,5 @@ export async function generateInterpretedReading(
 export { drawCards } from './deck';
 export { getAllCards, getCardById } from './cards';
 export { MockProvider } from './providers/mock';
+export { ClaudeProvider } from './providers/claude';
 export type { InterpretationProvider } from './providers/types';
