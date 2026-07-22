@@ -3,6 +3,7 @@ import { generateDeterministicReading, generateInterpretedReading, MockProvider 
 import { InterpretationProvider } from '../../server/reading-engine/providers/types';
 import { validateInterpretation, ReadingValidationError } from '../../server/reading-engine/validate';
 import { InterpretationInput, InterpretationOutput } from '../../types/interpretation';
+import { IntakeContext, IntakeContextSchema } from '../../types/intake';
 
 class ThrowingProvider implements InterpretationProvider {
   readonly name = 'throwing-test-provider';
@@ -19,13 +20,27 @@ class ManipulativeProvider implements InterpretationProvider {
   }
 }
 
+function testIntake(overrides: Partial<IntakeContext> = {}): IntakeContext {
+  return IntakeContextSchema.parse({
+    questionDomain: 'general',
+    persona: 'reflection-seeking',
+    emotionalIntensity: 'low',
+    decisionUrgency: 'low',
+    spiritualPreference: 'balanced',
+    responseDepth: 'standard',
+    safetyFlags: [],
+    confidence: 0.2,
+    ...overrides,
+  });
+}
+
 describe('MockProvider', () => {
   test('same input produces byte-identical output', async () => {
     const provider = new MockProvider();
     const reading = generateDeterministicReading({ seed: 'demo-001', spread: 'three-card', topic: 'general' });
 
-    const a = await provider.generate({ reading, persona: 'first_timer' });
-    const b = await provider.generate({ reading, persona: 'first_timer' });
+    const a = await provider.generate({ reading, persona: 'reflection-seeking' });
+    const b = await provider.generate({ reading, persona: 'reflection-seeking' });
     expect(JSON.stringify(a)).toBe(JSON.stringify(b));
   });
 
@@ -33,15 +48,15 @@ describe('MockProvider', () => {
     const provider = new MockProvider();
     const reading = generateDeterministicReading({ seed: 'demo-001', spread: 'three-card', topic: 'general' });
 
-    const skeptic = await provider.generate({ reading, persona: 'skeptic' });
-    const firstTimer = await provider.generate({ reading, persona: 'first_timer' });
+    const skeptic = await provider.generate({ reading, persona: 'experienced-practitioner' });
+    const firstTimer = await provider.generate({ reading, persona: 'curious-explorer' });
     expect(skeptic.opening).not.toBe(firstTimer.opening);
   });
 
   test('output passes the Zod schema and the red-line scan', async () => {
     const provider = new MockProvider();
     const reading = generateDeterministicReading({ seed: 'demo-001', spread: 'three-card', topic: 'general' });
-    const output = await provider.generate({ reading, persona: 'regular' });
+    const output = await provider.generate({ reading, persona: 'decision-seeking' });
     expect(() => validateInterpretation(output)).not.toThrow();
   });
 });
@@ -49,7 +64,7 @@ describe('MockProvider', () => {
 describe('validateInterpretation (red-line validator)', () => {
   test('rejects output containing a forbidden manipulation phrase', async () => {
     const reading = generateDeterministicReading({ seed: 'demo-001', spread: 'three-card', topic: 'general' });
-    const output = await new ManipulativeProvider().generate({ reading, persona: 'regular' });
+    const output = await new ManipulativeProvider().generate({ reading, persona: 'decision-seeking' });
     expect(() => validateInterpretation(output)).toThrow(ReadingValidationError);
   });
 });
@@ -59,8 +74,7 @@ describe('Provider swap architecture (ADR-011)', () => {
     const { output, providerUsed } = await generateInterpretedReading({
       seed: 'demo-001',
       spread: 'three-card',
-      topic: 'general',
-      persona: 'regular',
+      intake: testIntake(),
       provider: new MockProvider(),
     });
     expect(providerUsed).toBe('mock');
@@ -71,8 +85,7 @@ describe('Provider swap architecture (ADR-011)', () => {
     const { output, providerUsed } = await generateInterpretedReading({
       seed: 'demo-001',
       spread: 'three-card',
-      topic: 'general',
-      persona: 'regular',
+      intake: testIntake(),
       provider: new ThrowingProvider(),
     });
     expect(providerUsed).toBe('mock');
@@ -83,11 +96,20 @@ describe('Provider swap architecture (ADR-011)', () => {
     const { output, providerUsed } = await generateInterpretedReading({
       seed: 'demo-001',
       spread: 'three-card',
-      topic: 'general',
-      persona: 'regular',
+      intake: testIntake(),
       provider: new ManipulativeProvider(),
     });
     expect(providerUsed).toBe('mock');
     expect(output.opening).not.toMatch(/kesinlikle/i);
+  });
+
+  test('intake safetyFlags propagate into the final output, even on the happy path', async () => {
+    const { output } = await generateInterpretedReading({
+      seed: 'demo-001',
+      spread: 'three-card',
+      intake: testIntake({ safetyFlags: ['crisis_suicide_detected'] }),
+      provider: new MockProvider(),
+    });
+    expect(output.safetyFlags).toContain('crisis_suicide_detected');
   });
 });

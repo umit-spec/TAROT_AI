@@ -6,11 +6,11 @@ import { InterpretationProvider } from './types';
 // screens). This exists only to prove the provider boundary actually
 // threads persona through, deterministically, without a network call.
 const OPENING_BY_PERSONA: Record<InterpretationInput['persona'], string> = {
-  first_timer: 'Bu üç kart, sorunuza dair şu anki durumu birlikte anlamamıza yardımcı olacak.',
-  regular: 'Üç kart, geçmiş-şimdi-gelecek ekseninde şu desenleri gösteriyor.',
-  anxious: 'Bu kartlar bir kesinlik değil, şu anda elinizde olan seçenekleri gösteriyor.',
-  decision_maker: 'Kartlar, önünüzdeki kararla ilgili şu üç açıyı öne çıkarıyor.',
-  skeptic: 'Bu okuma bir kehanet değil; kartlar üzerinden yapılandırılmış bir düşünme egzersizi.',
+  'reflection-seeking': 'Bu üç kart, sorunuza dair şu anki durumu birlikte anlamamıza yardımcı olacak.',
+  'decision-seeking': 'Kartlar, önünüzdeki kararla ilgili şu üç açıyı öne çıkarıyor.',
+  'emotionally-overwhelmed': 'Bu kartlar bir kesinlik değil, şu anda elinizde olan seçenekleri gösteriyor.',
+  'curious-explorer': 'Üç kart çektik - bunların ne anlama gelebileceğine birlikte bakalım.',
+  'experienced-practitioner': 'Üç kart, geçmiş-şimdi-gelecek ekseninde şu desenleri gösteriyor.',
 };
 
 /**

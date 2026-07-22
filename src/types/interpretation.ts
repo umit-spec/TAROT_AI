@@ -1,10 +1,14 @@
 import { z } from 'zod';
 import { CardPositionKeySchema } from './card';
+import { PersonaSchema } from './intake';
 import { DeterministicReadingSchema } from './reading';
 
-// The 5 personas from docs/AŞAMA_2_PERSONA_WIREFRAME_PATHS.md
-export const PersonaSchema = z.enum(['first_timer', 'regular', 'anxious', 'decision_maker', 'skeptic']);
-export type Persona = z.infer<typeof PersonaSchema>;
+// Persona is defined once, in ./intake (ADR-011 step 5: it originates at
+// intake and flows through to narration unchanged). Re-exported here so
+// existing `import { Persona } from '../types/interpretation'` call sites
+// keep working.
+export { PersonaSchema };
+export type { Persona } from './intake';
 
 /**
  * What every InterpretationProvider receives. This is deliberately just the

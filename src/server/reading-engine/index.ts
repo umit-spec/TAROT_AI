@@ -1,6 +1,8 @@
 import { CardContextKey } from '../../types/card';
-import { InterpretationOutput, Persona } from '../../types/interpretation';
+import { InterpretationOutput } from '../../types/interpretation';
+import { IntakeContext } from '../../types/intake';
 import { DeterministicReading, SpreadType } from '../../types/reading';
+import { toCardContext } from '../intake';
 import { drawCards } from './deck';
 import { buildInterpretations } from './deterministic';
 import { InterpretationProvider } from './providers/types';
@@ -35,34 +37,52 @@ export function generateDeterministicReading(input: GenerateReadingInput): Deter
   });
 }
 
-export interface GenerateInterpretedReadingInput extends GenerateReadingInput {
-  persona: Persona;
+export interface GenerateInterpretedReadingInput {
+  seed: string;
+  spread: SpreadType;
+  intake: IntakeContext;
   provider: InterpretationProvider;
 }
 
 const fallbackProvider = new MockProvider();
 
+async function runProvider(
+  provider: InterpretationProvider,
+  reading: DeterministicReading,
+  intake: IntakeContext
+): Promise<InterpretationOutput> {
+  const raw = await provider.generate({ reading, persona: intake.persona });
+  // Union, not overwrite: a provider could someday add its own flags
+  // (e.g. detecting tone issues) on top of what Intake already found.
+  const safetyFlags = Array.from(new Set([...raw.safetyFlags, ...intake.safetyFlags]));
+  return validateInterpretation({ ...raw, safetyFlags });
+}
+
 /**
- * Layer 1+2 (always) + Layer 3 (via the given provider). If the provider
- * throws (Claude down, rate-limited, invalid output) this falls back to
- * MockProvider rather than failing the request - docs/06-READING_CONSTITUTION.md
- * fallback mode: deterministic-only reading delivered, "AI-enhanced
- * insights" quietly not shown, safety maintained over polish.
+ * Layer 1+2 (always) + Layer 3 (via the given provider), fed by the Intake
+ * Engine's classification (persona, questionDomain -> topic, safetyFlags).
+ * If the provider throws (Claude down, rate-limited) or its output fails
+ * the red-line scan, this falls back to MockProvider rather than failing
+ * the request - docs/06-READING_CONSTITUTION.md fallback mode: deterministic-
+ * only reading delivered, safety maintained over polish. Note: this does
+ * NOT check intake.safetyFlags for crisis_* and refuse to generate - that
+ * gate belongs to the caller (e.g. the future API route), per "Intake
+ * Engine kart seçimine müdahale etmesin."
  */
 export async function generateInterpretedReading(
   input: GenerateInterpretedReadingInput
 ): Promise<{ output: InterpretationOutput; providerUsed: string }> {
-  const reading = generateDeterministicReading(input);
+  const reading = generateDeterministicReading({
+    seed: input.seed,
+    spread: input.spread,
+    topic: toCardContext(input.intake.questionDomain),
+  });
 
   try {
-    const output = validateInterpretation(
-      await input.provider.generate({ reading, persona: input.persona })
-    );
+    const output = await runProvider(input.provider, reading, input.intake);
     return { output, providerUsed: input.provider.name };
   } catch {
-    const output = validateInterpretation(
-      await fallbackProvider.generate({ reading, persona: input.persona })
-    );
+    const output = await runProvider(fallbackProvider, reading, input.intake);
     return { output, providerUsed: fallbackProvider.name };
   }
 }
