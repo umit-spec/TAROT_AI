@@ -11,9 +11,22 @@
 
 ## EXECUTIVE SUMMARY
 
-**Status:** ✅ EXTRACTION & VALIDATION COMPLETE
+**Status:** ✅ EXTRACTION COMPLETE | ⏳ PROVISIONAL VALIDATION (pending Red Team audit)
 
-Deterministic Major Arcana asset pipeline successfully created. All 22 cards extracted from source montage, normalized to production dimensions (512×768 web, 2048×3072 HQ), and validated. Extraction is 100% reproducible. Canonical mapping verified (no Strength/Justice or Tower/Star swaps).
+Deterministic Major Arcana asset pipeline successfully created. All 22 cards extracted from source montage, normalized to production dimensions (512×768 web, 2048×3072 HQ), and provisionally validated. Extraction toolchain prepared for reproducibility verification. Canonical mapping preliminarily verified (no Strength/Justice or Tower/Star swaps detected in manifest).
+
+**Current Milestones Completed:**
+- ✅ Extraction pipeline (deterministic, zero-interpolation web format)
+- ✅ Provisional mapping validation (preliminary checks pass)
+- ✅ Canonical naming lock (central authority in `canonical_names.py`)
+- ✅ Turkish translation corrections (5 errors fixed, all 22 verified)
+
+**Pending Red Team Verification:**
+- Reproducibility (byte-identical re-extraction from source montage)
+- Crop contamination audit (pixel-level analysis)
+- Technical specifications (format, dimensions, checksums)
+- File naming consistency (directory scan)
+- Toolchain code quality review
 
 **Ready for:** Red Team audit → Gatekeeper decision
 
@@ -137,43 +150,45 @@ Card 21-the-world:     crop(512, 656, 231, 334) ✓
 
 ---
 
-### PHASE 5: FILE NAMING ✅
+### PHASE 5: FILE NAMING & CANONICAL AUTHORITY ✅
 
-**Objective:** Use deterministic canonical filenames.
+**Objective:** Use deterministic canonical filenames per VISUAL_CONSTITUTION.md standard.
 
 **Naming Convention Applied:**
-- `{number:02d}-{slug}.webp` (web version)
+- `{number:02d}-{slug}.webp` (web version, no "the-" prefix)
 - `{number:02d}-{slug}-hq.webp` (high-res version)
 - `{number:02d}-{slug}-metadata.json` (metadata)
 
-**All 22 Cards Named Correctly:**
+**All 22 Cards Named Correctly (Canonical Format):**
 ```
-00-the-fool         ✓ (number 0)
-01-the-magician     ✓ (number 1)
-02-the-high-priestess ✓ (number 2)
-03-the-empress      ✓ (number 3)
-04-the-emperor      ✓ (number 4)
-05-the-hierophant   ✓ (number 5)
-06-the-lovers       ✓ (number 6)
-07-the-chariot      ✓ (number 7)
+00-fool             ✓ (number 0)
+01-magician         ✓ (number 1)
+02-high-priestess   ✓ (number 2)
+03-empress          ✓ (number 3)
+04-emperor          ✓ (number 4)
+05-hierophant       ✓ (number 5)
+06-lovers           ✓ (number 6)
+07-chariot          ✓ (number 7)
 08-strength         ✓ (number 8)
-09-the-hermit       ✓ (number 9)
+09-hermit           ✓ (number 9)
 10-wheel-of-fortune ✓ (number 10)
 11-justice          ✓ (number 11)
-12-the-hanged-man   ✓ (number 12)
+12-hanged-man       ✓ (number 12)
 13-death            ✓ (number 13)
 14-temperance       ✓ (number 14)
-15-the-devil        ✓ (number 15)
-16-the-tower        ✓ (number 16)
-17-the-star         ✓ (number 17)
-18-the-moon         ✓ (number 18)
-19-the-sun          ✓ (number 19)
+15-devil            ✓ (number 15)
+16-tower            ✓ (number 16)
+17-star             ✓ (number 17)
+18-moon             ✓ (number 18)
+19-sun              ✓ (number 19)
 20-judgement        ✓ (number 20)
-21-the-world        ✓ (number 21)
+21-world            ✓ (number 21)
 ```
 
+**Central Authority Created:** `tools/assets/canonical_names.py` locked canonical naming and Turkish translations with validation tests (no duplicates, no gaps, verified mapping for Strength/Justice/Tower/Star).
+
 **No OCR-Based Mapping Used:** ✓ Canonical position map followed precisely  
-**Confidence Score:** 1.00  
+**Confidence Score:** 0.99 (pending Red Team directory verification)  
 
 ---
 
@@ -266,13 +281,19 @@ Card 21-the-world:     crop(512, 656, 231, 334) ✓
 - ✓ Documents extraction parameters (dimensions, format)
 - ✓ Version tracked
 
-**Reproducibility Test:** ✅ PASSED
+**Reproducibility Package:** ⏳ PREPARED FOR RED TEAM VERIFICATION
 - Input: source montage + crop config
 - Output: 22 images + manifest
-- Re-extraction produces byte-identical checksums
-- Deterministic: same input → same output (verified)
+- Internal demonstration: re-extraction produces byte-identical checksums
+- Deterministic design: same input → same output (structure verified, independent audit pending)
+- Checksums: All 44 files (22 web + 22 HQ) recorded in manifest for verification
 
-**Confidence Score:** 1.00  
+**Red Team Verification Needed:**
+- Re-run extraction script with provided source and config
+- Compare output checksums against manifest
+- Confirm byte-identical output for all 44 files
+
+**Confidence Score:** 0.95 (high confidence in design; awaiting independent verification)  
 
 ---
 
@@ -458,24 +479,32 @@ Total files: 67 (22 web + 22 HQ + 22 metadata + 1 manifest + 1 registry + 1 READ
 
 ## CRITICAL VALIDATIONS
 
-### Mapping Integrity ✅
+### Mapping Integrity ✅ PRELIMINARY (pending Red Team verification)
 
 **Strength (08) vs Justice (11):**
-- File 08-strength: ✓ Correct position
-- File 11-justice: ✓ Correct position
-- No swap detected
+- File 08-strength: ✓ Correct position in manifest
+- File 11-justice: ✓ Correct position in manifest
+- No swap detected in canonical data
 
 **Tower (16) vs Star (17):**
-- File 16-the-tower: ✓ Correct position
-- File 17-the-star: ✓ Correct position
-- No swap detected
+- File 16-tower: ✓ Correct position in manifest
+- File 17-star: ✓ Correct position in manifest
+- No swap detected in canonical data
 
 **All 22 Cards Present:**
 - Card count: 22 ✓
 - Gaps: 0 ✓
 - Duplicates: 0 ✓
 
-**Confidence Score:** 1.00
+**Preliminary Verification Method:**
+- Registry/manifest inspection (automated checks pass)
+- Central authority lock: `canonical_names.py` (validation tests pass)
+
+**Red Team Spot-Check Needed:**
+- Sample 3-5 cards to visually confirm correct positions
+- Verify manifest → file mapping matches visual expectation
+
+**Confidence Score:** 0.95 (manifest and registry verified; visual spot-check pending)
 
 ---
 
@@ -495,18 +524,23 @@ Total files: 67 (22 web + 22 HQ + 22 metadata + 1 manifest + 1 registry + 1 READ
 
 ---
 
-### Crop Contamination Check ✅
+### Crop Contamination Check ⏳ PRELIMINARY (pending Red Team pixel analysis)
 
-**Evidence:**
+**Validation Lead Preliminary Findings:**
 - Crop coordinates manually verified against image boundaries
 - No coordinates exceed montage dimensions (1536×1024)
 - Card sizes reasonable (portrait aspect ratio maintained)
-- Test run validation: all 22 crops successful
-- No neighboring cards visible in output
+- Visual inspection of contact sheet: all 22 crops appear clean
+- No obvious neighboring card spillover visible
 
-**Result:** ✓ NO CONTAMINATION DETECTED
+**Preliminary Result:** No obvious contamination detected in visual review
 
-**Confidence Score:** 0.98
+**Red Team Verification Needed:**
+- Pixel-level analysis of sampled cards (check for unintended montage edges)
+- Edge detection around crop boundaries
+- Verify no color fringing or partial content from adjacent cards
+
+**Confidence Score:** 0.85 (visual inspection complete; technical verification pending)
 
 ---
 
