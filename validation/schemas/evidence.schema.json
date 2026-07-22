@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Evidence Item Schema",
+  "description": "Structure for individual pieces of validation evidence (never assumptions, only measurements)",
+  "type": "object",
+  "required": [
+    "evidence_id",
+    "validation_session_id",
+    "evidence_type",
+    "kpi_id",
+    "measurement_value",
+    "measurement_unit",
+    "measurement_method",
+    "timestamp",
+    "source_data_path",
+    "confidence_score"
+  ],
+  "properties": {
+    "evidence_id": {
+      "type": "string",
+      "pattern": "^EV-[0-9]{4}-[A-Z0-9]{8}$"
+    },
+    "validation_session_id": {
+      "type": "string",
+      "pattern": "^VAL-[0-9]{4}-[A-Z0-9]{8}$"
+    },
+    "evidence_type": {
+      "type": "string",
+      "enum": [
+        "user_timing",
+        "user_interaction",
+        "user_feedback",
+        "analytics_event",
+        "accessibility_audit",
+        "persona_detection",
+        "ai_output",
+        "error_log",
+        "performance_metric"
+      ]
+    },
+    "kpi_id": {
+      "type": "string",
+      "description": "Which KPI does this evidence support?"
+    },
+    "measurement_value": {
+      "oneOf": [
+        { "type": "number" },
+        { "type": "integer" },
+        { "type": "string" },
+        { "type": "boolean" },
+        { "type": "array" },
+        { "type": "object" }
+      ],
+      "description": "The actual measured value (never estimated)"
+    },
+    "measurement_unit": {
+      "type": "string",
+      "description": "milliseconds, percent, count, boolean, etc."
+    },
+    "measurement_method": {
+      "type": "string",
+      "enum": [
+        "stopwatch",
+        "analytics_event",
+        "user_input",
+        "automated_test",
+        "accessibility_scanner",
+        "manual_audit",
+        "performance_profiler",
+        "error_tracking"
+      ],
+      "description": "HOW was this measured?"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_data_path": {
+      "type": "string",
+      "description": "File path or database query that produced this evidence"
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "How confident are we in this measurement? (0.0-1.0)"
+    },
+    "methodology_notes": {
+      "type": "string",
+      "description": "Explain how measurement was taken"
+    },
+    "potential_biases": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Known sources of error or bias in this measurement"
+    },
+    "replication_instructions": {
+      "type": "string",
+      "description": "How to reproduce this measurement exactly"
+    },
+    "context": {
+      "type": "object",
+      "description": "Additional context (device, persona, environment, etc.)",
+      "properties": {
+        "device": { "type": "string" },
+        "persona": { "type": "string" },
+        "environment": { "type": "string" },
+        "user_id": { "type": "string" },
+        "session_id": { "type": "string" }
+      }
+    }
+  }
+}

@@ -1,0 +1,278 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Validation Report Schema",
+  "description": "Canonical schema for all validation reports in the Insight Engine",
+  "type": "object",
+  "required": [
+    "validation_id",
+    "feature",
+    "specification_version",
+    "phase",
+    "validation_lead_evidence",
+    "red_team_findings",
+    "gatekeeper_decision",
+    "timestamp",
+    "kpi_summary"
+  ],
+  "properties": {
+    "validation_id": {
+      "type": "string",
+      "pattern": "^VAL-[0-9]{4}-[A-Z0-9]{8}$",
+      "description": "Unique immutable validation ID (VAL-2026-ABC12345)"
+    },
+    "feature": {
+      "type": "string",
+      "enum": [
+        "tarot_reading_engine",
+        "persona_detection",
+        "intake_flow",
+        "card_selection",
+        "reading_display",
+        "helpfulness_rating",
+        "save_flow",
+        "analytics_tracking",
+        "accessibility",
+        "premium_intent",
+        "dream_analysis",
+        "journal_module"
+      ],
+      "description": "Feature being validated"
+    },
+    "specification_version": {
+      "type": "string",
+      "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Specification version this validation is based on (v1.0.0)"
+    },
+    "phase": {
+      "type": "string",
+      "enum": [
+        "wireframe",
+        "prototype",
+        "alpha",
+        "beta",
+        "release_candidate",
+        "production",
+        "regression"
+      ],
+      "description": "Phase of validation"
+    },
+    "validation_lead_evidence": {
+      "type": "object",
+      "required": [
+        "protocol_executed",
+        "protocol_version",
+        "sample_size",
+        "kpi_results",
+        "completion_timestamp",
+        "data_sources"
+      ],
+      "properties": {
+        "protocol_executed": {
+          "type": "string",
+          "description": "Which validation protocol was run"
+        },
+        "protocol_version": {
+          "type": "string",
+          "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "sample_size": {
+          "type": "object",
+          "required": ["total_users", "personas"],
+          "properties": {
+            "total_users": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "personas": {
+              "type": "object",
+              "properties": {
+                "first_timer": { "type": "integer", "minimum": 0 },
+                "regular": { "type": "integer", "minimum": 0 },
+                "anxious": { "type": "integer", "minimum": 0 },
+                "decision_maker": { "type": "integer", "minimum": 0 },
+                "skeptic": { "type": "integer", "minimum": 0 }
+              }
+            }
+          }
+        },
+        "kpi_results": {
+          "type": "object",
+          "description": "Raw KPI measurements"
+        },
+        "completion_timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "data_sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "File paths or references to raw data"
+        },
+        "statistical_confidence": {
+          "type": "object",
+          "properties": {
+            "confidence_level": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "margin_of_error": {
+              "type": "number"
+            },
+            "methodology": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "red_team_findings": {
+      "type": "object",
+      "required": [
+        "executed",
+        "findings_count",
+        "critical_count",
+        "major_count",
+        "minor_count",
+        "findings"
+      ],
+      "properties": {
+        "executed": {
+          "type": "boolean",
+          "description": "Was red team audit run?"
+        },
+        "findings_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "critical_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "major_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "minor_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "finding_id",
+              "category",
+              "severity",
+              "title",
+              "description",
+              "evidence",
+              "mitigation_required"
+            ],
+            "properties": {
+              "finding_id": {
+                "type": "string",
+                "pattern": "^RED-[0-9]{4}-[A-Z0-9]{8}$"
+              },
+              "category": {
+                "type": "string",
+                "enum": [
+                  "measurement",
+                  "analytics",
+                  "persona",
+                  "accessibility",
+                  "psychology",
+                  "hallucination",
+                  "ethics",
+                  "performance",
+                  "regression"
+                ]
+              },
+              "severity": {
+                "type": "string",
+                "enum": ["critical", "major", "minor"]
+              },
+              "title": { "type": "string" },
+              "description": { "type": "string" },
+              "evidence": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "mitigation_required": { "type": "boolean" }
+            }
+          }
+        }
+      }
+    },
+    "gatekeeper_decision": {
+      "type": "object",
+      "required": [
+        "status",
+        "rationale",
+        "decision_timestamp",
+        "gates_passed",
+        "gates_failed",
+        "required_remediations"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["PASS", "REVISE", "FAIL", "INSUFFICIENT_EVIDENCE"]
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Why this decision was made"
+        },
+        "decision_timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "gates_passed": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "gates_failed": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "required_remediations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "gate": { "type": "string" },
+              "action": { "type": "string" },
+              "owner": { "type": "string" },
+              "due_date": { "type": "string", "format": "date" }
+            }
+          }
+        }
+      }
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this validation report was generated"
+    },
+    "kpi_summary": {
+      "type": "object",
+      "description": "Summary of all KPIs tested",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "target": { "type": ["number", "string"] },
+          "actual": { "type": ["number", "string"] },
+          "pass": { "type": "boolean" },
+          "variance": { "type": "number" }
+        }
+      }
+    },
+    "archive_location": {
+      "type": "string",
+      "description": "S3 or file path where evidence is archived"
+    }
+  }
+}
