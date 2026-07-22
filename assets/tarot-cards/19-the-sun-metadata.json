@@ -1,0 +1,57 @@
+{
+  "id": "19-the-sun",
+  "name": {
+    "en": "The Sun",
+    "tr": "G\u00fcne\u015f"
+  },
+  "number": 19,
+  "arcana": "major",
+  "source": {
+    "type": "provided_illustration",
+    "montage": "1000214766.png",
+    "extraction_date": "2026-07-22",
+    "position": {
+      "row": 3,
+      "column": 4
+    },
+    "crop_coordinates": {
+      "x": 287,
+      "y": 656,
+      "width": 79,
+      "height": 334
+    }
+  },
+  "assets": {
+    "web": {
+      "path": "assets/tarot-cards/19-the-sun.webp",
+      "dimensions": [
+        512,
+        768
+      ],
+      "format": "webp",
+      "file_size": 5864,
+      "checksum": "3bd29965bcc933dd68463c99ee2050f3b03869b4fdee9b1aa46dd81d45c2ecbb"
+    },
+    "hq": {
+      "path": "assets/tarot-cards/19-the-sun-hq.webp",
+      "dimensions": [
+        2048,
+        3072
+      ],
+      "format": "webp",
+      "file_size": 17972,
+      "checksum": "4ef20e6a1b0921269c2b983c7410c672a4de71f6a026b7a6033bc0c9acbd2704"
+    }
+  },
+  "provenance": {
+    "status": "approved-for-prototype",
+    "notes": "Extracted from user-provided montage image",
+    "extraction_date": "2026-07-22",
+    "version": "1.0"
+  },
+  "qa": {
+    "score": null,
+    "status": "pending-review",
+    "notes": "Extracted from montage, pending visual QA"
+  }
+}

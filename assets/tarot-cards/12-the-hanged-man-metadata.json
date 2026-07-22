@@ -1,0 +1,57 @@
+{
+  "id": "12-the-hanged-man",
+  "name": {
+    "en": "The Hanged Man",
+    "tr": "As\u0131l\u0131 Adam"
+  },
+  "number": 12,
+  "arcana": "major",
+  "source": {
+    "type": "provided_illustration",
+    "montage": "1000214766.png",
+    "extraction_date": "2026-07-22",
+    "position": {
+      "row": 2,
+      "column": 5
+    },
+    "crop_coordinates": {
+      "x": 366,
+      "y": 327,
+      "width": 146,
+      "height": 329
+    }
+  },
+  "assets": {
+    "web": {
+      "path": "assets/tarot-cards/12-the-hanged-man.webp",
+      "dimensions": [
+        512,
+        768
+      ],
+      "format": "webp",
+      "file_size": 14310,
+      "checksum": "ebf3a3dc89b21431c73915ebbfe12ded11c53d181378d95917f8a8a6f1085d43"
+    },
+    "hq": {
+      "path": "assets/tarot-cards/12-the-hanged-man-hq.webp",
+      "dimensions": [
+        2048,
+        3072
+      ],
+      "format": "webp",
+      "file_size": 28858,
+      "checksum": "62e0636af0d40c78dfd7708f6efdc140b6fe26225cbd0e49df4a0cc0f1bb3ed5"
+    }
+  },
+  "provenance": {
+    "status": "approved-for-prototype",
+    "notes": "Extracted from user-provided montage image",
+    "extraction_date": "2026-07-22",
+    "version": "1.0"
+  },
+  "qa": {
+    "score": null,
+    "status": "pending-review",
+    "notes": "Extracted from montage, pending visual QA"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "id": "05-the-hierophant",
+  "name": {
+    "en": "The Hierophant",
+    "tr": "Hiyerofant"
+  },
+  "number": 5,
+  "arcana": "major",
+  "source": {
+    "type": "provided_illustration",
+    "montage": "1000214766.png",
+    "extraction_date": "2026-07-22",
+    "position": {
+      "row": 1,
+      "column": 6
+    },
+    "crop_coordinates": {
+      "x": 512,
+      "y": 13,
+      "width": 231,
+      "height": 314
+    }
+  },
+  "assets": {
+    "web": {
+      "path": "assets/tarot-cards/05-the-hierophant.webp",
+      "dimensions": [
+        512,
+        768
+      ],
+      "format": "webp",
+      "file_size": 17732,
+      "checksum": "8de8aa3766817463ad8b52a8df9e0925ab8113c55f33b94d095d4faaeeb18d4c"
+    },
+    "hq": {
+      "path": "assets/tarot-cards/05-the-hierophant-hq.webp",
+      "dimensions": [
+        2048,
+        3072
+      ],
+      "format": "webp",
+      "file_size": 34252,
+      "checksum": "9945f25e4062492e7d04770029cad220bb27f1761b69b2384037e5f0faa021c5"
+    }
+  },
+  "provenance": {
+    "status": "approved-for-prototype",
+    "notes": "Extracted from user-provided montage image",
+    "extraction_date": "2026-07-22",
+    "version": "1.0"
+  },
+  "qa": {
+    "score": null,
+    "status": "pending-review",
+    "notes": "Extracted from montage, pending visual QA"
+  }
+}

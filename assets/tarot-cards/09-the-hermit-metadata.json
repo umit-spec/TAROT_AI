@@ -1,0 +1,57 @@
+{
+  "id": "09-the-hermit",
+  "name": {
+    "en": "The Hermit",
+    "tr": "Eremit"
+  },
+  "number": 9,
+  "arcana": "major",
+  "source": {
+    "type": "provided_illustration",
+    "montage": "1000214766.png",
+    "extraction_date": "2026-07-22",
+    "position": {
+      "row": 2,
+      "column": 2
+    },
+    "crop_coordinates": {
+      "x": 99,
+      "y": 327,
+      "width": 80,
+      "height": 329
+    }
+  },
+  "assets": {
+    "web": {
+      "path": "assets/tarot-cards/09-the-hermit.webp",
+      "dimensions": [
+        512,
+        768
+      ],
+      "format": "webp",
+      "file_size": 5848,
+      "checksum": "6536dcb05c224f633170f4522c769266281bbd4c13ac886ac965b29c9f176516"
+    },
+    "hq": {
+      "path": "assets/tarot-cards/09-the-hermit-hq.webp",
+      "dimensions": [
+        2048,
+        3072
+      ],
+      "format": "webp",
+      "file_size": 18400,
+      "checksum": "10a992692fa757369ab18be09eea6ba7dbbaedc5d1ca4b85fb02f474fa7ad4e6"
+    }
+  },
+  "provenance": {
+    "status": "approved-for-prototype",
+    "notes": "Extracted from user-provided montage image",
+    "extraction_date": "2026-07-22",
+    "version": "1.0"
+  },
+  "qa": {
+    "score": null,
+    "status": "pending-review",
+    "notes": "Extracted from montage, pending visual QA"
+  }
+}

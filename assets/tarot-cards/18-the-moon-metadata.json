@@ -1,0 +1,57 @@
+{
+  "id": "18-the-moon",
+  "name": {
+    "en": "The Moon",
+    "tr": "Ay"
+  },
+  "number": 18,
+  "arcana": "major",
+  "source": {
+    "type": "provided_illustration",
+    "montage": "1000214766.png",
+    "extraction_date": "2026-07-22",
+    "position": {
+      "row": 3,
+      "column": 3
+    },
+    "crop_coordinates": {
+      "x": 179,
+      "y": 656,
+      "width": 108,
+      "height": 334
+    }
+  },
+  "assets": {
+    "web": {
+      "path": "assets/tarot-cards/18-the-moon.webp",
+      "dimensions": [
+        512,
+        768
+      ],
+      "format": "webp",
+      "file_size": 8426,
+      "checksum": "bc1421e8c6b435af181332156acb5a51c2e29c02e3a0ba3eb2a718b4f9f82dfc"
+    },
+    "hq": {
+      "path": "assets/tarot-cards/18-the-moon-hq.webp",
+      "dimensions": [
+        2048,
+        3072
+      ],
+      "format": "webp",
+      "file_size": 21582,
+      "checksum": "5cbd26240cf59cd42428bb5f4362bb51b76aefa726a96d19fd5171e4b1af368c"
+    }
+  },
+  "provenance": {
+    "status": "approved-for-prototype",
+    "notes": "Extracted from user-provided montage image",
+    "extraction_date": "2026-07-22",
+    "version": "1.0"
+  },
+  "qa": {
+    "score": null,
+    "status": "pending-review",
+    "notes": "Extracted from montage, pending visual QA"
+  }
+}

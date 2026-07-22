@@ -1,0 +1,57 @@
+{
+  "id": "15-the-devil",
+  "name": {
+    "en": "The Devil",
+    "tr": "\u015eeytan"
+  },
+  "number": 15,
+  "arcana": "major",
+  "source": {
+    "type": "provided_illustration",
+    "montage": "1000214766.png",
+    "extraction_date": "2026-07-22",
+    "position": {
+      "row": 2,
+      "column": 8
+    },
+    "crop_coordinates": {
+      "x": 941,
+      "y": 327,
+      "width": 199,
+      "height": 329
+    }
+  },
+  "assets": {
+    "web": {
+      "path": "assets/tarot-cards/15-the-devil.webp",
+      "dimensions": [
+        512,
+        768
+      ],
+      "format": "webp",
+      "file_size": 15074,
+      "checksum": "ad560585a6c9239a3bc1538db01dda31e5f24eec5caa922a5d8b057440812ac5"
+    },
+    "hq": {
+      "path": "assets/tarot-cards/15-the-devil-hq.webp",
+      "dimensions": [
+        2048,
+        3072
+      ],
+      "format": "webp",
+      "file_size": 30472,
+      "checksum": "a9afd54fc8ef7adb320516e8a6a465587db63608881eb257db0fdec3b369a996"
+    }
+  },
+  "provenance": {
+    "status": "approved-for-prototype",
+    "notes": "Extracted from user-provided montage image",
+    "extraction_date": "2026-07-22",
+    "version": "1.0"
+  },
+  "qa": {
+    "score": null,
+    "status": "pending-review",
+    "notes": "Extracted from montage, pending visual QA"
+  }
+}

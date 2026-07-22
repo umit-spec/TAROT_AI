@@ -1,0 +1,57 @@
+{
+  "id": "14-temperance",
+  "name": {
+    "en": "Temperance",
+    "tr": "\u0130temlendirme"
+  },
+  "number": 14,
+  "arcana": "major",
+  "source": {
+    "type": "provided_illustration",
+    "montage": "1000214766.png",
+    "extraction_date": "2026-07-22",
+    "position": {
+      "row": 2,
+      "column": 7
+    },
+    "crop_coordinates": {
+      "x": 743,
+      "y": 327,
+      "width": 198,
+      "height": 329
+    }
+  },
+  "assets": {
+    "web": {
+      "path": "assets/tarot-cards/14-temperance.webp",
+      "dimensions": [
+        512,
+        768
+      ],
+      "format": "webp",
+      "file_size": 14202,
+      "checksum": "cdb3ffcfc165297f7f207e73997a458f6205c356e665a3ace1396dbf7bf21513"
+    },
+    "hq": {
+      "path": "assets/tarot-cards/14-temperance-hq.webp",
+      "dimensions": [
+        2048,
+        3072
+      ],
+      "format": "webp",
+      "file_size": 29786,
+      "checksum": "f629f9cbc10fe4487ab3bd013447dff4fad9712bfba76346f82bce39468b816d"
+    }
+  },
+  "provenance": {
+    "status": "approved-for-prototype",
+    "notes": "Extracted from user-provided montage image",
+    "extraction_date": "2026-07-22",
+    "version": "1.0"
+  },
+  "qa": {
+    "score": null,
+    "status": "pending-review",
+    "notes": "Extracted from montage, pending visual QA"
+  }
+}
