@@ -306,17 +306,89 @@ Neden bu kararı almak zorunda kaldık?
 
 ---
 
+### ADR-011: Interpretation Knowledge Architecture (LLM as narration layer only)
+
+**Status:** Accepted
+
+**Context:** Sprint 2 begins Claude integration (Layer 3, ADR-004). Risk: if
+the Reading Engine binds directly to Claude's SDK, and the eventual
+interpretation knowledge model (card pair relations, position/persona/topic
+rule matrices, sourced and curated content) is designed later, Sprint 2's
+integration work becomes incompatible with it and has to be rewritten. The
+full knowledge model (potentially hundreds of card-pair relations, a
+NotebookLM-based research pipeline, sourced/citable content, a SQLite or JSON
+build pipeline, curation + Red Team review) is real future work — but
+building it now, before its shape is validated by a working product, is
+premature. This ADR locks the *architecture* so Sprint 2 can proceed without
+that model existing yet.
+
+**Decision:** Interpretation knowledge is structured, versioned data, layered
+as follows — all of it already exists in skeletal form as of Sprint 1
+(`data/cards/*.json`) except where marked "not yet built":
+
+1. **Card core character** — per-card base symbolic + psychological meaning,
+   independent of context. *(Exists: `symbolicMeaning`, `psychologicalReflection`, `keywords`.)*
+2. **Adjacent card influence** — how a card's reading is modulated by the
+   cards drawn before/after it in the same spread. *(Not yet built — Sprint 1's
+   Layer 2 only does keyword-overlap pattern detection, not directional
+   pairwise influence. Schema, not data, is Sprint 2/3 scope at most.)*
+3. **Spread position semantics** — meaning contributed by position (past/
+   present/future today; extensible to 5-card and beyond). *(Exists: `positionMeanings`.)*
+4. **Question domain (topic) context** — meaning contributed by the user's
+   stated topic. *(Exists: `contextualMeanings`, currently relationship/
+   career/general.)*
+5. **Persona adaptation** — tone/depth variation across the 5 personas
+   (`AŞAMA_2_PERSONA_WIREFRAME_PATHS.md`). Applied at the narration layer
+   (step 7), never by rewriting the underlying structured meaning itself.
+6. **Safety constraints** — `docs/02-ETHICAL_CONSTITUTION.md` red lines,
+   enforced as a validation gate on whatever the narration layer produces
+   (extends the `validate.ts` forbidden-phrase pattern from Sprint 1).
+7. **LLM as narration-only layer** — Claude (or any model) receives the
+   fully-resolved output of steps 1-6 and does exactly one job: render it as
+   natural, persona-toned Turkish. It never originates a card meaning,
+   pairing, or safety judgment. Enforced in code via an `InterpretationProvider`
+   interface (`ClaudeProvider`, `MockProvider`, future providers all
+   implement the same contract and receive the same structured input) —
+   swapping the provider must never change what the reading *means*, only
+   how it *reads*.
+
+**Explicitly deferred (not Sprint 2, not this ADR's scope):**
+- Generating the full card-pair relation matrix (previous/next-card
+  influence data for all combinations)
+- NotebookLM-based research pipeline for sourced interpretation content
+- Citation/source structure for interpretations
+- SQLite or JSON build pipeline for a larger interpretation knowledge base
+- Curation workflow and Red Team review of that content
+
+These become real work no earlier than Milestone 3 (Intelligence Layer, per
+`MILESTONE_2_GAP_ANALYSIS_ROADMAP_v1.1.md`), once Milestone 2's working
+product has validated which relations actually matter.
+
+**Consequences:**
+- Sprint 2's Claude adapter depends only on the `InterpretationProvider`
+  contract and `DeterministicReading` shape (already defined,
+  `src/types/reading.ts`) — not on any future knowledge-model internals.
+- A `MockProvider` can satisfy the same contract for deterministic testing,
+  with no network calls and no API key required.
+- Adding real pairwise/persona/citation depth later means adding a new
+  provider or enriching steps 1-6's data — the provider boundary doesn't move.
+
+**Revisit:** Before Milestone 3 (Intelligence Layer) work begins, when the
+pair-relation model and NotebookLM pipeline get designed for real.
+
+---
+
 ## Future Decision Points
 
 These decisions will likely be needed post-MVP:
 
-- **ADR-011:** 56 Küçük Arkana expansion strategy (when?)
-- **ADR-012:** Reversed cards inclusion (MVP+ or later?)
-- **ADR-013:** Multi-language support (roadmap?)
-- **ADR-014:** Other modules (Dream Analysis, Journaling — priority?)
-- **ADR-015:** Real payment integration (post-MVP test?)
-- **ADR-016:** Backend separation (if API load warrants?)
-- **ADR-017:** AI model upgrade path (Claude → GPT-4.5 parity?)
+- **ADR-012:** 56 Küçük Arkana expansion strategy (when?)
+- **ADR-013:** Reversed cards inclusion (MVP+ or later?)
+- **ADR-014:** Multi-language support (roadmap?)
+- **ADR-015:** Other modules (Dream Analysis, Journaling — priority?)
+- **ADR-016:** Real payment integration (post-MVP test?)
+- **ADR-017:** Backend separation (if API load warrants?)
+- **ADR-018:** AI model upgrade path (Claude → GPT-4.5 parity?)
 
 ---
 
@@ -335,18 +407,18 @@ Example:
 ```bash
 # After deciding on something big:
 git add docs/decisions/ADR-011-*.md
-git commit -m "ADR-011: [Decision Title] - [reason in 1 line]"
+git commit -m "ADR-012: [Decision Title] - [reason in 1 line]"
 ```
 
 ---
 
 ## Current Status
 
-**Total Decisions Recorded:** 10
+**Total Decisions Recorded:** 11
 **Pending Review:** 0
 **Rejected (documented for learning):** 0
 
-All Aşama 1 founding decisions are documented and signed off.
+All Aşama 1 founding decisions plus ADR-011 (Sprint 2 knowledge architecture) are documented and signed off.
 
 ---
 
