@@ -4,6 +4,7 @@ import { InterpretationProvider } from '../../server/reading-engine/providers/ty
 import { validateInterpretation, ReadingValidationError } from '../../server/reading-engine/validate';
 import { InterpretationInput, InterpretationOutput } from '../../types/interpretation';
 import { testIntake } from '../helpers/intake';
+import { testKnowledge } from '../helpers/knowledge';
 
 class ThrowingProvider implements InterpretationProvider {
   readonly name = 'throwing-test-provider';
@@ -25,8 +26,8 @@ describe('MockProvider', () => {
     const provider = new MockProvider();
     const reading = generateDeterministicReading({ seed: 'demo-001', spread: 'three-card', topic: 'general' });
 
-    const a = await provider.generate({ reading, intake: testIntake(), questionText: '' });
-    const b = await provider.generate({ reading, intake: testIntake(), questionText: '' });
+    const a = await provider.generate({ reading, intake: testIntake(), knowledge: testKnowledge(), questionText: '' });
+    const b = await provider.generate({ reading, intake: testIntake(), knowledge: testKnowledge(), questionText: '' });
     expect(JSON.stringify(a)).toBe(JSON.stringify(b));
   });
 
@@ -37,11 +38,13 @@ describe('MockProvider', () => {
     const skeptic = await provider.generate({
       reading,
       intake: testIntake({ persona: 'experienced-practitioner' }),
+      knowledge: testKnowledge(),
       questionText: '',
     });
     const firstTimer = await provider.generate({
       reading,
       intake: testIntake({ persona: 'curious-explorer' }),
+      knowledge: testKnowledge(),
       questionText: '',
     });
     expect(skeptic.opening).not.toBe(firstTimer.opening);
@@ -53,9 +56,29 @@ describe('MockProvider', () => {
     const output = await provider.generate({
       reading,
       intake: testIntake({ persona: 'decision-seeking' }),
+      knowledge: testKnowledge(),
       questionText: '',
     });
     expect(() => validateInterpretation(output)).not.toThrow();
+  });
+
+  test('surfaces knowledge pair-relation content in patterns, without inventing it', async () => {
+    const provider = new MockProvider();
+    const reading = generateDeterministicReading({ seed: 'demo-001', spread: 'three-card', topic: 'general' });
+    const knowledge = testKnowledge({
+      pairRelations: [
+        {
+          previousCardId: '00-fool',
+          focusCardId: '01-magician',
+          relationType: 'reinforces',
+          semanticEffect: ['test-semantic-effect-marker'],
+          warnings: [],
+          sourceRefs: [],
+        },
+      ],
+    });
+    const output = await provider.generate({ reading, intake: testIntake(), knowledge, questionText: '' });
+    expect(output.patterns).toContain('test-semantic-effect-marker');
   });
 });
 
@@ -65,15 +88,16 @@ describe('validateInterpretation (red-line validator)', () => {
     const output = await new ManipulativeProvider().generate({
       reading,
       intake: testIntake({ persona: 'decision-seeking' }),
+      knowledge: testKnowledge(),
       questionText: '',
     });
     expect(() => validateInterpretation(output)).toThrow(ReadingValidationError);
   });
 });
 
-describe('Provider swap architecture (ADR-011)', () => {
+describe('Provider swap architecture (ADR-011/ADR-012)', () => {
   test('generateInterpretedReading works with any InterpretationProvider implementation', async () => {
-    const { output, providerUsed } = await generateInterpretedReading({
+    const { output, providerUsed, knowledge } = await generateInterpretedReading({
       seed: 'demo-001',
       spread: 'three-card',
       intake: testIntake(),
@@ -81,6 +105,7 @@ describe('Provider swap architecture (ADR-011)', () => {
     });
     expect(providerUsed).toBe('mock');
     expect(output.cards).toHaveLength(3);
+    expect(knowledge.meta.provider).toBe('local-json');
   });
 
   test('falls back to MockProvider when the given provider throws', async () => {

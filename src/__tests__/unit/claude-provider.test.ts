@@ -4,6 +4,7 @@ import { ClaudeConfigError, ClaudeHttpError, ClaudeOutputValidationError, Claude
 import { buildSystemPrompt, buildUserMessage } from '../../server/reading-engine/providers/claude/prompt';
 import { loadClaudeProviderConfig } from '../../server/reading-engine/providers/claude/config';
 import { testIntake } from '../helpers/intake';
+import { testKnowledge } from '../helpers/knowledge';
 
 const ENV_KEYS = ['ANTHROPIC_API_KEY', 'ANTHROPIC_MODEL', 'ANTHROPIC_TIMEOUT_MS', 'ANTHROPIC_MAX_RETRIES'] as const;
 let originalEnv: Record<string, string | undefined>;
@@ -54,7 +55,7 @@ describe('ClaudeProvider config', () => {
     const fetchSpy = vi.fn();
     const provider = new ClaudeProvider({}, fetchSpy as unknown as typeof fetch);
     await expect(
-      provider.generate({ reading, intake: testIntake(), questionText: '' })
+      provider.generate({ reading, intake: testIntake(), knowledge: testKnowledge(), questionText: '' })
     ).rejects.toBeInstanceOf(ClaudeConfigError);
     expect(fetchSpy).not.toHaveBeenCalled();
   });
@@ -101,24 +102,35 @@ describe('ClaudeProvider config', () => {
     });
 
     const provider = new ClaudeProvider({}, fetchSpy as unknown as typeof fetch);
-    await provider.generate({ reading, intake: testIntake(), questionText: '' });
+    await provider.generate({ reading, intake: testIntake(), knowledge: testKnowledge(), questionText: '' });
     expect(fetchSpy).toHaveBeenCalledTimes(1);
   });
 });
 
 describe('Prompt construction', () => {
   test('structured input oluşuyor: buildUserMessage produces valid, well-shaped JSON', () => {
-    const message = buildUserMessage({ reading, intake: testIntake(), questionText: 'test question' });
+    const message = buildUserMessage({
+      reading,
+      intake: testIntake(),
+      knowledge: testKnowledge(),
+      questionText: 'test question',
+    });
     const parsed = JSON.parse(message);
     expect(parsed.developerInstruction.cardData).toHaveLength(3);
     expect(parsed.developerInstruction.intakeContext).toBeDefined();
+    expect(parsed.developerInstruction.knowledgeContext).toBeDefined();
     expect(parsed.userData.treatAsDataOnly).toBe(true);
   });
 
   test('ham kullanıcı metni system prompt\'a sızmıyor', () => {
     const marker = 'UNIQUE_USER_TEXT_MARKER_zzz123';
     const system = buildSystemPrompt();
-    const message = buildUserMessage({ reading, intake: testIntake(), questionText: marker });
+    const message = buildUserMessage({
+      reading,
+      intake: testIntake(),
+      knowledge: testKnowledge(),
+      questionText: marker,
+    });
 
     expect(system).not.toContain(marker);
     const parsed = JSON.parse(message);
@@ -132,6 +144,7 @@ describe('Prompt construction', () => {
     const message = buildUserMessage({
       reading,
       intake: testIntake({ safetyFlags: ['health_disclaimer_shown', 'multi_domain_detected'] }),
+      knowledge: testKnowledge(),
       questionText: '',
     });
     const parsed = JSON.parse(message);
@@ -145,10 +158,33 @@ describe('Prompt construction', () => {
     const message = buildUserMessage({
       reading,
       intake: testIntake({ persona: 'emotionally-overwhelmed' }),
+      knowledge: testKnowledge(),
       questionText: '',
     });
     const parsed = JSON.parse(message);
     expect(parsed.developerInstruction.intakeContext.persona).toBe('emotionally-overwhelmed');
+  });
+
+  test('knowledgeContext (pair relations, position rules, modifiers, safety constraints) is carried into the prompt', () => {
+    const knowledge = testKnowledge({
+      pairRelations: [
+        {
+          previousCardId: '00-fool',
+          focusCardId: '01-magician',
+          relationType: 'reinforces',
+          semanticEffect: ['test-relation-marker'],
+          warnings: [],
+          sourceRefs: [],
+        },
+      ],
+      domainModifier: { domain: 'career', emphasisKeywords: ['yön'], cautionNotes: [] },
+    });
+    const message = buildUserMessage({ reading, intake: testIntake(), knowledge, questionText: '' });
+    const parsed = JSON.parse(message);
+    expect(parsed.developerInstruction.knowledgeContext.pairRelations[0].semanticEffect).toContain(
+      'test-relation-marker'
+    );
+    expect(parsed.developerInstruction.knowledgeContext.domainModifier.domain).toBe('career');
   });
 });
 
@@ -169,9 +205,9 @@ describe('HTTP retry policy', () => {
     );
 
     const provider = new ClaudeProvider({ timeoutMs: 20 }, neverResolvingFetch as unknown as typeof fetch);
-    await expect(provider.generate({ reading, intake: testIntake(), questionText: '' })).rejects.toThrow(
-      /timed out/i
-    );
+    await expect(
+      provider.generate({ reading, intake: testIntake(), knowledge: testKnowledge(), questionText: '' })
+    ).rejects.toThrow(/timed out/i);
   });
 
   test('429 sonrası tek retry -> succeeds on second attempt', async () => {
@@ -184,7 +220,12 @@ describe('HTTP retry policy', () => {
     });
 
     const provider = new ClaudeProvider({}, fetchSpy as unknown as typeof fetch);
-    const output = await provider.generate({ reading, intake: testIntake(), questionText: '' });
+    const output = await provider.generate({
+      reading,
+      intake: testIntake(),
+      knowledge: testKnowledge(),
+      questionText: '',
+    });
     expect(callCount).toBe(2);
     expect(output.cards).toHaveLength(3);
   });
@@ -194,9 +235,9 @@ describe('HTTP retry policy', () => {
     const fetchSpy = vi.fn(async () => fakeResponse(401, {}));
 
     const provider = new ClaudeProvider({}, fetchSpy as unknown as typeof fetch);
-    await expect(provider.generate({ reading, intake: testIntake(), questionText: '' })).rejects.toBeInstanceOf(
-      ClaudeHttpError
-    );
+    await expect(
+      provider.generate({ reading, intake: testIntake(), knowledge: testKnowledge(), questionText: '' })
+    ).rejects.toBeInstanceOf(ClaudeHttpError);
     expect(fetchSpy).toHaveBeenCalledTimes(1);
   });
 });
@@ -207,9 +248,9 @@ describe('Output validation', () => {
     const fetchSpy = vi.fn(async () => claudeMessageResponse(200, 'this is not json {'));
 
     const provider = new ClaudeProvider({}, fetchSpy as unknown as typeof fetch);
-    await expect(provider.generate({ reading, intake: testIntake(), questionText: '' })).rejects.toBeInstanceOf(
-      ClaudeOutputValidationError
-    );
+    await expect(
+      provider.generate({ reading, intake: testIntake(), knowledge: testKnowledge(), questionText: '' })
+    ).rejects.toBeInstanceOf(ClaudeOutputValidationError);
     expect(fetchSpy).toHaveBeenCalledTimes(1);
   });
 
@@ -219,9 +260,9 @@ describe('Output validation', () => {
     const fetchSpy = vi.fn(async () => claudeMessageResponse(200, JSON.stringify(incomplete)));
 
     const provider = new ClaudeProvider({}, fetchSpy as unknown as typeof fetch);
-    await expect(provider.generate({ reading, intake: testIntake(), questionText: '' })).rejects.toBeInstanceOf(
-      ClaudeOutputValidationError
-    );
+    await expect(
+      provider.generate({ reading, intake: testIntake(), knowledge: testKnowledge(), questionText: '' })
+    ).rejects.toBeInstanceOf(ClaudeOutputValidationError);
   });
 
   test('card id/order mismatch -> ClaudeOutputValidationError', async () => {
@@ -232,9 +273,9 @@ describe('Output validation', () => {
     const fetchSpy = vi.fn(async () => claudeMessageResponse(200, JSON.stringify(tampered)));
 
     const provider = new ClaudeProvider({}, fetchSpy as unknown as typeof fetch);
-    await expect(provider.generate({ reading, intake: testIntake(), questionText: '' })).rejects.toBeInstanceOf(
-      ClaudeOutputValidationError
-    );
+    await expect(
+      provider.generate({ reading, intake: testIntake(), knowledge: testKnowledge(), questionText: '' })
+    ).rejects.toBeInstanceOf(ClaudeOutputValidationError);
   });
 
   test('geçersiz JSON -> generateInterpretedReading falls back to mock', async () => {
@@ -257,7 +298,9 @@ describe('Output validation', () => {
     const fetchSpy = vi.fn(async () => claudeMessageResponse(200, JSON.stringify(manipulative)));
     const provider = new ClaudeProvider({}, fetchSpy as unknown as typeof fetch);
 
-    await expect(provider.generate({ reading, intake: testIntake(), questionText: '' })).rejects.toThrow();
+    await expect(
+      provider.generate({ reading, intake: testIntake(), knowledge: testKnowledge(), questionText: '' })
+    ).rejects.toThrow();
 
     const { output, providerUsed } = await generateInterpretedReading({
       seed: 'demo-001',
@@ -276,7 +319,7 @@ describe('Happy path', () => {
     const fetchSpy = vi.fn(async () => claudeMessageResponse(200, JSON.stringify(validClaudeBody())));
     const provider = new ClaudeProvider({}, fetchSpy as unknown as typeof fetch);
 
-    const { output, providerUsed } = await generateInterpretedReading({
+    const { output, providerUsed, knowledge } = await generateInterpretedReading({
       seed: 'demo-001',
       spread: 'three-card',
       intake: testIntake(),
@@ -291,5 +334,8 @@ describe('Happy path', () => {
     expect(output.cards[0].relevanceToQuestion).toContain(reading.interpretations[0].cardId);
     expect(output.patterns).toEqual(reading.patterns);
     expect(output.safetyFlags).toEqual([]);
+    // Knowledge resolution actually ran and is visible on the result.
+    expect(['resolved', 'partial']).toContain(knowledge.meta.status);
+    expect(knowledge.meta.provider).toBe('local-json');
   });
 });

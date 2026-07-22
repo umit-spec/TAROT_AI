@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { CardPositionKeySchema } from './card';
 import { IntakeContextSchema, PersonaSchema } from './intake';
+import { KnowledgeContextSchema } from './knowledge';
 import { DeterministicReadingSchema } from './reading';
 
 // Persona is defined once, in ./intake (ADR-011 step 5: it originates at
@@ -12,16 +13,19 @@ export type { Persona } from './intake';
 
 /**
  * What every InterpretationProvider receives: Layer 1+2 output (ADR-011
- * steps 1-6), the full Intake classification, and - only for providers that
- * need it (Claude) - the raw user question text, carried as an isolated
- * data field, never as something a provider concatenates into its own
- * instructions. A provider has no access to anything it shouldn't be able
- * to invent from; swapping providers must never change what a reading
- * means, only how it reads.
+ * steps 1-6), the full Intake classification, the resolved Knowledge
+ * context (ADR-012 - pair relations/position rules/modifiers/safety
+ * constraints for THIS reading, never a card selection), and - only for
+ * providers that need it (Claude) - the raw user question text, carried as
+ * an isolated data field, never as something a provider concatenates into
+ * its own instructions. A provider has no access to anything it shouldn't
+ * be able to invent from; swapping providers must never change what a
+ * reading means, only how it reads.
  */
 export const InterpretationInputSchema = z.object({
   reading: DeterministicReadingSchema,
   intake: IntakeContextSchema,
+  knowledge: KnowledgeContextSchema,
   questionText: z.string().default(''),
 });
 export type InterpretationInput = z.infer<typeof InterpretationInputSchema>;

@@ -10,5 +10,8 @@ import { InterpretationInput, InterpretationOutput } from '../../../types/interp
  */
 export interface InterpretationProvider {
   readonly name: string;
+  // Undefined for providers with no prompt concept (MockProvider - no LLM
+  // call at all). Reported as "n/a" in the API's versions.prompt field.
+  readonly promptVersion?: string;
   generate(input: InterpretationInput): Promise<InterpretationOutput>;
 }

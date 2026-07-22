@@ -4,6 +4,9 @@ import { getAllCards } from './cards';
 
 const THREE_CARD_POSITIONS: CardPositionKey[] = ['past', 'present', 'future'];
 
+/** Bump by hand if the shuffle/draw algorithm itself changes. Surfaced in API responses (versions.algorithm). */
+export const DECK_ALGORITHM_VERSION = '1.0.0';
+
 /**
  * xmur3 string hash -> 32-bit seed for mulberry32.
  * Deterministic: same seed string always yields the same numeric seed.

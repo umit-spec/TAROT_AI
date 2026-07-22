@@ -13,6 +13,7 @@
     "test": "vitest run src/__tests__",
     "test:milestone1": "vitest run tests",
     "demo:reading": "tsx scripts/demo-reading.ts",
+    "demo:api": "tsx scripts/demo-api.ts",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\""
   },

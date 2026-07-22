@@ -16,7 +16,8 @@ export const MIN_MEANINGFUL_INPUT_LENGTH = 3;
  */
 export function computeSafetyFlags(
   normalizedText: string,
-  multiDomainDetected: boolean
+  multiDomainDetected: boolean,
+  hintConflict: boolean
 ): string[] {
   const flags: string[] = [];
 
@@ -36,9 +37,20 @@ export function computeSafetyFlags(
     flags.push('multi_domain_detected');
   }
 
+  // topicHint (explicit UI choice) was honored, but the free text itself
+  // scored higher for a different domain - recorded, not silently absorbed.
+  if (hintConflict) {
+    flags.push('topic_hint_conflict');
+  }
+
   if (normalizedText.length < MIN_MEANINGFUL_INPUT_LENGTH) {
     flags.push('empty_or_too_short_input');
   }
 
   return flags;
+}
+
+/** Used by the API route's crisis gate - flags follow the CRISIS_KEYWORDS naming convention (crisis_*). */
+export function isCrisisFlag(flag: string): boolean {
+  return flag.startsWith('crisis_');
 }

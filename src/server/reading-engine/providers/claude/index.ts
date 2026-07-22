@@ -4,7 +4,7 @@ import { InterpretationProvider } from '../types';
 import { ClaudeProviderConfig, loadClaudeProviderConfig } from './config';
 import { callAnthropicWithRetry } from './http';
 import { mapToInterpretationOutput, parseClaudeResponseText } from './mapper';
-import { buildSystemPrompt, buildUserMessage } from './prompt';
+import { buildSystemPrompt, buildUserMessage, PROMPT_VERSION } from './prompt';
 
 /**
  * ADR-011 step 7 in concrete form: this class does exactly one job -
@@ -22,6 +22,7 @@ import { buildSystemPrompt, buildUserMessage } from './prompt';
  */
 export class ClaudeProvider implements InterpretationProvider {
   readonly name = 'claude';
+  readonly promptVersion = PROMPT_VERSION;
 
   constructor(
     private readonly configOverrides: Partial<ClaudeProviderConfig> = {},

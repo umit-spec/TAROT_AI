@@ -88,12 +88,23 @@ describe('Intake Engine — classifyIntake', () => {
     expect(() => IntakeContextSchema.parse(result)).not.toThrow();
   });
 
-  test('explicit topicHint overrides free-text domain inference', () => {
+  test('explicit topicHint is honored when the text has no domain signal', () => {
     const result = classifyIntake({
       questionText: 'Bu konuda ne düşünüyorsun?',
       topicHint: 'career',
     });
     expect(result.questionDomain).toBe('career');
+    expect(result.safetyFlags).not.toContain('topic_hint_conflict');
+  });
+
+  test('topicHint conflicting with strong textual evidence: hint still wins, but conflict is recorded', () => {
+    // topicHint says "career" but the text is unambiguously about a relationship.
+    const result = classifyIntake({
+      questionText: 'Sevgilimle ilişkimde ciddi bir güven sorunu var, ayrılmayı düşünüyorum.',
+      topicHint: 'career',
+    });
+    expect(result.questionDomain).toBe('career'); // explicit user choice still respected
+    expect(result.safetyFlags).toContain('topic_hint_conflict'); // but not silently absorbed
   });
 
   test('confidence is low for the safe-default fallback path', () => {

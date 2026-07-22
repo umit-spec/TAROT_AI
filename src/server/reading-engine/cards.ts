@@ -4,6 +4,9 @@ import { CardData, CardDataSchema } from '../../types/card';
 
 const CARDS_DIR = path.join(process.cwd(), 'data', 'cards');
 
+/** Bump by hand when data/cards/*.json content changes meaningfully. Surfaced in API responses (versions.deck). */
+export const DECK_DATA_VERSION = '1.0.0';
+
 let cache: CardData[] | null = null;
 
 function loadAll(): CardData[] {

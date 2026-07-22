@@ -22,9 +22,12 @@ const OPENING_BY_PERSONA: Record<Persona, string> = {
  */
 export class MockProvider implements InterpretationProvider {
   readonly name = 'mock';
+  // No prompt concept at all (no LLM call) - explicit undefined, not just
+  // omitted, so callers can rely on the property existing on this class.
+  readonly promptVersion: string | undefined = undefined;
 
   async generate(input: InterpretationInput): Promise<InterpretationOutput> {
-    const { reading, intake } = input;
+    const { reading, intake, knowledge } = input;
 
     const cards: CardNarration[] = reading.interpretations.map((interp) => ({
       cardId: interp.cardId,
@@ -34,10 +37,17 @@ export class MockProvider implements InterpretationProvider {
       reflection: interp.reflection,
     }));
 
+    // Ground truth only - semanticEffect strings come from the resolved
+    // KnowledgeContext (ADR-012), never invented here. An empty
+    // pairRelations list (no relation authored for these two adjacent
+    // cards yet) simply contributes nothing, same as Layer 2's pattern
+    // detection contributing nothing when no theme repeats.
+    const relationPatterns = knowledge.pairRelations.flatMap((rel) => rel.semanticEffect);
+
     return {
       opening: OPENING_BY_PERSONA[intake.persona],
       cards,
-      patterns: reading.patterns,
+      patterns: [...reading.patterns, ...relationPatterns],
       practicalReflection:
         'Bu kartların hangisi şu anki durumunuza en çok dokunuyor, ona odaklanabilirsiniz.',
       uncertaintyNotice: UNCERTAINTY_NOTICE,

@@ -6,8 +6,12 @@ export type CardPositionKey = z.infer<typeof CardPositionKeySchema>;
 export const CardContextKeySchema = z.enum(['relationship', 'career', 'general']);
 export type CardContextKey = z.infer<typeof CardContextKeySchema>;
 
+// Shared with src/types/knowledge.ts (PairRelation) - one definition so the
+// canonical NN-cardname format can't drift between the two.
+export const CardIdSchema = z.string().regex(/^\d{2}-[a-z-]+$/, 'cardId must match canonical NN-cardname format');
+
 export const CardDataSchema = z.object({
-  cardId: z.string().regex(/^\d{2}-[a-z-]+$/, 'cardId must match canonical NN-cardname format'),
+  cardId: CardIdSchema,
   name_en: z.string().min(1),
   name_tr: z.string().min(1),
   arcana: z.literal('major'),

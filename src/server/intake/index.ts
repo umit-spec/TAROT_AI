@@ -27,7 +27,7 @@ export function classifyIntake(raw: IntakeRawInput): IntakeContext {
   const decisionUrgency = scoreUrgency(text);
   const spiritualPreference = scoreSpiritualPreference(text);
   const responseDepth = scoreResponseDepth(personaScoring.persona, emotionalIntensity);
-  const safetyFlags = computeSafetyFlags(text, domainScoring.multiDomainDetected);
+  const safetyFlags = computeSafetyFlags(text, domainScoring.multiDomainDetected, domainScoring.hintConflict);
   const confidence = scoreConfidence(domainScoring.topScore, personaScoring.topScore);
 
   return IntakeContextSchema.parse({
@@ -43,3 +43,4 @@ export function classifyIntake(raw: IntakeRawInput): IntakeContext {
 }
 
 export { toCardContext } from './rules';
+export { isCrisisFlag } from './safety';

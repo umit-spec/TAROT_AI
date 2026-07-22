@@ -1,8 +1,11 @@
 import { CardContextKey } from '../../types/card';
 import { InterpretationOutput } from '../../types/interpretation';
 import { IntakeContext } from '../../types/intake';
+import { KnowledgeContext, KnowledgeResolutionResult } from '../../types/knowledge';
 import { DeterministicReading, SpreadType } from '../../types/reading';
 import { toCardContext } from '../intake';
+import { LocalJsonKnowledgeProvider, resolveKnowledge } from '../knowledge';
+import { KnowledgeProvider } from '../knowledge/types';
 import { drawCards } from './deck';
 import { buildInterpretations } from './deterministic';
 import { InterpretationProvider } from './providers/types';
@@ -46,17 +49,22 @@ export interface GenerateInterpretedReadingInput {
   // classification - that already happened in the Intake Engine.
   questionText?: string;
   provider: InterpretationProvider;
+  // ADR-012: optional so existing callers don't have to change; defaults to
+  // the bundled proof-of-concept LocalJsonKnowledgeProvider.
+  knowledgeProvider?: KnowledgeProvider;
 }
 
 const fallbackProvider = new MockProvider();
+const defaultKnowledgeProvider = new LocalJsonKnowledgeProvider();
 
 async function runProvider(
   provider: InterpretationProvider,
   reading: DeterministicReading,
   intake: IntakeContext,
+  knowledge: KnowledgeContext,
   questionText: string
 ): Promise<InterpretationOutput> {
-  const raw = await provider.generate({ reading, intake, questionText });
+  const raw = await provider.generate({ reading, intake, knowledge, questionText });
   // Union, not overwrite: a provider could someday add its own flags
   // (e.g. detecting tone issues) on top of what Intake already found.
   const safetyFlags = Array.from(new Set([...raw.safetyFlags, ...intake.safetyFlags]));
@@ -64,19 +72,33 @@ async function runProvider(
 }
 
 /**
- * Layer 1+2 (always) + Layer 3 (via the given provider), fed by the Intake
- * Engine's classification (persona, questionDomain -> topic, safetyFlags).
- * If the provider throws (Claude down, rate-limited) or its output fails
- * the red-line scan, this falls back to MockProvider rather than failing
- * the request - docs/06-READING_CONSTITUTION.md fallback mode: deterministic-
- * only reading delivered, safety maintained over polish. Note: this does
- * NOT check intake.safetyFlags for crisis_* and refuse to generate - that
- * gate belongs to the caller (e.g. the future API route), per "Intake
+ * Layer 1+2 (always) + Knowledge resolution (ADR-012) + Layer 3 (via the
+ * given provider), fed by the Intake Engine's classification (persona,
+ * questionDomain -> topic, safetyFlags). If the InterpretationProvider
+ * throws or its output fails the red-line scan, this falls back to
+ * MockProvider - docs/06-READING_CONSTITUTION.md fallback mode. If the
+ * KnowledgeProvider throws, resolveKnowledge() (src/server/knowledge)
+ * already turns that into an observable 'fallback'-status empty context,
+ * not a silent one - see docs/SPRINT_3_KNOWLEDGE_CONTRACT_API_PLAN.md.
+ * Knowledge is resolved once and reused for both the primary and fallback
+ * narration attempt - narration-provider failure and knowledge-provider
+ * failure are independent risks, not one general "something broke" bucket.
+ * Note: this does NOT check intake.safetyFlags for crisis_* and refuse to
+ * generate - that gate belongs to the caller (the API route), per "Intake
  * Engine kart seçimine müdahale etmesin."
  */
-export async function generateInterpretedReading(
-  input: GenerateInterpretedReadingInput
-): Promise<{ output: InterpretationOutput; providerUsed: string }> {
+export async function generateInterpretedReading(input: GenerateInterpretedReadingInput): Promise<{
+  reading: DeterministicReading;
+  output: InterpretationOutput;
+  providerUsed: string;
+  // Undefined whenever MockProvider actually produced the output (either
+  // because it was passed in directly, or because of a fallback) - reports
+  // whichever provider *actually* ran, never the one that was merely
+  // attempted. Getting this wrong would make the API report a Claude
+  // prompt version for output MockProvider actually generated.
+  promptVersionUsed?: string;
+  knowledge: KnowledgeResolutionResult;
+}> {
   const reading = generateDeterministicReading({
     seed: input.seed,
     spread: input.spread,
@@ -84,18 +106,41 @@ export async function generateInterpretedReading(
   });
 
   const questionText = input.questionText ?? '';
+  const knowledgeResult = await resolveKnowledge(
+    input.knowledgeProvider ?? defaultKnowledgeProvider,
+    reading,
+    input.intake
+  );
 
   try {
-    const output = await runProvider(input.provider, reading, input.intake, questionText);
-    return { output, providerUsed: input.provider.name };
+    const output = await runProvider(input.provider, reading, input.intake, knowledgeResult.context, questionText);
+    return {
+      reading,
+      output,
+      providerUsed: input.provider.name,
+      promptVersionUsed: input.provider.promptVersion,
+      knowledge: knowledgeResult,
+    };
   } catch {
-    const output = await runProvider(fallbackProvider, reading, input.intake, questionText);
-    return { output, providerUsed: fallbackProvider.name };
+    const output = await runProvider(
+      fallbackProvider,
+      reading,
+      input.intake,
+      knowledgeResult.context,
+      questionText
+    );
+    return {
+      reading,
+      output,
+      providerUsed: fallbackProvider.name,
+      promptVersionUsed: fallbackProvider.promptVersion,
+      knowledge: knowledgeResult,
+    };
   }
 }
 
-export { drawCards } from './deck';
-export { getAllCards, getCardById } from './cards';
+export { drawCards, DECK_ALGORITHM_VERSION } from './deck';
+export { getAllCards, getCardById, DECK_DATA_VERSION } from './cards';
 export { MockProvider } from './providers/mock';
 export { ClaudeProvider } from './providers/claude';
 export type { InterpretationProvider } from './providers/types';
