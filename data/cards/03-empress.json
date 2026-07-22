@@ -1,0 +1,35 @@
+{
+  "cardId": "03-empress",
+  "name_en": "The Empress",
+  "name_tr": "İmparatoriçe",
+  "arcana": "major",
+  "number": 3,
+  "symbolicMeaning": "Bereket, yaratıcılık, besleyici büyüme.",
+  "psychologicalReflection": "Kendine ve başkalarına şefkatle bakabilme, yaratıcı süreçlere alan açma.",
+  "keywords": [
+    "bereket",
+    "yaratıcılık",
+    "büyüme"
+  ],
+  "positionMeanings": {
+    "past": "Bir şeyi sabırla büyüttüğünüz bir dönem.",
+    "present": "Şu anda beslenmesi gereken bir fikir ya da ilişki var.",
+    "future": "Emek verdiğiniz bir şeyin olgunlaşması."
+  },
+  "contextualMeanings": {
+    "relationship": "Şefkat ve karşılıklı besleyicilik ihtiyacı.",
+    "career": "Yaratıcı bir projeye alan açma zamanı.",
+    "general": "Kendinize bakım verme ihtiyacı."
+  },
+  "reflectionQuestions": [
+    "Şu an neyi büyütmeye çalışıyorsunuz?",
+    "Kendinize ne kadar şefkat gösteriyorsunuz?"
+  ],
+  "redFlags": {
+    "avoid": [
+      "hamilelik kehaneti",
+      "kesin bir sonuç vaadi"
+    ],
+    "instead": "Büyüme sürecinin zaman aldığını hatırlatın."
+  }
+}

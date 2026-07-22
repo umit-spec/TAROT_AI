@@ -1,0 +1,35 @@
+{
+  "cardId": "02-high-priestess",
+  "name_en": "The High Priestess",
+  "name_tr": "Yüksek Rahibe",
+  "arcana": "major",
+  "number": 2,
+  "symbolicMeaning": "Sezgi, henüz sözcüklere dökülmemiş bilgi, iç sesi dinleme.",
+  "psychologicalReflection": "Analitik zihnin ötesinde, bedensel ve duygusal sezgiye güvenme kapasitesi.",
+  "keywords": [
+    "sezgi",
+    "içgörü",
+    "sabır"
+  ],
+  "positionMeanings": {
+    "past": "Bir sezginizi görmezden geldiğiniz ya da dinlediğiniz bir an.",
+    "present": "Henüz net olmayan ama hissedilen bir bilgi var.",
+    "future": "Sabırla beklemeniz gereken bir netleşme süreci."
+  },
+  "contextualMeanings": {
+    "relationship": "Söylenmeyen ama hissedilen bir dinamik.",
+    "career": "Henüz kanıtlanmamış ama güçlü bir sezgi.",
+    "general": "İçe dönük bir dinleme ihtiyacı."
+  },
+  "reflectionQuestions": [
+    "Şu an hangi sezginizi görmezden geliyorsunuz?",
+    "Netleşmesi için zamana ihtiyaç duyan ne var?"
+  ],
+  "redFlags": {
+    "avoid": [
+      "kehanet niteliğinde kesinlik",
+      "doğaüstü güç iddiası"
+    ],
+    "instead": "İç sesinizi bir bilgi kaynağı olarak değerlendirin, tek gerçek olarak değil."
+  }
+}

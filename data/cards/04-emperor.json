@@ -1,0 +1,35 @@
+{
+  "cardId": "04-emperor",
+  "name_en": "The Emperor",
+  "name_tr": "İmparator",
+  "arcana": "major",
+  "number": 4,
+  "symbolicMeaning": "Yapı, düzen, sınır koyma.",
+  "psychologicalReflection": "İstikrar arayışı; kontrolün sağlıklı ile katı arasındaki sınırı.",
+  "keywords": [
+    "yapı",
+    "otorite",
+    "düzen"
+  ],
+  "positionMeanings": {
+    "past": "Bir yapı ya da kural koyduğunuz dönem.",
+    "present": "Şu anda netlik ve sınır ihtiyacı öne çıkıyor.",
+    "future": "Daha istikrarlı bir düzen kurma fırsatı."
+  },
+  "contextualMeanings": {
+    "relationship": "Net sınırlar koyma ihtiyacı.",
+    "career": "Yapı kurma, sorumluluk alma zamanı.",
+    "general": "Kontrol ile esneklik arasında denge arayışı."
+  },
+  "reflectionQuestions": [
+    "Hangi alanda daha net bir sınıra ihtiyacınız var?",
+    "Kontrol ihtiyacınız sizi ne zaman katılaştırıyor?"
+  ],
+  "redFlags": {
+    "avoid": [
+      "otoriter bir figürü idealize etme",
+      "baskıcı tavsiye"
+    ],
+    "instead": "Sağlıklı sınırların neye benzediğini birlikte düşünün."
+  }
+}

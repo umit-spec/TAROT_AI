@@ -1,0 +1,35 @@
+{
+  "cardId": "18-moon",
+  "name_en": "The Moon",
+  "name_tr": "Ay",
+  "arcana": "major",
+  "number": 18,
+  "symbolicMeaning": "Belirsizlik, bilinçaltı, netleşmemiş korkular.",
+  "psychologicalReflection": "Net olmayan bir durumda kaygıyı fark edip yönetme.",
+  "keywords": [
+    "belirsizlik",
+    "sezgi",
+    "kaygı"
+  ],
+  "positionMeanings": {
+    "past": "Belirsizlik içinde ilerlediğiniz bir dönem.",
+    "present": "Şu anda net olmayan bir durum kaygı yaratıyor olabilir.",
+    "future": "Netleşme öncesi bir bekleme süreci."
+  },
+  "contextualMeanings": {
+    "relationship": "Söylenmeyen kaygıların ilişkiyi etkilemesi.",
+    "career": "Belirsiz bir sürecin yarattığı tedirginlik.",
+    "general": "Bilinçaltı korkuların farkına varma."
+  },
+  "reflectionQuestions": [
+    "Bu belirsizlikte sizi asıl kaygılandıran ne?",
+    "Netleşmeden önce kendinize nasıl güven verebilirsiniz?"
+  ],
+  "redFlags": {
+    "avoid": [
+      "anksiyete/panik atak için tıbbi tavsiye yerine geçme",
+      "kesin bir tehlike kehaneti"
+    ],
+    "instead": "Yoğun kaygı halinde profesyonel destek önerin."
+  }
+}

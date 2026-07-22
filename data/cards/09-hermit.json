@@ -1,0 +1,35 @@
+{
+  "cardId": "09-hermit",
+  "name_en": "The Hermit",
+  "name_tr": "Ermiş",
+  "arcana": "major",
+  "number": 9,
+  "symbolicMeaning": "İçe çekilme, yalnız düşünme, kendi rehberliğini arama.",
+  "psychologicalReflection": "Dış gürültüden uzaklaşıp kendi iç sesine alan açma.",
+  "keywords": [
+    "içe dönüş",
+    "yalnızlık",
+    "arayış"
+  ],
+  "positionMeanings": {
+    "past": "Bir konuda geri çekilip düşündüğünüz bir dönem.",
+    "present": "Şu anda yalnız kalıp netleşmeye ihtiyacınız var.",
+    "future": "İçe dönük bir sürecin ardından gelecek netlik."
+  },
+  "contextualMeanings": {
+    "relationship": "Kendine zaman ayırma ihtiyacı.",
+    "career": "Kararınızı vermeden önce yalnız düşünme süreci.",
+    "general": "Dış sesleri azaltıp kendi rehberliğinizi arama."
+  },
+  "reflectionQuestions": [
+    "Netleşmek için ne kadar yalnız kalmaya ihtiyacınız var?",
+    "Şu an kimin sesini değil, kendi sesinizi dinlemelisiniz?"
+  ],
+  "redFlags": {
+    "avoid": [
+      "izolasyonu özendiren dil",
+      "sosyal çekilmeyi teşvik"
+    ],
+    "instead": "Yalnız kalmanın geçici ve amaçlı olabileceğini vurgulayın."
+  }
+}

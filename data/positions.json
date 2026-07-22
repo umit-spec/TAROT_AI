@@ -1,0 +1,16 @@
+{
+  "three_card": [
+    {
+      "key": "past",
+      "label_tr": "Geçmiş"
+    },
+    {
+      "key": "present",
+      "label_tr": "Şimdi"
+    },
+    {
+      "key": "future",
+      "label_tr": "Gelecek"
+    }
+  ]
+}

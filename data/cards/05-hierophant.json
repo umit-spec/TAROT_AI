@@ -1,0 +1,34 @@
+{
+  "cardId": "05-hierophant",
+  "name_en": "The Hierophant",
+  "name_tr": "Hiyerofant",
+  "arcana": "major",
+  "number": 5,
+  "symbolicMeaning": "Gelenek, öğrenme, paylaşılan değerler.",
+  "psychologicalReflection": "Bir topluluğa ya da inanç sistemine ait olma ihtiyacı; öğrenilenle kendi yolunu bulma arasındaki gerilim.",
+  "keywords": [
+    "gelenek",
+    "öğrenme",
+    "aidiyet"
+  ],
+  "positionMeanings": {
+    "past": "Bir öğreti ya da geleneğin sizi şekillendirdiği dönem.",
+    "present": "Şu anda bir yapıya ya da sisteme uyum sağlama süreci.",
+    "future": "Öğrenilenle kendi bakış açınızı harmanlama fırsatı."
+  },
+  "contextualMeanings": {
+    "relationship": "Ortak değerlerin ilişkideki rolü.",
+    "career": "Mentorluk, eğitim ya da kurumsal yapıya uyum.",
+    "general": "Ait olma ve bağımsız olma arasında denge."
+  },
+  "reflectionQuestions": [
+    "Hangi öğreti ya da değer sizi hâlâ yönlendiriyor?",
+    "Kurallara ne zaman uyup ne zaman kendi yolunuzu seçiyorsunuz?"
+  ],
+  "redFlags": {
+    "avoid": [
+      "dini/dogmatik kesinlik iddiası"
+    ],
+    "instead": "Değerlerinizi kendi bağlamınızda sorgulamayı önerin."
+  }
+}

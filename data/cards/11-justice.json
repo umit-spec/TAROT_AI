@@ -1,0 +1,35 @@
+{
+  "cardId": "11-justice",
+  "name_en": "Justice",
+  "name_tr": "Adalet",
+  "arcana": "major",
+  "number": 11,
+  "symbolicMeaning": "Denge, hesap verebilirlik, adil karar.",
+  "psychologicalReflection": "Kendi eylemlerinizin sonuçlarını dürüstçe değerlendirme.",
+  "keywords": [
+    "denge",
+    "sorumluluk",
+    "netlik"
+  ],
+  "positionMeanings": {
+    "past": "Bir kararın sonuçlarıyla yüzleştiğiniz bir an.",
+    "present": "Şu anda adil ve dengeli bir değerlendirme gerekiyor.",
+    "future": "Bir kararın netleşmesi ve sorumluluğun görünür olması."
+  },
+  "contextualMeanings": {
+    "relationship": "Karşılıklı adalet ve dürüstlük ihtiyacı.",
+    "career": "Bir kararın sonuçlarını objektif değerlendirme.",
+    "general": "Denge kurma ve hesap verebilirlik."
+  },
+  "reflectionQuestions": [
+    "Bu durumda kendinize karşı ne kadar dürüstsünüz?",
+    "Adil bir denge için neyi değiştirmeniz gerekir?"
+  ],
+  "redFlags": {
+    "avoid": [
+      "dava/mahkeme sonucu kehaneti",
+      "kesin hukuki tavsiye"
+    ],
+    "instead": "Hukuki konularda profesyonel danışmanlık önerin."
+  }
+}
