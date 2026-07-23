@@ -1,0 +1,17 @@
+{
+  "runId": "mock-2026-07-23T14-30-57-789Z",
+  "runAt": "2026-07-23T14:30:57.789Z",
+  "providerMode": "mock",
+  "caseCount": 24,
+  "fallbackRate": 0,
+  "fallbackRateByReason": {
+    "red-line-rejected": 0,
+    "schema-invalid": 0,
+    "provider-error": 0
+  },
+  "latencyP50Ms": 0.18060800000000654,
+  "latencyP95Ms": 0.5544779999999605,
+  "totalInputTokens": 0,
+  "totalOutputTokens": 0,
+  "zeroToleranceViolationCount": 0
+}

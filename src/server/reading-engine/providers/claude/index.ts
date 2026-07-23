@@ -1,4 +1,5 @@
 import { InterpretationInput, InterpretationOutput } from '../../../../types/interpretation';
+import type { TokenUsage } from '../../../../types/evaluation';
 import { validateInterpretation } from '../../validate';
 import { InterpretationProvider } from '../types';
 import { ClaudeProviderConfig, loadClaudeProviderConfig } from './config';
@@ -24,6 +25,12 @@ export class ClaudeProvider implements InterpretationProvider {
   readonly name = 'claude';
   readonly promptVersion = PROMPT_VERSION;
 
+  // Sprint 6: usage from the most recent successful call, exposed via the
+  // optional getLastUsage() side channel below - additive, since
+  // InterpretationProvider.generate()'s own return type (InterpretationOutput)
+  // is untouched and every existing caller/test keeps working unmodified.
+  private lastUsage: TokenUsage | undefined;
+
   constructor(
     private readonly configOverrides: Partial<ClaudeProviderConfig> = {},
     private readonly fetchImpl: typeof fetch = fetch
@@ -35,15 +42,20 @@ export class ClaudeProvider implements InterpretationProvider {
     const system = buildSystemPrompt();
     const userMessage = buildUserMessage(input);
 
-    const responseText = await callAnthropicWithRetry(
+    const { text, usage } = await callAnthropicWithRetry(
       { apiKey: config.apiKey, model: config.model, system, userMessage, timeoutMs: config.timeoutMs },
       config.maxRetries,
       this.fetchImpl
     );
+    this.lastUsage = usage;
 
-    const claudeOutput = parseClaudeResponseText(responseText);
+    const claudeOutput = parseClaudeResponseText(text);
     const output = mapToInterpretationOutput(claudeOutput, input.reading);
     return validateInterpretation(output);
+  }
+
+  getLastUsage(): TokenUsage | undefined {
+    return this.lastUsage;
   }
 }
 

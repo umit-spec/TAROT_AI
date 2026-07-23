@@ -21,6 +21,31 @@ class ManipulativeProvider implements InterpretationProvider {
   }
 }
 
+// Sprint 6 test matrix #3: a provider whose output structurally violates
+// InterpretationOutputSchema (wrong cards length) - triggers the ZodError
+// classifyFallbackReason() maps to 'schema-invalid', distinct from a
+// red-line rejection or a raw provider throw.
+class SchemaInvalidProvider implements InterpretationProvider {
+  readonly name = 'schema-invalid-test-provider';
+  async generate(input: InterpretationInput): Promise<InterpretationOutput> {
+    const mock = await new MockProvider().generate(input);
+    return { ...mock, cards: mock.cards.slice(0, 1) };
+  }
+}
+
+// Sprint 6 test matrix #5: a provider exposing the optional getLastUsage()
+// side channel, proving generateInterpretedReading forwards it without
+// needing a real Claude/Anthropic call.
+class UsageReportingProvider implements InterpretationProvider {
+  readonly name = 'usage-reporting-test-provider';
+  async generate(input: InterpretationInput): Promise<InterpretationOutput> {
+    return new MockProvider().generate(input);
+  }
+  getLastUsage() {
+    return { inputTokens: 123, outputTokens: 45 };
+  }
+}
+
 describe('MockProvider', () => {
   test('same input produces byte-identical output', async () => {
     const provider = new MockProvider();
@@ -138,5 +163,74 @@ describe('Provider swap architecture (ADR-011/ADR-012)', () => {
       provider: new MockProvider(),
     });
     expect(output.safetyFlags).toContain('crisis_suicide_detected');
+  });
+});
+
+describe('Sprint 6: fallbackReason classification (test matrix #2-4)', () => {
+  test('a red-line phrase rejection classifies as red-line-rejected', async () => {
+    const { fallbackReason, providerUsed } = await generateInterpretedReading({
+      seed: 'demo-001',
+      spread: 'three-card',
+      intake: testIntake(),
+      provider: new ManipulativeProvider(),
+    });
+    expect(providerUsed).toBe('mock');
+    expect(fallbackReason).toBe('red-line-rejected');
+  });
+
+  test('a schema-shape failure classifies as schema-invalid', async () => {
+    const { fallbackReason, providerUsed } = await generateInterpretedReading({
+      seed: 'demo-001',
+      spread: 'three-card',
+      intake: testIntake(),
+      provider: new SchemaInvalidProvider(),
+    });
+    expect(providerUsed).toBe('mock');
+    expect(fallbackReason).toBe('schema-invalid');
+  });
+
+  test('a raw provider/network throw classifies as provider-error', async () => {
+    const { fallbackReason, providerUsed } = await generateInterpretedReading({
+      seed: 'demo-001',
+      spread: 'three-card',
+      intake: testIntake(),
+      provider: new ThrowingProvider(),
+    });
+    expect(providerUsed).toBe('mock');
+    expect(fallbackReason).toBe('provider-error');
+  });
+
+  test('fallbackReason is undefined on the happy path (no fallback occurred)', async () => {
+    const { fallbackReason, providerUsed } = await generateInterpretedReading({
+      seed: 'demo-001',
+      spread: 'three-card',
+      intake: testIntake(),
+      provider: new MockProvider(),
+    });
+    expect(providerUsed).toBe('mock');
+    expect(fallbackReason).toBeUndefined();
+  });
+});
+
+describe('Sprint 6: token usage capture (test matrix #5)', () => {
+  test('a provider exposing getLastUsage() has its usage forwarded on the happy path', async () => {
+    const { usage, providerUsed } = await generateInterpretedReading({
+      seed: 'demo-001',
+      spread: 'three-card',
+      intake: testIntake(),
+      provider: new UsageReportingProvider(),
+    });
+    expect(providerUsed).toBe('usage-reporting-test-provider');
+    expect(usage).toEqual({ inputTokens: 123, outputTokens: 45 });
+  });
+
+  test('MockProvider (no getLastUsage) yields undefined usage, not an error', async () => {
+    const { usage } = await generateInterpretedReading({
+      seed: 'demo-001',
+      spread: 'three-card',
+      intake: testIntake(),
+      provider: new MockProvider(),
+    });
+    expect(usage).toBeUndefined();
   });
 });

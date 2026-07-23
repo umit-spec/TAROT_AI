@@ -20,6 +20,9 @@
     "knowledge:check-conflicts": "tsx scripts/knowledge-authoring/check-conflicts.ts",
     "knowledge:build": "tsx scripts/knowledge-authoring/build.ts",
     "knowledge:promote": "tsx scripts/knowledge-authoring/promote.ts",
+    "evaluation:run": "tsx scripts/evaluation/run.ts",
+    "evaluation:live-anthropic": "tsx scripts/evaluation/live-anthropic.ts",
+    "evaluation:report": "tsx scripts/evaluation/report.ts",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\""
   },

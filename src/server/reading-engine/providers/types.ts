@@ -1,4 +1,5 @@
 import { InterpretationInput, InterpretationOutput } from '../../../types/interpretation';
+import type { TokenUsage } from '../../../types/evaluation';
 
 /**
  * ADR-011: the LLM (or anything else) is a narration-only layer. Every
@@ -14,4 +15,9 @@ export interface InterpretationProvider {
   // call at all). Reported as "n/a" in the API's versions.prompt field.
   readonly promptVersion?: string;
   generate(input: InterpretationInput): Promise<InterpretationOutput>;
+  // Sprint 6, additive/optional: a provider MAY expose token usage from its
+  // most recent call (ClaudeProvider does; MockProvider has no real usage
+  // to report, so it simply doesn't implement this - no existing provider
+  // or caller needs to change for this to be safe to add).
+  getLastUsage?(): TokenUsage | undefined;
 }

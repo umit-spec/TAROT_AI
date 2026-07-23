@@ -1,0 +1,17 @@
+{
+  "runId": "live-anthropic-readiness-check-2026-07-23T14-30-58-718Z",
+  "runAt": "2026-07-23T14:30:58.718Z",
+  "providerMode": "mock",
+  "caseCount": 24,
+  "fallbackRate": 0,
+  "fallbackRateByReason": {
+    "red-line-rejected": 0,
+    "schema-invalid": 0,
+    "provider-error": 0
+  },
+  "latencyP50Ms": 0.15634000000000015,
+  "latencyP95Ms": 1.1717610000000036,
+  "totalInputTokens": 0,
+  "totalOutputTokens": 0,
+  "zeroToleranceViolationCount": 0
+}

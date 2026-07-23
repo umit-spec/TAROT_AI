@@ -1,8 +1,10 @@
+import { ZodError } from 'zod';
 import { CardContextKey } from '../../types/card';
 import { InterpretationOutput } from '../../types/interpretation';
 import { IntakeContext } from '../../types/intake';
 import { KnowledgeContext, KnowledgeResolutionResult } from '../../types/knowledge';
 import { DeterministicReading, SpreadType } from '../../types/reading';
+import type { FallbackReason, TokenUsage } from '../../types/evaluation';
 import { toCardContext } from '../intake';
 import { LocalJsonKnowledgeProvider, resolveKnowledge } from '../knowledge';
 import { KnowledgeProvider } from '../knowledge/types';
@@ -11,7 +13,20 @@ import { buildInterpretations } from './deterministic';
 import { InterpretationProvider } from './providers/types';
 import { MockProvider } from './providers/mock';
 import { findPatterns } from './synthesis';
-import { validateInterpretation, validateReading } from './validate';
+import { ReadingValidationError, validateInterpretation, validateReading } from './validate';
+
+/**
+ * Sprint 6: separates what generateInterpretedReading's single fallback
+ * catch block used to collapse into one signal (providerUsed: 'mock') into
+ * the three actually-distinct causes an evaluation harness needs to count
+ * separately - a red-line phrase rejection, a schema-shape failure, or a
+ * real provider/network error are different problems with different fixes.
+ */
+function classifyFallbackReason(err: unknown): FallbackReason {
+  if (err instanceof ReadingValidationError) return 'red-line-rejected';
+  if (err instanceof ZodError) return 'schema-invalid';
+  return 'provider-error';
+}
 
 export interface GenerateReadingInput {
   seed: string;
@@ -98,6 +113,13 @@ export async function generateInterpretedReading(input: GenerateInterpretedReadi
   // prompt version for output MockProvider actually generated.
   promptVersionUsed?: string;
   knowledge: KnowledgeResolutionResult;
+  // Sprint 6, additive: which of the 3 distinct causes triggered a
+  // fallback - undefined when the primary provider succeeded outright.
+  fallbackReason?: FallbackReason;
+  // Sprint 6, additive: token usage from whichever provider actually ran,
+  // when that provider exposes it (see providers/types.ts's optional
+  // getLastUsage()) - undefined for MockProvider, which has none to report.
+  usage?: TokenUsage;
 }> {
   const reading = generateDeterministicReading({
     seed: input.seed,
@@ -120,8 +142,10 @@ export async function generateInterpretedReading(input: GenerateInterpretedReadi
       providerUsed: input.provider.name,
       promptVersionUsed: input.provider.promptVersion,
       knowledge: knowledgeResult,
+      usage: input.provider.getLastUsage?.(),
     };
-  } catch {
+  } catch (err) {
+    const fallbackReason = classifyFallbackReason(err);
     const output = await runProvider(
       fallbackProvider,
       reading,
@@ -135,6 +159,7 @@ export async function generateInterpretedReading(input: GenerateInterpretedReadi
       providerUsed: fallbackProvider.name,
       promptVersionUsed: fallbackProvider.promptVersion,
       knowledge: knowledgeResult,
+      fallbackReason,
     };
   }
 }

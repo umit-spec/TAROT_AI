@@ -339,3 +339,51 @@ describe('Happy path', () => {
     expect(knowledge.meta.provider).toBe('local-json');
   });
 });
+
+describe('Sprint 6: token usage capture (test matrix #5)', () => {
+  test('usage field from the Anthropic response is captured, not discarded', async () => {
+    process.env.ANTHROPIC_API_KEY = 'test-key';
+    const fetchSpy = vi.fn(async () =>
+      fakeResponse(200, {
+        content: [{ type: 'text', text: JSON.stringify(validClaudeBody()) }],
+        usage: { input_tokens: 512, output_tokens: 128 },
+      })
+    );
+    const provider = new ClaudeProvider({}, fetchSpy as unknown as typeof fetch);
+
+    await provider.generate({ reading, intake: testIntake(), knowledge: testKnowledge(), questionText: '' });
+
+    expect(provider.getLastUsage()).toEqual({ inputTokens: 512, outputTokens: 128 });
+  });
+
+  test('missing usage field defaults to zero counts, not a thrown error', async () => {
+    process.env.ANTHROPIC_API_KEY = 'test-key';
+    const fetchSpy = vi.fn(async () => claudeMessageResponse(200, JSON.stringify(validClaudeBody())));
+    const provider = new ClaudeProvider({}, fetchSpy as unknown as typeof fetch);
+
+    await provider.generate({ reading, intake: testIntake(), knowledge: testKnowledge(), questionText: '' });
+
+    expect(provider.getLastUsage()).toEqual({ inputTokens: 0, outputTokens: 0 });
+  });
+
+  test('generateInterpretedReading forwards the real ClaudeProvider usage end to end', async () => {
+    process.env.ANTHROPIC_API_KEY = 'test-key';
+    const fetchSpy = vi.fn(async () =>
+      fakeResponse(200, {
+        content: [{ type: 'text', text: JSON.stringify(validClaudeBody()) }],
+        usage: { input_tokens: 300, output_tokens: 75 },
+      })
+    );
+    const provider = new ClaudeProvider({}, fetchSpy as unknown as typeof fetch);
+
+    const { usage, providerUsed } = await generateInterpretedReading({
+      seed: 'demo-001',
+      spread: 'three-card',
+      intake: testIntake(),
+      provider,
+    });
+
+    expect(providerUsed).toBe('claude');
+    expect(usage).toEqual({ inputTokens: 300, outputTokens: 75 });
+  });
+});

@@ -1,4 +1,5 @@
 import { ClaudeHttpError, ClaudeOutputValidationError, ClaudeTimeoutError, isRetryable } from './errors';
+import type { TokenUsage } from '../../../../types/evaluation';
 
 const ANTHROPIC_API_BASE = 'https://api.anthropic.com';
 const ANTHROPIC_API_VERSION = '2023-06-01';
@@ -13,16 +14,30 @@ export interface AnthropicCallParams {
   timeoutMs: number;
 }
 
-function extractText(json: unknown): string {
+// Sprint 6: the response text plus token usage, captured (not discarded)
+// so a cost/latency evaluation harness has something real to measure.
+export interface ClaudeCallResult {
+  text: string;
+  usage: TokenUsage;
+}
+
+function extractResult(json: unknown): ClaudeCallResult {
   const content = (json as { content?: Array<{ type?: string; text?: string }> } | null)?.content;
   const block = content?.find((b) => b.type === 'text' && typeof b.text === 'string');
   if (!block?.text) {
     throw new ClaudeOutputValidationError('Unexpected Anthropic response shape: no text content block found');
   }
-  return block.text;
+  const usageRaw = (json as { usage?: { input_tokens?: number; output_tokens?: number } } | null)?.usage;
+  return {
+    text: block.text,
+    usage: {
+      inputTokens: typeof usageRaw?.input_tokens === 'number' ? usageRaw.input_tokens : 0,
+      outputTokens: typeof usageRaw?.output_tokens === 'number' ? usageRaw.output_tokens : 0,
+    },
+  };
 }
 
-async function callOnce(params: AnthropicCallParams, fetchImpl: typeof fetch): Promise<string> {
+async function callOnce(params: AnthropicCallParams, fetchImpl: typeof fetch): Promise<ClaudeCallResult> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), params.timeoutMs);
 
@@ -56,7 +71,7 @@ async function callOnce(params: AnthropicCallParams, fetchImpl: typeof fetch): P
     }
 
     const json: unknown = await res.json();
-    return extractText(json);
+    return extractResult(json);
   } finally {
     clearTimeout(timer);
   }
@@ -73,7 +88,7 @@ export async function callAnthropicWithRetry(
   params: AnthropicCallParams,
   maxRetries: number,
   fetchImpl: typeof fetch = fetch
-): Promise<string> {
+): Promise<ClaudeCallResult> {
   const totalAttempts = 1 + maxRetries;
   let lastError: unknown;
 
