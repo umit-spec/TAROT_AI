@@ -484,15 +484,22 @@ succession pattern, new ADR entry.
 
 ## Future Decision Points
 
-These decisions will likely be needed post-MVP:
+These are named topics likely to need a real decision later - **not
+pre-assigned ADR numbers.** An earlier revision of this list numbered
+them (ADR-013 through ADR-020) as if reserved; that was a mistake this
+project corrected once already (Sprint 5, per the Product Owner) and
+will not repeat: a placeholder consumes no number, and every renumbering
+of unwritten placeholders is pure churn against nothing. The next real,
+accepted decision - on any topic, from this list or not - gets whatever
+the next sequential ADR number actually is at the time it's written.
 
-- **ADR-014:** 56 Küçük Arkana expansion strategy (when?)
-- **ADR-015:** Reversed cards inclusion (MVP+ or later?)
-- **ADR-016:** Multi-language support (roadmap?)
-- **ADR-017:** Other modules (Dream Analysis, Journaling — priority?)
-- **ADR-018:** Real payment integration (post-MVP test?)
-- **ADR-019:** Backend separation (if API load warrants?)
-- **ADR-020:** AI model upgrade path (Claude → GPT-4.5 parity?)
+- Persistence Architecture
+- Citation and Source Governance
+- Knowledge Ingestion at Scale
+- Live Provider Integration
+- Production Asset Licensing
+- Analytics and Evaluation
+- Deployment Architecture
 
 ---
 
