@@ -17,6 +17,7 @@
     "knowledge:ingest": "tsx scripts/knowledge-authoring/ingest.ts",
     "knowledge:transition": "tsx scripts/knowledge-authoring/transition.ts",
     "knowledge:validate": "tsx scripts/knowledge-authoring/validate.ts",
+    "knowledge:validate-lessons": "tsx scripts/knowledge-authoring/validate-lessons.ts",
     "knowledge:check-conflicts": "tsx scripts/knowledge-authoring/check-conflicts.ts",
     "knowledge:build": "tsx scripts/knowledge-authoring/build.ts",
     "knowledge:promote": "tsx scripts/knowledge-authoring/promote.ts",

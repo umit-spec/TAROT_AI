@@ -15,6 +15,24 @@ export const SourceTypeSchema = z.enum([
 ]);
 export type SourceType = z.infer<typeof SourceTypeSchema>;
 
+/**
+ * Rights/permission metadata for a source. Optional so the four existing
+ * public-domain / original / ai-assisted sources are unaffected. Present on
+ * copyrighted third-party works (e.g. the lineage-only reference book) to
+ * record who holds the rights and what use is permitted - never to imply a
+ * permission that isn't documented. `allowsRetrievalStorage: false` is the
+ * default posture: no source's text may be stored in a retrieval system
+ * unless a real permission says otherwise.
+ */
+export const SourceRightsSchema = z.object({
+  rightsHolder: z.string().min(1),
+  permissionStatus: z.enum(['unverified', 'licensed', 'denied']),
+  permissionEvidence: z.string().nullable(), // path to a real permission document, or null
+  usageScope: z.string().nullable(), // e.g. "abstract-principle-lineage-only"
+  allowsRetrievalStorage: z.boolean(),
+});
+export type SourceRights = z.infer<typeof SourceRightsSchema>;
+
 export const SourceSchema = z.object({
   sourceId: z.string().min(1),
   title: z.string().min(1),
@@ -23,6 +41,7 @@ export const SourceSchema = z.object({
   publicationYear: z.number().int().optional(),
   url: z.string().url().optional(),
   notes: z.string().optional(),
+  rights: SourceRightsSchema.optional(),
 });
 export type Source = z.infer<typeof SourceSchema>;
 
@@ -221,6 +240,139 @@ export const KnowledgeRecordSchema = z
     }
   });
 export type KnowledgeRecord = z.infer<typeof KnowledgeRecordSchema>;
+
+// ---------------------------------------------------------------------------
+// Human-Governed Methodology Extraction
+// (docs/HUMAN_GOVERNED_METHODOLOGY_EXTRACTION_PROPOSAL_v1.0.md)
+//
+// A Lesson is the project's own, from-scratch statement of an ABSTRACT
+// methodology principle. It never holds source text. The subject reference
+// book is cited as `bookLineage` for transparency only and can NEVER be a
+// lesson's sole backing - at least one independent (non-book) source must
+// carry the evidentiary weight, human-verified before the lesson advances
+// past `draft`. Claude may author drafts and red-team; only the Product Owner
+// may lock (enforced by the shared LifecycleSchema).
+// ---------------------------------------------------------------------------
+
+export const PrincipleCategorySchema = z.enum([
+  'intention-formation',
+  'spread-position-logic',
+  'user-agency',
+  'non-prophecy-framing',
+  'other',
+]);
+export type PrincipleCategory = z.infer<typeof PrincipleCategorySchema>;
+
+/**
+ * Book lineage is transparency-only. The two `false` literals are structural,
+ * not a promise: there is deliberately no field on a Lesson that can hold the
+ * book's text or image - `storedText`/`imageUsed` can only ever be `false`.
+ */
+export const BookLineageSchema = z.object({
+  sourceId: z.string().min(1),
+  extractionType: z.literal('abstract-principle-only'),
+  storedText: z.literal(false),
+  imageUsed: z.literal(false),
+});
+export type BookLineage = z.infer<typeof BookLineageSchema>;
+
+export const IndependentSourceRefSchema = z.object({
+  sourceId: z.string().min(1),
+  note: z.string().min(1),
+});
+export type IndependentSourceRef = z.infer<typeof IndependentSourceRefSchema>;
+
+/**
+ * Distinctive-phrase + structural overlap review. When present at `reviewed`
+ * status or beyond it must be human-performed with an `original` verdict -
+ * a lesson that still reads too close to the source cannot advance.
+ */
+export const SimilarityReviewSchema = z.object({
+  reviewedBy: z.string().min(1),
+  reviewedAt: z.string().datetime(),
+  distinctivePhraseOverlap: z.enum(['none', 'flagged']),
+  structuralOverlap: z.enum(['none', 'flagged']),
+  verdict: z.enum(['original', 'revise']),
+});
+export type SimilarityReview = z.infer<typeof SimilarityReviewSchema>;
+
+export const MethodologyLessonSchema = z
+  .object({
+    lessonId: z.string().min(1),
+    principleCategory: PrincipleCategorySchema,
+    abstractPrinciple: z.string().min(1),
+    originalStatement: z.string().min(1),
+    independentSources: z.array(IndependentSourceRefSchema),
+    bookLineage: BookLineageSchema.optional(),
+    // nullish: a draft can carry an explicit `null` to document "no governed
+    // review yet"; required (non-null) once status reaches `reviewed`.
+    similarityReview: SimilarityReviewSchema.nullish(),
+    sourceVerifications: z.array(SourceVerificationSchema).default([]),
+    lifecycle: LifecycleSchema,
+    targetRecordType: RecordTypeSchema.optional(),
+    notes: z.string().optional(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime(),
+  })
+  .superRefine((lesson, ctx) => {
+    const bookId = lesson.bookLineage?.sourceId;
+    const independentIds = lesson.independentSources
+      .map((s) => s.sourceId)
+      .filter((id) => id !== bookId);
+
+    // Rule 7 + 8: at least one independent (non-book) source; the book is
+    // never sole backing. Enforced at every status, including draft.
+    if (independentIds.length === 0) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['independentSources'],
+        message:
+          'a methodology lesson must cite at least one independent (non-book) source; the book may never be the sole backing',
+      });
+    }
+
+    if (reached(lesson.lifecycle.status, 'reviewed')) {
+      // Rule 9: a human similarity review with an `original` verdict is
+      // required before a lesson advances past draft.
+      if (!lesson.similarityReview) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['similarityReview'],
+          message: 'similarityReview required at reviewed status or beyond',
+        });
+      } else {
+        if (isAiActorId(lesson.similarityReview.reviewedBy)) {
+          ctx.addIssue({
+            code: 'custom',
+            path: ['similarityReview', 'reviewedBy'],
+            message: 'similarity review must be performed by a named human',
+          });
+        }
+        if (lesson.similarityReview.verdict !== 'original') {
+          ctx.addIssue({
+            code: 'custom',
+            path: ['similarityReview', 'verdict'],
+            message: 'a lesson cannot advance past draft unless the similarity verdict is "original"',
+          });
+        }
+      }
+
+      // Rule 7: at least one independent source must be human-verified
+      // before advancement (AI verifications don't count).
+      const humanVerifiedIds = new Set(
+        lesson.sourceVerifications.filter((v) => !isAiActorId(v.verifiedBy)).map((v) => v.sourceId),
+      );
+      if (!independentIds.some((id) => humanVerifiedIds.has(id))) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['sourceVerifications'],
+          message:
+            'at least one independent source must be human-verified before a lesson advances past draft',
+        });
+      }
+    }
+  });
+export type MethodologyLesson = z.infer<typeof MethodologyLessonSchema>;
 
 export const BuildManifestSchema = z.object({
   knowledgeVersion: z.string().min(1),

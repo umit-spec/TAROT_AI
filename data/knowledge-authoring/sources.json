@@ -32,6 +32,21 @@
       "type": "academic",
       "publicationYear": 1980,
       "notes": "Widely cited symbolic/psychological analysis of the Tarot, first published 1980. Cited here specifically for its well-established discussion of Strength as gentle, compassionate inner mastery rather than forceful domination - the individual-card meaning this project's Chariot-to-Strength pair relation draws on. As with Waite above, the pair-relation itself is original synthesis, co-cited accordingly."
+    },
+    {
+      "sourceId": "baslangic-tarot-rehberi-2025",
+      "title": "Başlangıç Tarot Rehberi — 78 Kartın Yolculuğu",
+      "author": "The Bill Store (publisher)",
+      "type": "classic-text",
+      "publicationYear": 2025,
+      "rights": {
+        "rightsHolder": "The Bill Store",
+        "permissionStatus": "unverified",
+        "permissionEvidence": null,
+        "usageScope": "abstract-principle-lineage-only",
+        "allowsRetrievalStorage": false
+      },
+      "notes": "LINEAGE-ONLY reference under Human-Governed Methodology Extraction (docs/HUMAN_GOVERNED_METHODOLOGY_EXTRACTION_PROPOSAL_v1.0.md). Only abstract, independently-corroborated methodology principles are derived from it; no text or image is stored, OCR'd, embedded, retrieved, or served, and none enters runtime. Never a record's or lesson's sole evidentiary backing (same rule as the NotebookLM ai-assisted source). The book uses Marseille numbering (Justice 8 / Strength 11) - NOT adopted; the project keeps its canonical RWS ids (Strength 8 / Justice 11). It also contains reversed meanings, yes/no framing and all 78 cards, all out of MVP scope. Its card illustrations are Rider-Waite-Smith plates and are never extracted or used. permissionStatus 'unverified' reflects that no reproduction license exists - and none is needed, because nothing is reproduced; before commercial launch an IP lawyer should review the concrete flow."
     }
   ]
 }
