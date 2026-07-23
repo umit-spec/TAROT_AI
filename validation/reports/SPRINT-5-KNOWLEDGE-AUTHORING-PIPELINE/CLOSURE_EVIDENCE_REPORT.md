@@ -194,3 +194,41 @@ shortfall from it.
   triggered by locking or by this pilot build.
 - Fresh review/red-team/lock cycles for the 3 revised records - the
   Product Owner's to initiate.
+
+---
+
+## 7. Product Owner Acceptance
+
+**Sprint 5: PASS WITH DOCUMENTED DEBT — ONAY (approved), 2026-07-23.**
+
+The Product Owner's own framing of the sprint's actual deliverable:
+*"Bu sprintin en önemli çıktısı üç ilişki değil: İçerik üretim hattının,
+eksik kaynaklı veya aşırı kesin içerikleri gerçekten üretim dışında
+tutabildiğinin kanıtlanması."* (This sprint's most important output is
+not three relations — it's proof that the content pipeline can actually
+keep under-sourced or overly-certain content out of production.)
+
+### 7.1 Prescribed next flow for the 3 open records (not executed this sprint - forward guidance only)
+
+**`pair-10-wheel-of-fortune-12-hanged-man`:** now that the text is
+corrected, it must go through `draft → human review → red-team → lock
+consideration` as a genuinely fresh cycle. **The old Red Team approval
+must not carry over automatically to the new revision.** Verified true
+of the current state: `reviewerId`, `redTeamActorId`, and
+`lockAuthorityId` are all `null` on this record post-revision — the
+demotion did not just change `status`, it cleared every actor field the
+prior cycle had set.
+
+**`pair-02-high-priestess-09-hermit`** and **`pair-07-chariot-08-strength`:**
+before `sourceVerifications` is filled in, a human must actually answer:
+1. Does Waite's source really contain the individual card meanings cited?
+2. Does the Pollack source actually support the stated semantic direction?
+3. Does this project's synthesis assert something further than the sources support?
+4. Is the pair-relation description reasonably derivable from the sum of the sources?
+
+Only after that verification is genuine can `sourceVerifications` be
+filled in (by a human, per the existing schema gate) and the record
+re-enter `review → red-team` consideration. Claude did not perform this
+verification or fill `sourceVerifications` on the Product Owner's
+behalf — both records remain at `draft` with `sourceVerifications: []`,
+exactly as left after the citation revision in §2.
