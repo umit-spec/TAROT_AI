@@ -1,0 +1,21 @@
+{
+  "version": "0.1.0",
+  "sources": [
+    {
+      "sourceId": "tarot-ai-original-synthesis-v1",
+      "title": "TAROT AI Editorial Voice & Pair-Relation Reasoning Framework",
+      "author": "TAROT AI editorial team",
+      "type": "original-synthesis",
+      "publicationYear": 2026,
+      "notes": "This project's own symbolic/psychological reasoning framework for how adjacent Major Arcana cards interact - not a citation to an external work. Covers records authored directly by a human without AI-assisted drafting."
+    },
+    {
+      "sourceId": "notebooklm-major-arcana-research-2026-07",
+      "title": "NotebookLM-assisted research notebook - Major Arcana symbolic pairings",
+      "author": "NotebookLM (Google), used as a drafting aid",
+      "type": "ai-assisted-draft",
+      "publicationYear": 2026,
+      "notes": "Research/drafting aid only, per Sprint 5 governance rules - never a sole basis for a locked record. Every record citing this source requires an individually verified sourceVerifications entry by a named human before it can reach red-teamed status."
+    }
+  ]
+}
