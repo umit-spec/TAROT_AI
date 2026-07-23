@@ -1,7 +1,7 @@
 # Sprint 4 — UI Design Contract & Functional Reading Flow: Plan
 
 **Date:** 2026-07-23
-**Status:** Proposal — awaiting approval before implementation
+**Status:** ✅ APPROVED — implementation in progress
 **Governs:** Resolves `docs/UX_DEBT_LOG.md` UX-DEBT-001 (persona mapping); extends ADR-011/ADR-012's ground-truth invariant to the UI layer
 
 ---
@@ -287,6 +287,8 @@ Sprint 4 closes when:
 
 ## Next Step
 
-This is a proposal. Per your instruction, no UI implementation code is written until this is confirmed or amended - in particular:
-- §1's flagged inversion (first-timers getting `standard` depth instead of the old wireframe's longest/250-word treatment) is a real product-tone decision, not something I've resolved unilaterally.
-- §6's placeholder colors are intentionally inert - confirm the structural approach (semantic token categories) is right before any component is styled, even provisionally.
+**Approved 2026-07-23, both open questions resolved:**
+- §1's inversion: **engine stays as-is** — `deep` responseDepth remains `experienced-practitioner`'s tier, no persona-aware exception added for `curious-explorer`/first-timers. The new tone philosophy (depth-seekers get more, newcomers get `standard` length with symbolic clarity) is confirmed intentional, not a gap to patch.
+- §6's token approach: **placeholder/structural only, confirmed** — no real brand colors this sprint; semantic token naming and grayscale/neutral values stand as specified.
+
+Implementation proceeds per this plan.
