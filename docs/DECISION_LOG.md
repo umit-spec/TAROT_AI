@@ -482,6 +482,71 @@ succession pattern, new ADR entry.
 
 ---
 
+## Draft Decision — Proposed, Not Yet Accepted
+
+### Insight Cadence Model: Daily / Weekly / Threshold usage tiers, product reframed as "Insight Engine"
+
+**Status:** Proposed by the Product Owner (2026-07-23) - **not accepted,
+no ADR number assigned.** Recorded here as direction, per the Product
+Owner's own instruction to log it without committing Sprint 6 (or any
+sprint) to build it yet.
+
+**Context:** The current product framing (and every prior sprint's
+implicit model) is a single-mode tarot reading, available whenever a
+user opens the app - closer to "daily fortune-telling" than a considered
+tool. This was never explicitly chosen as a strategy; it's just the
+literal shape of what's been built (Intake -> Spread -> Reading) so far.
+The Product Owner observed that daily-availability framing risks two
+things this project's own founding documents already worried about: (1)
+an addiction-style engagement loop (the original MVP charter's Red Team
+checklist explicitly asked "Addiction loop kurulmuş mu?"), and (2)
+undercutting the "no certain prophecy, psychological insight not
+fortune-telling" positioning ADR-002 already committed to - a product
+someone consults daily reads more like fortune-telling in practice,
+regardless of how careful the narration language is.
+
+**Proposed model (not yet designed at the architecture level):**
+- **Daily:** not tarot - a lighter layer: a daily intention, one
+  reflection question, a short journal prompt, a small callback to the
+  previous reading.
+- **Weekly:** the week's theme, recurring emotional patterns, decision
+  pressure points, a short insight summary.
+- **Threshold moments (the actual tarot spread):** reserved for real
+  inflection points a user names explicitly - job change, relationship
+  decision, relocation, partnership, separation, new beginning, serious
+  uncertainty. The user consults the product *at* a decision, not to
+  generate a new answer every day.
+- **Product reframing:** tarot stops being the product itself and
+  becomes "the first strong tool" inside a broader positioning - *"a
+  personal insight system that structures thinking at life's important
+  thresholds"* - with dream analysis, symbol analysis, a journal, a
+  decision log, and weekly pattern reports as later modules built on the
+  same underlying structure. The subscription pitch shifts from "read
+  tarot every day" to "a daily thinking space, a weekly insight, and a
+  real tarot reading exactly when you need one."
+
+**Why this isn't an accepted ADR yet:** it's a product-direction proposal,
+not yet an architecture decision - there's no schema, no data model, no
+sprint plan for Daily/Weekly behind it. Sprint 6 (Live Evaluation &
+Product Readiness) is deliberately not being expanded to include it
+(Product Owner's explicit choice this session) - the reasoning being
+that committing engineering time to new product surfaces before Sprint
+6's own evaluation baseline exists would risk scope creep during exactly
+the sprint meant to prove the *existing* tarot flow is solid enough to
+build anything else on top of.
+
+**Consequences if/when accepted:** would likely require its own
+proposal-only plan (schemas for daily/weekly content, a new record type
+distinct from the Sprint 5 knowledge-authoring pattern, UI surfaces
+beyond the current single-reading flow) before any implementation -
+same discipline as every schema/architecture-level sprint so far.
+
+**Revisit:** After Sprint 6 closes, when there's an actual evaluation
+baseline to sequence this against - or sooner, at the Product Owner's
+discretion.
+
+---
+
 ## Future Decision Points
 
 These are named topics likely to need a real decision later - **not

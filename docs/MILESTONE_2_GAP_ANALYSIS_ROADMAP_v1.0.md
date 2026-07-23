@@ -5,6 +5,16 @@
 **Yazan:** Validation Lead
 **Durum:** ✅ **MILESTONE 2 KAPANDI** — PASS WITH DOCUMENTED DEBT. Sprint 1/2/3/4 hepsi kapandı. Sprint 5 (Knowledge Authoring Pipeline & Source Governance, Milestone 3'ün ilk sprinti) de PASS WITH DOCUMENTED DEBT ile kapandı — detay: `validation/reports/SPRINT-5-KNOWLEDGE-AUTHORING-PIPELINE/CLOSURE_EVIDENCE_REPORT.md`. Geliştirme artık `feat/insight-engine-milestone-3` branch'inde devam ediyor (ADR-013). Sonraki sprint **Persistence & Reading History değil** — Product Owner'ın Sprint 5 kapanışı sonrası kararıyla **Sprint 6 = Live Evaluation & Product Readiness**; Persistence Sprint 7'ye ertelendi.
 
+**Not (2026-07-23, kapsam değişikliği değil):** Product Owner, ürünün
+uzun vadeli konumlandırması için bir yön önerisi paylaştı: günlük tarot
+yerine Daily (hafif katman) / Weekly (tema özeti) / Threshold (asıl tarot
+açılımı, yalnız önemli hayat eşiklerinde) kullanım modeli, ürünün "Insight
+Engine" olarak yeniden konumlandırılması. Bu, `docs/DECISION_LOG.md`'de
+**"Draft Decision — Proposed, Not Yet Accepted: Insight Cadence Model"**
+olarak tam detayıyla kayda geçirildi — henüz kabul edilmiş bir ADR değil,
+Sprint 6'nın kapsamını değiştirmiyor. Sprint 6 kapanışından sonra,
+gerçek bir evaluation baseline'a karşı sıralanacak.
+
 ---
 
 ## Revizyon Notu (v1.0 → v1.1)
@@ -275,12 +285,13 @@ sözleşmesi kilitlendi, çünkü UI/persistence bu sözleşmeye bağımlı olac
 
 ---
 
-**Versiyon:** 1.6
+**Versiyon:** 1.7
 **Sonraki İnceleme:** Sprint 6 (Live Evaluation & Product Readiness) kapanışında
-**İlişkili Dokümanlar:** `docs/MVP_PLAN_REVISED.md` (Aşama 5-10 detayları), `docs/10-MVP_EXIT_CRITERIA.md`, `docs/07-TECHNICAL_CONSTITUTION.md` (ADR-003 mimari), `docs/DECISION_LOG.md` (ADR-002, ADR-003, ADR-009, ADR-011, ADR-012, ADR-013), `docs/SECURITY_DEBT_LOG.md`, `docs/UX_DEBT_LOG.md` (kapandı — bkz. Sprint 4), `AŞAMA_2_*` (wireframe/persona/funnel spec'leri), `validation/RED_TEAM_AUDIT_CHARTER_v1.0.md` (Milestone 1 paralel süreç), `validation/reports/SPRINT-2-FOUNDATION-CORE/BUILD_EVIDENCE_REPORT.md`, `docs/SPRINT_3_KNOWLEDGE_CONTRACT_API_PLAN.md`, `validation/reports/SPRINT-3-KNOWLEDGE-CONTRACT-API/BUILD_EVIDENCE_REPORT.md`, `docs/SPRINT_4_UI_DESIGN_CONTRACT_PLAN.md`, `validation/reports/SPRINT-4-UI-DESIGN-CONTRACT/BUILD_EVIDENCE_REPORT.md` (Sprint 4 plan + kapanış kanıtı), `docs/SPRINT_5_KNOWLEDGE_AUTHORING_PIPELINE_PLAN.md`, `validation/reports/SPRINT-5-KNOWLEDGE-AUTHORING-PIPELINE/{BUILD_EVIDENCE_REPORT.md,HUMAN_LOCK_REVIEW_PACKET.md,CLOSURE_EVIDENCE_REPORT.md}` (Sprint 5 plan + kapanış kanıtı)
+**İlişkili Dokümanlar:** `docs/MVP_PLAN_REVISED.md` (Aşama 5-10 detayları), `docs/10-MVP_EXIT_CRITERIA.md`, `docs/07-TECHNICAL_CONSTITUTION.md` (ADR-003 mimari), `docs/DECISION_LOG.md` (ADR-002, ADR-003, ADR-009, ADR-011, ADR-012, ADR-013, Draft Decision: Insight Cadence Model), `docs/SECURITY_DEBT_LOG.md`, `docs/UX_DEBT_LOG.md` (kapandı — bkz. Sprint 4), `AŞAMA_2_*` (wireframe/persona/funnel spec'leri), `validation/RED_TEAM_AUDIT_CHARTER_v1.0.md` (Milestone 1 paralel süreç), `validation/reports/SPRINT-2-FOUNDATION-CORE/BUILD_EVIDENCE_REPORT.md`, `docs/SPRINT_3_KNOWLEDGE_CONTRACT_API_PLAN.md`, `validation/reports/SPRINT-3-KNOWLEDGE-CONTRACT-API/BUILD_EVIDENCE_REPORT.md`, `docs/SPRINT_4_UI_DESIGN_CONTRACT_PLAN.md`, `validation/reports/SPRINT-4-UI-DESIGN-CONTRACT/BUILD_EVIDENCE_REPORT.md` (Sprint 4 plan + kapanış kanıtı), `docs/SPRINT_5_KNOWLEDGE_AUTHORING_PIPELINE_PLAN.md`, `validation/reports/SPRINT-5-KNOWLEDGE-AUTHORING-PIPELINE/{BUILD_EVIDENCE_REPORT.md,HUMAN_LOCK_REVIEW_PACKET.md,CLOSURE_EVIDENCE_REPORT.md}` (Sprint 5 plan + kapanış kanıtı), `docs/SPRINT_6_LIVE_EVALUATION_PRODUCT_READINESS_PLAN.md` (Sprint 6 plan, proposal)
 
 ### Changelog
 
+- **v1.7 (2026-07-23):** Product Owner'ın Insight Cadence Model yön önerisi (Daily/Weekly/Threshold kullanım modeli, "Insight Engine" konumlandırması) `docs/DECISION_LOG.md`'ye Draft Decision olarak kaydedildi - kabul edilmiş bir ADR değil, Sprint 6 kapsamını değiştirmiyor. Sprint 6 plan dokümanı (proposal) eklendi.
 - **v1.6 (2026-07-23):** Product Owner Sprint 5 kapanışına ONAY verdi ve sıradaki sprinti yeniden tanımladı: **Sprint 6 = Live Evaluation & Product Readiness** (gerçek Anthropic API entegrasyon kapısı, evaluation dataset, latency/fallback/schema-failure/red-line-rejection oranları, narration kalite rubric'i, token/maliyet ölçümü, prompt version karşılaştırması, insan değerlendirme formu, production asset licensing envanteri, kapalı beta hazırlığı). Persistence & Reading History Sprint 7'ye ertelendi.
 - **v1.5 (2026-07-23):** Sprint 5 (Knowledge Authoring Pipeline & Source Governance) **PASS WITH DOCUMENTED DEBT ile kapandı** — 6 pilot kayıttan 3'ü insan kararıyla tek tek kilitlendi, 3'ü revizyonda kaldı (bkz. CLOSURE_EVIDENCE_REPORT.md). ADR-013 ile geliştirme `feat/insight-engine-milestone-3` branch'ine taşındı.
 - **v1.4 (2026-07-23):** Sprint 4 kapanış durumu işlendi, **Milestone 2 resmen kapatıldı** (PASS WITH DOCUMENTED DEBT, bkz. Bölüm 9-10). UX-DEBT-001 kapandı. Sonraki sprint: Knowledge Authoring Pipeline & Source Governance.
