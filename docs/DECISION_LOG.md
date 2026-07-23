@@ -423,17 +423,76 @@ designed (Milestone 3, unchanged from ADR-011).
 
 ---
 
+### ADR-013: Development branch renamed by succession, not `git branch -m`; legacy `claude/tarot-ai-mvp-setup-h2fyf7` declared deprecated
+
+**Status:** Accepted
+
+**Context:** `feat/major-arcana-asset-migration` was the branch name when
+asset migration was the active task. Five sprints of ADR-driven,
+Sprint/Milestone-tracked product development (Sprints 1-5, ADR-001
+through ADR-012, this ADR) have since landed on that same branch - asset
+migration is long since superseded, and the name no longer describes
+what the branch is. Separately, a second branch,
+`claude/tarot-ai-mvp-setup-h2fyf7`, exists in the remote: a pre-ADR,
+monorepo-oriented "AŞAMA" (stage) plan lineage that shares no commit
+history with the ADR/Sprint track and directly contradicts ADR-003
+(single Next.js app, not a monorepo). It was mistakenly named as the
+target branch in at least one automated task-runner configuration
+during Sprint 5, which could have caused a future session to develop
+against the wrong, architecturally stale lineage had it not been caught.
+
+**Options considered:**
+1. `git branch -m` to rename in place - rewrites what the remote tracks
+   under the old name; anything (CI config, task templates, a
+   collaborator's local clone) still pointing at the old name silently
+   breaks or diverges.
+2. Keep developing on the misnamed branch indefinitely - the name/content
+   mismatch only grows, and it does nothing about the legacy branch risk.
+3. Create a new branch from the current tip, without rewriting history;
+   freeze the old name as a historical reference; explicitly document the
+   unrelated legacy branch as deprecated so no future session mistakes it
+   for a valid target.
+
+**Decision:** Option 3.
+- New active development branch: **`feat/insight-engine-milestone-3`**,
+  branched from `feat/major-arcana-asset-migration` at commit `51093b6`
+  (Sprint 5 evidence report), no history rewritten.
+- `feat/major-arcana-asset-migration` is **retained, not deleted** - a
+  frozen reference for Sprints 1-5's history. It receives no further
+  commits.
+- `claude/tarot-ai-mvp-setup-h2fyf7` is **DEPRECATED / ABANDONED**,
+  effective this ADR. It must not be used as a base or target for any
+  future work - repo automation, task templates, or session configs that
+  still name it are stale and should be corrected to the current active
+  branch. Reviving it would require an explicit, separate Product Owner
+  decision, not an assumption by a future session.
+
+**Consequences:**
+- All Sprint 5+ work (Milestone 3 onward) proceeds on
+  `feat/insight-engine-milestone-3`. A future rename-by-succession should
+  follow the same pattern: new branch, old one frozen, decision recorded
+  here.
+- Any tooling/config still pointing at either
+  `feat/major-arcana-asset-migration` (as a push target) or
+  `claude/tarot-ai-mvp-setup-h2fyf7` (as anything) should be updated when
+  next touched; not proactively hunted down as its own task.
+
+**Revisit:** When Milestone 3 closes and the next milestone begins - same
+succession pattern, new ADR entry.
+
+---
+
 ## Future Decision Points
 
 These decisions will likely be needed post-MVP:
 
-- **ADR-013:** 56 Küçük Arkana expansion strategy (when?)
-- **ADR-014:** Reversed cards inclusion (MVP+ or later?)
-- **ADR-015:** Multi-language support (roadmap?)
-- **ADR-016:** Other modules (Dream Analysis, Journaling — priority?)
-- **ADR-017:** Real payment integration (post-MVP test?)
-- **ADR-018:** Backend separation (if API load warrants?)
-- **ADR-019:** AI model upgrade path (Claude → GPT-4.5 parity?)
+- **ADR-014:** 56 Küçük Arkana expansion strategy (when?)
+- **ADR-015:** Reversed cards inclusion (MVP+ or later?)
+- **ADR-016:** Multi-language support (roadmap?)
+- **ADR-017:** Other modules (Dream Analysis, Journaling — priority?)
+- **ADR-018:** Real payment integration (post-MVP test?)
+- **ADR-019:** Backend separation (if API load warrants?)
+- **ADR-020:** AI model upgrade path (Claude → GPT-4.5 parity?)
 
 ---
 
@@ -459,7 +518,7 @@ git commit -m "ADR-013: [Decision Title] - [reason in 1 line]"
 
 ## Current Status
 
-**Total Decisions Recorded:** 12
+**Total Decisions Recorded:** 13
 **Pending Review:** 0
 **Rejected (documented for learning):** 0
 
