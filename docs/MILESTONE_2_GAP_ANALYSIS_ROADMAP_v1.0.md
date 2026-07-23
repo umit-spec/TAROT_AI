@@ -3,7 +3,7 @@
 **Tarih:** 2026-07-22
 **Kapsam:** Milestone 1 sonrası tüm geliştirme yolu
 **Yazan:** Validation Lead
-**Durum:** Sprint 1 ✅ kapandı, Sprint 2 ✅ kapandı (PASS WITH DOCUMENTED DEBT) — Milestone 2 checkpoint review bekliyor, sonra Sprint 3 GO kararı
+**Durum:** Sprint 1 ✅, Sprint 2 ✅, Sprint 3 ✅ kapandı (hepsi PASS WITH DOCUMENTED DEBT) — Milestone 2 checkpoint review bekliyor (UI / Persistence / Knowledge authoring sıralaması kararı)
 
 ---
 
@@ -225,14 +225,24 @@ mock-HTTP ile doğrulanması yapıldı — ADR-011'in gerektirdiği sıra buydu.
 - ❌ Landing → Topic → Questions → Reading Display UI akışı — **yapılmadı, Sprint 3'e ertelendi**
 - **Çıkış kanıtı:** 49/49 test, lint/typecheck/build temiz — detay: yukarıdaki BUILD_EVIDENCE_REPORT.md
 
-### Sprint 3: Deneyim Katmanı + Guest Save
-- Card selection/shuffle animasyonu + Design System bileşenleri
-- Guest session + save reading (auth olmadan, session-based)
-- Premium modal (statik, tracking'siz olabilir)
-- Analytics event'lerin en kritik 4 tanesi (funnel start, first insight, save, premium view)
-- **Çıkış kanıtı:** 5 gerçek kullanıcıyla informal test, Time-to-First-Insight ölçümü
+### Sprint 3: Knowledge Contract & Product API ✅ KAPANDI
 
-**Not:** Auth (magic link/Google OAuth), tam analytics pipeline ve 100-kullanıcı testi bilinçli olarak Milestone 2'nin *dışına* değil, *sonuna* konuldu — bunlar olmadan da "çalışan bir ürün" iddiası test edilebilir.
+**Durum:** PASS WITH DOCUMENTED DEBT. Kanıt: `validation/reports/SPRINT-3-KNOWLEDGE-CONTRACT-API/BUILD_EVIDENCE_REPORT.md`.
+
+Bu, orijinal planda "Sprint 3: Deneyim Katmanı + Guest Save" olarak
+tanımlanan kapsamın **tamamen yerine geçti** — Product Owner'ın Milestone 2
+checkpoint kararıyla (bkz. ADR-012), UI/deneyim katmanına geçmeden önce
+Reading Engine ile Provider arasına bir Knowledge Layer + tek bir ürün API
+sözleşmesi kilitlendi, çünkü UI/persistence bu sözleşmeye bağımlı olacaktı.
+
+- ✅ Knowledge Contract şemaları (`PairRelation`, `PositionRule`, `DomainModifier`, `PersonaModifier`, `SafetyConstraint`, `KnowledgeBundle`, `KnowledgeContext`)
+- ✅ `KnowledgeProvider` arayüzü + `LocalJsonKnowledgeProvider` (proof-of-concept veri, kasıtlı eksik kapsam — `partial` durumu gerçekten test edilebilsin diye)
+- ✅ Tek ürün endpoint'i: `POST /api/readings` — crisis gate route seviyesinde zorlanıyor, IntakeContext her zaman sunucuda üretiliyor
+- ✅ Functional UI shell (tasarım yok, sadece soru→3 kart→yorum→hata/fallback/crisis durumları çalışıyor)
+- ❌ Card selection/shuffle animasyonu, Design System, guest session/save, premium modal, analytics — **hiçbiri yapılmadı, sonraki Milestone 2 checkpoint'te yeniden sıralanacak**
+- **Çıkış kanıtı:** 75/75 test, lint/typecheck/build temiz, 5 farklı pipeline sonucu (normal/partial/fallback/narration-fallback/crisis) ayrı ayrı doğrulandı — detay: yukarıdaki BUILD_EVIDENCE_REPORT.md
+
+**Not:** Auth (magic link/Google OAuth), guest session/save, tam analytics pipeline, premium UI ve 100-kullanıcı testi hâlâ Milestone 2'nin *dışına* değil *sonuna* konulu duruyor — ama bunların hangi sırayla geleceği (UI mi, persistence mi, knowledge authoring mi önce) artık bir sonraki Milestone 2 checkpoint review'da karara bağlanacak, otomatik olarak "Sprint 4" değil.
 
 ---
 
@@ -243,8 +253,8 @@ Milestone 2 şu ana kadar tamamlandı sayılamaz:
 - [x] ADR-003 uyumlu, `src/` altında derlenen, çalışan tek bir Next.js app var (monorepo yok) — Sprint 1
 - [x] En az 3 kart için deterministic reading engine çıktısı Zod şemasına uyuyor — Sprint 1
 - [ ] Claude API entegrasyonu canlı bir okuma üretiyor VE red-line validator hiçbir yasaklı ifadeye izin vermiyor — **kısmen**: red-line validator ✅ (Sprint 2), Claude entegrasyonu mock-HTTP ile doğrulandı ✅ ama canlı çağrı ❌ (ayrı `integration:anthropic` kapısı bekliyor)
-- [ ] Bir kullanıcı landing'den reading display'e tarayıcıda gerçekten gidebiliyor (mock değil)
-- [ ] Time-to-First-Insight gerçekten ölçülüyor (hedef ≤90 sn, mevcut sonuç ne olursa olsun raporlanmalı)
+- [ ] Bir kullanıcı landing'den reading display'e tarayıcıda gerçekten gidebiliyor (mock değil) — **kısmen**: functional shell ✅ (Sprint 3, soru→3 kart→yorum→hata/fallback/crisis çalışıyor, gerçek `/api/readings` çağrısıyla), ama tasarım kilitlenmedi ve narration hâlâ MockProvider fallback'inde (API key yok)
+- [ ] Time-to-First-Insight gerçekten ölçülüyor (hedef ≤90 sn, mevcut sonuç ne olursa olsun raporlanmalı) — henüz yok, UI tasarım kararına bağlı
 - [ ] En az 5 gerçek kullanıcı (persona başına 1) informal test yapmış ve geri bildirim toplanmış
 - [ ] Guest okuma kaydedilip geri çağrılabiliyor
 - [ ] Kullanıcının sorduğu soruya ("Kullanıcı ilk 90 saniyede neden bu farklı diyecek?") somut, ölçülmüş bir cevap var — varsayım değil
@@ -253,12 +263,13 @@ Milestone 2 şu ana kadar tamamlandı sayılamaz:
 
 ---
 
-**Versiyon:** 1.2
-**Sonraki İnceleme:** Sprint 3 GO kararından önce, Milestone 2 checkpoint review
-**İlişkili Dokümanlar:** `docs/MVP_PLAN_REVISED.md` (Aşama 5-10 detayları), `docs/10-MVP_EXIT_CRITERIA.md`, `docs/07-TECHNICAL_CONSTITUTION.md` (ADR-003 mimari), `docs/DECISION_LOG.md` (ADR-002, ADR-003, ADR-009, ADR-011), `docs/SECURITY_DEBT_LOG.md`, `docs/UX_DEBT_LOG.md`, `AŞAMA_2_*` (wireframe/persona/funnel spec'leri), `validation/RED_TEAM_AUDIT_CHARTER_v1.0.md` (Milestone 1 paralel süreç), `validation/reports/SPRINT-2-FOUNDATION-CORE/BUILD_EVIDENCE_REPORT.md` (Sprint 2 kapanış kanıtı)
+**Versiyon:** 1.3
+**Sonraki İnceleme:** Milestone 2 checkpoint review (UI Design Contract / Persistence / Knowledge authoring pipeline sıralama kararı)
+**İlişkili Dokümanlar:** `docs/MVP_PLAN_REVISED.md` (Aşama 5-10 detayları), `docs/10-MVP_EXIT_CRITERIA.md`, `docs/07-TECHNICAL_CONSTITUTION.md` (ADR-003 mimari), `docs/DECISION_LOG.md` (ADR-002, ADR-003, ADR-009, ADR-011, ADR-012), `docs/SECURITY_DEBT_LOG.md`, `docs/UX_DEBT_LOG.md`, `AŞAMA_2_*` (wireframe/persona/funnel spec'leri), `validation/RED_TEAM_AUDIT_CHARTER_v1.0.md` (Milestone 1 paralel süreç), `validation/reports/SPRINT-2-FOUNDATION-CORE/BUILD_EVIDENCE_REPORT.md`, `docs/SPRINT_3_KNOWLEDGE_CONTRACT_API_PLAN.md`, `validation/reports/SPRINT-3-KNOWLEDGE-CONTRACT-API/BUILD_EVIDENCE_REPORT.md` (Sprint 3 plan + kapanış kanıtı)
 
 ### Changelog
 
+- **v1.3 (2026-07-23):** Sprint 3 kapanış durumu işlendi (bkz. Bölüm 9) — orijinal "Deneyim Katmanı + Guest Save" planının yerine Knowledge Contract & Product API geçti (ADR-012 kararıyla). Milestone 2 başarı kriterlerinden 1 madde kısmi olarak güncellendi.
 - **v1.2 (2026-07-22):** Sprint 1 ve Sprint 2 kapanış durumu işlendi (bkz. Bölüm 9). Milestone 2 başarı kriterleri listesindeki tamamlanan 2 madde işaretlendi.
 - **v1.1 (2026-07-22):** Monorepo ve reversed-kart varsayım hataları düzeltildi (bkz. Revizyon Notu).
 - **v1.0 (2026-07-22):** İlk gap analizi ve yol haritası.
