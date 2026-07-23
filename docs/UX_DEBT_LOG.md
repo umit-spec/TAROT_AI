@@ -9,9 +9,9 @@ someone stops noticing the mismatch.
 ## UX-DEBT-001: Map legacy wireframe personas to session-scoped Intake personas
 
 **Opened:** 2026-07-22
-**Status:** Open, not blocking
-**Review date:** Before any screen from `AŞAMA_2_WIREFRAME_SPEC.md` /
-`AŞAMA_2_PERSONA_WIREFRAME_PATHS.md` is actually built (Sprint 3+)
+**Status:** ✅ CLOSED (2026-07-23, Sprint 4)
+**Review date:** ~~Before any screen from `AŞAMA_2_WIREFRAME_SPEC.md` /
+`AŞAMA_2_PERSONA_WIREFRAME_PATHS.md` is actually built (Sprint 3+)~~ — superseded, see Resolution below
 
 ### Context
 
@@ -57,12 +57,25 @@ Before building any screen that varies copy by persona:
 
 ### Mitigation status
 
-Not started. Not blocking Sprint 2 (no persona-varying UI exists yet).
-Blocking before Sprint 3's Card Selection/Shuffle UI or any screen that
-renders persona-conditional copy.
+**Closed.** All 3 "what needs to happen" items delivered in Sprint 4:
+
+1. `src/lib/persona-mapping.ts` — explicit mapping table, all 5 wireframe
+   archetypes to Intake `Persona` values.
+2. The ambiguity flagged above (Curious Skeptic → `curious-explorer` or
+   `reflection-seeking`?) is resolved as a **two-axis case**, not a single
+   persona value: `reflection-seeking` + `spiritualPreference: psychological`.
+   The wireframe had conflated a persona axis with a symbolic-vs-psychological
+   framing axis that `IntakeContext` already keeps separate.
+3. `src/__tests__/unit/persona-mapping.test.ts` — 7 tests, including one
+   asserting every `Persona` value resolves to exactly one profile for
+   every `SpiritualPreference` value (the "no drift" guarantee this entry
+   asked for).
+
+Evidence: `validation/reports/SPRINT-4-UI-DESIGN-CONTRACT/BUILD_EVIDENCE_REPORT.md` §8.
 
 ### Review log
 
 | Date | Reviewer | Result |
 |---|---|---|
 | 2026-07-22 | Validation Lead | Opened, per explicit instruction when the Intake Engine's persona taxonomy was introduced. |
+| 2026-07-23 | Validation Lead | Closed — mapping table + Skeptic two-axis resolution + test suite delivered in Sprint 4 (`src/lib/persona-mapping.ts`). |
