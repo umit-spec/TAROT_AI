@@ -1,5 +1,22 @@
 # MVP Exit Criteria — Aşama 10 Pass/Fail Rubric
 
+> **DOCUMENT STATUS — TARGET STATE, NOT CURRENT STATE (labeled Sprint 0, 2026-07-23).**
+> This rubric describes the **launch-ready target** the MVP must eventually meet.
+> It is **not** a description of what exists today. As of the Phase 1 audit
+> (`INVESTOR_READY_MVP_GAP_ANALYSIS_v1.0.md`), large parts of the stack this
+> rubric assumes are **not built**: authentication (Auth.js/magic link/Google),
+> persistence (the ORM here is **Drizzle per ADR-009 — not Prisma**), Posthog
+> analytics (the MVP uses **first-party PostgreSQL event storage, no third-party
+> SDK**, per Phase 2 decision D5), Sentry, Vercel deployment, Resend email,
+> rate limiting, GDPR deletion, and any real-user metric (50–100 users,
+> helpfulness scores, retention). Retention target is **90 days** with
+> immediate user deletion (Phase 2 decision D4).
+>
+> The Phase 2 Execution Plan (`INVESTOR_READY_MVP_EXECUTION_PLAN_v1.0.md`) is
+> the authoritative path that closes these gaps sprint by sprint. Where this
+> rubric and the Phase 2 plan differ, **the Phase 2 plan and its ADRs win.**
+> Read every unchecked box below as *target*, not *done*.
+
 ## Definition: "Ready for 100 Users"
 
 The MVP is launch-ready when **ALL of the following are true.**

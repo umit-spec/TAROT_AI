@@ -482,14 +482,39 @@ succession pattern, new ADR entry.
 
 ---
 
-## Draft Decision — Proposed, Not Yet Accepted
+### ADR-014: Insight Cadence Model for MVP Validation
 
-### Insight Cadence Model: Daily / Weekly / Threshold usage tiers, product reframed as "Insight Engine"
+**Status:** Accepted (Product Owner, 2026-07-23, at Phase 2 approval)
 
-**Status:** Proposed by the Product Owner (2026-07-23) - **not accepted,
-no ADR number assigned.** Recorded here as direction, per the Product
-Owner's own instruction to log it without committing Sprint 6 (or any
-sprint) to build it yet.
+**What this ADR is and is not:** it accepts the Insight Cadence Model as an
+**MVP hypothesis and product constraint** — a direction to build toward and
+test — **not** as validated user behavior. No user has yet demonstrated they
+want Daily/Weekly/Threshold cadence; accepting this ADR commits the product's
+*shape and guardrails*, and the closed beta (Phase 2, S7) is where the
+hypothesis gets tested. If beta evidence contradicts it (G2 STOP/HOLD gate),
+this ADR is revisited, not defended.
+
+**Accepted model (the product constraint):**
+- **Daily** = lightweight reflection only — a daily intention, one reflection
+  question, a short journal prompt, a small callback to the previous reading.
+  **Not tarot.**
+- **Weekly** = the week's theme, recurring emotional patterns, decision
+  pressure points, a short insight summary.
+- **Threshold** = the actual deep three-card tarot-guided reflection, reserved
+  for meaningful events a user names explicitly (job change, relationship
+  decision, relocation, separation, new beginning, serious uncertainty). The
+  user consults the product *at* a decision, not to generate a new answer
+  every day.
+- **Product framing:** tarot is the first strong module inside "a personal
+  insight system that structures thinking at life's important thresholds,"
+  not the whole product.
+
+**Hard behavioral guardrails (binding on all future product work):**
+- Do **not** encourage compulsive daily divination.
+- Do **not** encourage or enable repeated readings of the same question.
+- Threshold tarot is gated to named meaningful events, not always-on.
+- These extend, not replace, ADR-002 (upright-only, no certain prophecy) and
+  ADR-007 (metered, no addiction loop).
 
 **Context:** The current product framing (and every prior sprint's
 implicit model) is a single-mode tarot reading, available whenever a
@@ -525,25 +550,28 @@ regardless of how careful the narration language is.
   tarot every day" to "a daily thinking space, a weekly insight, and a
   real tarot reading exactly when you need one."
 
-**Why this isn't an accepted ADR yet:** it's a product-direction proposal,
-not yet an architecture decision - there's no schema, no data model, no
-sprint plan for Daily/Weekly behind it. Sprint 6 (Live Evaluation &
-Product Readiness) is deliberately not being expanded to include it
-(Product Owner's explicit choice this session) - the reasoning being
-that committing engineering time to new product surfaces before Sprint
-6's own evaluation baseline exists would risk scope creep during exactly
-the sprint meant to prove the *existing* tarot flow is solid enough to
-build anything else on top of.
+**Scope of this acceptance (architecture deferred):** this ADR accepts the
+*constraint and framing* above. It does **not** yet specify schemas, data
+models, or UI for Daily/Weekly — those remain future work, each requiring its
+own proposal-only plan (a new record type distinct from the Sprint 5
+knowledge-authoring pattern, UI surfaces beyond the current single-reading
+flow) before any implementation, same discipline as every schema/
+architecture-level sprint so far. The MVP scope (Phase 2) builds only the
+Threshold three-card loop; Daily/Weekly are positioning the beta may probe
+but the MVP does not build.
 
-**Consequences if/when accepted:** would likely require its own
-proposal-only plan (schemas for daily/weekly content, a new record type
-distinct from the Sprint 5 knowledge-authoring pattern, UI surfaces
-beyond the current single-reading flow) before any implementation -
-same discipline as every schema/architecture-level sprint so far.
+**Consequences:**
+- Every future product surface must honor the behavioral guardrails above;
+  a design that nudges toward daily/repeated tarot violates this ADR.
+- Monetization framing (ADR-007, and Phase 2 S8) shifts from "read tarot
+  every day" toward "a daily thinking space, a weekly insight, and a real
+  tarot reading exactly when you need one" — but no pricing is locked before
+  user evidence (Phase 2 S8).
+- The closed beta (S7) is the designated test of this hypothesis; the G2
+  gate is where it is confirmed, revised, or repositioned.
 
-**Revisit:** After Sprint 6 closes, when there's an actual evaluation
-baseline to sequence this against - or sooner, at the Product Owner's
-discretion.
+**Revisit:** At the Phase 2 G2 (post-beta) gate, when real user cadence
+preference evidence exists — or sooner at the Product Owner's discretion.
 
 ---
 
@@ -590,11 +618,14 @@ git commit -m "ADR-013: [Decision Title] - [reason in 1 line]"
 
 ## Current Status
 
-**Total Decisions Recorded:** 13
+**Total Decisions Recorded:** 14
 **Pending Review:** 0
 **Rejected (documented for learning):** 0
 
-All Aşama 1 founding decisions plus ADR-011 (Sprint 2 knowledge architecture) and ADR-012 (Sprint 3 Knowledge Layer boundary) are documented and signed off.
+All Aşama 1 founding decisions plus ADR-011 (Sprint 2 knowledge architecture),
+ADR-012 (Sprint 3 Knowledge Layer boundary), ADR-013 (branch succession) and
+ADR-014 (Insight Cadence Model for MVP Validation) are documented and signed
+off.
 
 ---
 

@@ -24,7 +24,7 @@ Product Owner incelemesinde v1.0'daki mimari varsayımı doğrulama isteği geld
 1. **Monorepo varsayımı yanlıştı.** v1.0, `packages/web`/`packages/api`/`packages/cards`/`packages/shared` öneriyordu. Ama `docs/07-TECHNICAL_CONSTITUTION.md:15` ve `docs/DECISION_LOG.md` ADR-003 (Accepted) açıkça **"no monorepo complexity, single Next.js app"** diyor. Kök `package.json`'daki `workspaces: ["packages/*"]` ve `turbo.json` bu kilitli karara aykırı, erken (muhtemelen Aşama 1 öncesi) bir taslaktan kalmıştı. **Düzeltme:** `package.json`'dan workspace tanımı kaldırıldı, `turbo.json` silindi. Mimari artık ADR-003'e sadık: tek Next.js 16 app, `src/` ağacı (Technical Constitution'daki Code Organization bölümüne göre).
 2. **Reversed kart varsayımı yanlıştı.** Sprint 1 demo örneğinde `"orientation": "reversed"` kullanılmıştı. Ama ADR-002 (Accepted) **"Reversed Cards Excluded from MVP"** diyor. **Düzeltme:** Sprint 1 çıktısı artık her zaman `"orientation": "upright"` döner; alan şemada durur (post-MVP için) ama MVP'de sabit değer alır.
 
-Ayrıca not edilen ama bu sürümde henüz aksiyon alınmayan bir üçüncü tutarsızlık: `docs/MVP_PLAN_REVISED.md` Aşama 9, ORM olarak Prisma öneriyor; ADR-009 ise Drizzle'ı kilitlemiş. Bu, Sprint 2/3'te auth+persistence çalışması başlamadan önce çözülmeli, Sprint 1'i bloklamıyor.
+Ayrıca not edilen üçüncü tutarsızlık: `docs/MVP_PLAN_REVISED.md` Aşama 9, ORM olarak Prisma öneriyor; ADR-009 ise Drizzle'ı kilitlemiş. **ÇÖZÜLDÜ (Sprint 0, 2026-07-23):** Product Owner Phase 2 kararı D2 ile Drizzle yetkili ilan edildi; tüm Prisma önerileri ADR-009 tarafından SUPERSEDED olarak işaretlendi (Prisma eklenmeyecek). Persistence, Phase 2 Sprint 4'te Neon PostgreSQL + Drizzle üzerine tasarlanacak.
 
 Bu bölümün geri kalanı bu iki düzeltmeyi yansıtacak şekilde güncellenmiştir.
 
@@ -153,7 +153,7 @@ Bu akış zaten `AŞAMA_2_WIREFRAME_SPEC.md`'de saniye saniye bütçelenmiş (to
 | Lisans/provenance incelemesi (Gate 8) | Milestone 1 | Hukuki inceleme bekliyor — production launch'ı bloklar |
 | ~~`packages/*` iskeleti `package.json`'da tanımlı ama ADR-003'e aykırıydı~~ | Aşama 1 | ✅ Çözüldü (v1.1): workspace tanımı + `turbo.json` kaldırıldı |
 | Test suite (`tests/assets.test.js`) Jest sözdizimiyle yazıldı, ama repo'da ne Jest ne Vitest kurulu | Milestone 1 | Sprint 1 P0: Vitest kur, testi taşı, çalıştır |
-| `MVP_PLAN_REVISED.md` Aşama 9 Prisma öneriyor, ADR-009 Drizzle'ı kilitlemiş | Aşama 9 spec | Sprint 2/3'te auth+persistence başlamadan önce çözülmeli; Sprint 1'i bloklamıyor |
+| ~~`MVP_PLAN_REVISED.md` Aşama 9 Prisma öneriyor, ADR-009 Drizzle'ı kilitlemiş~~ | Aşama 9 spec | ✅ Çözüldü (Sprint 0, 2026-07-23): D2 ile Drizzle yetkili; Prisma önerileri SUPERSEDED, Prisma eklenmeyecek |
 
 ---
 

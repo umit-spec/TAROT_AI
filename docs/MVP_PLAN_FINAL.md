@@ -887,9 +887,16 @@ Hiç giriş yapmadan okuma al. Sonra kaydol. Premium'a geçmek istersen bak.
 - Gerçek ödeme (MVP'nin ötesi)
 - Email doğrulama (magic link'te basit email gönder)
 
+> **SUPERSEDED (Sprint 0, 2026-07-23):** The Prisma recommendations in this
+> section are **SUPERSEDED by ADR-009 (PostgreSQL + Drizzle, Accepted)** and
+> reaffirmed by the Product Owner's Phase 2 decision D2 (Drizzle authoritative;
+> Prisma must not be introduced). Read `schema.prisma` below as a Drizzle
+> schema (`src/db/schema.ts`). Persistence is designed in Phase 2 Sprint 4
+> against Neon PostgreSQL + Drizzle, not this section's stack.
+
 **Teknik Karar:**
 - Session: Auth.js (NextAuth v5)
-- Magic link: Prisma + Resend (email)
+- Magic link: ~~Prisma~~ **Drizzle (ADR-009)** + Resend (email)
 - Google OAuth: Auth.js + Google Console
 - Reading cache: Database (readings table), guest okumalar sonra silinebilir
 - Premium modal: Plain text fiyat, link to landing (Stripe dashboard'a değil)
@@ -910,7 +917,7 @@ src/components/
   - PremiumModal.tsx
 
 src/db/
-  - schema.prisma (users, readings tables)
+  - schema.ts (Drizzle schema — SUPERSEDES schema.prisma per ADR-009)
   - seed.ts
 
 src/actions/
