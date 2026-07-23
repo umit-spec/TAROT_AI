@@ -4,6 +4,8 @@ import path from 'path';
 import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 import {
   KnowledgeRecordSchema,
+  SourceRightsSchema,
+  SourceSchema,
   type KnowledgeRecord,
   type Lifecycle,
 } from '../../types/knowledge-authoring';
@@ -155,6 +157,27 @@ describe('KnowledgeRecordSchema - lifecycle governance (Sprint 5 test matrix #1-
   test('reviewerId set to an AI actor id is rejected even at reviewed status', () => {
     const record = basePairRecord({ lifecycle: { status: 'reviewed', reviewerId: 'notebooklm', reviewedAt: '2026-07-02T09:00:00Z' } });
     expect(KnowledgeRecordSchema.safeParse(record).success).toBe(false);
+  });
+});
+
+describe('Source rights metadata (lineage-only source registration)', () => {
+  test('rights block is optional - existing sources without it still validate', () => {
+    expect(SourceSchema.safeParse({ sourceId: 's', title: 't', type: 'classic-text' }).success).toBe(true);
+  });
+
+  test('a lineage-only rights block validates and defaults to no retrieval storage', () => {
+    const rights = {
+      rightsHolder: 'The Bill Store',
+      permissionStatus: 'unverified' as const,
+      permissionEvidence: null,
+      usageScope: 'abstract-principle-lineage-only',
+      allowsRetrievalStorage: false,
+    };
+    expect(SourceRightsSchema.safeParse(rights).success).toBe(true);
+    expect(
+      SourceSchema.safeParse({ sourceId: 'baslangic-tarot-rehberi-2025', title: 'x', type: 'classic-text', rights })
+        .success,
+    ).toBe(true);
   });
 });
 

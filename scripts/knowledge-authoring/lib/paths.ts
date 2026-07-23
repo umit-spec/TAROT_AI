@@ -18,13 +18,6 @@ export function samplesDir(): string {
   return path.join(authoringDir(), 'samples');
 }
 
-// Human-Governed Methodology Extraction: draft/reviewed lessons live here,
-// separate from `records/`. Lessons never hold source text - see
-// docs/HUMAN_GOVERNED_METHODOLOGY_EXTRACTION_PROPOSAL_v1.0.md.
-export function lessonsPath(): string {
-  return path.join(authoringDir(), 'lessons', 'methodologyLessons.json');
-}
-
 // Pilot build output only. `build.ts` must never write outside this
 // directory - promotion to the live bundle is promote.ts's job alone.
 export function pilotBuildDir(): string {

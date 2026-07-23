@@ -1,14 +1,12 @@
 import fs from 'fs';
 import {
   KnowledgeRecordSchema,
-  MethodologyLessonSchema,
   SourceRegistrySchema,
   type KnowledgeRecord,
-  type MethodologyLesson,
   type RecordType,
   type SourceRegistry,
 } from '../../../src/types/knowledge-authoring';
-import { lessonsPath, recordFilePath, sourcesPath } from './paths';
+import { recordFilePath, sourcesPath } from './paths';
 
 export class AuthoringValidationError extends Error {}
 
@@ -61,32 +59,6 @@ export function loadAllRecords(): Record<RecordType, KnowledgeRecord[]> {
     personaModifier: loadRecords('personaModifier'),
     safetyConstraint: loadRecords('safetyConstraint'),
   };
-}
-
-/**
- * Loads and validates every methodology lesson. Same "fail loud, name the
- * lesson" bar as loadRecords. Returns [] if the lessons file does not exist
- * yet (extraction not started), rather than throwing - lessons are an
- * optional, additive authoring surface.
- */
-export function loadMethodologyLessons(): MethodologyLesson[] {
-  const filePath = lessonsPath();
-  if (!fs.existsSync(filePath)) {
-    return [];
-  }
-  const raw = readJson(filePath);
-  if (!Array.isArray(raw)) {
-    throw new AuthoringValidationError(`${filePath} must contain a JSON array`);
-  }
-  return raw.map((entry, index) => {
-    const result = MethodologyLessonSchema.safeParse(entry);
-    if (!result.success) {
-      const lessonId =
-        typeof entry === 'object' && entry && 'lessonId' in entry ? String(entry.lessonId) : `#${index}`;
-      throw new AuthoringValidationError(`${filePath} lesson ${lessonId} failed validation: ${result.error.message}`);
-    }
-    return result.data;
-  });
 }
 
 export function saveRecords(recordType: RecordType, records: KnowledgeRecord[]): void {
