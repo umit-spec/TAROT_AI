@@ -3,7 +3,7 @@
 **Tarih:** 2026-07-22
 **Kapsam:** Milestone 1 sonrası tüm geliştirme yolu
 **Yazan:** Validation Lead
-**Durum:** ✅ **MILESTONE 2 KAPANDI** — PASS WITH DOCUMENTED DEBT. Sprint 1/2/3/4 hepsi kapandı. Sonraki: Sprint 5 — Knowledge Authoring Pipeline & Source Governance.
+**Durum:** ✅ **MILESTONE 2 KAPANDI** — PASS WITH DOCUMENTED DEBT. Sprint 1/2/3/4 hepsi kapandı. Sprint 5 (Knowledge Authoring Pipeline & Source Governance, Milestone 3'ün ilk sprinti) de PASS WITH DOCUMENTED DEBT ile kapandı — detay: `validation/reports/SPRINT-5-KNOWLEDGE-AUTHORING-PIPELINE/CLOSURE_EVIDENCE_REPORT.md`. Geliştirme artık `feat/insight-engine-milestone-3` branch'inde devam ediyor (ADR-013).
 
 ---
 
@@ -275,12 +275,13 @@ sözleşmesi kilitlendi, çünkü UI/persistence bu sözleşmeye bağımlı olac
 
 ---
 
-**Versiyon:** 1.4
-**Sonraki İnceleme:** Sprint 5 (Knowledge Authoring Pipeline & Source Governance) kapanışında
-**İlişkili Dokümanlar:** `docs/MVP_PLAN_REVISED.md` (Aşama 5-10 detayları), `docs/10-MVP_EXIT_CRITERIA.md`, `docs/07-TECHNICAL_CONSTITUTION.md` (ADR-003 mimari), `docs/DECISION_LOG.md` (ADR-002, ADR-003, ADR-009, ADR-011, ADR-012), `docs/SECURITY_DEBT_LOG.md`, `docs/UX_DEBT_LOG.md` (kapandı — bkz. Sprint 4), `AŞAMA_2_*` (wireframe/persona/funnel spec'leri), `validation/RED_TEAM_AUDIT_CHARTER_v1.0.md` (Milestone 1 paralel süreç), `validation/reports/SPRINT-2-FOUNDATION-CORE/BUILD_EVIDENCE_REPORT.md`, `docs/SPRINT_3_KNOWLEDGE_CONTRACT_API_PLAN.md`, `validation/reports/SPRINT-3-KNOWLEDGE-CONTRACT-API/BUILD_EVIDENCE_REPORT.md`, `docs/SPRINT_4_UI_DESIGN_CONTRACT_PLAN.md`, `validation/reports/SPRINT-4-UI-DESIGN-CONTRACT/BUILD_EVIDENCE_REPORT.md` (Sprint 4 plan + kapanış kanıtı)
+**Versiyon:** 1.5
+**Sonraki İnceleme:** Sprint 6 (Persistence & Reading History) kapanışında
+**İlişkili Dokümanlar:** `docs/MVP_PLAN_REVISED.md` (Aşama 5-10 detayları), `docs/10-MVP_EXIT_CRITERIA.md`, `docs/07-TECHNICAL_CONSTITUTION.md` (ADR-003 mimari), `docs/DECISION_LOG.md` (ADR-002, ADR-003, ADR-009, ADR-011, ADR-012, ADR-013), `docs/SECURITY_DEBT_LOG.md`, `docs/UX_DEBT_LOG.md` (kapandı — bkz. Sprint 4), `AŞAMA_2_*` (wireframe/persona/funnel spec'leri), `validation/RED_TEAM_AUDIT_CHARTER_v1.0.md` (Milestone 1 paralel süreç), `validation/reports/SPRINT-2-FOUNDATION-CORE/BUILD_EVIDENCE_REPORT.md`, `docs/SPRINT_3_KNOWLEDGE_CONTRACT_API_PLAN.md`, `validation/reports/SPRINT-3-KNOWLEDGE-CONTRACT-API/BUILD_EVIDENCE_REPORT.md`, `docs/SPRINT_4_UI_DESIGN_CONTRACT_PLAN.md`, `validation/reports/SPRINT-4-UI-DESIGN-CONTRACT/BUILD_EVIDENCE_REPORT.md` (Sprint 4 plan + kapanış kanıtı), `docs/SPRINT_5_KNOWLEDGE_AUTHORING_PIPELINE_PLAN.md`, `validation/reports/SPRINT-5-KNOWLEDGE-AUTHORING-PIPELINE/{BUILD_EVIDENCE_REPORT.md,HUMAN_LOCK_REVIEW_PACKET.md,CLOSURE_EVIDENCE_REPORT.md}` (Sprint 5 plan + kapanış kanıtı)
 
 ### Changelog
 
+- **v1.5 (2026-07-23):** Sprint 5 (Knowledge Authoring Pipeline & Source Governance) **PASS WITH DOCUMENTED DEBT ile kapandı** — 6 pilot kayıttan 3'ü insan kararıyla tek tek kilitlendi, 3'ü revizyonda kaldı (bkz. CLOSURE_EVIDENCE_REPORT.md). ADR-013 ile geliştirme `feat/insight-engine-milestone-3` branch'ine taşındı. Sonraki sprint: Persistence & Reading History (Sprint 6).
 - **v1.4 (2026-07-23):** Sprint 4 kapanış durumu işlendi, **Milestone 2 resmen kapatıldı** (PASS WITH DOCUMENTED DEBT, bkz. Bölüm 9-10). UX-DEBT-001 kapandı. Sonraki sprint: Knowledge Authoring Pipeline & Source Governance.
 - **v1.3 (2026-07-23):** Sprint 3 kapanış durumu işlendi (bkz. Bölüm 9) — orijinal "Deneyim Katmanı + Guest Save" planının yerine Knowledge Contract & Product API geçti (ADR-012 kararıyla). Milestone 2 başarı kriterlerinden 1 madde kısmi olarak güncellendi.
 - **v1.2 (2026-07-22):** Sprint 1 ve Sprint 2 kapanış durumu işlendi (bkz. Bölüm 9). Milestone 2 başarı kriterleri listesindeki tamamlanan 2 madde işaretlendi.

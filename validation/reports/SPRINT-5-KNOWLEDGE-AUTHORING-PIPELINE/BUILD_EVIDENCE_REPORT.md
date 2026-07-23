@@ -3,17 +3,12 @@
 **Date:** 2026-07-23
 **Branch:** `feat/major-arcana-asset-migration` (implementation history); active development continues on `feat/insight-engine-milestone-3` per ADR-013
 **Commit:** `7b2ab68` (implementation), following plan commit `3f67b61`
-**Status:** Sprint 5 — **NOT YET CLOSED.** Architecturally reviewed by the
-Product Owner and found "close to PASS but not closed" — the sprint's
-most critical real gate, the human lock decision, was correctly left
-open (§6). See
-`validation/reports/SPRINT-5-KNOWLEDGE-AUTHORING-PIPELINE/HUMAN_LOCK_REVIEW_PACKET.md`
-for the per-record review packet now awaiting the Product Owner's
-individual lock/revise/reject decisions. Sprint 5 closes as **PASS WITH
-DOCUMENTED DEBT** only after (1) those lock decisions are made one at a
-time via `transition.ts`, and (2) a pilot build from the resulting locked
-records is evidenced (checksum + runtime compatibility test) — a second,
-follow-up evidence report, not this one.
+**Status:** Superseded by `HUMAN_LOCK_REVIEW_PACKET.md` (per-record
+review) and `CLOSURE_EVIDENCE_REPORT.md` (final lock/revise decisions,
+pilot build evidence). **Sprint 5 closed: PASS WITH DOCUMENTED DEBT** —
+see `CLOSURE_EVIDENCE_REPORT.md` for the closing evidence. This document
+remains as the original implementation-evidence record; it is kept
+unedited below except for this status header.
 
 ---
 

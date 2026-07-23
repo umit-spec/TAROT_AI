@@ -496,7 +496,7 @@ describe('Sandbox-backed pipeline integration (build/promote/ingest, test matrix
 });
 
 describe("Sprint 5 pilot data (§7): real authoring-store content is schema-valid", () => {
-  test('all 6 pilot pairRelation records in the real authoring store validate and have reached at least red-teamed', () => {
+  test('all 6 pilot pairRelation records in the real authoring store validate', () => {
     const filePath = path.join(process.cwd(), 'data/knowledge-authoring/records/pairRelations.json');
     const raw = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
     expect(raw.length).toBeGreaterThanOrEqual(5);
@@ -504,8 +504,23 @@ describe("Sprint 5 pilot data (§7): real authoring-store content is schema-vali
     for (const entry of raw) {
       const result = KnowledgeRecordSchema.safeParse(entry);
       expect(result.success, `record ${entry.recordId} should validate`).toBe(true);
-      if (result.success) {
-        expect(['red-teamed', 'locked']).toContain(result.data.lifecycle.status);
+    }
+  });
+
+  test('exactly 3 pilot records are locked (Product Owner-approved) and 3 remain in draft (in revision, per HUMAN_LOCK_REVIEW_PACKET.md)', () => {
+    const filePath = path.join(process.cwd(), 'data/knowledge-authoring/records/pairRelations.json');
+    const raw = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    const statuses = raw.map((r: { lifecycle: { status: string } }) => r.lifecycle.status);
+    expect(statuses.filter((s: string) => s === 'locked')).toHaveLength(3);
+    expect(statuses.filter((s: string) => s === 'draft')).toHaveLength(3);
+  });
+
+  test('every locked record has lockAuthorityId "umit", never an AI actor', () => {
+    const filePath = path.join(process.cwd(), 'data/knowledge-authoring/records/pairRelations.json');
+    const raw = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    for (const entry of raw) {
+      if (entry.lifecycle.status === 'locked') {
+        expect(entry.lifecycle.lockAuthorityId).toBe('umit');
       }
     }
   });

@@ -1,6 +1,20 @@
 [
   {
     "recordId": "pair-02-high-priestess-09-hermit",
+    "sourceRefs": [
+      "waite-pictorial-key-1910",
+      "tarot-ai-original-synthesis-v1"
+    ],
+    "sourceVerifications": [],
+    "lifecycle": {
+      "status": "draft",
+      "authorId": "umit",
+      "draftOrigin": "ai-assisted",
+      "aiTool": "notebooklm",
+      "singleOperatorMode": true
+    },
+    "createdAt": "2026-07-21T09:00:00Z",
+    "updatedAt": "2026-07-23T11:00:00Z",
     "recordType": "pairRelation",
     "payload": {
       "previousCardId": "02-high-priestess",
@@ -13,31 +27,25 @@
         "İzolasyonu öneriyormuş gibi bir dil kullanmayın; bu içe dönüş, dışlanma değil tercih edilen bir mesafe."
       ],
       "sourceRefs": []
-    },
-    "sourceRefs": ["notebooklm-major-arcana-research-2026-07"],
-    "sourceVerifications": [
-      {
-        "sourceId": "notebooklm-major-arcana-research-2026-07",
-        "verifiedBy": "umit",
-        "verifiedAt": "2026-07-22T15:10:00Z"
-      }
+    }
+  },
+  {
+    "recordId": "pair-07-chariot-08-strength",
+    "sourceRefs": [
+      "waite-pictorial-key-1910",
+      "pollack-seventy-eight-degrees-1980",
+      "tarot-ai-original-synthesis-v1"
     ],
+    "sourceVerifications": [],
     "lifecycle": {
-      "status": "red-teamed",
+      "status": "draft",
       "authorId": "umit",
-      "reviewerId": "umit",
-      "reviewedAt": "2026-07-22T15:00:00Z",
-      "redTeamActorId": "claude",
-      "redTeamedAt": "2026-07-23T10:00:00Z",
       "draftOrigin": "ai-assisted",
       "aiTool": "notebooklm",
       "singleOperatorMode": true
     },
-    "createdAt": "2026-07-21T09:00:00Z",
-    "updatedAt": "2026-07-23T10:00:00Z"
-  },
-  {
-    "recordId": "pair-07-chariot-08-strength",
+    "createdAt": "2026-07-21T09:15:00Z",
+    "updatedAt": "2026-07-23T11:00:00Z",
     "recordType": "pairRelation",
     "payload": {
       "previousCardId": "07-chariot",
@@ -50,61 +58,56 @@
         "Bu geçişi zayıflık olarak çerçevelemeyin; kontrolün biçim değiştirmesi kararlılığın azalması anlamına gelmez."
       ],
       "sourceRefs": []
-    },
-    "sourceRefs": ["notebooklm-major-arcana-research-2026-07"],
-    "sourceVerifications": [
-      {
-        "sourceId": "notebooklm-major-arcana-research-2026-07",
-        "verifiedBy": "umit",
-        "verifiedAt": "2026-07-22T15:12:00Z"
-      }
-    ],
-    "lifecycle": {
-      "status": "red-teamed",
-      "authorId": "umit",
-      "reviewerId": "umit",
-      "reviewedAt": "2026-07-22T15:02:00Z",
-      "redTeamActorId": "claude",
-      "redTeamedAt": "2026-07-23T10:00:00Z",
-      "draftOrigin": "ai-assisted",
-      "aiTool": "notebooklm",
-      "singleOperatorMode": true
-    },
-    "createdAt": "2026-07-21T09:15:00Z",
-    "updatedAt": "2026-07-23T10:00:00Z"
+    }
   },
   {
     "recordId": "pair-10-wheel-of-fortune-12-hanged-man",
+    "sourceRefs": [
+      "tarot-ai-original-synthesis-v1"
+    ],
+    "sourceVerifications": [],
+    "lifecycle": {
+      "status": "draft",
+      "authorId": "umit",
+      "draftOrigin": "human",
+      "singleOperatorMode": true
+    },
+    "createdAt": "2026-07-21T09:30:00Z",
+    "updatedAt": "2026-07-23T11:00:00Z",
     "recordType": "pairRelation",
     "payload": {
       "previousCardId": "10-wheel-of-fortune",
       "focusCardId": "12-hanged-man",
       "relationType": "contrasts",
       "semanticEffect": [
-        "Kontrolünüz dışındaki bir değişim döngüsü ile bilinçli bir duraklama/teslimiyet arasında gerilim oluşuyor."
+        "Koşullardaki değişim, bekleme veya bakış açısını değiştirme ihtimalini gündeme getirebilir."
       ],
       "warnings": [
         "Şansı veya kaderi kesin bir güç olarak sunmayın; vurgu kişinin değişime tepki verme biçimindeki seçimde olmalı."
       ],
       "sourceRefs": []
-    },
-    "sourceRefs": ["tarot-ai-original-synthesis-v1"],
-    "sourceVerifications": [],
-    "lifecycle": {
-      "status": "red-teamed",
-      "authorId": "umit",
-      "reviewerId": "umit",
-      "reviewedAt": "2026-07-22T15:04:00Z",
-      "redTeamActorId": "claude",
-      "redTeamedAt": "2026-07-23T10:00:00Z",
-      "draftOrigin": "human",
-      "singleOperatorMode": true
-    },
-    "createdAt": "2026-07-21T09:30:00Z",
-    "updatedAt": "2026-07-23T10:00:00Z"
+    }
   },
   {
     "recordId": "pair-17-star-19-sun",
+    "sourceRefs": [
+      "tarot-ai-original-synthesis-v1"
+    ],
+    "sourceVerifications": [],
+    "lifecycle": {
+      "status": "locked",
+      "authorId": "umit",
+      "reviewerId": "umit",
+      "reviewedAt": "2026-07-22T15:06:00Z",
+      "redTeamActorId": "claude",
+      "redTeamedAt": "2026-07-23T10:00:00Z",
+      "lockAuthorityId": "umit",
+      "lockedAt": "2026-07-23T04:23:56.307Z",
+      "draftOrigin": "human",
+      "singleOperatorMode": true
+    },
+    "createdAt": "2026-07-21T09:45:00Z",
+    "updatedAt": "2026-07-23T04:23:56.307Z",
     "recordType": "pairRelation",
     "payload": {
       "previousCardId": "17-star",
@@ -118,24 +121,28 @@
         "İki kartın da geleneksel olarak 'olumlu' sayılması garanti bir iyi sonuç anlamına gelmez - bu bir potansiyel, bir kesinlik değil."
       ],
       "sourceRefs": []
-    },
-    "sourceRefs": ["tarot-ai-original-synthesis-v1"],
-    "sourceVerifications": [],
-    "lifecycle": {
-      "status": "red-teamed",
-      "authorId": "umit",
-      "reviewerId": "umit",
-      "reviewedAt": "2026-07-22T15:06:00Z",
-      "redTeamActorId": "claude",
-      "redTeamedAt": "2026-07-23T10:00:00Z",
-      "draftOrigin": "human",
-      "singleOperatorMode": true
-    },
-    "createdAt": "2026-07-21T09:45:00Z",
-    "updatedAt": "2026-07-23T10:00:00Z"
+    }
   },
   {
     "recordId": "pair-03-empress-05-hierophant",
+    "sourceRefs": [
+      "tarot-ai-original-synthesis-v1"
+    ],
+    "sourceVerifications": [],
+    "lifecycle": {
+      "status": "locked",
+      "authorId": "umit",
+      "reviewerId": "umit",
+      "reviewedAt": "2026-07-22T15:08:00Z",
+      "redTeamActorId": "claude",
+      "redTeamedAt": "2026-07-23T10:00:00Z",
+      "lockAuthorityId": "umit",
+      "lockedAt": "2026-07-23T04:24:00.601Z",
+      "draftOrigin": "human",
+      "singleOperatorMode": true
+    },
+    "createdAt": "2026-07-21T10:00:00Z",
+    "updatedAt": "2026-07-23T04:24:00.601Z",
     "recordType": "pairRelation",
     "payload": {
       "previousCardId": "03-empress",
@@ -148,24 +155,28 @@
         "Geleneği veya yaratıcılığı birbirine üstün gösteren bir dil kullanmayın; ikisi de geçerli ihtiyaçlar."
       ],
       "sourceRefs": []
-    },
-    "sourceRefs": ["tarot-ai-original-synthesis-v1"],
-    "sourceVerifications": [],
-    "lifecycle": {
-      "status": "red-teamed",
-      "authorId": "umit",
-      "reviewerId": "umit",
-      "reviewedAt": "2026-07-22T15:08:00Z",
-      "redTeamActorId": "claude",
-      "redTeamedAt": "2026-07-23T10:00:00Z",
-      "draftOrigin": "human",
-      "singleOperatorMode": true
-    },
-    "createdAt": "2026-07-21T10:00:00Z",
-    "updatedAt": "2026-07-23T10:00:00Z"
+    }
   },
   {
     "recordId": "pair-18-moon-20-judgement",
+    "sourceRefs": [
+      "tarot-ai-original-synthesis-v1"
+    ],
+    "sourceVerifications": [],
+    "lifecycle": {
+      "status": "locked",
+      "authorId": "umit",
+      "reviewerId": "umit",
+      "reviewedAt": "2026-07-22T15:10:00Z",
+      "redTeamActorId": "claude",
+      "redTeamedAt": "2026-07-23T10:00:00Z",
+      "lockAuthorityId": "umit",
+      "lockedAt": "2026-07-23T04:24:03.758Z",
+      "draftOrigin": "human",
+      "singleOperatorMode": true
+    },
+    "createdAt": "2026-07-21T10:15:00Z",
+    "updatedAt": "2026-07-23T04:24:03.758Z",
     "recordType": "pairRelation",
     "payload": {
       "previousCardId": "18-moon",
@@ -179,20 +190,6 @@
         "Kaygı temalı bir kart çiftidir; ruh sağlığı hassasiyetiyle, kesin bir çözüm ya da teşhis ima etmeyin."
       ],
       "sourceRefs": []
-    },
-    "sourceRefs": ["tarot-ai-original-synthesis-v1"],
-    "sourceVerifications": [],
-    "lifecycle": {
-      "status": "red-teamed",
-      "authorId": "umit",
-      "reviewerId": "umit",
-      "reviewedAt": "2026-07-22T15:10:00Z",
-      "redTeamActorId": "claude",
-      "redTeamedAt": "2026-07-23T10:00:00Z",
-      "draftOrigin": "human",
-      "singleOperatorMode": true
-    },
-    "createdAt": "2026-07-21T10:15:00Z",
-    "updatedAt": "2026-07-23T10:00:00Z"
+    }
   }
 ]

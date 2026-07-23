@@ -15,7 +15,23 @@
       "author": "NotebookLM (Google), used as a drafting aid",
       "type": "ai-assisted-draft",
       "publicationYear": 2026,
-      "notes": "Research/drafting aid only, per Sprint 5 governance rules - never a sole basis for a locked record. Every record citing this source requires an individually verified sourceVerifications entry by a named human before it can reach red-teamed status."
+      "notes": "Research/drafting aid only. Per the Product Owner's explicit decision (2026-07-23), this source's type is deliberately distinct from classic-text/academic and must never be a record's sole evidentiary backing - draftOrigin: ai-assisted describes how a draft's text originated, it is not itself an authoritative citation. Every record citing this source (for lineage/transparency) still requires an individually verified sourceVerifications entry by a named human before it can reach red-teamed status."
+    },
+    {
+      "sourceId": "waite-pictorial-key-1910",
+      "title": "The Pictorial Key to the Tarot",
+      "author": "Arthur Edward Waite",
+      "type": "classic-text",
+      "publicationYear": 1910,
+      "notes": "Public-domain primary/historical source for traditional Major Arcana card meanings (London: William Rider & Son, 1910). Cited here for individual card meanings only (e.g. the Hermit's traditional association with prudence/solitary wisdom-seeking, the Chariot's traditional association with willful triumph over opposing forces) - the specific *pair-relation* connecting two cards is this project's own synthesis and is co-cited with tarot-ai-original-synthesis-v1, not attributed to Waite."
+    },
+    {
+      "sourceId": "pollack-seventy-eight-degrees-1980",
+      "title": "Seventy-Eight Degrees of Wisdom: A Book of Tarot",
+      "author": "Rachel Pollack",
+      "type": "academic",
+      "publicationYear": 1980,
+      "notes": "Widely cited symbolic/psychological analysis of the Tarot, first published 1980. Cited here specifically for its well-established discussion of Strength as gentle, compassionate inner mastery rather than forceful domination - the individual-card meaning this project's Chariot-to-Strength pair relation draws on. As with Waite above, the pair-relation itself is original synthesis, co-cited accordingly."
     }
   ]
 }
