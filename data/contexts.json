@@ -1,0 +1,16 @@
+{
+  "topics": [
+    {
+      "key": "relationship",
+      "label_tr": "İlişki"
+    },
+    {
+      "key": "career",
+      "label_tr": "Kariyer"
+    },
+    {
+      "key": "general",
+      "label_tr": "Genel"
+    }
+  ]
+}

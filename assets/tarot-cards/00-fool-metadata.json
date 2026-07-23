@@ -1,0 +1,57 @@
+{
+  "id": "00-fool",
+  "name": {
+    "en": "The Fool",
+    "tr": "Deli"
+  },
+  "number": 0,
+  "arcana": "major",
+  "source": {
+    "type": "provided_illustration",
+    "montage": "1000214766.png",
+    "extraction_date": "2026-07-22",
+    "position": {
+      "row": 1,
+      "column": 1
+    },
+    "crop_coordinates": {
+      "x": 12,
+      "y": 13,
+      "width": 179,
+      "height": 314
+    }
+  },
+  "assets": {
+    "web": {
+      "path": "assets/tarot-cards/00-fool.webp",
+      "dimensions": [
+        512,
+        768
+      ],
+      "format": "webp",
+      "file_size": 13766,
+      "checksum": "9d4fab3f6079abf34fb303c17cf0a1ef85997320cc67ab474c29c4477bd9ebe7"
+    },
+    "hq": {
+      "path": "assets/tarot-cards/00-fool-hq.webp",
+      "dimensions": [
+        2048,
+        3072
+      ],
+      "format": "webp",
+      "file_size": 28996,
+      "checksum": "b3916633f14a7c6ab9e84729ea4e8af8051e94307827111896d23f70fdafe33d"
+    }
+  },
+  "provenance": {
+    "status": "approved-for-prototype",
+    "notes": "Extracted from user-provided montage image",
+    "extraction_date": "2026-07-22",
+    "version": "1.0"
+  },
+  "qa": {
+    "score": null,
+    "status": "pending-review",
+    "notes": "Extracted from montage, pending visual QA"
+  }
+}

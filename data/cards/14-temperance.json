@@ -1,0 +1,34 @@
+{
+  "cardId": "14-temperance",
+  "name_en": "Temperance",
+  "name_tr": "Denge",
+  "arcana": "major",
+  "number": 14,
+  "symbolicMeaning": "Ölçülülük, sabırlı harmanlama, uçların arasında orta yolu bulma.",
+  "psychologicalReflection": "Zıt ihtiyaçlar arasında sürdürülebilir bir denge kurma.",
+  "keywords": [
+    "denge",
+    "ölçülülük",
+    "sabır"
+  ],
+  "positionMeanings": {
+    "past": "Zıt taraflar arasında denge aradığınız bir dönem.",
+    "present": "Şu anda ölçülü ve sabırlı bir yaklaşım gerekiyor.",
+    "future": "Uzun vadede sürdürülebilir bir dengeye ulaşma."
+  },
+  "contextualMeanings": {
+    "relationship": "Karşılıklı ihtiyaçlar arasında denge kurma.",
+    "career": "İş-yaşam dengesi ya da kaynakların ölçülü kullanımı.",
+    "general": "Aşırılıklardan kaçınıp orta yolu bulma."
+  },
+  "reflectionQuestions": [
+    "Hangi iki uç arasında denge kurmanız gerekiyor?",
+    "Sabırla beklemeniz gereken ne var?"
+  ],
+  "redFlags": {
+    "avoid": [
+      "hızlı çözüm vaadi"
+    ],
+    "instead": "Dengenin zaman ve sabır gerektirdiğini vurgulayın."
+  }
+}

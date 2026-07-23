@@ -1,0 +1,57 @@
+{
+  "id": "04-emperor",
+  "name": {
+    "en": "The Emperor",
+    "tr": "İmparator"
+  },
+  "number": 4,
+  "arcana": "major",
+  "source": {
+    "type": "provided_illustration",
+    "montage": "1000214766.png",
+    "extraction_date": "2026-07-22",
+    "position": {
+      "row": 1,
+      "column": 5
+    },
+    "crop_coordinates": {
+      "x": 366,
+      "y": 13,
+      "width": 146,
+      "height": 314
+    }
+  },
+  "assets": {
+    "web": {
+      "path": "assets/tarot-cards/04-emperor.webp",
+      "dimensions": [
+        512,
+        768
+      ],
+      "format": "webp",
+      "file_size": 10598,
+      "checksum": "6cb932d0ff5da31aa582edafd3db6463e6289f96b80376fda64dcd42765c617b"
+    },
+    "hq": {
+      "path": "assets/tarot-cards/04-emperor-hq.webp",
+      "dimensions": [
+        2048,
+        3072
+      ],
+      "format": "webp",
+      "file_size": 24284,
+      "checksum": "66359a9126adef5b97b490f4cfa4d3448cca94ca256353a54f86606d7ed3e8d9"
+    }
+  },
+  "provenance": {
+    "status": "approved-for-prototype",
+    "notes": "Extracted from user-provided montage image",
+    "extraction_date": "2026-07-22",
+    "version": "1.0"
+  },
+  "qa": {
+    "score": null,
+    "status": "pending-review",
+    "notes": "Extracted from montage, pending visual QA"
+  }
+}

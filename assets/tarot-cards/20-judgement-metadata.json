@@ -1,0 +1,57 @@
+{
+  "id": "20-judgement",
+  "name": {
+    "en": "Judgement",
+    "tr": "Yargı"
+  },
+  "number": 20,
+  "arcana": "major",
+  "source": {
+    "type": "provided_illustration",
+    "montage": "1000214766.png",
+    "extraction_date": "2026-07-22",
+    "position": {
+      "row": 3,
+      "column": 5
+    },
+    "crop_coordinates": {
+      "x": 366,
+      "y": 656,
+      "width": 146,
+      "height": 334
+    }
+  },
+  "assets": {
+    "web": {
+      "path": "assets/tarot-cards/20-judgement.webp",
+      "dimensions": [
+        512,
+        768
+      ],
+      "format": "webp",
+      "file_size": 10156,
+      "checksum": "861a4a981aee071d70833130b8b37660cd0e5816a54da6b62b9699663642e154"
+    },
+    "hq": {
+      "path": "assets/tarot-cards/20-judgement-hq.webp",
+      "dimensions": [
+        2048,
+        3072
+      ],
+      "format": "webp",
+      "file_size": 23886,
+      "checksum": "dc3c2ebd0258e83a4948a176e2fd428947bebc4b22e74a3b235f7f78508a8b15"
+    }
+  },
+  "provenance": {
+    "status": "approved-for-prototype",
+    "notes": "Extracted from user-provided montage image",
+    "extraction_date": "2026-07-22",
+    "version": "1.0"
+  },
+  "qa": {
+    "score": null,
+    "status": "pending-review",
+    "notes": "Extracted from montage, pending visual QA"
+  }
+}

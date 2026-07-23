@@ -1,0 +1,772 @@
+{
+  "version": "0.1.0",
+  "cards": [
+    {
+      "cardId": "00-fool",
+      "name_en": "The Fool",
+      "name_tr": "Deli",
+      "arcana": "major",
+      "number": 0,
+      "symbolicMeaning": "Yeni bir başlangıç, bilinmeyene ilk adım, saf potansiyel.",
+      "psychologicalReflection": "Kontrolü bırakıp güvenle ilerleme kapasitesi; bilinmezlik karşısında meraklı kalabilme.",
+      "keywords": [
+        "başlangıç",
+        "cesaret",
+        "açıklık"
+      ],
+      "positionMeanings": {
+        "past": "Geçmişte alınmış bir risk ya da atılmış bir ilk adım.",
+        "present": "Şu anda bir eşiktesiniz; henüz netleşmemiş bir karar var.",
+        "future": "Önünüzde deneyim isteyen, tanımsız bir alan var."
+      },
+      "contextualMeanings": {
+        "relationship": "Yeni bir başlangıç ya da ilişkide taze bir enerji ihtimali.",
+        "career": "Bilinmeyen bir yola çıkma isteği ya da yeni bir denemenin eşiği.",
+        "general": "Hayatınızda bir dönüm noktası hissi."
+      },
+      "reflectionQuestions": [
+        "Şu an neyi riske atmaya hazırsınız?",
+        "Bilinmezlik sizi ne kadar geriyor, ne kadar heyecanlandırıyor?"
+      ],
+      "redFlags": {
+        "avoid": [
+          "garanti bir başarı vaadi",
+          "kesin bir karar dayatması"
+        ],
+        "instead": "Bu adım sizin için ne ifade ediyor, kendinize sorun."
+      }
+    },
+    {
+      "cardId": "01-magician",
+      "name_en": "The Magician",
+      "name_tr": "Büyücü",
+      "arcana": "major",
+      "number": 1,
+      "symbolicMeaning": "Elde var olan araçları bilinçli şekilde kullanma, niyeti eyleme dönüştürme.",
+      "psychologicalReflection": "İstenç ve beceri arasındaki uyum; potansiyeli somut bir sonuca kanalize etme.",
+      "keywords": [
+        "irade",
+        "beceri",
+        "niyet"
+      ],
+      "positionMeanings": {
+        "past": "Geçmişte bir beceri ya da kaynağı etkin şekilde kullanmışsınız.",
+        "present": "Şu anda elinizdeki araçları nasıl kullandığınız önemli.",
+        "future": "Niyetinizi somut bir adıma dönüştürme fırsatı yaklaşıyor."
+      },
+      "contextualMeanings": {
+        "relationship": "İletişimde niyetinizi net ifade etme kapasitesi.",
+        "career": "Elinizdeki becerileri görünür kılma, inisiyatif alma zamanı.",
+        "general": "Kaynaklarınızı bilinçli kullanma isteği."
+      },
+      "reflectionQuestions": [
+        "Elinizde olan hangi kaynağı henüz kullanmadınız?",
+        "Niyetiniz ile eyleminiz ne kadar uyumlu?"
+      ],
+      "redFlags": {
+        "avoid": [
+          "manipülasyon önerisi",
+          "başkasını kontrol etme çağrısı"
+        ],
+        "instead": "Kendi becerilerinize dair farkındalığınızı güçlendirin."
+      }
+    },
+    {
+      "cardId": "02-high-priestess",
+      "name_en": "The High Priestess",
+      "name_tr": "Yüksek Rahibe",
+      "arcana": "major",
+      "number": 2,
+      "symbolicMeaning": "Sezgi, henüz sözcüklere dökülmemiş bilgi, iç sesi dinleme.",
+      "psychologicalReflection": "Analitik zihnin ötesinde, bedensel ve duygusal sezgiye güvenme kapasitesi.",
+      "keywords": [
+        "sezgi",
+        "içgörü",
+        "sabır"
+      ],
+      "positionMeanings": {
+        "past": "Bir sezginizi görmezden geldiğiniz ya da dinlediğiniz bir an.",
+        "present": "Henüz net olmayan ama hissedilen bir bilgi var.",
+        "future": "Sabırla beklemeniz gereken bir netleşme süreci."
+      },
+      "contextualMeanings": {
+        "relationship": "Söylenmeyen ama hissedilen bir dinamik.",
+        "career": "Henüz kanıtlanmamış ama güçlü bir sezgi.",
+        "general": "İçe dönük bir dinleme ihtiyacı."
+      },
+      "reflectionQuestions": [
+        "Şu an hangi sezginizi görmezden geliyorsunuz?",
+        "Netleşmesi için zamana ihtiyaç duyan ne var?"
+      ],
+      "redFlags": {
+        "avoid": [
+          "kehanet niteliğinde kesinlik",
+          "doğaüstü güç iddiası"
+        ],
+        "instead": "İç sesinizi bir bilgi kaynağı olarak değerlendirin, tek gerçek olarak değil."
+      }
+    },
+    {
+      "cardId": "03-empress",
+      "name_en": "The Empress",
+      "name_tr": "İmparatoriçe",
+      "arcana": "major",
+      "number": 3,
+      "symbolicMeaning": "Bereket, yaratıcılık, besleyici büyüme.",
+      "psychologicalReflection": "Kendine ve başkalarına şefkatle bakabilme, yaratıcı süreçlere alan açma.",
+      "keywords": [
+        "bereket",
+        "yaratıcılık",
+        "büyüme"
+      ],
+      "positionMeanings": {
+        "past": "Bir şeyi sabırla büyüttüğünüz bir dönem.",
+        "present": "Şu anda beslenmesi gereken bir fikir ya da ilişki var.",
+        "future": "Emek verdiğiniz bir şeyin olgunlaşması."
+      },
+      "contextualMeanings": {
+        "relationship": "Şefkat ve karşılıklı besleyicilik ihtiyacı.",
+        "career": "Yaratıcı bir projeye alan açma zamanı.",
+        "general": "Kendinize bakım verme ihtiyacı."
+      },
+      "reflectionQuestions": [
+        "Şu an neyi büyütmeye çalışıyorsunuz?",
+        "Kendinize ne kadar şefkat gösteriyorsunuz?"
+      ],
+      "redFlags": {
+        "avoid": [
+          "hamilelik kehaneti",
+          "kesin bir sonuç vaadi"
+        ],
+        "instead": "Büyüme sürecinin zaman aldığını hatırlatın."
+      }
+    },
+    {
+      "cardId": "04-emperor",
+      "name_en": "The Emperor",
+      "name_tr": "İmparator",
+      "arcana": "major",
+      "number": 4,
+      "symbolicMeaning": "Yapı, düzen, sınır koyma.",
+      "psychologicalReflection": "İstikrar arayışı; kontrolün sağlıklı ile katı arasındaki sınırı.",
+      "keywords": [
+        "yapı",
+        "otorite",
+        "düzen"
+      ],
+      "positionMeanings": {
+        "past": "Bir yapı ya da kural koyduğunuz dönem.",
+        "present": "Şu anda netlik ve sınır ihtiyacı öne çıkıyor.",
+        "future": "Daha istikrarlı bir düzen kurma fırsatı."
+      },
+      "contextualMeanings": {
+        "relationship": "Net sınırlar koyma ihtiyacı.",
+        "career": "Yapı kurma, sorumluluk alma zamanı.",
+        "general": "Kontrol ile esneklik arasında denge arayışı."
+      },
+      "reflectionQuestions": [
+        "Hangi alanda daha net bir sınıra ihtiyacınız var?",
+        "Kontrol ihtiyacınız sizi ne zaman katılaştırıyor?"
+      ],
+      "redFlags": {
+        "avoid": [
+          "otoriter bir figürü idealize etme",
+          "baskıcı tavsiye"
+        ],
+        "instead": "Sağlıklı sınırların neye benzediğini birlikte düşünün."
+      }
+    },
+    {
+      "cardId": "05-hierophant",
+      "name_en": "The Hierophant",
+      "name_tr": "Hiyerofant",
+      "arcana": "major",
+      "number": 5,
+      "symbolicMeaning": "Gelenek, öğrenme, paylaşılan değerler.",
+      "psychologicalReflection": "Bir topluluğa ya da inanç sistemine ait olma ihtiyacı; öğrenilenle kendi yolunu bulma arasındaki gerilim.",
+      "keywords": [
+        "gelenek",
+        "öğrenme",
+        "aidiyet"
+      ],
+      "positionMeanings": {
+        "past": "Bir öğreti ya da geleneğin sizi şekillendirdiği dönem.",
+        "present": "Şu anda bir yapıya ya da sisteme uyum sağlama süreci.",
+        "future": "Öğrenilenle kendi bakış açınızı harmanlama fırsatı."
+      },
+      "contextualMeanings": {
+        "relationship": "Ortak değerlerin ilişkideki rolü.",
+        "career": "Mentorluk, eğitim ya da kurumsal yapıya uyum.",
+        "general": "Ait olma ve bağımsız olma arasında denge."
+      },
+      "reflectionQuestions": [
+        "Hangi öğreti ya da değer sizi hâlâ yönlendiriyor?",
+        "Kurallara ne zaman uyup ne zaman kendi yolunuzu seçiyorsunuz?"
+      ],
+      "redFlags": {
+        "avoid": [
+          "dini/dogmatik kesinlik iddiası"
+        ],
+        "instead": "Değerlerinizi kendi bağlamınızda sorgulamayı önerin."
+      }
+    },
+    {
+      "cardId": "06-lovers",
+      "name_en": "The Lovers",
+      "name_tr": "Âşıklar",
+      "arcana": "major",
+      "number": 6,
+      "symbolicMeaning": "Seçim, uyum, değerlerin hizalanması.",
+      "psychologicalReflection": "Kendi değerleriyle uyumlu bir seçim yapma kapasitesi; başka bir kişiyle gerçek bağlantı kurma.",
+      "keywords": [
+        "seçim",
+        "uyum",
+        "bağlantı"
+      ],
+      "positionMeanings": {
+        "past": "Değerlerinizi netleştiren bir seçim anı.",
+        "present": "Şu anda önemli bir tercih sizi bekliyor.",
+        "future": "Uyumlu bir bağlantı ya da netleşen bir değer."
+      },
+      "contextualMeanings": {
+        "relationship": "Karşılıklı uyum ve gerçek bağlantı ihtiyacı.",
+        "career": "Değerlerinizle uyumlu bir yol seçme.",
+        "general": "İki seçenek arasında iç uyumu dinleme."
+      },
+      "reflectionQuestions": [
+        "Bu seçimde hangi değeriniz en çok ağırlık taşıyor?",
+        "Bu bağlantı gerçekten sizin değerlerinizle uyumlu mu?"
+      ],
+      "redFlags": {
+        "avoid": [
+          "romantik kader vaadi",
+          "\"ruh eşi\" kesinliği"
+        ],
+        "instead": "Seçimin sizin elinizde olduğunu vurgulayın."
+      }
+    },
+    {
+      "cardId": "07-chariot",
+      "name_en": "The Chariot",
+      "name_tr": "Savaş Arabası",
+      "arcana": "major",
+      "number": 7,
+      "symbolicMeaning": "Odaklanmış irade, zıt güçleri aynı yöne kanalize etme.",
+      "psychologicalReflection": "İç çatışmaları bir hedef etrafında birleştirme becerisi.",
+      "keywords": [
+        "odak",
+        "irade",
+        "ilerleme"
+      ],
+      "positionMeanings": {
+        "past": "Zıt yönlere çeken güçleri bir arada tutup ilerlediğiniz bir dönem.",
+        "present": "Şu anda net bir hedefe odaklanma ihtiyacı var.",
+        "future": "Kararlılıkla ilerleyeceğiniz bir aşama."
+      },
+      "contextualMeanings": {
+        "relationship": "Ortak bir yönde ilerleme çabası.",
+        "career": "Dağınık enerjiyi tek bir hedefe kanalize etme.",
+        "general": "İrade ile disiplini birleştirme."
+      },
+      "reflectionQuestions": [
+        "Şu an sizi hangi yönlere çeken güçler var?",
+        "Hangi tek hedefe odaklanmak işinize yarar?"
+      ],
+      "redFlags": {
+        "avoid": [
+          "kesin zafer vaadi"
+        ],
+        "instead": "İlerlemenin süreklilik gerektirdiğini hatırlatın."
+      }
+    },
+    {
+      "cardId": "08-strength",
+      "name_en": "Strength",
+      "name_tr": "Güç",
+      "arcana": "major",
+      "number": 8,
+      "symbolicMeaning": "Zorlamadan değil sabırla ve şefkatle güç gösterme.",
+      "psychologicalReflection": "İçsel dürtüleri bastırmak yerine onlarla nazikçe ilişki kurma.",
+      "keywords": [
+        "sabır",
+        "şefkat",
+        "iç güç"
+      ],
+      "positionMeanings": {
+        "past": "Zorlu bir durumu sabırla yönettiğiniz bir an.",
+        "present": "Şu anda nazik ama kararlı bir duruş gerekiyor.",
+        "future": "İçsel bir korkuyla yumuşak biçimde yüzleşme fırsatı."
+      },
+      "contextualMeanings": {
+        "relationship": "Sert değil ama net bir duruş sergileme.",
+        "career": "Zorluklara sabırla ve istikrarla yaklaşma.",
+        "general": "Kendine karşı şefkatli bir güç."
+      },
+      "reflectionQuestions": [
+        "Şu anki zorlukla nasıl daha nazik bir ilişki kurabilirsiniz?",
+        "Gücünüzü nerede zorlama yerine sabırla kullanabilirsiniz?"
+      ],
+      "redFlags": {
+        "avoid": [
+          "fiziksel şiddeti öven ifade"
+        ],
+        "instead": "Gücün her zaman sertlik anlamına gelmediğini vurgulayın."
+      }
+    },
+    {
+      "cardId": "09-hermit",
+      "name_en": "The Hermit",
+      "name_tr": "Ermiş",
+      "arcana": "major",
+      "number": 9,
+      "symbolicMeaning": "İçe çekilme, yalnız düşünme, kendi rehberliğini arama.",
+      "psychologicalReflection": "Dış gürültüden uzaklaşıp kendi iç sesine alan açma.",
+      "keywords": [
+        "içe dönüş",
+        "yalnızlık",
+        "arayış"
+      ],
+      "positionMeanings": {
+        "past": "Bir konuda geri çekilip düşündüğünüz bir dönem.",
+        "present": "Şu anda yalnız kalıp netleşmeye ihtiyacınız var.",
+        "future": "İçe dönük bir sürecin ardından gelecek netlik."
+      },
+      "contextualMeanings": {
+        "relationship": "Kendine zaman ayırma ihtiyacı.",
+        "career": "Kararınızı vermeden önce yalnız düşünme süreci.",
+        "general": "Dış sesleri azaltıp kendi rehberliğinizi arama."
+      },
+      "reflectionQuestions": [
+        "Netleşmek için ne kadar yalnız kalmaya ihtiyacınız var?",
+        "Şu an kimin sesini değil, kendi sesinizi dinlemelisiniz?"
+      ],
+      "redFlags": {
+        "avoid": [
+          "izolasyonu özendiren dil",
+          "sosyal çekilmeyi teşvik"
+        ],
+        "instead": "Yalnız kalmanın geçici ve amaçlı olabileceğini vurgulayın."
+      }
+    },
+    {
+      "cardId": "10-wheel-of-fortune",
+      "name_en": "Wheel of Fortune",
+      "name_tr": "Kaderin Tekerleği",
+      "arcana": "major",
+      "number": 10,
+      "symbolicMeaning": "Döngüler, değişim, kontrolünüz dışındaki etkenler.",
+      "psychologicalReflection": "Değişimin kaçınılmaz olduğunu kabul edip esneklik geliştirme.",
+      "keywords": [
+        "değişim",
+        "döngü",
+        "akış"
+      ],
+      "positionMeanings": {
+        "past": "Kontrolünüz dışında gelişen bir değişim.",
+        "present": "Şu anda bir döngünün dönüm noktasındasınız.",
+        "future": "Beklenmedik ama kaçınılmaz bir değişim."
+      },
+      "contextualMeanings": {
+        "relationship": "İlişkinin doğal bir evreden geçmesi.",
+        "career": "Kontrolünüz dışındaki koşulların etkisi.",
+        "general": "İniş çıkışların doğal bir parçası olduğunu kabul etme."
+      },
+      "reflectionQuestions": [
+        "Kontrol edemediğiniz neyi kabul etmeniz gerekiyor?",
+        "Bu değişimde elinizde olan tek şey nedir?"
+      ],
+      "redFlags": {
+        "avoid": [
+          "kesin talih/şans vaadi",
+          "kumar/yatırım tavsiyesi"
+        ],
+        "instead": "Değişimin doğal bir döngü olduğunu, kesin bir sonuç olmadığını vurgulayın."
+      }
+    },
+    {
+      "cardId": "11-justice",
+      "name_en": "Justice",
+      "name_tr": "Adalet",
+      "arcana": "major",
+      "number": 11,
+      "symbolicMeaning": "Denge, hesap verebilirlik, adil karar.",
+      "psychologicalReflection": "Kendi eylemlerinizin sonuçlarını dürüstçe değerlendirme.",
+      "keywords": [
+        "denge",
+        "sorumluluk",
+        "netlik"
+      ],
+      "positionMeanings": {
+        "past": "Bir kararın sonuçlarıyla yüzleştiğiniz bir an.",
+        "present": "Şu anda adil ve dengeli bir değerlendirme gerekiyor.",
+        "future": "Bir kararın netleşmesi ve sorumluluğun görünür olması."
+      },
+      "contextualMeanings": {
+        "relationship": "Karşılıklı adalet ve dürüstlük ihtiyacı.",
+        "career": "Bir kararın sonuçlarını objektif değerlendirme.",
+        "general": "Denge kurma ve hesap verebilirlik."
+      },
+      "reflectionQuestions": [
+        "Bu durumda kendinize karşı ne kadar dürüstsünüz?",
+        "Adil bir denge için neyi değiştirmeniz gerekir?"
+      ],
+      "redFlags": {
+        "avoid": [
+          "dava/mahkeme sonucu kehaneti",
+          "kesin hukuki tavsiye"
+        ],
+        "instead": "Hukuki konularda profesyonel danışmanlık önerin."
+      }
+    },
+    {
+      "cardId": "12-hanged-man",
+      "name_en": "The Hanged Man",
+      "name_tr": "Asılı Adam",
+      "arcana": "major",
+      "number": 12,
+      "symbolicMeaning": "Duraklama, bakış açısını değiştirme, teslimiyet.",
+      "psychologicalReflection": "Kontrolü bırakıp farklı bir açıdan bakmayı kabul etme.",
+      "keywords": [
+        "duraklama",
+        "perspektif",
+        "teslimiyet"
+      ],
+      "positionMeanings": {
+        "past": "Bir konuda beklemek zorunda kaldığınız bir dönem.",
+        "present": "Şu anda ilerlemek yerine durup bakış açısı değiştirme zamanı.",
+        "future": "Farklı bir perspektifin getireceği netlik."
+      },
+      "contextualMeanings": {
+        "relationship": "Karşı tarafın bakış açısını anlamaya çalışma.",
+        "career": "Aceleyle hareket etmemek, beklemeyi kabul etmek.",
+        "general": "Duraklamanın da bir ilerleme biçimi olabileceği."
+      },
+      "reflectionQuestions": [
+        "Bu duruma farklı bir açıdan nasıl bakabilirsiniz?",
+        "Neyi bırakmanız gerekiyor olabilir?"
+      ],
+      "redFlags": {
+        "avoid": [
+          "pasifliği/çaresizliği özendiren dil"
+        ],
+        "instead": "Beklemenin bilinçli bir tercih olabileceğini vurgulayın."
+      }
+    },
+    {
+      "cardId": "13-death",
+      "name_en": "Death",
+      "name_tr": "Ölüm",
+      "arcana": "major",
+      "number": 13,
+      "symbolicMeaning": "Sona erme, dönüşüm, bir evrenin kapanıp yenisinin açılması.",
+      "psychologicalReflection": "Bir şeyin bitmesine izin verip yeni bir başlangıca alan açma.",
+      "keywords": [
+        "dönüşüm",
+        "kapanış",
+        "yenilenme"
+      ],
+      "positionMeanings": {
+        "past": "Bir evrenin kapandığı bir dönem.",
+        "present": "Şu anda bir şeyin bitmesine izin vermeniz gerekiyor.",
+        "future": "Bir dönüşümün ardından gelecek yenilenme."
+      },
+      "contextualMeanings": {
+        "relationship": "Bir dinamiğin sona erip yenisine yer açması.",
+        "career": "Bir dönemin kapanıp yeni bir aşamanın başlaması.",
+        "general": "Değişimin doğal bir parçası olarak kapanış."
+      },
+      "reflectionQuestions": [
+        "Neyin bitmesine izin vermeniz gerekiyor?",
+        "Bu kapanış hangi yeni başlangığa alan açabilir?"
+      ],
+      "redFlags": {
+        "avoid": [
+          "gerçek ölüm/kayıp kehaneti",
+          "sağlık/yaşam süresi ima etme"
+        ],
+        "instead": "Bu kartın sembolik olarak dönüşümü temsil ettiğini açıkça belirtin."
+      }
+    },
+    {
+      "cardId": "14-temperance",
+      "name_en": "Temperance",
+      "name_tr": "Denge",
+      "arcana": "major",
+      "number": 14,
+      "symbolicMeaning": "Ölçülülük, sabırlı harmanlama, uçların arasında orta yolu bulma.",
+      "psychologicalReflection": "Zıt ihtiyaçlar arasında sürdürülebilir bir denge kurma.",
+      "keywords": [
+        "denge",
+        "ölçülülük",
+        "sabır"
+      ],
+      "positionMeanings": {
+        "past": "Zıt taraflar arasında denge aradığınız bir dönem.",
+        "present": "Şu anda ölçülü ve sabırlı bir yaklaşım gerekiyor.",
+        "future": "Uzun vadede sürdürülebilir bir dengeye ulaşma."
+      },
+      "contextualMeanings": {
+        "relationship": "Karşılıklı ihtiyaçlar arasında denge kurma.",
+        "career": "İş-yaşam dengesi ya da kaynakların ölçülü kullanımı.",
+        "general": "Aşırılıklardan kaçınıp orta yolu bulma."
+      },
+      "reflectionQuestions": [
+        "Hangi iki uç arasında denge kurmanız gerekiyor?",
+        "Sabırla beklemeniz gereken ne var?"
+      ],
+      "redFlags": {
+        "avoid": [
+          "hızlı çözüm vaadi"
+        ],
+        "instead": "Dengenin zaman ve sabır gerektirdiğini vurgulayın."
+      }
+    },
+    {
+      "cardId": "15-devil",
+      "name_en": "The Devil",
+      "name_tr": "Şeytan",
+      "arcana": "major",
+      "number": 15,
+      "symbolicMeaning": "Bağlanma, alışkanlık, kendi kendine koyduğu sınırlar.",
+      "psychologicalReflection": "Özgür hissetmeyi engelleyen alışkanlık ya da bağımlılık örüntülerini fark etme.",
+      "keywords": [
+        "bağlanma",
+        "alışkanlık",
+        "farkındalık"
+      ],
+      "positionMeanings": {
+        "past": "Sizi kısıtlayan bir örüntüye girdiğiniz bir dönem.",
+        "present": "Şu anda özgürlüğünüzü sınırlayan bir alışkanlığı fark etme zamanı.",
+        "future": "Bu örüntüden çıkma fırsatı."
+      },
+      "contextualMeanings": {
+        "relationship": "Sağlıksız bir bağımlılık örüntüsünü fark etme.",
+        "career": "Konfor alanının sizi sınırlayıp sınırlamadığını sorgulama.",
+        "general": "Kendi kendine koyduğunuz sınırları görme."
+      },
+      "reflectionQuestions": [
+        "Sizi neye bağlı hissettiriyor?",
+        "Bu bağın gerçekten zorunlu mu, alışkanlık mı olduğunu düşündünüz mü?"
+      ],
+      "redFlags": {
+        "avoid": [
+          "bağımlılık/madde kullanımı hakkında tıbbi tavsiye",
+          "şeytan/kötü ruh kehaneti"
+        ],
+        "instead": "Alışkanlık örüntüleri için profesyonel destek önerin."
+      }
+    },
+    {
+      "cardId": "16-tower",
+      "name_en": "The Tower",
+      "name_tr": "Kule",
+      "arcana": "major",
+      "number": 16,
+      "symbolicMeaning": "Ani yıkılış, yanlış temellerin ortaya çıkması, zorunlu değişim.",
+      "psychologicalReflection": "Sarsıcı bir olayın aslında sağlam olmayan bir yapıyı ortaya çıkarması.",
+      "keywords": [
+        "sarsıntı",
+        "yıkım",
+        "gerçeklik"
+      ],
+      "positionMeanings": {
+        "past": "Beklenmedik bir sarsıntı yaşadığınız bir dönem.",
+        "present": "Şu anda sağlam olmayan bir yapı gün yüzüne çıkıyor olabilir.",
+        "future": "Ani ama gerekli bir değişim ihtimali."
+      },
+      "contextualMeanings": {
+        "relationship": "Görmezden gelinen bir sorunun yüzeye çıkması.",
+        "career": "Sağlam olmayan bir planın test edilmesi.",
+        "general": "Ani değişimin yeni bir temel kurma fırsatına dönüşmesi."
+      },
+      "reflectionQuestions": [
+        "Hangi yapı aslında sağlam değildi?",
+        "Bu sarsıntı sizi neyi yeniden inşa etmeye çağırıyor?"
+      ],
+      "redFlags": {
+        "avoid": [
+          "felaket/kaza kehaneti",
+          "korku uyandırıcı kesin dil"
+        ],
+        "instead": "Bu kartın sembolik bir uyanış anını temsil ettiğini vurgulayın."
+      }
+    },
+    {
+      "cardId": "17-star",
+      "name_en": "The Star",
+      "name_tr": "Yıldız",
+      "arcana": "major",
+      "number": 17,
+      "symbolicMeaning": "Umut, iyileşme, zorlu bir dönemin ardından gelen berraklık.",
+      "psychologicalReflection": "Zor bir süreçten sonra yeniden güven ve umut inşa etme.",
+      "keywords": [
+        "umut",
+        "iyileşme",
+        "berraklık"
+      ],
+      "positionMeanings": {
+        "past": "Zorlu bir dönemin ardından nefes aldığınız bir an.",
+        "present": "Şu anda umut ve dinginlik hissi öne çıkıyor.",
+        "future": "Sabırla ilerleyen bir iyileşme süreci."
+      },
+      "contextualMeanings": {
+        "relationship": "Güvenin yeniden inşa edilmesi.",
+        "career": "Zorlu bir dönemin ardından net bir yön hissi.",
+        "general": "Umudu gerçekçi bir şekilde yeniden inşa etme."
+      },
+      "reflectionQuestions": [
+        "Bu dönemde sizi neye umutlandırıyor?",
+        "İyileşme sürecinde kendinize nasıl sabırlı olabilirsiniz?"
+      ],
+      "redFlags": {
+        "avoid": [
+          "mucize/garanti iyileşme vaadi"
+        ],
+        "instead": "Umudun bir süreç olduğunu, anlık bir sonuç olmadığını vurgulayın."
+      }
+    },
+    {
+      "cardId": "18-moon",
+      "name_en": "The Moon",
+      "name_tr": "Ay",
+      "arcana": "major",
+      "number": 18,
+      "symbolicMeaning": "Belirsizlik, bilinçaltı, netleşmemiş korkular.",
+      "psychologicalReflection": "Net olmayan bir durumda kaygıyı fark edip yönetme.",
+      "keywords": [
+        "belirsizlik",
+        "sezgi",
+        "kaygı"
+      ],
+      "positionMeanings": {
+        "past": "Belirsizlik içinde ilerlediğiniz bir dönem.",
+        "present": "Şu anda net olmayan bir durum kaygı yaratıyor olabilir.",
+        "future": "Netleşme öncesi bir bekleme süreci."
+      },
+      "contextualMeanings": {
+        "relationship": "Söylenmeyen kaygıların ilişkiyi etkilemesi.",
+        "career": "Belirsiz bir sürecin yarattığı tedirginlik.",
+        "general": "Bilinçaltı korkuların farkına varma."
+      },
+      "reflectionQuestions": [
+        "Bu belirsizlikte sizi asıl kaygılandıran ne?",
+        "Netleşmeden önce kendinize nasıl güven verebilirsiniz?"
+      ],
+      "redFlags": {
+        "avoid": [
+          "anksiyete/panik atak için tıbbi tavsiye yerine geçme",
+          "kesin bir tehlike kehaneti"
+        ],
+        "instead": "Yoğun kaygı halinde profesyonel destek önerin."
+      }
+    },
+    {
+      "cardId": "19-sun",
+      "name_en": "The Sun",
+      "name_tr": "Güneş",
+      "arcana": "major",
+      "number": 19,
+      "symbolicMeaning": "Netlik, canlılık, kendini olduğun gibi ifade etme.",
+      "psychologicalReflection": "İçsel bir netlik ve kendine güvenle görünür olma.",
+      "keywords": [
+        "netlik",
+        "canlılık",
+        "özgüven"
+      ],
+      "positionMeanings": {
+        "past": "Kendinizi net ve rahat hissettiğiniz bir dönem.",
+        "present": "Şu anda bir netlik ve canlılık hissi öne çıkıyor.",
+        "future": "Daha açık ve kendinden emin bir aşama."
+      },
+      "contextualMeanings": {
+        "relationship": "Açık ve samimi bir iletişim ortamı.",
+        "career": "Emeğinizin görünür olduğu bir dönem.",
+        "general": "Kendini olduğu gibi ifade etme rahatlığı."
+      },
+      "reflectionQuestions": [
+        "Şu an sizi neşelendiren ne?",
+        "Kendinizi en net hissettiğiniz an ne zamandı?"
+      ],
+      "redFlags": {
+        "avoid": [
+          "abartılı mutluluk/başarı garantisi"
+        ],
+        "instead": "Bu netliğin sürdürülebilir küçük adımlarla geldiğini vurgulayın."
+      }
+    },
+    {
+      "cardId": "20-judgement",
+      "name_en": "Judgement",
+      "name_tr": "Yargı",
+      "arcana": "major",
+      "number": 20,
+      "symbolicMeaning": "Hesaplaşma, kendini değerlendirme, bir çağrıya yanıt verme.",
+      "psychologicalReflection": "Geçmişi dürüstçe değerlendirip bilinçli bir sonraki adım atma.",
+      "keywords": [
+        "hesaplaşma",
+        "netleşme",
+        "çağrı"
+      ],
+      "positionMeanings": {
+        "past": "Geçmişinizi değerlendirdiğiniz bir dönem.",
+        "present": "Şu anda kendinizle dürüst bir hesaplaşma zamanı.",
+        "future": "Bilinçli bir sonraki adıma karar verme."
+      },
+      "contextualMeanings": {
+        "relationship": "İlişkiyi dürüstçe değerlendirme zamanı.",
+        "career": "Geçmiş deneyimlerden ders çıkarıp yön belirleme.",
+        "general": "Kendinize karşı dürüst bir değerlendirme."
+      },
+      "reflectionQuestions": [
+        "Bu deneyimden hangi dersi çıkardınız?",
+        "Şimdi hangi bilinçli adımı atmaya hazırsınız?"
+      ],
+      "redFlags": {
+        "avoid": [
+          "kıyamet/felaket günü kehaneti",
+          "dini yargı iması"
+        ],
+        "instead": "Bu kartın kişisel hesaplaşma anlamına geldiğini netleştirin."
+      }
+    },
+    {
+      "cardId": "21-world",
+      "name_en": "The World",
+      "name_tr": "Dünya",
+      "arcana": "major",
+      "number": 21,
+      "symbolicMeaning": "Tamamlanma, bütünlük, bir döngünün başarıyla kapanması.",
+      "psychologicalReflection": "Bir sürecin bütünlüğünü görüp emeğin karşılığını kabul etme.",
+      "keywords": [
+        "tamamlanma",
+        "bütünlük",
+        "entegrasyon"
+      ],
+      "positionMeanings": {
+        "past": "Bir döngüyü tamamladığınız bir dönem.",
+        "present": "Şu anda bir bütünlük ve tamamlanma hissi var.",
+        "future": "Bir sürecin başarıyla kapanıp yenisine alan açması."
+      },
+      "contextualMeanings": {
+        "relationship": "Karşılıklı bütünlük ve tamamlanmışlık hissi.",
+        "career": "Bir hedefin tamamlanması, yeni bir döngüye hazırlık.",
+        "general": "Emeğin karşılığını görme ve bütünlüğü kutlama."
+      },
+      "reflectionQuestions": [
+        "Hangi döngüyü tamamladığınızı hissediyorsunuz?",
+        "Bu tamamlanma size hangi yeni başlangıcı işaret ediyor?"
+      ],
+      "redFlags": {
+        "avoid": [
+          "mutlak/final bir mutluluk vaadi"
+        ],
+        "instead": "Tamamlanmanın da yeni bir başlangıcın parçası olduğunu vurgulayın."
+      }
+    }
+  ],
+  "pairRelations": [],
+  "positionRules": [],
+  "domainModifiers": [],
+  "personaModifiers": [],
+  "safetyConstraints": []
+}

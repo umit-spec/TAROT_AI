@@ -1,0 +1,35 @@
+{
+  "cardId": "06-lovers",
+  "name_en": "The Lovers",
+  "name_tr": "Âşıklar",
+  "arcana": "major",
+  "number": 6,
+  "symbolicMeaning": "Seçim, uyum, değerlerin hizalanması.",
+  "psychologicalReflection": "Kendi değerleriyle uyumlu bir seçim yapma kapasitesi; başka bir kişiyle gerçek bağlantı kurma.",
+  "keywords": [
+    "seçim",
+    "uyum",
+    "bağlantı"
+  ],
+  "positionMeanings": {
+    "past": "Değerlerinizi netleştiren bir seçim anı.",
+    "present": "Şu anda önemli bir tercih sizi bekliyor.",
+    "future": "Uyumlu bir bağlantı ya da netleşen bir değer."
+  },
+  "contextualMeanings": {
+    "relationship": "Karşılıklı uyum ve gerçek bağlantı ihtiyacı.",
+    "career": "Değerlerinizle uyumlu bir yol seçme.",
+    "general": "İki seçenek arasında iç uyumu dinleme."
+  },
+  "reflectionQuestions": [
+    "Bu seçimde hangi değeriniz en çok ağırlık taşıyor?",
+    "Bu bağlantı gerçekten sizin değerlerinizle uyumlu mu?"
+  ],
+  "redFlags": {
+    "avoid": [
+      "romantik kader vaadi",
+      "\"ruh eşi\" kesinliği"
+    ],
+    "instead": "Seçimin sizin elinizde olduğunu vurgulayın."
+  }
+}

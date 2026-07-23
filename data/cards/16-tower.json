@@ -1,0 +1,35 @@
+{
+  "cardId": "16-tower",
+  "name_en": "The Tower",
+  "name_tr": "Kule",
+  "arcana": "major",
+  "number": 16,
+  "symbolicMeaning": "Ani yıkılış, yanlış temellerin ortaya çıkması, zorunlu değişim.",
+  "psychologicalReflection": "Sarsıcı bir olayın aslında sağlam olmayan bir yapıyı ortaya çıkarması.",
+  "keywords": [
+    "sarsıntı",
+    "yıkım",
+    "gerçeklik"
+  ],
+  "positionMeanings": {
+    "past": "Beklenmedik bir sarsıntı yaşadığınız bir dönem.",
+    "present": "Şu anda sağlam olmayan bir yapı gün yüzüne çıkıyor olabilir.",
+    "future": "Ani ama gerekli bir değişim ihtimali."
+  },
+  "contextualMeanings": {
+    "relationship": "Görmezden gelinen bir sorunun yüzeye çıkması.",
+    "career": "Sağlam olmayan bir planın test edilmesi.",
+    "general": "Ani değişimin yeni bir temel kurma fırsatına dönüşmesi."
+  },
+  "reflectionQuestions": [
+    "Hangi yapı aslında sağlam değildi?",
+    "Bu sarsıntı sizi neyi yeniden inşa etmeye çağırıyor?"
+  ],
+  "redFlags": {
+    "avoid": [
+      "felaket/kaza kehaneti",
+      "korku uyandırıcı kesin dil"
+    ],
+    "instead": "Bu kartın sembolik bir uyanış anını temsil ettiğini vurgulayın."
+  }
+}

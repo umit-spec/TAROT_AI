@@ -1,0 +1,34 @@
+{
+  "cardId": "17-star",
+  "name_en": "The Star",
+  "name_tr": "Yıldız",
+  "arcana": "major",
+  "number": 17,
+  "symbolicMeaning": "Umut, iyileşme, zorlu bir dönemin ardından gelen berraklık.",
+  "psychologicalReflection": "Zor bir süreçten sonra yeniden güven ve umut inşa etme.",
+  "keywords": [
+    "umut",
+    "iyileşme",
+    "berraklık"
+  ],
+  "positionMeanings": {
+    "past": "Zorlu bir dönemin ardından nefes aldığınız bir an.",
+    "present": "Şu anda umut ve dinginlik hissi öne çıkıyor.",
+    "future": "Sabırla ilerleyen bir iyileşme süreci."
+  },
+  "contextualMeanings": {
+    "relationship": "Güvenin yeniden inşa edilmesi.",
+    "career": "Zorlu bir dönemin ardından net bir yön hissi.",
+    "general": "Umudu gerçekçi bir şekilde yeniden inşa etme."
+  },
+  "reflectionQuestions": [
+    "Bu dönemde sizi neye umutlandırıyor?",
+    "İyileşme sürecinde kendinize nasıl sabırlı olabilirsiniz?"
+  ],
+  "redFlags": {
+    "avoid": [
+      "mucize/garanti iyileşme vaadi"
+    ],
+    "instead": "Umudun bir süreç olduğunu, anlık bir sonuç olmadığını vurgulayın."
+  }
+}

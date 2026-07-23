@@ -1,0 +1,34 @@
+{
+  "cardId": "08-strength",
+  "name_en": "Strength",
+  "name_tr": "Güç",
+  "arcana": "major",
+  "number": 8,
+  "symbolicMeaning": "Zorlamadan değil sabırla ve şefkatle güç gösterme.",
+  "psychologicalReflection": "İçsel dürtüleri bastırmak yerine onlarla nazikçe ilişki kurma.",
+  "keywords": [
+    "sabır",
+    "şefkat",
+    "iç güç"
+  ],
+  "positionMeanings": {
+    "past": "Zorlu bir durumu sabırla yönettiğiniz bir an.",
+    "present": "Şu anda nazik ama kararlı bir duruş gerekiyor.",
+    "future": "İçsel bir korkuyla yumuşak biçimde yüzleşme fırsatı."
+  },
+  "contextualMeanings": {
+    "relationship": "Sert değil ama net bir duruş sergileme.",
+    "career": "Zorluklara sabırla ve istikrarla yaklaşma.",
+    "general": "Kendine karşı şefkatli bir güç."
+  },
+  "reflectionQuestions": [
+    "Şu anki zorlukla nasıl daha nazik bir ilişki kurabilirsiniz?",
+    "Gücünüzü nerede zorlama yerine sabırla kullanabilirsiniz?"
+  ],
+  "redFlags": {
+    "avoid": [
+      "fiziksel şiddeti öven ifade"
+    ],
+    "instead": "Gücün her zaman sertlik anlamına gelmediğini vurgulayın."
+  }
+}

@@ -306,17 +306,134 @@ Neden bu kararı almak zorunda kaldık?
 
 ---
 
+### ADR-011: Interpretation Knowledge Architecture (LLM as narration layer only)
+
+**Status:** Accepted
+
+**Context:** Sprint 2 begins Claude integration (Layer 3, ADR-004). Risk: if
+the Reading Engine binds directly to Claude's SDK, and the eventual
+interpretation knowledge model (card pair relations, position/persona/topic
+rule matrices, sourced and curated content) is designed later, Sprint 2's
+integration work becomes incompatible with it and has to be rewritten. The
+full knowledge model (potentially hundreds of card-pair relations, a
+NotebookLM-based research pipeline, sourced/citable content, a SQLite or JSON
+build pipeline, curation + Red Team review) is real future work — but
+building it now, before its shape is validated by a working product, is
+premature. This ADR locks the *architecture* so Sprint 2 can proceed without
+that model existing yet.
+
+**Decision:** Interpretation knowledge is structured, versioned data, layered
+as follows — all of it already exists in skeletal form as of Sprint 1
+(`data/cards/*.json`) except where marked "not yet built":
+
+1. **Card core character** — per-card base symbolic + psychological meaning,
+   independent of context. *(Exists: `symbolicMeaning`, `psychologicalReflection`, `keywords`.)*
+2. **Adjacent card influence** — how a card's reading is modulated by the
+   cards drawn before/after it in the same spread. *(Not yet built — Sprint 1's
+   Layer 2 only does keyword-overlap pattern detection, not directional
+   pairwise influence. Schema, not data, is Sprint 2/3 scope at most.)*
+3. **Spread position semantics** — meaning contributed by position (past/
+   present/future today; extensible to 5-card and beyond). *(Exists: `positionMeanings`.)*
+4. **Question domain (topic) context** — meaning contributed by the user's
+   stated topic. *(Exists: `contextualMeanings`, currently relationship/
+   career/general.)*
+5. **Persona adaptation** — tone/depth variation across the 5 personas
+   (`AŞAMA_2_PERSONA_WIREFRAME_PATHS.md`). Applied at the narration layer
+   (step 7), never by rewriting the underlying structured meaning itself.
+6. **Safety constraints** — `docs/02-ETHICAL_CONSTITUTION.md` red lines,
+   enforced as a validation gate on whatever the narration layer produces
+   (extends the `validate.ts` forbidden-phrase pattern from Sprint 1).
+7. **LLM as narration-only layer** — Claude (or any model) receives the
+   fully-resolved output of steps 1-6 and does exactly one job: render it as
+   natural, persona-toned Turkish. It never originates a card meaning,
+   pairing, or safety judgment. Enforced in code via an `InterpretationProvider`
+   interface (`ClaudeProvider`, `MockProvider`, future providers all
+   implement the same contract and receive the same structured input) —
+   swapping the provider must never change what the reading *means*, only
+   how it *reads*.
+
+**Explicitly deferred (not Sprint 2, not this ADR's scope):**
+- Generating the full card-pair relation matrix (previous/next-card
+  influence data for all combinations)
+- NotebookLM-based research pipeline for sourced interpretation content
+- Citation/source structure for interpretations
+- SQLite or JSON build pipeline for a larger interpretation knowledge base
+- Curation workflow and Red Team review of that content
+
+These become real work no earlier than Milestone 3 (Intelligence Layer, per
+`MILESTONE_2_GAP_ANALYSIS_ROADMAP_v1.1.md`), once Milestone 2's working
+product has validated which relations actually matter.
+
+**Consequences:**
+- Sprint 2's Claude adapter depends only on the `InterpretationProvider`
+  contract and `DeterministicReading` shape (already defined,
+  `src/types/reading.ts`) — not on any future knowledge-model internals.
+- A `MockProvider` can satisfy the same contract for deterministic testing,
+  with no network calls and no API key required.
+- Adding real pairwise/persona/citation depth later means adding a new
+  provider or enriching steps 1-6's data — the provider boundary doesn't move.
+
+**Revisit:** Before Milestone 3 (Intelligence Layer) work begins, when the
+pair-relation model and NotebookLM pipeline get designed for real.
+
+---
+
+### ADR-012: Knowledge Layer sits between Reading Engine and Provider; ground-truth invariant extends to it
+
+**Status:** Accepted
+
+**Context:** Sprint 3 introduces a Knowledge Layer (`PairRelation`,
+`PositionRule`, `DomainModifier`, `PersonaModifier`, `SafetyConstraint`) so
+Claude's semantic input is richer than raw card data alone - without this,
+API/UI would ossify around today's minimal interpretation shape and break
+when a real pair-relation matrix / NotebookLM pipeline lands (the exact
+outcome ADR-011 was written to prevent). The open question: does adding a
+new layer between Reading Engine and Provider weaken the "LLM never
+invents a card meaning" guarantee ADR-011 established?
+
+**Decision:** No - the ground-truth invariant extends one layer over,
+unchanged in kind:
+- `DeterministicReading` (already-drawn cards) remains the sole source of
+  *which* cards, in *what* order. No new layer may select or reorder cards.
+- A `KnowledgeProvider` (mirroring `InterpretationProvider`'s swappable
+  design - `LocalJsonKnowledgeProvider` today, a future DB-backed one
+  later) resolves a read-only `KnowledgeContext` *about* an
+  already-drawn reading - it looks up relations for the cards it's given,
+  it does not choose them.
+- `InterpretationProvider` (Claude, Mock) receives this richer context but
+  the rule is unchanged: it narrates given semantic content, it does not
+  invent new semantic content (a pair relation's `semanticEffect` comes
+  from the Knowledge Provider, never synthesized by the LLM).
+- `IntakeContext.safetyFlags` gating (crisis_* -> refuse to generate)
+  remains a caller-level decision (now: the API route), not something any
+  provider or the Knowledge Layer enforces itself.
+
+**Consequences:**
+- Sprint 3's API/UI can be built against a stable contract even though the
+  actual knowledge data (pair relations, etc.) is a small proof-of-concept
+  set today, not the full matrix - swapping `LocalJsonKnowledgeProvider`
+  for a future database-backed one changes zero call sites.
+- The full pair-relation matrix, NotebookLM pipeline, and citation
+  structure remain explicitly deferred (ADR-011's deferral list is
+  unchanged by this ADR - only the *contract* moves up to Sprint 3, not
+  the data).
+
+**Revisit:** When the full knowledge matrix / NotebookLM pipeline is
+designed (Milestone 3, unchanged from ADR-011).
+
+---
+
 ## Future Decision Points
 
 These decisions will likely be needed post-MVP:
 
-- **ADR-011:** 56 Küçük Arkana expansion strategy (when?)
-- **ADR-012:** Reversed cards inclusion (MVP+ or later?)
-- **ADR-013:** Multi-language support (roadmap?)
-- **ADR-014:** Other modules (Dream Analysis, Journaling — priority?)
-- **ADR-015:** Real payment integration (post-MVP test?)
-- **ADR-016:** Backend separation (if API load warrants?)
-- **ADR-017:** AI model upgrade path (Claude → GPT-4.5 parity?)
+- **ADR-013:** 56 Küçük Arkana expansion strategy (when?)
+- **ADR-014:** Reversed cards inclusion (MVP+ or later?)
+- **ADR-015:** Multi-language support (roadmap?)
+- **ADR-016:** Other modules (Dream Analysis, Journaling — priority?)
+- **ADR-017:** Real payment integration (post-MVP test?)
+- **ADR-018:** Backend separation (if API load warrants?)
+- **ADR-019:** AI model upgrade path (Claude → GPT-4.5 parity?)
 
 ---
 
@@ -335,18 +452,18 @@ Example:
 ```bash
 # After deciding on something big:
 git add docs/decisions/ADR-011-*.md
-git commit -m "ADR-011: [Decision Title] - [reason in 1 line]"
+git commit -m "ADR-013: [Decision Title] - [reason in 1 line]"
 ```
 
 ---
 
 ## Current Status
 
-**Total Decisions Recorded:** 10
+**Total Decisions Recorded:** 12
 **Pending Review:** 0
 **Rejected (documented for learning):** 0
 
-All Aşama 1 founding decisions are documented and signed off.
+All Aşama 1 founding decisions plus ADR-011 (Sprint 2 knowledge architecture) and ADR-012 (Sprint 3 Knowledge Layer boundary) are documented and signed off.
 
 ---
 

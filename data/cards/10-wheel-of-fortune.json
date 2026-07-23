@@ -1,0 +1,35 @@
+{
+  "cardId": "10-wheel-of-fortune",
+  "name_en": "Wheel of Fortune",
+  "name_tr": "Kaderin Tekerleği",
+  "arcana": "major",
+  "number": 10,
+  "symbolicMeaning": "Döngüler, değişim, kontrolünüz dışındaki etkenler.",
+  "psychologicalReflection": "Değişimin kaçınılmaz olduğunu kabul edip esneklik geliştirme.",
+  "keywords": [
+    "değişim",
+    "döngü",
+    "akış"
+  ],
+  "positionMeanings": {
+    "past": "Kontrolünüz dışında gelişen bir değişim.",
+    "present": "Şu anda bir döngünün dönüm noktasındasınız.",
+    "future": "Beklenmedik ama kaçınılmaz bir değişim."
+  },
+  "contextualMeanings": {
+    "relationship": "İlişkinin doğal bir evreden geçmesi.",
+    "career": "Kontrolünüz dışındaki koşulların etkisi.",
+    "general": "İniş çıkışların doğal bir parçası olduğunu kabul etme."
+  },
+  "reflectionQuestions": [
+    "Kontrol edemediğiniz neyi kabul etmeniz gerekiyor?",
+    "Bu değişimde elinizde olan tek şey nedir?"
+  ],
+  "redFlags": {
+    "avoid": [
+      "kesin talih/şans vaadi",
+      "kumar/yatırım tavsiyesi"
+    ],
+    "instead": "Değişimin doğal bir döngü olduğunu, kesin bir sonuç olmadığını vurgulayın."
+  }
+}

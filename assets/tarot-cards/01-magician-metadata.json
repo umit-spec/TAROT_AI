@@ -1,0 +1,57 @@
+{
+  "id": "01-magician",
+  "name": {
+    "en": "The Magician",
+    "tr": "Büyücü"
+  },
+  "number": 1,
+  "arcana": "major",
+  "source": {
+    "type": "provided_illustration",
+    "montage": "1000214766.png",
+    "extraction_date": "2026-07-22",
+    "position": {
+      "row": 1,
+      "column": 2
+    },
+    "crop_coordinates": {
+      "x": 99,
+      "y": 13,
+      "width": 80,
+      "height": 314
+    }
+  },
+  "assets": {
+    "web": {
+      "path": "assets/tarot-cards/01-magician.webp",
+      "dimensions": [
+        512,
+        768
+      ],
+      "format": "webp",
+      "file_size": 7504,
+      "checksum": "8f7c439b005b6b09c9e45d5063c46703acf4dbc48aa2e6fab1560c65e94ce85f"
+    },
+    "hq": {
+      "path": "assets/tarot-cards/01-magician-hq.webp",
+      "dimensions": [
+        2048,
+        3072
+      ],
+      "format": "webp",
+      "file_size": 20298,
+      "checksum": "8c066983d23e02ad86779f1f67999caf784247e6acdab007dff294595d2de754"
+    }
+  },
+  "provenance": {
+    "status": "approved-for-prototype",
+    "notes": "Extracted from user-provided montage image",
+    "extraction_date": "2026-07-22",
+    "version": "1.0"
+  },
+  "qa": {
+    "score": null,
+    "status": "pending-review",
+    "notes": "Extracted from montage, pending visual QA"
+  }
+}

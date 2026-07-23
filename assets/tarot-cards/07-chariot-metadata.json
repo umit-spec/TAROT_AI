@@ -1,0 +1,57 @@
+{
+  "id": "07-chariot",
+  "name": {
+    "en": "The Chariot",
+    "tr": "Savaş Arabası"
+  },
+  "number": 7,
+  "arcana": "major",
+  "source": {
+    "type": "provided_illustration",
+    "montage": "1000214766.png",
+    "extraction_date": "2026-07-22",
+    "position": {
+      "row": 1,
+      "column": 8
+    },
+    "crop_coordinates": {
+      "x": 941,
+      "y": 13,
+      "width": 199,
+      "height": 314
+    }
+  },
+  "assets": {
+    "web": {
+      "path": "assets/tarot-cards/07-chariot.webp",
+      "dimensions": [
+        512,
+        768
+      ],
+      "format": "webp",
+      "file_size": 13508,
+      "checksum": "e835da62506447f07486fb22bfb9722abec46ebe9c0383973d8acd4766cb0d8f"
+    },
+    "hq": {
+      "path": "assets/tarot-cards/07-chariot-hq.webp",
+      "dimensions": [
+        2048,
+        3072
+      ],
+      "format": "webp",
+      "file_size": 28422,
+      "checksum": "690dc26048efe01e65b7495e6ff613b4293d52ac1dd7d3b0919ef22e20116dca"
+    }
+  },
+  "provenance": {
+    "status": "approved-for-prototype",
+    "notes": "Extracted from user-provided montage image",
+    "extraction_date": "2026-07-22",
+    "version": "1.0"
+  },
+  "qa": {
+    "score": null,
+    "status": "pending-review",
+    "notes": "Extracted from montage, pending visual QA"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "id": "16-tower",
+  "name": {
+    "en": "The Tower",
+    "tr": "Kule"
+  },
+  "number": 16,
+  "arcana": "major",
+  "source": {
+    "type": "provided_illustration",
+    "montage": "1000214766.png",
+    "extraction_date": "2026-07-22",
+    "position": {
+      "row": 3,
+      "column": 1
+    },
+    "crop_coordinates": {
+      "x": 12,
+      "y": 656,
+      "width": 179,
+      "height": 334
+    }
+  },
+  "assets": {
+    "web": {
+      "path": "assets/tarot-cards/16-tower.webp",
+      "dimensions": [
+        512,
+        768
+      ],
+      "format": "webp",
+      "file_size": 8694,
+      "checksum": "7da765e0624d9485b7845c6af56762b2ceda548797cb467cd34abff9ee01971f"
+    },
+    "hq": {
+      "path": "assets/tarot-cards/16-tower-hq.webp",
+      "dimensions": [
+        2048,
+        3072
+      ],
+      "format": "webp",
+      "file_size": 21904,
+      "checksum": "2383b07ce02bd925d23c6ee2ce299b7b2c914d687cec8189b1cdd89310cdba73"
+    }
+  },
+  "provenance": {
+    "status": "approved-for-prototype",
+    "notes": "Extracted from user-provided montage image",
+    "extraction_date": "2026-07-22",
+    "version": "1.0"
+  },
+  "qa": {
+    "score": null,
+    "status": "pending-review",
+    "notes": "Extracted from montage, pending visual QA"
+  }
+}

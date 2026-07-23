@@ -1,0 +1,57 @@
+{
+  "id": "10-wheel-of-fortune",
+  "name": {
+    "en": "Wheel of Fortune",
+    "tr": "Kaderin Tekerleği"
+  },
+  "number": 10,
+  "arcana": "major",
+  "source": {
+    "type": "provided_illustration",
+    "montage": "1000214766.png",
+    "extraction_date": "2026-07-22",
+    "position": {
+      "row": 2,
+      "column": 3
+    },
+    "crop_coordinates": {
+      "x": 179,
+      "y": 327,
+      "width": 108,
+      "height": 329
+    }
+  },
+  "assets": {
+    "web": {
+      "path": "assets/tarot-cards/10-wheel-of-fortune.webp",
+      "dimensions": [
+        512,
+        768
+      ],
+      "format": "webp",
+      "file_size": 7062,
+      "checksum": "3e97996c047614d94220689ff98d8e0ba19d325a18f8c27764795104febca49e"
+    },
+    "hq": {
+      "path": "assets/tarot-cards/10-wheel-of-fortune-hq.webp",
+      "dimensions": [
+        2048,
+        3072
+      ],
+      "format": "webp",
+      "file_size": 19718,
+      "checksum": "d2353ecc16f3a88880123673665c7db4da27a6959755e23bc1096951785fa518"
+    }
+  },
+  "provenance": {
+    "status": "approved-for-prototype",
+    "notes": "Extracted from user-provided montage image",
+    "extraction_date": "2026-07-22",
+    "version": "1.0"
+  },
+  "qa": {
+    "score": null,
+    "status": "pending-review",
+    "notes": "Extracted from montage, pending visual QA"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "cardId": "12-hanged-man",
+  "name_en": "The Hanged Man",
+  "name_tr": "Asılı Adam",
+  "arcana": "major",
+  "number": 12,
+  "symbolicMeaning": "Duraklama, bakış açısını değiştirme, teslimiyet.",
+  "psychologicalReflection": "Kontrolü bırakıp farklı bir açıdan bakmayı kabul etme.",
+  "keywords": [
+    "duraklama",
+    "perspektif",
+    "teslimiyet"
+  ],
+  "positionMeanings": {
+    "past": "Bir konuda beklemek zorunda kaldığınız bir dönem.",
+    "present": "Şu anda ilerlemek yerine durup bakış açısı değiştirme zamanı.",
+    "future": "Farklı bir perspektifin getireceği netlik."
+  },
+  "contextualMeanings": {
+    "relationship": "Karşı tarafın bakış açısını anlamaya çalışma.",
+    "career": "Aceleyle hareket etmemek, beklemeyi kabul etmek.",
+    "general": "Duraklamanın da bir ilerleme biçimi olabileceği."
+  },
+  "reflectionQuestions": [
+    "Bu duruma farklı bir açıdan nasıl bakabilirsiniz?",
+    "Neyi bırakmanız gerekiyor olabilir?"
+  ],
+  "redFlags": {
+    "avoid": [
+      "pasifliği/çaresizliği özendiren dil"
+    ],
+    "instead": "Beklemenin bilinçli bir tercih olabileceğini vurgulayın."
+  }
+}
