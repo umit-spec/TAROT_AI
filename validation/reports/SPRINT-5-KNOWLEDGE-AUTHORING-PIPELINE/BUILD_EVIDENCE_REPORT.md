@@ -1,9 +1,19 @@
 # Sprint 5 Build Evidence Report
 
 **Date:** 2026-07-23
-**Branch:** `feat/major-arcana-asset-migration`
+**Branch:** `feat/major-arcana-asset-migration` (implementation history); active development continues on `feat/insight-engine-milestone-3` per ADR-013
 **Commit:** `7b2ab68` (implementation), following plan commit `3f67b61`
-**Status:** Sprint 5 — evidence produced, pending one deliberately-withheld decision (see §6)
+**Status:** Sprint 5 — **NOT YET CLOSED.** Architecturally reviewed by the
+Product Owner and found "close to PASS but not closed" — the sprint's
+most critical real gate, the human lock decision, was correctly left
+open (§6). See
+`validation/reports/SPRINT-5-KNOWLEDGE-AUTHORING-PIPELINE/HUMAN_LOCK_REVIEW_PACKET.md`
+for the per-record review packet now awaiting the Product Owner's
+individual lock/revise/reject decisions. Sprint 5 closes as **PASS WITH
+DOCUMENTED DEBT** only after (1) those lock decisions are made one at a
+time via `transition.ts`, and (2) a pilot build from the resulting locked
+records is evidenced (checksum + runtime compatibility test) — a second,
+follow-up evidence report, not this one.
 
 ---
 
@@ -130,10 +140,26 @@ findings that changed the actual text, not a status flip.
 
 ## 7. Next Step
 
-Sprint 5's machinery is complete and evidenced. The one open action is
-the Product Owner's own: review the 6 red-teamed pair relations in
-`data/knowledge-authoring/records/pairRelations.json` (or via
-`git show 7b2ab68 -- data/knowledge-authoring/records/pairRelations.json`)
-and decide whether to lock any of them. Locking does not by itself
-change the live bundle — a separate, explicit `knowledge:promote` run
-would still be required, and is out of scope until requested.
+Sprint 5's machinery is complete and evidenced. What remains is not
+implementation work — it is the Product Owner's own review:
+
+1. Read `HUMAN_LOCK_REVIEW_PACKET.md` (same directory) — a per-record
+   packet (card order, relation type, semantic effect, warnings, sources,
+   what the sources actually support, the Red Team finding and fix made,
+   remaining risk, a non-binding recommended decision) for all 6 pilot
+   pair relations. That second, checklist-driven pass found one issue
+   the first Red Team pass missed (`pair-10-wheel-of-fortune-12-hanged-man`'s
+   deterministic tense) — recorded there, not hidden.
+2. Decide per record, individually — no batch `--all` lock command
+   exists or will be added:
+   ```bash
+   npm run knowledge:transition -- \
+     --recordType pairRelation --recordId <id> \
+     --to locked --actorId umit
+   ```
+3. Once lock decisions are made, a pilot build (`knowledge:build`) from
+   the resulting locked records, its checksum, and a runtime
+   compatibility check get their own follow-up evidence report — Sprint 5
+   closes as PASS WITH DOCUMENTED DEBT only then.
+4. Promotion to the real `data/knowledge/` bundle stays a fully separate,
+   later checkpoint even after locking — not bundled into this step.
