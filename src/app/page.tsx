@@ -1,13 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { ReadingResponse, CrisisResponse } from '../types/api';
+import { ConsentModal } from '../components/ConsentModal';
+import { QuestionForm } from '../components/QuestionForm';
+import { ShuffleReveal } from '../components/ShuffleReveal';
+import { ReadingResult } from '../components/ReadingResult';
+import { CrisisNotice } from '../components/CrisisNotice';
+import { ErrorNotice } from '../components/ErrorNotice';
 
-// Functional shell only - per Sprint 3 plan, no design system, no visual
-// polish until a Canva/Figma prototype is locked. This exists to prove the
-// wiring (question -> submit -> 3 cards -> structured interpretation ->
-// error/fallback/crisis state), not to look like the product.
+// Sprint 4 UI Design Contract (docs/SPRINT_4_UI_DESIGN_CONTRACT_PLAN.md):
+// this orchestrator owns ViewState and is the only place that calls
+// fetch() - every component below receives data via props, none of them
+// independently query the API.
 type ViewState =
+  | { status: 'consent' }
   | { status: 'idle' }
   | { status: 'loading' }
   | { status: 'success'; data: ReadingResponse }
@@ -19,18 +26,26 @@ function randomSeed(): string {
 }
 
 export default function HomePage() {
-  const [question, setQuestion] = useState('');
-  const [state, setState] = useState<ViewState>({ status: 'idle' });
+  const [state, setState] = useState<ViewState>({ status: 'consent' });
+  const [reducedMotion, setReducedMotion] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false
+  );
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  useEffect(() => {
+    const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const listener = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mql.addEventListener('change', listener);
+    return () => mql.removeEventListener('change', listener);
+  }, []);
+
+  async function handleQuestionSubmit(input: { question: string; topicHint?: 'relationship' | 'career' | 'self' }) {
     setState({ status: 'loading' });
 
     try {
       const res = await fetch('/api/readings', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ seed: randomSeed(), question }),
+        body: JSON.stringify({ seed: randomSeed(), question: input.question, topicHint: input.topicHint }),
       });
       const data = await res.json();
 
@@ -48,65 +63,35 @@ export default function HomePage() {
     }
   }
 
+  function handleRetry() {
+    setState({ status: 'idle' });
+  }
+
   return (
-    <main>
-      <h1>Tarot AI</h1>
-      <p>Foundation &amp; Executable Core — functional shell, tasarım henüz kilitlenmedi.</p>
+    <main className="mx-auto max-w-2xl p-4 font-body text-ink-primary">
+      <h1 className="font-heading text-2xl">Tarot AI</h1>
 
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="question">Sorunuz</label>
-        <br />
-        <textarea
-          id="question"
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-          rows={3}
-          cols={50}
-        />
-        <br />
-        <button type="submit" disabled={state.status === 'loading'}>
-          {state.status === 'loading' ? 'Okuma hazırlanıyor...' : 'Kartları Çek'}
-        </button>
-      </form>
-
-      {state.status === 'crisis' && (
-        <section aria-label="crisis-resources">
-          <p>{state.data.message}</p>
-          <ul>
-            {state.data.resources.map((r) => (
-              <li key={r.label}>
-                {r.label}: {r.contact}
-              </li>
-            ))}
-          </ul>
-        </section>
+      {state.status === 'consent' && (
+        <ConsentModal onAccept={() => setState({ status: 'idle' })} onDecline={() => setState({ status: 'idle' })} />
       )}
 
-      {state.status === 'error' && (
-        <section aria-label="error-state">
-          <p>Bir hata oluştu: {state.message}</p>
-        </section>
-      )}
+      {state.status !== 'consent' && (
+        <>
+          <QuestionForm onSubmit={handleQuestionSubmit} disabled={state.status === 'loading'} />
+          <ShuffleReveal isLoading={state.status === 'loading'} reducedMotion={reducedMotion} />
 
-      {state.status === 'success' && (
-        <section aria-label="reading-result">
-          <p>{state.data.interpretation.opening}</p>
-          <ol>
-            {state.data.cards.map((card, i) => (
-              <li key={card.id}>
-                <strong>{card.position}:</strong> {card.id} ({card.orientation})
-                <p>{state.data.interpretation.cards[i]?.relevanceToQuestion}</p>
-              </li>
-            ))}
-          </ol>
-          <p>{state.data.interpretation.practicalReflection}</p>
-          <p>
-            <em>{state.data.interpretation.uncertaintyNotice}</em>
-          </p>
-          {state.data.provider === 'mock' && (
-            <p aria-label="fallback-indicator">(Bu okuma yedek modda üretildi.)</p>
+          {state.status === 'crisis' && <CrisisNotice message={state.data.message} resources={state.data.resources} />}
+          {state.status === 'error' && <ErrorNotice userMessage={state.message} onRetry={handleRetry} />}
+          {state.status === 'success' && (
+            <ReadingResult
+              cards={state.data.cards}
+              interpretation={state.data.interpretation}
+              knowledgeMeta={state.data.knowledge.meta}
+              providerUsed={state.data.provider}
+              intakeContext={state.data.intakeContext}
+            />
           )}
-        </section>
+        </>
       )}
     </main>
   );
