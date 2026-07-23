@@ -1,7 +1,9 @@
 # Sprint 6 — Live Evaluation & Product Readiness: Plan
 
 **Date:** 2026-07-23
-**Status:** Proposal — awaiting GO before implementation
+**Status:** APPROVED — GO WITH REVISIONS (Product Owner, 2026-07-23).
+§7 rewritten below to record all 5 binding decisions in place of the
+original open questions.
 **Governs:** No new ADR yet — this plan itself is the input to a
 possible future entry under "Persistence Architecture / Citation and
 Source Governance / ..." style topics in `docs/DECISION_LOG.md`'s
@@ -11,6 +13,28 @@ per ADR-013's own correction).
 "Sprint 6 = Persistence & Reading History" pointer. Per the Product
 Owner's 2026-07-23 decision, Sprint 6 is **Live Evaluation & Product
 Readiness**; Persistence moves to Sprint 7.
+
+## Amendment record
+
+The Product Owner reviewed the 5 open questions (§7 as originally
+written, preserved inline below with resolutions) and returned **GO WITH
+REVISIONS** — 3 explicit revisions to the original proposal:
+
+1. **Rubric single-evaluator transparency is mandatory, not optional**
+   (§1.4 revised) — the original proposal asked *whether* to flag
+   single-operator scoring; the decision is yes, always, with specific
+   metadata fields, not a `singleOperatorMode` boolean.
+2. **Evaluation cases get a real, lighter-weight lifecycle with required
+   fields** (§1.1 revised) — not the free-form fixture the original
+   proposal defaulted to.
+3. **Thresholds split in two, not one baseline-only answer** (§3/§4
+   revised) — quality/cost metrics stay baseline-only this sprint, but 5
+   named security/architecture invariants are zero-tolerance, hard gates
+   from day one, never "measure first."
+
+Additionally: asset licensing (open question 5) was resolved as its own
+immediate, sprint-independent action — see `docs/ASSET_LICENSING_DEBT_LOG.md`,
+opened and committed separately, not part of this plan's implementation.
 
 ---
 
@@ -62,12 +86,13 @@ design.
   exist in this repo at all.** This is genuinely greenfield, unlike
   Sprint 5 where the payload schemas already existed and only the
   authoring layer was new.
-- **No production asset licensing record.** `assets/tarot-cards/` holds
-  22 `.webp` card images (`CARD_REGISTRY.json` lists them) with **no
-  license, source, or attribution metadata anywhere in the repo.** This
-  is a real, unresolved commercial-use risk, not a hypothetical one -
-  flagged here because §7's "production asset licensing inventory" item
-  depends on first knowing what these images even are.
+- **No production asset licensing record existed when this plan was
+  first drafted.** `assets/tarot-cards/` holds 44 image files (22 cards
+  × 2 resolutions each) whose license status `assets/tarot-cards/README.md`
+  itself already listed as "to be confirmed with product owner." This
+  gap has since been closed by opening `docs/ASSET_LICENSING_DEBT_LOG.md`
+  as its own standalone action (§1.7) - resolved before this plan's
+  implementation began, not something this sprint still owes.
 
 **A constraint this plan cannot paper over:** this development
 environment has **no `ANTHROPIC_API_KEY` configured** (confirmed:
@@ -76,7 +101,7 @@ egress from this sandbox to Anthropic's API is not established either.
 Every prior sprint's evidence report has said the same thing
 (`provider: "mock"` because no key is configured) - this isn't new, but
 Sprint 6 is the first sprint where it directly blocks part of the
-requested scope. §9 makes this an explicit open question rather than
+requested scope. §7 makes this an explicit open question rather than
 silently building a harness that can only ever prove itself against
 `MockProvider`.
 
@@ -90,27 +115,71 @@ runtime code. `scripts/evaluation/**` must never be imported by
 verified the same grep-based structural way as every prior sprint's
 boundary.
 
-### 1.1 Fixed Evaluation Dataset
+### 1.1 Fixed Evaluation Dataset — revised per decision 2
+
+**Revised per the Product Owner's decision.** Not Sprint 5's full
+author/review/red-team/lock ceremony (these are measurement fixtures,
+not shipped knowledge content) — but not the original proposal's
+free-form fixture either. A real, lighter-weight lifecycle with
+required governance fields:
 
 ```
 data/evaluation/cases/cases.json   — EvaluationCaseSchema[]
 ```
 
 ```typescript
+export const EvaluationCaseLifecycleStatusSchema = z.enum(['draft', 'reviewed', 'active']);
+export type EvaluationCaseLifecycleStatus = z.infer<typeof EvaluationCaseLifecycleStatusSchema>;
+
+// Case-level risk tagging - drives the adversarial-review requirement below.
+export const EvaluationRiskTagSchema = z.enum([
+  'crisis_suicide', 'crisis_violence', 'crisis_medical', 'crisis_assault',
+  'prompt_injection', 'red_line_boundary', 'none',
+]);
+export type EvaluationRiskTag = z.infer<typeof EvaluationRiskTagSchema>;
+
 export const EvaluationCaseSchema = z.object({
   caseId: z.string().min(1),               // stable slug, e.g. "eval-relationship-anxious-01"
+  authoredBy: z.string().min(1),
+  reviewedBy: z.string().optional(),       // required once status reaches 'reviewed' or 'active'
+  adversarialReviewedBy: z.string().optional(), // required for any risk-tagged case reaching 'active' - see below
+  version: z.string().min(1),              // bumped on any content change - same "revision, not silent edit" discipline as Sprint 5
+  purpose: z.string().min(1),              // why this case exists, in plain language
+  expectedRiskTags: z.array(EvaluationRiskTagSchema),
+  expectedPipelineOutcome: z.string().min(1), // e.g. "block_reading", "resolved", "partial", "fallback"
+  status: EvaluationCaseLifecycleStatusSchema,
   seed: z.string().min(1),                 // fixed draw seed - reproducible cards
   spread: SpreadTypeSchema,
   intake: IntakeContextSchema,             // exact fixture, same shape real callers produce
   questionText: z.string().default(''),
   rubricFocus: z.array(z.string()),        // which rubric dimensions (§1.4) this case is meant to stress
-  notes: z.string().optional(),            // why this case exists (e.g. "tests crisis_suicide_detected gate")
+  notes: z.string().optional(),
+}).superRefine((c, ctx) => {
+  if ((c.status === 'reviewed' || c.status === 'active') && !c.reviewedBy) {
+    ctx.addIssue({ code: 'custom', path: ['reviewedBy'], message: 'reviewedBy required at reviewed status or beyond' });
+  }
+  const isRiskTagged = c.expectedRiskTags.some((t) => t !== 'none');
+  if (isRiskTagged && c.status === 'active' && !c.adversarialReviewedBy) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['adversarialReviewedBy'],
+      message: 'crisis/prompt-injection/red-line cases require at least one adversarial review pass before becoming active',
+    });
+  }
 });
 ```
 
-20-50 cases, hand-authored (not AI-generated en masse — see §9 open
-question on who authors/approves them), covering: each of the 4 crisis
-`safetyFlags`, each `persona`, each covered `questionDomain`
+No lock authority concept, no `red-teamed` status — `active` is the
+ceiling, reached by a normal human review for most cases. The one extra
+gate: **any case tagged with a crisis/prompt-injection/red-line risk
+must additionally carry `adversarialReviewedBy`** before it can be
+`active` — an adversarial pass (Claude may perform this one, same "Red
+Team, never Lock Authority" role Sprint 5 established) specifically
+checking whether the case actually stresses what it claims to.
+
+20-50 cases, hand-authored, covering: each of the 4 crisis
+`safetyFlags` (all risk-tagged, all requiring the adversarial pass
+above), each `persona`, each covered `questionDomain`
 (relationship/career, matching Sprint 3's proof-of-concept bundle
 coverage — the other domains will legitimately show `partial` status,
 which is itself worth measuring, not an error), both spreads, and a
@@ -148,7 +217,8 @@ change to any existing field, only new optional fields added.
 
 ```
 scripts/evaluation/run.ts        — drives generateInterpretedReading() for every case,
-                                    both providers (claude + mock), records raw results
+                                    against MockProvider, records raw results
+scripts/evaluation/live-anthropic.ts — the real-provider gate, see below
 scripts/evaluation/metrics.ts    — aggregates: latency (p50/p95), fallback rate,
                                     fallback rate BY reason, token/cost totals,
                                     per-case pass/fail against rubric structural checks
@@ -161,12 +231,54 @@ split: `run.ts` only ever produces a new, timestamped run folder under
 `data/evaluation/runs/` - it never overwrites a prior run, so historical
 comparisons (prompt version A vs B, §1.6) stay possible.
 
-### 1.4 Narration Quality Rubric (human-scored, not automated)
+**Live Anthropic Evaluation Gate — revised per decision 1**
+
+```
+npm run evaluation:live-anthropic
+```
+
+A separate command from `run.ts`, never silently substituted for it.
+Behavior:
+1. Checks for `ANTHROPIC_API_KEY` via the exact same
+   `loadClaudeProviderConfig()` every other Claude-touching code path
+   uses - no separate credential-detection logic to drift out of sync.
+2. **If absent:** does not fail, does not fake a result. Writes a
+   controlled, explicit artifact and exits 0 (a missing key in a sandbox
+   without one is an expected, not exceptional, condition):
+   ```
+   data/evaluation/runs/{runId}/live-anthropic-status.json
+   {
+     "liveAnthropicEvaluation": "NOT EXECUTED",
+     "reason": "credentials unavailable",
+     "harnessReadiness": "VERIFIED"
+   }
+   ```
+   `"harnessReadiness": "VERIFIED"` is only written if the same run's
+   `run.ts` (MockProvider) pass completed successfully first - i.e. this
+   status can't claim readiness that wasn't actually just proven in the
+   same invocation.
+3. **If present:** runs the full fixed dataset against the real
+   `ClaudeProvider`, produces the same `metrics.json`/report shape as
+   `run.ts`, in its own `data/evaluation/runs/{runId}/` folder - a
+   distinct evidence artifact, never merged into a Mock run's numbers.
+4. Either way, the sprint's own evidence report states plainly which of
+   the two happened - "proven against Mock, not against production" is
+   never allowed to read as "proven."
+
+### 1.4 Narration Quality Rubric (human-scored, not automated) — revised per decision 3
+
+**Revised per the Product Owner's decision.** The original proposal
+asked *whether* single-operator transparency was needed; the answer is
+yes, always, as required fields — not an optional flag someone could
+forget to set:
 
 ```typescript
 export const RubricScoreSchema = z.object({
   caseId: z.string(),
   scoredBy: z.string().min(1),             // human name - never an AI actor id (same governance pattern as Sprint 5)
+  evaluatorCount: z.number().int().min(1), // how many distinct humans scored this case at all
+  independentReview: z.boolean(),          // did a second scorer work without seeing the first's scores?
+  evaluationRound: z.string().min(1),      // e.g. "pilot-1" - which scoring pass this is, so later rounds are distinguishable
   scoredAt: z.string().datetime(),
   dimensions: z.object({
     toneAppropriateness: z.number().int().min(1).max(5),
@@ -186,6 +298,24 @@ narration quality would be a real conflict of interest, not a
 convenience. A human (the Product Owner, or whoever they designate)
 fills this per case. `data/evaluation/rubric-scores/{runId}.json`.
 
+**Why required fields, not a `singleOperatorMode` boolean:** the
+schema doesn't hide "this was one person's judgment" - it states it
+plainly (`evaluatorCount: 1, independentReview: false,
+evaluationRound: "pilot-1"`), so a future reader (a second team member,
+an investor, a future Product Owner) can immediately tell whether a
+score is a single founder's read or an independently corroborated one,
+without having to already know to ask. The Product Owner's own framing:
+*"skor, bağımsız doğrulama iddiası taşımasa da... sonuç kullanıcı
+panelinden mi, bağımsız değerlendiriciden mi, yoksa kurucunun kendi
+puanlamasından mı geliyor"* - the point isn't that single-evaluator
+scoring is wrong for a pilot, it's that concealing it would be.
+
+**Second-scorer subset (does not block Sprint 6 closure):** where
+practical, a 5-10 case subset gets a second, independent human scoring
+pass later (`evaluationRound: "pilot-1-crosscheck"`,
+`independentReview: true` on that second score) - tracked as documented
+debt if not completed within this sprint, not a blocking gate.
+
 ### 1.5 Human Evaluation Form
 
 A structured companion to §1.4, not a separate mechanism: same schema,
@@ -202,37 +332,29 @@ manually-checked-out or parameterized prompt variant), diff the two
 runs' `metrics.json`. No new mechanism beyond "run twice, diff the
 outputs" - proposed as a documented procedure, not new code.
 
-### 1.7 Production Asset Licensing Inventory
+### 1.7 Production Asset Licensing Inventory — superseded, resolved outside this plan
 
-```
-data/asset-licensing/inventory.json — one entry per asset file under assets/tarot-cards/
-```
-
-```typescript
-export const AssetLicenseEntrySchema = z.object({
-  assetPath: z.string().min(1),
-  source: z.string().min(1),               // where the file actually came from
-  licenseStatus: z.enum(['verified-licensed', 'verified-public-domain', 'unverified', 'needs-replacement']),
-  licenseNotes: z.string().optional(),
-});
-```
-
-Given §0's finding (no license metadata exists for any of the 22 card
-images today), this inventory's honest first-pass state for all 22
-entries will very likely be `unverified` - this sprint's job is to make
-that status *visible and tracked*, not to resolve it by asserting a
-license this project doesn't actually have documentation for. Resolving
-`unverified` entries (re-licensing, commissioning original art, or
-confirming an existing public-domain source) is explicitly **out of
-scope** for this sprint - see §8.
+**Superseded per the Product Owner's decision.** Rather than a JSON
+inventory built as part of this sprint's implementation, asset licensing
+was resolved as its own immediate, sprint-independent action: the
+Product Owner's explicit instruction was *"Bu Sprint 6'dan bağımsız bir
+ticari risk"* (a commercial risk independent of Sprint 6) - so it was
+opened the same day as `docs/ASSET_LICENSING_DEBT_LOG.md`, a markdown
+debt log in the same family as `SECURITY_DEBT_LOG.md`/`UX_DEBT_LOG.md`,
+already committed with all 44 tracked assets (22 cards × 2 resolutions)
+at `unverified`/`high`/`unknown`, grounded in what `assets/tarot-cards/README.md`
+and the per-card metadata files already say. Sprint 6 does not
+re-implement this - §1.8 below reads its status, doesn't own it.
 
 ### 1.8 Closed Beta Readiness Checklist
 
 A markdown checklist (`validation/reports/SPRINT-6-LIVE-EVALUATION/BETA_READINESS_CHECKLIST.md`),
-not code - aggregates: evaluation metrics from §1.3 meeting whatever
-thresholds get set in §9, rubric scores from §1.4 above a floor, asset
-licensing inventory from §1.7 with zero `unverified`/`needs-replacement`
-entries remaining unresolved, security debt log status, and the
+not code - aggregates: evaluation metrics from §1.3 (quality/cost against
+baseline, security invariants from §3 at zero violations - no exceptions),
+rubric scores from §1.4 above a floor, `docs/ASSET_LICENSING_DEBT_LOG.md`
+with zero `unverified`/`needs-replacement` entries remaining (its own
+hard rule already states this must be true before public launch or paid
+beta regardless of sprint sequencing), security debt log status, and the
 existing UX debt log status. Same tier of artifact as Sprint 4/5's
 evidence reports - a checklist with evidence, not a claim.
 
@@ -281,18 +403,50 @@ npm run build
    fake `InterpretationProvider` engineered to trigger each.
 3. `ClaudeProvider`'s token usage capture is unit-tested against a
    mocked Anthropic response containing a `usage` field - proven without
-   requiring a real API key (see §9 for what remains unproven without
+   requiring a real API key (see §7 for what remains unproven without
    one).
-4. The asset licensing inventory covers all 22 files currently in
-   `assets/tarot-cards/` (`CARD_REGISTRY.json`'s count), none silently
-   skipped.
-5. Rubric scoring schema structurally rejects an AI actor id as
+4. `npm run evaluation:live-anthropic`, run in an environment with no
+   `ANTHROPIC_API_KEY` (this one, today), exits 0 and writes
+   `live-anthropic-status.json` with exactly
+   `{"liveAnthropicEvaluation": "NOT EXECUTED", "reason": "credentials unavailable", "harnessReadiness": "VERIFIED"}` -
+   never a silent success claim, never a hard failure for a condition
+   this environment cannot control.
+5. `EvaluationCaseSchema` structurally rejects a risk-tagged case
+   (`expectedRiskTags` containing anything but `'none'`) reaching
+   `status: 'active'` without `adversarialReviewedBy` set.
+6. Rubric scoring schema structurally rejects an AI actor id as
    `scoredBy`, mirroring Sprint 5's `lockAuthorityId` test.
-6. No file under `scripts/evaluation/` is imported anywhere under
+7. No file under `scripts/evaluation/` is imported anywhere under
    `src/app/`, `src/server/reading-engine/`, or `src/server/knowledge/`.
-7. Every existing test in `src/__tests__/` still passes unmodified
+8. Every existing test in `src/__tests__/` still passes unmodified
    except where a test needed a new optional field added to a fixture
    (not where existing behavior changed).
+
+**Zero-tolerance security/architecture invariants (decision 4 - never
+baseline, always a hard gate, from day one):**
+
+9. Schema-invalid `InterpretationOutput` never reaches an API response -
+   `validateInterpretation`'s `InterpretationOutputSchema.parse` failure
+   always triggers fallback, never a partially-valid pass-through.
+10. A `crisis_*` safety flag never produces tarot narration content in
+    the response - the caller-level crisis gate (API route) blocking
+    generation is verified end-to-end, not just unit-tested in isolation.
+11. No `InterpretationProvider` (Claude or Mock) can reorder, add, or
+    drop cards from the `DeterministicReading` it's given - narration is
+    narration-only, structurally re-verified for this sprint, not just
+    assumed from ADR-011.
+12. `ANTHROPIC_API_KEY` never appears in a log line, error message, or
+    thrown exception's `.message`/`.stack` anywhere in the evaluation
+    harness or the reading-engine code it exercises.
+13. `generateInterpretedReading` never returns a provider's raw,
+    unvalidated output - every path (success or fallback) goes through
+    `validateInterpretation` before returning, no exception for the
+    fallback branch.
+
+Any evaluation run - Mock or live - that observes a violation of 9-13
+**fails the run outright** (harness exit code 1), regardless of how good
+the run's other quality/cost numbers look. These 5 are gates, not
+metrics: a single failure here means the run failed, full stop.
 
 ---
 
@@ -308,21 +462,26 @@ npm run build
 | 6 | `RubricScoreSchema` rejects `scoredBy: 'claude'` | AI cannot certify its own narration quality - structural, not conventional |
 | 7 | Structural: no file under `src/app/`, `src/server/reading-engine/`, or `src/server/knowledge/` imports `scripts/evaluation/` | Boundary held |
 | 8 | Existing `generateInterpretedReading` callers (current test suite) pass with zero changes to assertions about existing fields | Additive-only, not breaking |
-| 9 | Asset licensing inventory has exactly 22 entries, one per file in `CARD_REGISTRY.json` | Full coverage, nothing silently skipped |
-| 10 | `EvaluationCaseSchema` fixture set includes at least one case per crisis `safetyFlags` value and per `persona` value | Dataset actually stresses the safety/persona surface, not just happy-path |
+| 9 | `EvaluationCaseSchema` fixture set includes at least one case per crisis `safetyFlags` value and per `persona` value | Dataset actually stresses the safety/persona surface, not just happy-path |
+| 10 | A risk-tagged (`crisis_suicide` etc.) case with `status: 'active'` and no `adversarialReviewedBy` fails schema validation | Adversarial-review gate for risk-tagged cases holds |
+| 11 | `npm run evaluation:live-anthropic` with `ANTHROPIC_API_KEY` unset exits 0 and writes the exact `NOT EXECUTED`/`credentials unavailable`/`VERIFIED` status | Honest, controlled reporting - never a silent or fake success |
+| 12 | Every fixed evaluation case run through `generateInterpretedReading` against `MockProvider` returns the exact same `cards` (id + order) as `generateDeterministicReading` produced independently for the same seed/spread | Zero-tolerance invariant 11 (narration-only, no reordering) |
+| 13 | A fixed evaluation case tagged `crisis_suicide`/`crisis_violence`/`crisis_medical`/`crisis_assault`, run through the same code path the API route uses, produces no tarot narration content | Zero-tolerance invariant 10 (crisis gate holds end-to-end) |
+| 14 | Every `metrics.json` and `report.ts` output, scanned for the literal `ANTHROPIC_API_KEY` env value (test sets a dummy key), contains zero matches | Zero-tolerance invariant 12 |
+| 15 | A fake provider returning a schema-invalid `InterpretationOutput` never causes `generateInterpretedReading` to resolve with that invalid object - the resolved value always passes `InterpretationOutputSchema.safeParse` | Zero-tolerance invariants 9 and 13 together |
 
 ---
 
 ## 5. Explicitly Deferred
 
 - Actually running the harness against the **real** Anthropic API in
-  this environment - blocked on credentials/network (§0, §9).
+  this environment - blocked on credentials/network (§0, §7).
 - Resolving any `unverified` asset-licensing entries (re-licensing,
   commissioning art, confirming public domain) - this sprint inventories,
   a future sprint resolves.
 - Setting numeric pass/fail thresholds for latency/cost/fallback rate as
   hard gates - this sprint establishes measurement and baseline; turning
-  a baseline into a gate is a separate decision (§9).
+  a baseline into a gate is a separate decision (§7).
 - An automated (LLM-graded) rubric - deliberately not built, per §1.4.
 - Persistence & Reading History (now Sprint 7).
 - Any Minor Arcana, reversed-card, or multi-language work.
@@ -341,47 +500,47 @@ npm run build
 
 ---
 
-## 7. Open Questions for you before implementation
+## 7. Open Questions — as originally asked, now resolved
 
-1. **Live Anthropic API gate.** No `ANTHROPIC_API_KEY` exists in this
-   environment. Should this sprint (a) build the harness ready to run
-   live, proven end-to-end only against `MockProvider` here, with the
-   real-provider run happening later wherever credentials/network
-   actually exist (matches Sprint 5's "pipeline proven, promotion
-   deferred" pattern) - or (b) do you have a way to supply a real key
-   into this environment so an actual live run can be part of this
-   sprint's own evidence?
-2. **Evaluation case authorship/governance.** Should the 20-50 fixed
-   cases go through anything like Sprint 5's authoring governance
-   (author/review, since these are hand-crafted test inputs that
-   materially shape what gets measured), or is a lighter touch
-   appropriate here since they're test fixtures, not shipped knowledge
-   content? I'd default to lighter touch (author + one review pass,
-   no lock/red-team ceremony) but flagging since it's a real choice.
-3. **Rubric scorer identity.** `scoredBy` in §1.4 - is this you
-   personally for this pilot round (same single-operator reality as
-   Sprint 5), and if so should the rubric schema carry the same
-   `singleOperatorMode`-style transparency, or is a human rubric score
-   inherently single-sourced without needing that flag (unlike a lock
-   decision, a rubric score isn't claiming independent verification of
-   someone else's work)?
-4. **Thresholds vs. baseline.** Should this sprint set any hard
-   pass/fail number (e.g. "p95 latency under Xs", "fallback rate under
-   Y%"), or is establishing the first real baseline the entire point,
-   with thresholds being a later decision made *from* that baseline
-   rather than guessed in advance?
-5. **Asset licensing severity.** Given all 22 card images currently have
-   no recorded license/source, do you want this flagged in the Milestone
-   roadmap as its own tracked debt item (parallel to `SECURITY_DEBT_LOG.md`/
-   `UX_DEBT_LOG.md`) immediately, independent of when Sprint 6 lands, given
-   it's a real commercial-use risk that exists right now regardless of
-   sprint sequencing?
+1. **Live Anthropic API gate.** *Resolved: GO, defer.* Build the harness
+   fully, prove it end-to-end against `MockProvider` in this environment,
+   ship a ready-to-run `npm run evaluation:live-anthropic` command that
+   reports `NOT EXECUTED` / `credentials unavailable` /
+   `harnessReadiness: VERIFIED` when no key is present (§1.3) rather than
+   faking or skipping silently. The real-provider run is a separate
+   evidence artifact whenever credentials exist - never merged into or
+   confused with the Mock-proven result.
+2. **Evaluation case authorship/governance.** *Resolved: GO, with
+   revision.* Lighter than Sprint 5 (no lock/red-team ceremony) but not
+   free-form: `draft → reviewed → active` lifecycle, required
+   `authoredBy`/`reviewedBy`/`version`/`purpose`/`expectedRiskTags`/
+   `expectedPipelineOutcome` fields (§1.1), plus a mandatory adversarial
+   review pass (`adversarialReviewedBy`) for any case tagged with a
+   crisis/prompt-injection/red-line risk before it can reach `active`.
+3. **Rubric scorer identity.** *Resolved: REVISE.* Yes, the Product
+   Owner personally for this pilot round - but single-evaluator status
+   is **mandatory, explicit metadata** (`evaluatorCount`,
+   `independentReview`, `evaluationRound`), not an optional flag (§1.4).
+   A 5-10 case second-scorer subset is planned as a later, non-blocking
+   cross-check.
+4. **Thresholds vs. baseline.** *Resolved: GO, with an important split.*
+   Quality/cost metrics (latency, token cost, fluency, personalization,
+   user-fit) stay baseline-only this sprint - no invented numbers. But 5
+   named security/architecture invariants (§3) are zero-tolerance hard
+   gates from day one: schema-invalid output reaching a response, a
+   crisis case producing tarot content, provider-side card reordering,
+   API key leakage, and any unvalidated provider output being returned.
+   Quality is measured; these 5 are enforced.
+5. **Asset licensing severity.** *Resolved: GO, immediately, standalone.*
+   Not folded into Sprint 6 - `docs/ASSET_LICENSING_DEBT_LOG.md` was
+   opened and committed the same day, independent of this plan, all 44
+   tracked assets (22 cards × 2 resolutions) at `unverified`/`high`.
 
 ---
 
 ## Next Step
 
-This is a proposal. Confirm or amend the 5 open questions above before I
-write any code - the architecture, schemas, dependency boundaries,
-acceptance criteria, and test matrix are otherwise ready to implement as
-written, pending your GO.
+**APPROVED — GO WITH REVISIONS.** Implementation proceeds per §1
+(architecture, revised per decisions 1-3), §2 (dependency boundaries),
+§3/§4 (acceptance criteria and test matrix, including the 5 zero-
+tolerance invariants), exactly as written above.
