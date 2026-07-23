@@ -1,7 +1,16 @@
 # Book-Grounded RAG Source — Implementation Proposal v1.0
 
+> **SUPERSEDED (2026-07-23) by `docs/HUMAN_GOVERNED_METHODOLOGY_EXTRACTION_PROPOSAL_v1.0.md`.**
+> The Product Owner **does not authorize** OCR ingestion, embeddings, vector
+> storage, or any retrieval over the copyrighted PDF. The RAG approach in this
+> document is withdrawn. Its legal analysis (§L — the copyright blocker, the RWS
+> image layer) and the identified MVP conflicts (Marseille vs RWS numbering,
+> inline reversed meanings) remain valid and are carried forward into the
+> successor proposal. Retained here only as history; **do not implement anything
+> from this document.**
+
 **Date:** 2026-07-23
-**Status:** PROPOSAL (docs-only). **No implementation, no ingestion, no runtime change** until this proposal is approved *and* the copyright blocker (§L) is resolved.
+**Status:** SUPERSEDED — see banner above. (Originally: PROPOSAL, docs-only.)
 **Subject source:** *Başlangıç Tarot Rehberi — 78 Kartın Yolculuğu*, The Bill Store, 2025 (uploaded PDF, 98 pages, image-based).
 **Governed by:** ADR-011 (LLM narration-only), ADR-012 (Knowledge Layer boundary), Sprint 5 Knowledge Authoring Pipeline, `data/knowledge-authoring/**` schemas, Phase 2 execution plan.
 **Relationship to Phase 2:** this is a **knowledge-source governance** proposal, not one of the S1/S2/S3 sprints. It touches the same Knowledge Authoring pipeline Sprint 5 built. It does not change S1/S2/S3 scope.
