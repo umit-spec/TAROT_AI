@@ -8,7 +8,7 @@ function percentile(sortedValues: number[], p: number): number {
 
 export function computeMetrics(
   results: EvaluationCaseResult[],
-  meta: { runId: string; runAt: string; providerMode: 'mock' | 'live-anthropic' }
+  meta: { runId: string; runAt: string; providerMode: 'mock' | 'live-anthropic'; model?: string }
 ): EvaluationRunManifest {
   // Crisis-gated cases never attempted narration - excluded from the
   // fallback-rate denominator, since "the gate correctly refused" isn't a
@@ -29,6 +29,7 @@ export function computeMetrics(
     runId: meta.runId,
     runAt: meta.runAt,
     providerMode: meta.providerMode,
+    ...(meta.model ? { model: meta.model } : {}),
     caseCount: results.length,
     fallbackRate: narrationAttempts.length > 0 ? fallbacks.length / narrationAttempts.length : 0,
     fallbackRateByReason,

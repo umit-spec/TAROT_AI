@@ -18,6 +18,12 @@ dist/
 .env.local
 .env.*.local
 
+# evaluation raw payloads (Sprint S2): local-only, opt-in --retain-raw,
+# never committed; cleaned up after 7 days via `npm run evaluation:cleanup-raw`
+data/evaluation/runs/**/raw/
+# blind-comparison scratch (contains narration text + unblind map) - local only
+data/evaluation/comparisons/
+
 # misc
 .DS_Store
 *.log

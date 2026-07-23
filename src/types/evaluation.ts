@@ -128,6 +128,9 @@ export const EvaluationRunManifestSchema = z.object({
   runId: z.string().min(1),
   runAt: z.string().datetime(),
   providerMode: z.enum(['mock', 'live-anthropic']),
+  // Present on live runs (the evaluated model id, e.g. 'claude-sonnet-5');
+  // optional so existing mock manifests remain valid. Never a secret.
+  model: z.string().optional(),
   caseCount: z.number().int().min(0),
   fallbackRate: z.number().min(0).max(1),
   fallbackRateByReason: z.record(z.string(), z.number().min(0).max(1)),

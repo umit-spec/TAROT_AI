@@ -3,6 +3,19 @@ import { generateInterpretedReading } from '../../../src/server/reading-engine';
 import { InterpretationProvider } from '../../../src/server/reading-engine/providers/types';
 import { InterpretationOutputSchema } from '../../../src/types/interpretation';
 import type { EvaluationCase, EvaluationCaseResult } from '../../../src/types/evaluation';
+import type { RawCaseArtifact } from './raw';
+
+/**
+ * Optional raw-capture sink (Sprint S2). When provided, runCase hands it a
+ * per-case artifact including the narration output. Off by default - only the
+ * live-anthropic harness in --retain-raw mode passes one, so mock/live runs
+ * with the flag off capture nothing.
+ */
+export interface RunCaseOptions {
+  captureRaw?: (artifact: RawCaseArtifact) => void;
+  providerLabel?: string;
+  model?: string;
+}
 
 /**
  * Mirrors src/app/api/readings/route.ts's exact sequence - the crisis gate
@@ -11,15 +24,29 @@ import type { EvaluationCase, EvaluationCaseResult } from '../../../src/types/ev
  * route.ts's internals; isCrisisFlag is a real, exported piece of
  * src/server/intake that route.ts itself calls the same way.
  */
-export async function runCase(evalCase: EvaluationCase, provider: InterpretationProvider): Promise<EvaluationCaseResult> {
+export async function runCase(
+  evalCase: EvaluationCase,
+  provider: InterpretationProvider,
+  options: RunCaseOptions = {},
+): Promise<EvaluationCaseResult> {
   const start = performance.now();
+  const label = options.providerLabel ?? 'unknown';
 
   if (evalCase.intake.safetyFlags.some(isCrisisFlag)) {
     // Zero-tolerance invariant 10: a crisis case must never reach narration.
+    const latencyMs = performance.now() - start;
+    options.captureRaw?.({
+      caseId: evalCase.caseId,
+      provider: 'crisis-gate',
+      model: options.model,
+      request: { seed: evalCase.seed, spread: evalCase.spread, intake: evalCase.intake, questionText: evalCase.questionText },
+      response: { providerUsed: 'crisis-gate' },
+      latencyMs,
+    });
     return {
       caseId: evalCase.caseId,
       providerUsed: 'crisis-gate',
-      latencyMs: performance.now() - start,
+      latencyMs,
       zeroToleranceViolations: [],
     };
   }
@@ -40,6 +67,16 @@ export async function runCase(evalCase: EvaluationCase, provider: Interpretation
   if (!InterpretationOutputSchema.safeParse(output).success) {
     violations.push('invariant-9-13-schema-invalid-or-unvalidated-output-returned');
   }
+
+  options.captureRaw?.({
+    caseId: evalCase.caseId,
+    provider: label,
+    model: options.model,
+    promptVersionUsed,
+    request: { seed: evalCase.seed, spread: evalCase.spread, intake: evalCase.intake, questionText: evalCase.questionText },
+    response: { providerUsed, fallbackReason, output, usage },
+    latencyMs,
+  });
 
   return {
     caseId: evalCase.caseId,
