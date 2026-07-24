@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { POST } from '../../app/api/readings/route';
+import { CRISIS_MESSAGE, CRISIS_RESOURCES } from '../../server/intake/crisis-resources';
 
 const ENV_KEYS = ['ANTHROPIC_API_KEY', 'ANTHROPIC_MODEL', 'ANTHROPIC_TIMEOUT_MS', 'ANTHROPIC_MAX_RETRIES'] as const;
 let originalEnv: Record<string, string | undefined>;
@@ -122,6 +123,32 @@ describe('POST /api/readings — crisis gate', () => {
     const json = await res.json();
     expect(json.status).not.toBe('crisis');
     expect(json.cards).toBeDefined();
+  });
+
+  // Regression guard for the MECHANICAL crisis-resource single-source
+  // extraction (docs/ADR-UX-FRAMING-PREVIEW.md §6 Commit A). The extraction
+  // must not change one byte of the user-facing crisis response. If a later
+  // safety-remediation change edits a number/label/message, THIS test is the
+  // one expected to fail - and it should be updated in that reviewed change,
+  // not here.
+  test('crisis response is byte-identical to the extracted single source (content unchanged)', async () => {
+    const res = await POST(
+      makeRequest({ seed: 'demo-001', question: 'Artık yaşayamam, kendime zarar vermeyi düşünüyorum.' })
+    );
+    const json = await res.json();
+    expect(json.message).toBe(CRISIS_MESSAGE);
+    expect(json.resources).toEqual(CRISIS_RESOURCES);
+    // Pinned literal snapshot so the extraction is proven content-preserving
+    // independently of the shared const it now reads from.
+    expect(json.message).toBe(
+      'Bu zor bir durum olabilir. Yalnız değilsiniz - profesyonel destek almanız önemli.'
+    );
+    expect(json.resources).toEqual([
+      { label: 'İntihar Önleme Derneği Çağrı Hattı', contact: '0312 380 9098' },
+      { label: 'ALO 183 - Çocuk İhbar Hattı', contact: '183' },
+      { label: 'Polis İmdat', contact: '155' },
+      { label: 'Acil Tıp', contact: '112' },
+    ]);
   });
 });
 

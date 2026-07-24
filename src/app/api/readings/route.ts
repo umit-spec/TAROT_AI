@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { classifyIntake, isCrisisFlag } from '../../../server/intake';
+import { CRISIS_MESSAGE, CRISIS_RESOURCES } from '../../../server/intake/crisis-resources';
 import {
   ClaudeProvider,
   DECK_ALGORITHM_VERSION,
@@ -15,14 +16,6 @@ import {
   isRateLimitEnabled,
   rateLimitPerMinute,
 } from '../../../server/observability/rate-limit';
-
-// docs/02-ETHICAL_CONSTITUTION.md Crisis Resources (Türkiye).
-const CRISIS_RESOURCES = [
-  { label: 'İntihar Önleme Derneği Çağrı Hattı', contact: '0312 380 9098' },
-  { label: 'ALO 183 - Çocuk İhbar Hattı', contact: '183' },
-  { label: 'Polis İmdat', contact: '155' },
-  { label: 'Acil Tıp', contact: '112' },
-];
 
 // Module-scoped limiter (per instance - see rate-limit.ts note on the durable
 // store deferred to S4). Window is one minute.
@@ -88,7 +81,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     // Response Flow: PAUSE, acknowledge, resources, nothing else.
     const crisisResponse = CrisisResponseSchema.parse({
       status: 'crisis',
-      message: 'Bu zor bir durum olabilir. Yalnız değilsiniz - profesyonel destek almanız önemli.',
+      message: CRISIS_MESSAGE,
       resources: CRISIS_RESOURCES,
     });
     // Crisis text is NOT logged (D4) - only that a crisis short-circuit occurred.
