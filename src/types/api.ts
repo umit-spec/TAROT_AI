@@ -46,3 +46,36 @@ export const CrisisResponseSchema = z.object({
   resources: z.array(z.object({ label: z.string(), contact: z.string() })),
 });
 export type CrisisResponse = z.infer<typeof CrisisResponseSchema>;
+
+/**
+ * Framing-preview request (docs/ADR-UX-FRAMING-PREVIEW.md R2/R3). STRICT by
+ * design: the same narrow surface as a reading request MINUS the seed - the
+ * preview never draws - and `.strict()` so any attempt to smuggle a
+ * classification field (persona/confidence/safetyFlags/framing) or a seed is
+ * rejected with a 400 rather than silently ignored.
+ */
+export const PreviewRequestSchema = z
+  .object({
+    question: z.string().default(''),
+    topicHint: z.enum(['relationship', 'career', 'self']).optional(),
+  })
+  .strict();
+export type PreviewRequest = z.infer<typeof PreviewRequestSchema>;
+
+/**
+ * The ONLY thing a framing preview may return in the non-crisis case
+ * (docs/ADR-UX-FRAMING-PREVIEW.md R4/R5): two safe, human-readable strings.
+ * No raw IntakeContext, confidence, safetyFlags, persona enum, provider,
+ * cards, or seed - the shape itself makes a leak impossible.
+ */
+export const FramingPreviewSchema = z.object({
+  topicLabel: z.string(),
+  reflectiveFocus: z.string(),
+});
+export type FramingPreview = z.infer<typeof FramingPreviewSchema>;
+
+export const FramingPreviewResponseSchema = z.object({
+  status: z.literal('preview'),
+  framing: FramingPreviewSchema,
+});
+export type FramingPreviewResponse = z.infer<typeof FramingPreviewResponseSchema>;
