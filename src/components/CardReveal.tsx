@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import type { DrawnCard } from '../types/reading';
 import type { CardPositionKey } from '../types/card';
+import { cardDisplayName } from '../lib/card-display';
 import { useFocusOnMount } from '../lib/use-focus-on-mount';
 
 export interface CardRevealProps {
@@ -70,7 +71,7 @@ export function CardReveal({ cards, reducedMotion, onContinue }: CardRevealProps
                 <p className="text-sm font-semibold uppercase tracking-wide text-ink-muted">
                   {POSITION_LABEL[card.position]}
                 </p>
-                <p className="font-heading text-lg">{card.id}</p>
+                <p className="font-heading text-lg">{cardDisplayName(card.id)}</p>
               </li>
             );
           }

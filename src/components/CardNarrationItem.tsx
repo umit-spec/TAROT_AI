@@ -1,5 +1,6 @@
 import { CardPositionKey } from '../types/card';
 import { CardNarration } from '../types/interpretation';
+import { cardDisplayName } from '../lib/card-display';
 
 export interface CardNarrationItemProps {
   position: CardPositionKey;
@@ -21,7 +22,7 @@ export function CardNarrationItem({ position, cardId, narration }: CardNarration
   return (
     <li aria-label={`card-${cardId}`} className="border-b border-diagnostic-subtle py-3 last:border-0">
       <p className="text-sm font-semibold uppercase tracking-wide text-ink-muted">{POSITION_LABEL[position]}</p>
-      <p className="font-heading text-lg">{cardId}</p>
+      <p className="font-heading text-lg">{cardDisplayName(cardId)}</p>
       <p className="mt-1">{narration.relevanceToQuestion}</p>
       <p className="mt-1 text-sm italic text-ink-muted">{narration.reflection}</p>
     </li>

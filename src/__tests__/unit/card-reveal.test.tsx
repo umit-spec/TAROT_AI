@@ -74,10 +74,20 @@ describe('CardReveal — user controls pace, one card at a time', () => {
   test('card identity and position are never changed by revealing (no redraw)', async () => {
     renderReveal();
     await revealAll();
+    // Internal id preserved on the element (aria-label); the user sees the name.
     expect(screen.getByLabelText('revealed-00-fool')).toHaveTextContent('Geçmiş');
-    expect(screen.getByLabelText('revealed-00-fool')).toHaveTextContent('00-fool');
+    expect(screen.getByLabelText('revealed-00-fool')).toHaveTextContent('Deli');
     expect(screen.getByLabelText('revealed-02-high-priestess')).toHaveTextContent('Yön');
-    expect(screen.getByLabelText('revealed-02-high-priestess')).toHaveTextContent('02-high-priestess');
+    expect(screen.getByLabelText('revealed-02-high-priestess')).toHaveTextContent('Yüksek Rahibe');
+  });
+
+  test('the governed display name is shown, never the raw cardId', async () => {
+    renderReveal();
+    await revealAll();
+    const body = screen.getByLabelText('card-reveal').textContent ?? '';
+    expect(body).toContain('Deli');
+    expect(body).not.toContain('00-fool');
+    expect(body).not.toContain('02-high-priestess');
   });
 
   test('the third position label is "Yön", never "Gelecek" (anti-prophecy copy)', async () => {

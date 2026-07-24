@@ -283,8 +283,11 @@ describe('HomePage — the reveal gates the interpretation (3/3)', () => {
     await confirmFraming();
     await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
     await userEvent.click(screen.getByRole('button', { name: 'Geçmiş kartını aç' }));
-    // The revealed card is exactly the one the response sent for that position.
-    expect(screen.getByLabelText('revealed-00-fool')).toHaveTextContent('00-fool');
+    // The revealed element still carries the internal id (aria-label), while the
+    // user sees the governed display name, never the raw id.
+    const revealed = screen.getByLabelText('revealed-00-fool');
+    expect(revealed).toHaveTextContent('Deli');
+    expect(revealed.textContent ?? '').not.toContain('00-fool');
   });
 
   test('there is no redraw/retry control inside the reveal', async () => {

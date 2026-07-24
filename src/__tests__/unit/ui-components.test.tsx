@@ -281,6 +281,21 @@ describe('CardNarrationItem — third position reads "Yön", not "Gelecek"', () 
     expect(screen.getByText('Yön')).toBeInTheDocument();
     expect(screen.queryByText('Gelecek')).not.toBeInTheDocument();
   });
+
+  test('shows the governed display name, never the raw cardId', () => {
+    render(
+      <ul>
+        <CardNarrationItem
+          position="past"
+          cardId="00-fool"
+          orientation="upright"
+          narration={{ cardId: '00-fool', position: 'past', symbolicMeaning: 's', relevanceToQuestion: 'r', reflection: 'x' }}
+        />
+      </ul>
+    );
+    expect(screen.getByText('Deli')).toBeInTheDocument();
+    expect(screen.queryByText('00-fool')).not.toBeInTheDocument();
+  });
 });
 
 describe('Focus management (a11y) — a screen transition lands focus in the new context', () => {
