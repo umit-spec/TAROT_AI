@@ -6,6 +6,7 @@ import { ConsentModal } from '../components/ConsentModal';
 import { QuestionForm } from '../components/QuestionForm';
 import { FramingReview } from '../components/FramingReview';
 import { ShuffleReveal } from '../components/ShuffleReveal';
+import { CardReveal } from '../components/CardReveal';
 import { ReadingResult } from '../components/ReadingResult';
 import { CrisisNotice } from '../components/CrisisNotice';
 import { ErrorNotice } from '../components/ErrorNotice';
@@ -26,6 +27,7 @@ type ViewState =
   | { status: 'previewing' }
   | { status: 'framing'; framing: FramingPreview; pending: Pending }
   | { status: 'reading' }
+  | { status: 'revealing'; data: ReadingResponse }
   | { status: 'success'; data: ReadingResponse }
   | { status: 'crisis'; data: CrisisResponse }
   | { status: 'error'; message: string; initial?: Pending };
@@ -89,7 +91,9 @@ export default function HomePage() {
         setState({ status: 'crisis', data: data as CrisisResponse });
         return;
       }
-      setState({ status: 'success', data: data as ReadingResponse });
+      // The cards are resolved, but the interpretation is NOT shown yet - the
+      // user reveals the cards at their own pace first (UX_FLOW_V2 §3.4).
+      setState({ status: 'revealing', data: data as ReadingResponse });
     } catch {
       setState({ status: 'error', message: 'Bağlantı hatası oluştu.', initial: pending });
     }
@@ -131,6 +135,14 @@ export default function HomePage() {
       )}
 
       {state.status === 'reading' && <ShuffleReveal isLoading reducedMotion={reducedMotion} />}
+
+      {state.status === 'revealing' && (
+        <CardReveal
+          cards={state.data.cards}
+          reducedMotion={reducedMotion}
+          onContinue={() => setState({ status: 'success', data: state.data })}
+        />
+      )}
 
       {state.status === 'crisis' && <CrisisNotice message={state.data.message} resources={state.data.resources} />}
 

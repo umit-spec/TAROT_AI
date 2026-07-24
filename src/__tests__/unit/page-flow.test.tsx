@@ -39,6 +39,16 @@ async function confirmFraming() {
   await userEvent.click(screen.getByRole('button', { name: 'Evet, böyle devam et' }));
 }
 
+// The reading response resolves into the reveal surface; the user opens all
+// three cards at their own pace, then chooses to see the interpretation.
+async function revealAllAndContinue() {
+  await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
+  await userEvent.click(screen.getByRole('button', { name: 'Geçmiş kartını aç' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Şimdi kartını aç' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Gelecek kartını aç' }));
+  await userEvent.click(screen.getByRole('button', { name: 'İçgörüyü gör' }));
+}
+
 const baseReading = {
   readingId: null,
   seed: 'demo-001',
@@ -103,11 +113,71 @@ describe('HomePage — framing review sits between the question and the draw', (
     await userEvent.click(screen.getByRole('button', { name: 'Sorumu düzenle' }));
     expect((screen.getByLabelText('Sorunuz') as HTMLTextAreaElement).value).toBe('my careful question');
 
-    // Continue again, then confirm -> reading renders.
+    // Continue again, then confirm -> reveal -> interpretation.
     await userEvent.click(screen.getByRole('button', { name: 'Kartları Çek' }));
     await confirmFraming();
+    await revealAllAndContinue();
     await waitFor(() => expect(screen.getByLabelText('reading-result')).toBeInTheDocument());
     expect(screen.getByText('test opening')).toBeInTheDocument();
+  });
+});
+
+describe('HomePage — the reveal gates the interpretation (3/3)', () => {
+  test('the reading resolves into the reveal, NOT the whole interpretation at once', async () => {
+    vi.stubGlobal('fetch', routingFetch({}));
+    await compose();
+    await confirmFraming();
+
+    await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
+    // No interpretation, no synthesis, no result yet.
+    expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
+    expect(screen.queryByText('test opening')).not.toBeInTheDocument();
+    // Only the first card is openable; the reader cannot jump ahead.
+    expect(screen.getByRole('button', { name: 'Geçmiş kartını aç' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Şimdi kartını aç' })).not.toBeInTheDocument();
+  });
+
+  test('no path to the interpretation exists before all three are revealed', async () => {
+    vi.stubGlobal('fetch', routingFetch({}));
+    await compose();
+    await confirmFraming();
+    await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
+
+    await userEvent.click(screen.getByRole('button', { name: 'Geçmiş kartını aç' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Şimdi kartını aç' }));
+    // 2/3 revealed - still no gate, still no result.
+    expect(screen.queryByRole('button', { name: 'İçgörüyü gör' })).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole('button', { name: 'Gelecek kartını aç' }));
+    await userEvent.click(screen.getByRole('button', { name: 'İçgörüyü gör' }));
+    await waitFor(() => expect(screen.getByLabelText('reading-result')).toBeInTheDocument());
+    expect(screen.getByText('test opening')).toBeInTheDocument();
+  });
+
+  test('the revealed card ids/positions match the response (no redraw in the flow)', async () => {
+    vi.stubGlobal('fetch', routingFetch({}));
+    await compose();
+    await confirmFraming();
+    await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
+    await userEvent.click(screen.getByRole('button', { name: 'Geçmiş kartını aç' }));
+    // The revealed card is exactly the one the response sent for that position.
+    expect(screen.getByLabelText('revealed-00-fool')).toHaveTextContent('00-fool');
+  });
+
+  test('there is no redraw/retry control inside the reveal', async () => {
+    vi.stubGlobal('fetch', routingFetch({}));
+    await compose();
+    await confirmFraming();
+    await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
+    expect(screen.queryByRole('button', { name: /yeniden|tekrar çek|redraw/i })).not.toBeInTheDocument();
+  });
+
+  test('reveal focuses the reveal heading on entry', async () => {
+    vi.stubGlobal('fetch', routingFetch({}));
+    await compose();
+    await confirmFraming();
+    await waitFor(() => expect(screen.getByRole('heading', { name: 'Kartlarını kendi hızında aç' })).toHaveFocus());
   });
 });
 
@@ -116,6 +186,7 @@ describe('HomePage — pipeline outcomes render distinct, correct screens', () =
     vi.stubGlobal('fetch', routingFetch({}));
     await compose();
     await confirmFraming();
+    await revealAllAndContinue();
 
     await waitFor(() => expect(screen.getByLabelText('reading-result')).toBeInTheDocument());
     expect(screen.getByText('test opening')).toBeInTheDocument();
@@ -132,13 +203,14 @@ describe('HomePage — pipeline outcomes render distinct, correct screens', () =
     );
     await compose();
     await confirmFraming();
+    await revealAllAndContinue();
 
     await waitFor(() => expect(screen.getByLabelText('reading-result')).toBeInTheDocument());
     expect(screen.getByLabelText('diagnostic-knowledge-partial')).toBeInTheDocument();
     expect(screen.queryByLabelText('error-state')).not.toBeInTheDocument();
   });
 
-  test('narration fallback (provider: mock) renders full content with the mock badge', async () => {
+  test('provider fallback (provider: mock) still flows through the reveal to full content', async () => {
     vi.stubGlobal(
       'fetch',
       routingFetch({
@@ -148,6 +220,8 @@ describe('HomePage — pipeline outcomes render distinct, correct screens', () =
     );
     await compose();
     await confirmFraming();
+    // The reveal is unaffected by the narration fallback.
+    await revealAllAndContinue();
 
     await waitFor(() => expect(screen.getByLabelText('reading-result')).toBeInTheDocument());
     expect(screen.getByLabelText('diagnostic-narration-fallback')).toBeInTheDocument();
@@ -180,6 +254,8 @@ describe('HomePage — pipeline outcomes render distinct, correct screens', () =
 
     await waitFor(() => expect(screen.getByLabelText('crisis-resources')).toBeInTheDocument());
     expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
+    // Crisis never enters the reveal path.
+    expect(screen.queryByLabelText('card-reveal')).not.toBeInTheDocument();
   });
 
   test('preview 400 renders ErrorNotice, not a crash', async () => {
@@ -243,7 +319,7 @@ describe('HomePage — neither endpoint ever receives a trusted client-side inta
     vi.stubGlobal('fetch', fetchSpy);
     await compose('my question');
     await confirmFraming();
-    await waitFor(() => expect(screen.getByLabelText('reading-result')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
 
     expect(fetchSpy).toHaveBeenCalledTimes(2);
     const previewBody = JSON.parse((fetchSpy.mock.calls[0][1] as RequestInit).body as string);
@@ -270,7 +346,7 @@ describe('HomePage — neither endpoint ever receives a trusted client-side inta
     await userEvent.click(screen.getByRole('button', { name: 'Kariyer' }));
     await userEvent.click(screen.getByRole('button', { name: 'Kartları Çek' }));
     await confirmFraming();
-    await waitFor(() => expect(screen.getByLabelText('reading-result')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
 
     const previewBody = JSON.parse((fetchSpy.mock.calls[0][1] as RequestInit).body as string);
     const readingBody = JSON.parse((fetchSpy.mock.calls[1][1] as RequestInit).body as string);
