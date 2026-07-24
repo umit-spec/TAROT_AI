@@ -166,13 +166,15 @@ Shown when the user declines consent. It must offer only information and a way b
 
 > Body of the pattern is `interpretation.patterns` + `interpretation.practicalReflection` (governed output), not authored here.
 
-### 5.10 `REFLECTION` (priority #5) — **BLOCKED, see §6**
+### 5.10 `reflection` (priority #5) — SHIPPED (`ReflectionClose.tsx`)
 | key | copy |
 |---|---|
-| `reflection.title` | Kendine sorabileceğin tek soru |
-| `reflection.agency` | Cevap sende. Karar da sende. |
+| `reflection.title` | Kendine bırakacağın soru |
+| `reflection.body` | (governed) `interpretation.reflectionPrompt`, rendered verbatim |
+| `reflection.boundary` | Yanıtlamak zorunda değilsin. Bu soruyu yanında taşıman yeterli. |
+| `reflection.restart` | Yeniden başla |
 
-> The single question **body has no governed source yet** and must NOT be sourced from `interpretation.uncertaintyNotice` (that is an uncertainty *statement*, not a question — PO point 4, §6). Until a governed `reflectionPrompt` field exists, this screen renders no fabricated question. Exactly one question, alone, once the field lands. No "save", no "next reading", no upsell (that is S4).
+> The question body is the governed `interpretation.reflectionPrompt` field (ADR-UX-REFLECTION-PROMPT). It is rendered **verbatim** — the client never rewrites it, appends punctuation, produces its own fallback, or shows more than one question. It is **not** sourced from `interpretation.uncertaintyNotice`. The screen shows no `uncertaintyNotice`, provider, `reflectionPromptSource`, `fallbackReason`, confidence, safety flag, or persona. **No save, no "next reading", no share, no upsell** (S4). Reachable from two paths — the pattern's primary CTA and the end of the details — both landing here (see `UX_FLOW_V2.md` §3.6).
 
 ### 5.11 `CLOSE`
 | key | copy |
@@ -228,9 +230,9 @@ The draft's single unconditional "açılışın kaybolmaz" was corrected: that p
 
 ---
 
-## 6. Reflective-question sourcing — requires a governed `reflectionPrompt` field (PO point 4)
+## 6. Reflective-question sourcing — governed `reflectionPrompt` field (SHIPPED)
 
-`REFLECTION` (§5.10) needs exactly one reflective *question*. The nearest existing field, `interpretation.uncertaintyNotice` (`src/types/interpretation.ts:44-52`), is an *uncertainty statement* ("Bu bir kesinlik değil, olası bir bakış açısıdır.") — **not** a question ("Bu kararda kontrol etmeye çalıştığın şey ne?"). They are different content types. **`uncertaintyNotice` must not be used as the reflection-question source.**
+`reflection` (§5.10) shows exactly one reflective *question*, sourced from the governed `interpretation.reflectionPrompt` field (ADR-UX-REFLECTION-PROMPT). `interpretation.uncertaintyNotice` is an *uncertainty statement* — **not** a question — and **must not** be used as the reflection-question source. The engine guarantees `reflectionPrompt` is always exactly one safe reflective question (the provider's if it passes the guards, else the single central governed fallback); the client renders whatever governed value arrives, verbatim, and invents nothing.
 
 **Decision:** a dedicated governed `reflectionPrompt` field must be added to `InterpretationOutputSchema` through the normal governed path (schema + provider + eval fixtures + red-line coverage). **That schema change is NOT in this sprint** and is **not** authorized by this contract — it is recorded here as the required future contract. Until it lands, the `reflection` screen renders no fabricated question.
 

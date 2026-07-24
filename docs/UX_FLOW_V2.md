@@ -33,7 +33,7 @@ The research, safety, and no-invented-symbol boundaries of the project are the *
 | 2 | Çerçeveleme onayı | `framing` | none (server-only, invisible) | User sees & confirms framing **before** any draw | **UNRESOLVED — see §5.** Blocked on an API-shape decision. |
 | 3 | Kullanıcı kontrollü kart açılımı | `reveal` | `ShuffleReveal.tsx` (auto) | User-paced, one card at a time | after S-UX-1..2 |
 | 4 | Ana örüntü ekranı | `pattern` | buried in `ReadingResult` synthesis block | A dedicated arrival screen: the one pattern across the three cards | after `reveal` |
-| 5 | Tek yansıtma sorusu | `reflection` | (no governed source yet) | One single reflective question | **BLOCKED — needs a governed `reflectionPrompt` field, §6.** |
+| 5 | Tek yansıtma sorusu | `reflection` | `ReflectionClose.tsx` | One governed reflective question, two entry paths | SHIPPED (§3.6) |
 | 6 | Görsel polish | (cross-cutting, last) | Tailwind classes inline | Deferred; a separate visual pass after 1–5 are functional | after 1–5 |
 
 ---
@@ -53,7 +53,7 @@ type Screen =
   | 'draw'
   | 'reveal'
   | 'pattern'
-  | 'reflection'  // BLOCKED until the §6 governed reflectionPrompt field exists
+  | 'reflection'  // SHIPPED — governed interpretation.reflectionPrompt (§3.6)
   | 'close'
   | 'crisis'
   | 'error';
@@ -108,7 +108,7 @@ stateDiagram-v2
 
 - The model is a **superset** of today's `ViewState` (`consent | idle | loading | success | crisis | error`). `loading` → `draw` + `requestStatus:'loading'`; `success` → `reveal`/`pattern`/`reflection`/`close`; `error` → `error` (copy by `cardsResolved`); `crisis` → `crisis`; `idle` → `welcome`/`topic`.
 - No new API field is required for screens 1, 3, 4, 6 (`topic`, `reveal`, `pattern`, `close`). The API contract (`POST /api/readings`, body `{ seed, question, topicHint }`) is unchanged for those. The added screens are **client-side pacing**, derived from the same single response.
-- Two screens are **blocked** on decisions that are NOT resolved by this document: `framing` (§5) and `reflection` (§6). No code for either begins until its blocker is cleared.
+- `framing` (§5) and `reflection` (§6) were each gated on a decision resolved in their own ADRs (ADR-UX-FRAMING-PREVIEW, ADR-UX-REFLECTION-PROMPT); both are now SHIPPED.
 
 ---
 
@@ -144,10 +144,13 @@ Exact strings live in `docs/UX_COPY_CONTRACT.md`; this section defines *behavior
 
 - A dedicated arrival screen carrying the single cross-card synthesis: `interpretation.patterns` + `interpretation.practicalReflection` (existing fields), promoted from the bottom of the current `detailed-synthesis` block to their own moment.
 
-### 3.6 `reflection` — priority #5 — **BLOCKED, see §6**
+### 3.6 `reflection` — priority #5 — SHIPPED (`ReflectionClose.tsx`)
 
-- Intended behavior: exactly **one** reflective question, alone, closing the session.
-- There is **no governed source field** for a reflective *question* today. `interpretation.uncertaintyNotice` is an uncertainty *statement*, not a question, and must not be repurposed as one (§6, PO point 4). This screen is blocked until a governed `reflectionPrompt` field is added through the normal governed path (not this sprint).
+- Exactly **one** reflective question, alone, closing the session — the governed `interpretation.reflectionPrompt` field (ADR-UX-REFLECTION-PROMPT), rendered verbatim.
+- **Reachable from two paths, both landing on the same `ReflectionClose`:** the pattern's **primary** CTA ("Bir soruyla tamamla"), and the **end of the details** ("Okumayı bir soruyla tamamla"). So the reflection is the product's main goal — the user reaches the same safe close whether or not they open the card details:
+  - `reveal 3/3 → pattern → reflection`
+  - `reveal 3/3 → pattern → details → reflection`
+- **Not** sourced from `uncertaintyNotice`. Shows no provider, `reflectionPromptSource`, `fallbackReason`, confidence, safety flag, or persona. No save/next-reading/share/upsell (S4). No new API call, no redraw. Crisis/error never reach it.
 
 ### 3.7 `error` — one screen, two honest copy variants (PO point 3)
 
@@ -200,11 +203,9 @@ Until one option is chosen and (for A/B) security-reviewed, **the `framing` scre
 
 ---
 
-## 6. Reflective-question sourcing — needs a governed `reflectionPrompt` field (PO point 4)
+## 6. Reflective-question sourcing — governed `reflectionPrompt` field (SHIPPED)
 
-The `reflection` screen needs exactly one reflective *question*. The only near-fit field today is `interpretation.uncertaintyNotice` (`src/types/interpretation.ts:44-52`), but that is semantically an **uncertainty statement** ("Bu bir kesinlik değil, olası bir bakış açısıdır."), not a **question** ("Bu kararda kontrol etmeye çalıştığın şey ne?"). They are different content types and must not be conflated.
-
-**Decision:** a dedicated governed `reflectionPrompt` field must be added to `InterpretationOutputSchema` in the future, through the normal governed path (schema + provider + eval-fixture update + red-line coverage). **That schema change is NOT in this sprint** and is not authorized by this document. Until it exists, `reflection` renders no fabricated question — the screen stays a contract placeholder.
+The `reflection` screen shows exactly one reflective *question*, the governed `interpretation.reflectionPrompt` field (ADR-UX-REFLECTION-PROMPT). `interpretation.uncertaintyNotice` is an **uncertainty statement**, not a question, and is **not** used as the source. The engine guarantees a valid single reflective question on every reading (provider's if it passes the guards, else the one central governed fallback in `providers/shared.ts`); the client renders the governed value verbatim and invents nothing.
 
 ---
 
@@ -225,7 +226,7 @@ These are existing guarantees the V2 flow must not weaken:
 - **S4 persistence** — reading history, saved readings, "memory center," consented save, durable same-question cooldown. Blocked until S2 live-eval completes and gate **G1** passes. `reflection`/`close` must **not** grow a save/history CTA in V2.
 - **Crisis-resource numbers.** Remediated 2026-07-24 (`docs/SAFETY_CRISIS_RESOURCES_REVIEW.md`): the runtime crisis list is now **112 only** (`155` removed, the unverified private line removed, ALO 183 deferred to future context-aware routing). V2 flow **does not change any crisis number**; `CrisisNotice.tsx` renders whatever the reviewed gate provides via `src/server/intake/crisis-resources.ts`.
 - **Diagnostic transparency to users.** `confidence`, `safetyFlags`, raw persona, and `narrationStatus` remain **internal diagnostics** surfaced only through hidden-by-default `DiagnosticBadge` affordances (`DiagnosticBadge.tsx`), never as user-facing framing copy.
-- **`framing` and `reflection` code** — blocked on §5 and §6 respectively.
+- **Card face/name display and visual system** — the reveal/reading show `cardId`; a governed card-name registry and the visual pass are later, separate work.
 - **Methodology extraction** — remains on HOLD until its gate.
 - **Visual system / artwork** — deferred to priority #6, separate pass.
 
@@ -241,7 +242,7 @@ Each slice is a separate reviewed change **after this contract is approved**. Sl
 | **S-UX-2** | `framing` | — | **BLOCKED on §5 decision + (A/B) security review** |
 | **S-UX-3** | `reveal`: user-paced one-at-a-time reveal, reduced-motion safe, no reorder | `ShuffleReveal.tsx`, orchestrator | S-UX-1 |
 | **S-UX-4** | `pattern`: dedicated cross-card arrival screen | split from `ReadingResult.tsx` | S-UX-3 |
-| **S-UX-5** | `reflection` | schema (`reflectionPrompt`) | **BLOCKED on §6 governed field** |
+| **S-UX-5** | `reflection` (`ReflectionClose`) | schema (`reflectionPrompt`) | SHIPPED — reachable from pattern (primary) and details |
 | **S-UX-6** | Orchestrator refactor: `page.tsx` → session provider + screen router (`Screen` + `SessionMeta`) | `page.tsx` | can interleave; must preserve single fetch owner |
 | **S-UX-7** | Visual polish pass (color/logo/motion) | cross-cutting | after S-UX-1,3,4 functional |
 
