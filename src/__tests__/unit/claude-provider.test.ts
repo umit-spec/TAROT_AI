@@ -3,6 +3,7 @@ import { generateDeterministicReading, generateInterpretedReading } from '../../
 import { ClaudeConfigError, ClaudeHttpError, ClaudeOutputValidationError, ClaudeProvider } from '../../server/reading-engine/providers/claude';
 import { buildSystemPrompt, buildUserMessage } from '../../server/reading-engine/providers/claude/prompt';
 import { loadClaudeProviderConfig } from '../../server/reading-engine/providers/claude/config';
+import { REFLECTION_PROMPT_FALLBACK } from '../../server/reading-engine/providers/shared';
 import { testIntake } from '../helpers/intake';
 import { testKnowledge } from '../helpers/knowledge';
 
@@ -337,6 +338,47 @@ describe('Happy path', () => {
     // Knowledge resolution actually ran and is visible on the result.
     expect(['resolved', 'partial']).toContain(knowledge.meta.status);
     expect(knowledge.meta.provider).toBe('local-json');
+  });
+});
+
+describe('reflectionPrompt mapping (ADR-UX-REFLECTION-PROMPT step 4)', () => {
+  test("the model's reflectionPrompt becomes its own field, not appended to practicalReflection", async () => {
+    process.env.ANTHROPIC_API_KEY = 'test-key';
+    const fetchSpy = vi.fn(async () => claudeMessageResponse(200, JSON.stringify(validClaudeBody())));
+    const provider = new ClaudeProvider({}, fetchSpy as unknown as typeof fetch);
+
+    const { output } = await generateInterpretedReading({
+      seed: 'demo-001',
+      spread: 'three-card',
+      intake: testIntake(),
+      provider,
+    });
+
+    expect(output.reflectionPrompt).toBe('Bu değişimde sizin için en önemli olan ne?');
+    // practicalReflection is the synthesis alone - the question is no longer concatenated in.
+    expect(output.practicalReflection).toBe('Kartlar arasında bir değişim teması var.');
+    expect(output.practicalReflection).not.toContain('Bu değişimde sizin için en önemli olan ne?');
+  });
+
+  test('an unsafe model reflectionPrompt is replaced field-level with the governed fallback', async () => {
+    process.env.ANTHROPIC_API_KEY = 'test-key';
+    const fetchSpy = vi.fn(async () =>
+      claudeMessageResponse(200, JSON.stringify(validClaudeBody({ reflectionPrompt: 'O sana geri dönecek mi?' })))
+    );
+    const provider = new ClaudeProvider({}, fetchSpy as unknown as typeof fetch);
+
+    const { output, providerUsed, reflectionPromptSource } = await generateInterpretedReading({
+      seed: 'demo-001',
+      spread: 'three-card',
+      intake: testIntake(),
+      provider,
+    });
+
+    // The reading still comes from Claude (field-level, not a whole fallback)...
+    expect(providerUsed).toBe('claude');
+    // ...but the unsafe prompt is replaced by the governed fallback.
+    expect(output.reflectionPrompt).toBe(REFLECTION_PROMPT_FALLBACK);
+    expect(reflectionPromptSource).toBe('fallback');
   });
 });
 

@@ -2,6 +2,7 @@ import { isCrisisFlag } from '../../../src/server/intake';
 import { generateInterpretedReading } from '../../../src/server/reading-engine';
 import { InterpretationProvider } from '../../../src/server/reading-engine/providers/types';
 import { InterpretationOutputSchema } from '../../../src/types/interpretation';
+import { validateReflectionPrompt } from '../../../src/server/reading-engine/validate';
 import type { EvaluationCase, EvaluationCaseResult } from '../../../src/types/evaluation';
 import type { RawCaseArtifact } from './raw';
 
@@ -66,6 +67,13 @@ export async function runCase(
   // (validateInterpretation always runs before returning) broke.
   if (!InterpretationOutputSchema.safeParse(output).success) {
     violations.push('invariant-9-13-schema-invalid-or-unvalidated-output-returned');
+  }
+
+  // ADR-UX-REFLECTION-PROMPT §7: whatever the model produced, the resolved
+  // reflectionPrompt must always be exactly one safe reflective question
+  // (the provider's if it passed validation, else the governed fallback).
+  if (validateReflectionPrompt(output.reflectionPrompt) === null) {
+    violations.push('reflection-prompt-invalid-or-not-a-single-question');
   }
 
   options.captureRaw?.({

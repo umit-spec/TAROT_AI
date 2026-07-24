@@ -4,6 +4,8 @@ import { InterpretationProvider } from '../../server/reading-engine/providers/ty
 import { REFLECTION_PROMPT_FALLBACK } from '../../server/reading-engine/providers/shared';
 import { resolveReflectionPrompt, validateReflectionPrompt } from '../../server/reading-engine/validate';
 import { InterpretationInput, RawInterpretationOutput } from '../../types/interpretation';
+import type { EvaluationCase } from '../../types/evaluation';
+import { runCase } from '../../../scripts/evaluation/lib/run-case';
 import { testIntake } from '../helpers/intake';
 
 const SAFE = [
@@ -116,5 +118,32 @@ describe('field-level fallback (A2) — a bad prompt does not nuke the whole rea
     });
     expect(output.reflectionPrompt).toBe('Bu durumda kendi ihtiyacını daha açık görmek için neye bakabilirsin?');
     expect(reflectionPromptSource).toBe('provider');
+  });
+});
+
+describe('eval invariant (ADR-UX-REFLECTION-PROMPT §7) — reflection prompt is always valid', () => {
+  const evalCase: EvaluationCase = {
+    caseId: 'reflection-invariant',
+    authoredBy: 'test',
+    version: '1.0.0',
+    purpose: 'reflection prompt invariant test',
+    expectedRiskTags: ['none'],
+    expectedPipelineOutcome: 'reading',
+    status: 'draft',
+    seed: 'demo-001',
+    spread: 'three-card',
+    intake: testIntake(),
+    questionText: 'test',
+    rubricFocus: [],
+  };
+
+  test('a normal case has no reflection-prompt violation', async () => {
+    const result = await runCase(evalCase, new MockProvider());
+    expect(result.zeroToleranceViolations).not.toContain('reflection-prompt-invalid-or-not-a-single-question');
+  });
+
+  test('even a provider with an unsafe prompt yields no violation (fallback substituted)', async () => {
+    const result = await runCase(evalCase, new BadReflectionProvider());
+    expect(result.zeroToleranceViolations).not.toContain('reflection-prompt-invalid-or-not-a-single-question');
   });
 });

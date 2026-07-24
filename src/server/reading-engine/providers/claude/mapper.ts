@@ -39,8 +39,11 @@ export function parseClaudeResponseText(text: string): ClaudeInterpretationOutpu
  * symbolicMeaning, position, reflection, and patterns all come from the
  * DeterministicReading (Layer 1+2 ground truth) - never from Claude. Only
  * `insight` (the narrated text) and the top-level summary/synthesis/
- * reflectionPrompt come from the model. uncertaintyNotice is the fixed
- * constant, not model output. safetyFlags is always [] here - never
+ * reflectionPrompt come from the model. reflectionPrompt is exposed as its
+ * OWN governed field (docs/ADR-UX-REFLECTION-PROMPT.md) - it is no longer
+ * concatenated into practicalReflection; the engine validates it (or
+ * substitutes the central fallback) downstream. uncertaintyNotice is the
+ * fixed constant, not model output. safetyFlags is always [] here - never
  * provider-controlled, merged centrally by generateInterpretedReading.
  */
 export function mapToInterpretationOutput(
@@ -73,7 +76,8 @@ export function mapToInterpretationOutput(
     opening: claudeOutput.summary,
     cards,
     patterns: reading.patterns,
-    practicalReflection: `${claudeOutput.synthesis} ${claudeOutput.reflectionPrompt}`.trim(),
+    practicalReflection: claudeOutput.synthesis,
+    reflectionPrompt: claudeOutput.reflectionPrompt,
     uncertaintyNotice: UNCERTAINTY_NOTICE,
     safetyFlags: [],
   };

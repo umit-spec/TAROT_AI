@@ -1,6 +1,6 @@
-import { InterpretationInput, InterpretationOutput } from '../../../../types/interpretation';
+import { InterpretationInput, RawInterpretationOutput } from '../../../../types/interpretation';
 import type { TokenUsage } from '../../../../types/evaluation';
-import { finalizeReflectionPrompt, validateInterpretation } from '../../validate';
+import { assertNoForbiddenPhrases } from '../../validate';
 import { InterpretationProvider } from '../types';
 import { ClaudeProviderConfig, loadClaudeProviderConfig } from './config';
 import { callAnthropicWithRetry } from './http';
@@ -36,7 +36,7 @@ export class ClaudeProvider implements InterpretationProvider {
     private readonly fetchImpl: typeof fetch = fetch
   ) {}
 
-  async generate(input: InterpretationInput): Promise<InterpretationOutput> {
+  async generate(input: InterpretationInput): Promise<RawInterpretationOutput> {
     const config: ClaudeProviderConfig = { ...loadClaudeProviderConfig(), ...this.configOverrides };
 
     const system = buildSystemPrompt();
@@ -51,7 +51,12 @@ export class ClaudeProvider implements InterpretationProvider {
 
     const claudeOutput = parseClaudeResponseText(text);
     const raw = mapToInterpretationOutput(claudeOutput, input.reading);
-    return validateInterpretation(finalizeReflectionPrompt(raw));
+    // Red-line self-check on the narration. reflectionPrompt is excluded here
+    // and validated by its own field-level guards downstream, so an unsafe
+    // prompt is a field-level fallback (A2), not a whole-reading fallback.
+    // The engine (runProvider) is the single final schema + normalization gate.
+    assertNoForbiddenPhrases(JSON.stringify({ ...raw, reflectionPrompt: '' }));
+    return raw;
   }
 
   getLastUsage(): TokenUsage | undefined {

@@ -60,6 +60,11 @@ function scanForForbiddenPhrases(haystack: string): void {
   }
 }
 
+/** Red-line scan usable by a provider before the engine's final gate. */
+export function assertNoForbiddenPhrases(haystack: string): void {
+  scanForForbiddenPhrases(haystack);
+}
+
 // docs/ADR-UX-REFLECTION-PROMPT.md §5 guards. Conservative: on any doubt the
 // caller substitutes the governed fallback (never repairs the text), so
 // over-rejection only costs a safe generic prompt.
