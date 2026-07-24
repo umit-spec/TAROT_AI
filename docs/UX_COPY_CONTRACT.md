@@ -1,8 +1,8 @@
 # UX Copy Contract — Insight Engine
 
-**Status:** DRAFT — AWAITING PRODUCT OWNER REVIEW
+**Status:** DRAFT — AWAITING PRODUCT OWNER REVIEW (revised per PO review, 2026-07-24)
 **Scope:** Documentation only. This is the binding source for user-facing strings and the copy-level guardrails that every screen must satisfy. It changes no runtime code. Where it lists Turkish strings, those are *proposed* copy pending Product Owner approval — not yet wired into components.
-**Branch verified:** `claude/insight-engine-investor-audit-bkofgr` (HEAD `95b68f6`)
+**Branch verified:** `claude/insight-engine-investor-audit-bkofgr` (HEAD `6ceb3f1`)
 **Companion:** `docs/UX_FLOW_V2.md` (flow & state model)
 **Upstream authority:** `docs/02-ETHICAL_CONSTITUTION.md` (red-line categories), `src/server/reading-engine/validate.ts` (`validateInterpretation`, forbidden patterns), `docs/03-PERSONA_CONSTITUTION.md` (voice).
 
@@ -73,6 +73,18 @@ Strings are proposals for the flow stages in `docs/UX_FLOW_V2.md`. IDs are stabl
 
 ### 5.1 `CONSENT` (existing — do not change wording without a safety review)
 `ConsentModal.tsx` copy is already tested (`src/__tests__/unit/ui-components.test.tsx:13-38`, exact-copy render). **This contract does not modify it.** Any change is a separate reviewed task because a test asserts the exact string.
+
+### 5.1b `CONSENT_DECLINED` (informational only — NO reading CTA) — PO point 2
+Shown when the user declines consent. It must offer only information and a way back to review consent. It must **not** contain any control that starts a reading.
+| key | copy |
+|---|---|
+| `declined.title` | Anladım, acele yok |
+| `declined.body` | Onay vermeden okuma başlatmıyoruz. İstersen nasıl çalıştığımızı ve gizliliği okuyabilir, hazır olduğunda geri dönebilirsin. |
+| `declined.howItWorks` | Nasıl çalışır? |
+| `declined.privacy` | Gizlilik |
+| `declined.back` | Onayı yeniden gözden geçir |
+
+> No `declined.startReading` key exists, by design. A reading requires `consentStatus === 'accepted'` (`UX_FLOW_V2.md` §3.1).
 
 ### 5.2 `WELCOME`
 | key | copy |
@@ -151,13 +163,13 @@ Strings are proposals for the flow stages in `docs/UX_FLOW_V2.md`. IDs are stabl
 
 > Body of the pattern is `interpretation.patterns` + `interpretation.practicalReflection` (governed output), not authored here.
 
-### 5.10 `REFLECTION` (priority #5)
+### 5.10 `REFLECTION` (priority #5) — **BLOCKED, see §6**
 | key | copy |
 |---|---|
 | `reflection.title` | Kendine sorabileceğin tek soru |
 | `reflection.agency` | Cevap sende. Karar da sende. |
 
-> The single question body is governed output (`interpretation.uncertaintyNotice` / a reflective-prompt field). Exactly one question, alone. No "save", no "next reading", no upsell (that is S4).
+> The single question **body has no governed source yet** and must NOT be sourced from `interpretation.uncertaintyNotice` (that is an uncertainty *statement*, not a question — PO point 4, §6). Until a governed `reflectionPrompt` field exists, this screen renders no fabricated question. Exactly one question, alone, once the field lands. No "save", no "next reading", no upsell (that is S4).
 
 ### 5.11 `CLOSE`
 | key | copy |
@@ -175,25 +187,35 @@ Strings are proposals for the flow stages in `docs/UX_FLOW_V2.md`. IDs are stabl
 
 > **The crisis resource numbers themselves are NOT set by this contract.** `CrisisNotice.tsx` renders whatever the gate at `src/app/api/readings/route.ts` provides. Correcting those numbers (`155`, the private İntihar Önleme number, `183`, `112`) is a **separate reviewed safety-remediation task** against official sources (`https://www.112.gov.tr/`, ALO 183). This copy contract only governs the surrounding *framing* language, and only proposes it — the crisis path is safety-critical and its final wording needs an explicit safety review.
 
-### 5.13 `RATE_LIMITED`
+### 5.13 `error` — rate-limit variant (a variant of the error screen, not a separate screen)
 | key | copy |
 |---|---|
-| `rate.title` | Kısa bir ara |
-| `rate.body` | Art arda çok fazla okuma açıldı. Biraz bekleyip tekrar deneyebilirsin. |
+| `error.rate.title` | Kısa bir ara |
+| `error.rate.body` | Art arda çok fazla okuma açıldı. Biraz bekleyip tekrar deneyebilirsin. |
 
-> This is abuse-prevention copy for the in-memory limiter (`src/server/observability/rate-limit.ts`), **not** a durable "come back tomorrow" cooldown (that is S4). Copy must not imply an account quota or a daily limit.
+> This is abuse-prevention copy for the in-memory limiter (`src/server/observability/rate-limit.ts`), **not** a durable "come back tomorrow" cooldown (that is S4). Copy must not imply an account quota or a daily limit. Per `UX_FLOW_V2.md` §2 this is the `error` screen with a `rate-limit` reason, not its own screen.
 
-### 5.14 `ERROR`
+### 5.14 `error` — two honest variants keyed by `cardsResolved` (PO point 3)
+The draft's single unconditional "açılışın kaybolmaz" was corrected: that promise is only true once the cards actually resolved. The `error` screen picks its variant from `SessionMeta.cardsResolved`.
+
+**PRE_DRAW_ERROR** (`cardsResolved === false` — failure before any card was selected):
 | key | copy |
 |---|---|
-| `error.title` | Bir şeyler ters gitti |
-| `error.body` | Kartların hazırlanırken bir sorun oldu. Tekrar deneyebilirsin — açılışın kaybolmaz. |
-| `error.retry` | Tekrar dene |
+| `error.preDraw.title` | Bir şeyler ters gitti |
+| `error.preDraw.body` | Henüz kart seçilmedi. Yeniden deneyebilirsin. |
+| `error.preDraw.retry` | Tekrar dene |
 
-> "açılışın kaybolmaz" encodes the §4 recovery rule of the flow doc: a provider failure re-narrates the same seed; the draw is not lost.
+**POST_DRAW_NARRATION_ERROR** (`cardsResolved === true` — cards resolved, narration failed):
+| key | copy |
+|---|---|
+| `error.postDraw.title` | Yorum hazırlanamadı |
+| `error.postDraw.body` | Kartların korundu. Yalnız yorum yeniden hazırlanacak. |
+| `error.postDraw.retry` | Yorumu yeniden hazırla |
+
+> The UI must **never** show a preservation promise unless `cardsResolved === true`. "Kartların korundu" encodes the §4 recovery rule: the same seed is re-narrated; the draw is not lost. The pre-draw variant makes no such claim.
 
 ### 5.15 Diagnostic badges (internal, hidden by default)
-`DiagnosticBadge.tsx` copy is a developer/diagnostic affordance, **not** user insight. It must read as a build/quality signal, never as part of the reading.
+`DiagnosticBadge.tsx` copy is a developer/diagnostic affordance, **not** user insight. It must read as a build/quality signal, never as part of the reading. A successful narration fallback (`narrationStatus: 'fallback'`) does **not** get its own screen or interrupt the flow — the user proceeds through the normal `reveal → pattern → reflection` path (PO point 5, `UX_FLOW_V2.md` §4). Only if content is genuinely limited may a plain trust note appear.
 
 | kind | copy |
 |---|---|
@@ -203,14 +225,11 @@ Strings are proposals for the flow stages in `docs/UX_FLOW_V2.md`. IDs are stabl
 
 ---
 
-## 6. Reflective-question sourcing (open item for the coded slice)
+## 6. Reflective-question sourcing — requires a governed `reflectionPrompt` field (PO point 4)
 
-`REFLECTION` (§5.10) needs exactly one reflective question. Today the nearest field is `interpretation.uncertaintyNotice` (`src/types/interpretation.ts:44-52`), which is an *uncertainty statement*, not necessarily a *question*. Whether to:
-- (a) reuse `uncertaintyNotice` as-is,
-- (b) add a governed `reflectiveQuestion` field to `InterpretationOutputSchema`, or
-- (c) derive it in the narration layer,
+`REFLECTION` (§5.10) needs exactly one reflective *question*. The nearest existing field, `interpretation.uncertaintyNotice` (`src/types/interpretation.ts:44-52`), is an *uncertainty statement* ("Bu bir kesinlik değil, olası bir bakış açısıdır.") — **not** a question ("Bu kararda kontrol etmeye çalıştığın şey ne?"). They are different content types. **`uncertaintyNotice` must not be used as the reflection-question source.**
 
-is an implementation decision for slice **S-UX-5**, flagged here so the copy contract and the schema stay honest. Option (b) would be a schema + provider + eval change and must go through the normal governed path — it is **not** authorized by this contract, only noted.
+**Decision:** a dedicated governed `reflectionPrompt` field must be added to `InterpretationOutputSchema` through the normal governed path (schema + provider + eval fixtures + red-line coverage). **That schema change is NOT in this sprint** and is **not** authorized by this contract — it is recorded here as the required future contract. Until it lands, the `reflection` screen renders no fabricated question.
 
 ---
 
