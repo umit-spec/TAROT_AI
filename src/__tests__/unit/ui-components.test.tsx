@@ -7,6 +7,7 @@ import { CrisisNotice, type CrisisNoticeProps } from '../../components/CrisisNot
 import { DiagnosticBadge } from '../../components/DiagnosticBadge';
 import { QuestionForm } from '../../components/QuestionForm';
 import { FramingReview } from '../../components/FramingReview';
+import { CardNarrationItem } from '../../components/CardNarrationItem';
 import { ErrorNotice } from '../../components/ErrorNotice';
 import { DisclaimerFooter } from '../../components/DisclaimerFooter';
 import { ShuffleReveal } from '../../components/ShuffleReveal';
@@ -256,6 +257,29 @@ describe('FramingReview — shows only topic + reflective angle, never internals
     render(<FramingReview framing={framing} onConfirm={vi.fn()} onEdit={vi.fn()} />);
     const body = screen.getByLabelText('framing-review').textContent ?? '';
     expect(body).not.toMatch(/persona|confidence|safetyFlags|reflection-seeking|decision-seeking/i);
+  });
+});
+
+describe('CardNarrationItem — third position reads "Yön", not "Gelecek"', () => {
+  test('a future-position card is labelled Yön on the user surface', () => {
+    render(
+      <ul>
+        <CardNarrationItem
+          position="future"
+          cardId="02-high-priestess"
+          orientation="upright"
+          narration={{
+            cardId: '02-high-priestess',
+            position: 'future',
+            symbolicMeaning: 's',
+            relevanceToQuestion: 'r',
+            reflection: 'x',
+          }}
+        />
+      </ul>
+    );
+    expect(screen.getByText('Yön')).toBeInTheDocument();
+    expect(screen.queryByText('Gelecek')).not.toBeInTheDocument();
   });
 });
 

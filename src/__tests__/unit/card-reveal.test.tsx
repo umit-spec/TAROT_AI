@@ -19,7 +19,7 @@ function renderReveal(onContinue = vi.fn(), reducedMotion = false) {
 async function revealAll() {
   await userEvent.click(screen.getByRole('button', { name: 'Geçmiş kartını aç' }));
   await userEvent.click(screen.getByRole('button', { name: 'Şimdi kartını aç' }));
-  await userEvent.click(screen.getByRole('button', { name: 'Gelecek kartını aç' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Yön kartını aç' }));
 }
 
 describe('CardReveal — user controls pace, one card at a time', () => {
@@ -28,7 +28,7 @@ describe('CardReveal — user controls pace, one card at a time', () => {
     expect(screen.getByRole('button', { name: 'Geçmiş kartını aç' })).toBeInTheDocument();
     // The later cards are not yet openable (cannot be skipped to).
     expect(screen.queryByRole('button', { name: 'Şimdi kartını aç' })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'Gelecek kartını aç' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Yön kartını aç' })).not.toBeInTheDocument();
     // Nothing revealed, no way to move on yet.
     expect(screen.queryByLabelText('revealed-00-fool')).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'İçgörüyü gör' })).not.toBeInTheDocument();
@@ -43,7 +43,7 @@ describe('CardReveal — user controls pace, one card at a time', () => {
     expect(screen.queryByRole('button', { name: 'Geçmiş kartını aç' })).not.toBeInTheDocument();
     // Only the next card is now openable.
     expect(screen.getByRole('button', { name: 'Şimdi kartını aç' })).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'Gelecek kartını aç' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Yön kartını aç' })).not.toBeInTheDocument();
   });
 
   test('reveal order follows the response array order exactly', async () => {
@@ -76,8 +76,20 @@ describe('CardReveal — user controls pace, one card at a time', () => {
     await revealAll();
     expect(screen.getByLabelText('revealed-00-fool')).toHaveTextContent('Geçmiş');
     expect(screen.getByLabelText('revealed-00-fool')).toHaveTextContent('00-fool');
-    expect(screen.getByLabelText('revealed-02-high-priestess')).toHaveTextContent('Gelecek');
+    expect(screen.getByLabelText('revealed-02-high-priestess')).toHaveTextContent('Yön');
     expect(screen.getByLabelText('revealed-02-high-priestess')).toHaveTextContent('02-high-priestess');
+  });
+
+  test('the third position label is "Yön", never "Gelecek" (anti-prophecy copy)', async () => {
+    renderReveal();
+    await userEvent.click(screen.getByRole('button', { name: 'Geçmiş kartını aç' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Şimdi kartını aç' }));
+    // The third open-button says Yön, not Gelecek.
+    expect(screen.getByRole('button', { name: 'Yön kartını aç' })).toBeInTheDocument();
+    await userEvent.click(screen.getByRole('button', { name: 'Yön kartını aç' }));
+    expect(screen.getByLabelText('card-reveal').textContent ?? '').not.toMatch(/Gelecek/);
+    // The INTERNAL position value is untouched - the input still says 'future'.
+    expect(CARDS[2].position).toBe('future');
   });
 });
 

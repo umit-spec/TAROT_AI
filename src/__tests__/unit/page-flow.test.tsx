@@ -45,7 +45,7 @@ async function revealAllAndContinue() {
   await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
   await userEvent.click(screen.getByRole('button', { name: 'Geçmiş kartını aç' }));
   await userEvent.click(screen.getByRole('button', { name: 'Şimdi kartını aç' }));
-  await userEvent.click(screen.getByRole('button', { name: 'Gelecek kartını aç' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Yön kartını aç' }));
   await userEvent.click(screen.getByRole('button', { name: 'İçgörüyü gör' }));
 }
 
@@ -149,7 +149,7 @@ describe('HomePage — the reveal gates the interpretation (3/3)', () => {
     expect(screen.queryByRole('button', { name: 'İçgörüyü gör' })).not.toBeInTheDocument();
     expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
 
-    await userEvent.click(screen.getByRole('button', { name: 'Gelecek kartını aç' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Yön kartını aç' }));
     await userEvent.click(screen.getByRole('button', { name: 'İçgörüyü gör' }));
     await waitFor(() => expect(screen.getByLabelText('reading-result')).toBeInTheDocument());
     expect(screen.getByText('test opening')).toBeInTheDocument();

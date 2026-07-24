@@ -8,10 +8,12 @@ export interface CardNarrationItemProps {
   narration: CardNarration;
 }
 
+// "Yön" (a direction to consider), not "Gelecek" (an event foretold) - the
+// anti-prophecy copy contract. Internal position value stays 'future'.
 const POSITION_LABEL: Record<CardPositionKey, string> = {
   past: 'Geçmiş',
   present: 'Şimdi',
-  future: 'Gelecek',
+  future: 'Yön',
 };
 
 /** Receives only what it needs to render - no access to the full response, no access to raw safetyFlags. */

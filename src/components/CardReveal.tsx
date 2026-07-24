@@ -14,11 +14,14 @@ export interface CardRevealProps {
 }
 
 // Position names match CardNarrationItem so a position reads the same in the
-// reveal and in the reading. These are POSITION labels, not predictions.
+// reveal and in the reading. These are POSITION labels, not predictions - the
+// third position is "Yön" (a direction to consider), never "Gelecek" (an
+// event foretold), per the anti-prophecy copy contract. The Reading Engine's
+// internal position value stays 'future'; only this display label changes.
 const POSITION_LABEL: Record<CardPositionKey, string> = {
   past: 'Geçmiş',
   present: 'Şimdi',
-  future: 'Gelecek',
+  future: 'Yön',
 };
 
 /**
