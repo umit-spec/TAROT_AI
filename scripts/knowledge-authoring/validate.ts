@@ -54,6 +54,33 @@ function main() {
     console.warn(warning);
   }
 
+  // Related-source integrity + duplicate-lineage surfacing: every
+  // governance.relatedSources reference must resolve, and a duplicate/related
+  // edition is printed as a standing warning so evidence accounting never
+  // double-counts one lineage family as two independent sources.
+  const relatedOrphans: { sourceId: string; ref: string }[] = [];
+  for (const s of registry.sources) {
+    for (const rel of s.governance?.relatedSources ?? []) {
+      if (!sourceIds.has(rel.sourceId)) {
+        relatedOrphans.push({ sourceId: s.sourceId, ref: rel.sourceId });
+      }
+      if (rel.deduplicationRequired) {
+        console.warn(
+          `[lineage warning] source "${s.sourceId}" is a ${rel.relationshipType} of "${rel.sourceId}" ` +
+            `(${rel.contentOverlapStatus}) - do NOT count them as two independent corroborating sources.`,
+        );
+      }
+    }
+  }
+  if (relatedOrphans.length > 0) {
+    console.error('Related-source integrity failures:');
+    for (const { sourceId, ref } of relatedOrphans) {
+      console.error(`  source "${sourceId}" references unresolvable relatedSource "${ref}"`);
+    }
+    process.exitCode = 1;
+    return;
+  }
+
   const totalRecords = Object.values(allRecords).reduce((sum, r) => sum + r.length, 0);
   console.log(`Validated ${totalRecords} records against ${ALL_RECORD_TYPES.length} record types and ${sourceIds.size} sources.`);
 

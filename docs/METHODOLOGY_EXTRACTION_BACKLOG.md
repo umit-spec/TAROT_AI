@@ -15,3 +15,11 @@
 > These are placeholders for future work. No lesson body, no independent-source
 > selection, and no lifecycle record may be created for any of them on the
 > active line until G1 is recorded as GO.
+
+## Source lineage (both Bill Store books are ONE family)
+
+Two registered lineage-only sources cover the *same* methodology:
+- `baslangic-tarot-rehberi-2025`
+- `modern-klasik-tarot-rehberi-2025` — **related-edition, high-overlap-confirmed** (same publisher, year, Ministry registration No. 2025/14830, TOC structure, near-identical preface).
+
+**No new backlog titles are added for the second book** — it is the same content family, not a new source of principles. Critically, a principle appearing in *both* books is **still only one lineage** and **still requires at least one genuinely independent external source** (e.g. Waite 1910 / Pollack 1980 / original synthesis) before it may enter the authoring lifecycle after G1. The two books never count as two independent corroborating sources.

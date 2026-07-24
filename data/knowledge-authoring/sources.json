@@ -46,7 +46,58 @@
         "usageScope": "abstract-principle-lineage-only",
         "allowsRetrievalStorage": false
       },
-      "notes": "LINEAGE-ONLY reference under Human-Governed Methodology Extraction (docs/HUMAN_GOVERNED_METHODOLOGY_EXTRACTION_PROPOSAL_v1.0.md). Only abstract, independently-corroborated methodology principles are derived from it; no text or image is stored, OCR'd, embedded, retrieved, or served, and none enters runtime. Never a record's or lesson's sole evidentiary backing (same rule as the NotebookLM ai-assisted source). The book uses Marseille numbering (Justice 8 / Strength 11) - NOT adopted; the project keeps its canonical RWS ids (Strength 8 / Justice 11). It also contains reversed meanings, yes/no framing and all 78 cards, all out of MVP scope. Its card illustrations are Rider-Waite-Smith plates and are never extracted or used. permissionStatus 'unverified' reflects that no reproduction license exists - and none is needed, because nothing is reproduced; before commercial launch an IP lawyer should review the concrete flow."
+      "governance": {
+        "sourceRole": "human-background-lineage-only",
+        "usageScope": "abstract-methodology-learning-only",
+        "runtimeEligible": false,
+        "soleAuthorityAllowed": false,
+        "storedText": false,
+        "embeddingAllowed": false,
+        "imageUseAllowed": false,
+        "rightsStatus": "copyrighted-no-ingestion",
+        "relatedSources": [
+          {
+            "sourceId": "modern-klasik-tarot-rehberi-2025",
+            "relationshipType": "related-edition",
+            "contentOverlapStatus": "high-overlap-confirmed",
+            "deduplicationRequired": true
+          }
+        ]
+      },
+      "notes": "LINEAGE-ONLY reference under Human-Governed Methodology Extraction (docs/HUMAN_GOVERNED_METHODOLOGY_EXTRACTION_PROPOSAL_v1.0.md). Only abstract, independently-corroborated methodology principles are derived from it; no text or image is stored, OCR'd, embedded, retrieved, or served, and none enters runtime. Never a record's or lesson's sole evidentiary backing (same rule as the NotebookLM ai-assisted source). The book uses Marseille numbering (Justice 8 / Strength 11) - NOT adopted; the project keeps its canonical RWS ids (Strength 8 / Justice 11). It also contains reversed meanings, yes/no framing and all 78 cards, all out of MVP scope. Its card illustrations are Rider-Waite-Smith plates and are never extracted or used. Shares publisher, year, Ministry registration No. 2025/14830, table-of-contents structure and near-identical preface text with 'modern-klasik-tarot-rehberi-2025' - the two are one lineage family and must NOT be counted as two independent corroborating sources. permissionStatus 'unverified' reflects that no reproduction license exists - and none is needed, because nothing is reproduced; before commercial launch an IP lawyer should review the concrete flow."
+    },
+    {
+      "sourceId": "modern-klasik-tarot-rehberi-2025",
+      "title": "Modern Klasik Tarot Rehberi — 78 Kartın Yolculuğu",
+      "author": "The Bill Store (publisher)",
+      "type": "classic-text",
+      "publicationYear": 2025,
+      "rights": {
+        "rightsHolder": "The Bill Store",
+        "permissionStatus": "unverified",
+        "permissionEvidence": null,
+        "usageScope": "abstract-principle-lineage-only",
+        "allowsRetrievalStorage": false
+      },
+      "governance": {
+        "sourceRole": "human-background-lineage-only",
+        "usageScope": "abstract-methodology-learning-only",
+        "runtimeEligible": false,
+        "soleAuthorityAllowed": false,
+        "storedText": false,
+        "embeddingAllowed": false,
+        "imageUseAllowed": false,
+        "rightsStatus": "copyrighted-no-ingestion",
+        "relatedSources": [
+          {
+            "sourceId": "baslangic-tarot-rehberi-2025",
+            "relationshipType": "related-edition",
+            "contentOverlapStatus": "high-overlap-confirmed",
+            "deduplicationRequired": true
+          }
+        ]
+      },
+      "notes": "SECOND Bill Store book, registered LINEAGE-ONLY under the same Human-Governed Methodology Extraction policy as 'baslangic-tarot-rehberi-2025'. RAG ingestion / OCR storage / chunking / embedding / vector index / runtime PDF access / illustration extraction are all PROHIBITED; no book-derived text is shipped; no user-facing citations to the book. DUPLICATE-LINEAGE WARNING: same publisher (The Bill Store), same year (2025), same Ministry registration No. 2025/14830, identical table-of-contents structure (Önsöz / Tarihçe / Niyet-Tek-Üç kart / Majör / Minör), same Marseille numbering (Justice 24 / Strength 21 by folio) and near-identical preface ('Tarot bir aynadır'). Treated as a related-edition of the first book - the two count as ONE lineage family, never two independent corroborating sources. Copyright page (verified visually, not stored): rights The Bill Store, all rights reserved, no storage in a retrieval system or electronic transmission without written permission. Card illustrations are not approved production assets and are never cropped/extracted/embedded/used (incl. as references for S1's fully-original deck). Methodology extraction is DEFERRED until after a genuine S2 live evaluation, independent human subset scoring, and an explicit G1 GO. Before commercial launch an IP lawyer should review the concrete flow."
     }
   ]
 }

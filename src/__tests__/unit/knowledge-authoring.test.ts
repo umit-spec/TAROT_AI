@@ -5,6 +5,8 @@ import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 import {
   KnowledgeRecordSchema,
   SourceRightsSchema,
+  SourceGovernanceSchema,
+  SourceRegistrySchema,
   SourceSchema,
   type KnowledgeRecord,
   type Lifecycle,
@@ -178,6 +180,49 @@ describe('Source rights metadata (lineage-only source registration)', () => {
       SourceSchema.safeParse({ sourceId: 'baslangic-tarot-rehberi-2025', title: 'x', type: 'classic-text', rights })
         .success,
     ).toBe(true);
+  });
+});
+
+describe('Source governance + related-edition lineage (second Bill Store book)', () => {
+  test('governance booleans can only ever be false (literal-false restrictions)', () => {
+    const good = {
+      sourceRole: 'human-background-lineage-only',
+      usageScope: 'abstract-methodology-learning-only',
+      runtimeEligible: false,
+      soleAuthorityAllowed: false,
+      storedText: false,
+      embeddingAllowed: false,
+      imageUseAllowed: false,
+      rightsStatus: 'copyrighted-no-ingestion',
+      relatedSources: [],
+    };
+    expect(SourceGovernanceSchema.safeParse(good).success).toBe(true);
+    // any attempt to flip a restriction to true is rejected by the schema
+    expect(SourceGovernanceSchema.safeParse({ ...good, storedText: true }).success).toBe(false);
+    expect(SourceGovernanceSchema.safeParse({ ...good, embeddingAllowed: true }).success).toBe(false);
+    expect(SourceGovernanceSchema.safeParse({ ...good, runtimeEligible: true }).success).toBe(false);
+  });
+
+  test('both Bill Store books are registered lineage-only and cross-reference as one family', () => {
+    const registry = SourceRegistrySchema.parse(JSON.parse(fs.readFileSync('data/knowledge-authoring/sources.json', 'utf-8')));
+    const ids = new Set(registry.sources.map((s) => s.sourceId));
+    const book2 = registry.sources.find((s) => s.sourceId === 'modern-klasik-tarot-rehberi-2025');
+    const book1 = registry.sources.find((s) => s.sourceId === 'baslangic-tarot-rehberi-2025');
+    expect(book1).toBeDefined();
+    expect(book2).toBeDefined();
+
+    for (const b of [book1!, book2!]) {
+      expect(b.governance?.runtimeEligible).toBe(false);
+      expect(b.governance?.storedText).toBe(false);
+      expect(b.governance?.imageUseAllowed).toBe(false);
+      expect(b.rights?.allowsRetrievalStorage).toBe(false);
+    }
+    // reciprocal related-edition, dedup required, and each reference resolves
+    const rel2 = book2!.governance!.relatedSources[0];
+    expect(rel2.relationshipType).toBe('related-edition');
+    expect(rel2.deduplicationRequired).toBe(true);
+    expect(ids.has(rel2.sourceId)).toBe(true);
+    expect(book1!.governance!.relatedSources[0].sourceId).toBe('modern-klasik-tarot-rehberi-2025');
   });
 });
 

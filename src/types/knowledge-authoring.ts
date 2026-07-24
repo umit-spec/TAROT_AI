@@ -33,6 +33,46 @@ export const SourceRightsSchema = z.object({
 });
 export type SourceRights = z.infer<typeof SourceRightsSchema>;
 
+/**
+ * Relationship to another registered source. Used to mark related editions /
+ * duplicate lineage so the evidence accounting never double-counts two versions
+ * of the same content as two independent corroborating sources. `sourceId` must
+ * resolve within the registry (checked by validate.ts).
+ */
+export const SourceRelationshipSchema = z.object({
+  sourceId: z.string().min(1),
+  relationshipType: z.enum(['related-edition', 'duplicate', 'derivative', 'other']),
+  contentOverlapStatus: z.enum([
+    'high-overlap-confirmed',
+    'high-overlap-suspected',
+    'partial-overlap',
+    'independent',
+    'unknown',
+  ]),
+  deduplicationRequired: z.boolean(),
+});
+export type SourceRelationship = z.infer<typeof SourceRelationshipSchema>;
+
+/**
+ * Governance posture for a copyrighted third-party source used ONLY as
+ * human-background lineage (never RAG, never runtime, never sole backing).
+ * The booleans are the machine-checkable restrictions the Product Owner
+ * bound: no stored text, no embedding, no image use, not runtime-eligible,
+ * not sole authority.
+ */
+export const SourceGovernanceSchema = z.object({
+  sourceRole: z.string().min(1), // e.g. 'human-background-lineage-only'
+  usageScope: z.string().min(1), // e.g. 'abstract-methodology-learning-only'
+  runtimeEligible: z.literal(false),
+  soleAuthorityAllowed: z.literal(false),
+  storedText: z.literal(false),
+  embeddingAllowed: z.literal(false),
+  imageUseAllowed: z.literal(false),
+  rightsStatus: z.string().min(1), // e.g. 'copyrighted-no-ingestion'
+  relatedSources: z.array(SourceRelationshipSchema).default([]),
+});
+export type SourceGovernance = z.infer<typeof SourceGovernanceSchema>;
+
 export const SourceSchema = z.object({
   sourceId: z.string().min(1),
   title: z.string().min(1),
@@ -42,6 +82,7 @@ export const SourceSchema = z.object({
   url: z.string().url().optional(),
   notes: z.string().optional(),
   rights: SourceRightsSchema.optional(),
+  governance: SourceGovernanceSchema.optional(),
 });
 export type Source = z.infer<typeof SourceSchema>;
 
