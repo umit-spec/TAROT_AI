@@ -7,6 +7,14 @@ import {
   generateInterpretedReading,
 } from '../../../server/reading-engine';
 import { CrisisResponseSchema, ReadingRequestSchema, ReadingResponseSchema } from '../../../types/api';
+import { REQUEST_ID_HEADER, getOrCreateRequestId } from '../../../server/observability/request-id';
+import { logReading } from '../../../server/observability/log';
+import {
+  RateLimiter,
+  clientKey,
+  isRateLimitEnabled,
+  rateLimitPerMinute,
+} from '../../../server/observability/rate-limit';
 
 // docs/02-ETHICAL_CONSTITUTION.md Crisis Resources (Türkiye).
 const CRISIS_RESOURCES = [
@@ -15,6 +23,15 @@ const CRISIS_RESOURCES = [
   { label: 'Polis İmdat', contact: '155' },
   { label: 'Acil Tıp', contact: '112' },
 ];
+
+// Module-scoped limiter (per instance - see rate-limit.ts note on the durable
+// store deferred to S4). Window is one minute.
+const limiter = new RateLimiter(rateLimitPerMinute(), 60_000);
+
+function withRequestId(response: NextResponse, requestId: string): NextResponse {
+  response.headers.set(REQUEST_ID_HEADER, requestId);
+  return response;
+}
 
 /**
  * The single product endpoint (Sprint 3 plan, §1.5). Pipeline:
@@ -25,16 +42,39 @@ const CRISIS_RESOURCES = [
  * covered by their own fallback/validation guarantees).
  */
 export async function POST(request: NextRequest): Promise<NextResponse> {
+  const start = performance.now();
+  const requestId = getOrCreateRequestId(request.headers);
+
+  // Abuse-prevention rate limit (OFF in dev/test; ON in production or when
+  // RATE_LIMIT_ENABLED=1). Never inspects request body.
+  if (isRateLimitEnabled()) {
+    const decision = limiter.check(clientKey(request.headers));
+    if (!decision.allowed) {
+      logReading({ requestId, status: 429, latencyMs: performance.now() - start, outcome: 'rate-limited' });
+      const res = NextResponse.json(
+        { error: 'rate_limited', message: 'Çok fazla istek. Lütfen biraz sonra tekrar deneyin.' },
+        { status: 429 },
+      );
+      res.headers.set('retry-after', String(Math.ceil(decision.resetInMs / 1000)));
+      return withRequestId(res, requestId);
+    }
+  }
+
   let body: unknown;
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: 'invalid_json_body' }, { status: 400 });
+    logReading({ requestId, status: 400, latencyMs: performance.now() - start, outcome: 'invalid' });
+    return withRequestId(NextResponse.json({ error: 'invalid_json_body' }, { status: 400 }), requestId);
   }
 
   const parsed = ReadingRequestSchema.safeParse(body);
   if (!parsed.success) {
-    return NextResponse.json({ error: 'invalid_request', details: parsed.error.issues }, { status: 400 });
+    logReading({ requestId, status: 400, latencyMs: performance.now() - start, outcome: 'invalid' });
+    return withRequestId(
+      NextResponse.json({ error: 'invalid_request', details: parsed.error.issues }, { status: 400 }),
+      requestId,
+    );
   }
 
   const { seed, question, topicHint } = parsed.data;
@@ -51,17 +91,27 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       message: 'Bu zor bir durum olabilir. Yalnız değilsiniz - profesyonel destek almanız önemli.',
       resources: CRISIS_RESOURCES,
     });
-    return NextResponse.json(crisisResponse, { status: 200 });
+    // Crisis text is NOT logged (D4) - only that a crisis short-circuit occurred.
+    logReading({
+      requestId,
+      status: 200,
+      latencyMs: performance.now() - start,
+      outcome: 'crisis',
+      crisis: true,
+      safetyFlagCount: intake.safetyFlags.length,
+    });
+    return withRequestId(NextResponse.json(crisisResponse, { status: 200 }), requestId);
   }
 
   const provider = new ClaudeProvider();
-  const { reading, output, providerUsed, promptVersionUsed, knowledge } = await generateInterpretedReading({
-    seed,
-    spread: 'three-card',
-    intake,
-    questionText: question,
-    provider,
-  });
+  const { reading, output, providerUsed, promptVersionUsed, knowledge, usage, fallbackReason } =
+    await generateInterpretedReading({
+      seed,
+      spread: 'three-card',
+      intake,
+      questionText: question,
+      provider,
+    });
 
   const response = ReadingResponseSchema.parse({
     readingId: null, // persistence is Sprint 4+ (Sprint 3 plan §5)
@@ -79,5 +129,21 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     },
   });
 
-  return NextResponse.json(response, { status: 200 });
+  // Structured, redacted log: derived signals only, never question text (D4/D5).
+  logReading({
+    requestId,
+    status: 200,
+    latencyMs: performance.now() - start,
+    outcome: 'reading',
+    persona: intake.persona,
+    questionDomain: intake.questionDomain,
+    crisis: false,
+    safetyFlagCount: intake.safetyFlags.length,
+    provider: providerUsed,
+    fallbackReason,
+    inputTokens: usage?.inputTokens,
+    outputTokens: usage?.outputTokens,
+  });
+
+  return withRequestId(NextResponse.json(response, { status: 200 }), requestId);
 }
