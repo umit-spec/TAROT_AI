@@ -14,16 +14,16 @@ Display names are **sourced verbatim** from the governed card data — the `name
 
 ## 2. Turkish translation decisions
 
-The current governed names are locked as below. Two of them differ from examples raised during the naming request and are **flagged for a Product Owner decision** — they currently stay on the governed `name_tr` rather than forking a second source of truth:
+The current governed names are locked as below (Product Owner decision, 2026-07-24):
 
-| Card | Current governed name (`name_tr`) | Raised alternative | Status |
-|---|---|---|---|
-| `02-high-priestess` | **Yüksek Rahibe** | "Başrahibe" | Open — PO to confirm keep vs. change `name_tr` |
-| `05-hierophant` | **Hiyerofant** | "Aziz / Başrahip" (undecided) | Open — PO to pick, if changing |
-| `20-judgement` | **Yargı** | (not "Mahkeme") | Resolved — already "Yargı" |
-| `21-world` | **Dünya** | "Dünya" | Resolved — matches |
+| Card | Governed name (`name_tr`) | Rationale / alternatives |
+|---|---|---|
+| `02-high-priestess` | **Yüksek Rahibe** | Most direct rendering of "The High Priestess"; kept (over "Başrahibe", which reads more institutional-religious). |
+| `05-hierophant` | **Aziz** | "Hiyerofant" is technically correct but cold/obscure for end users; the card is also known as "Pope"/"High Priest", and **Aziz** is the more familiar, accessible name in Turkish tarot usage. Alternative historical names (for the blog/card guide): **Hiyerofant, Papa, Başrahip**. |
+| `20-judgement` | **Yargı** | Resolved — the process/reckoning sense, not "Mahkeme" (courtroom). |
+| `21-world` | **Dünya** | Resolved. |
 
-Changing either open item means editing the card data `name_tr` (a governed change, §4); the registry then follows automatically and the lock test enforces the match.
+Any future name change means editing the card data `name_tr` (a governed change, §4); the registry `displayName` is kept identical to `name_tr` and the lock test enforces the match.
 
 ## 3. `cardId → displayName` table (22 Major Arcana)
 
@@ -34,7 +34,7 @@ Changing either open item means editing the card data `name_tr` (a governed chan
 | `02-high-priestess` | Yüksek Rahibe | major |
 | `03-empress` | İmparatoriçe | major |
 | `04-emperor` | İmparator | major |
-| `05-hierophant` | Hiyerofant | major |
+| `05-hierophant` | Aziz | major |
 | `06-lovers` | Âşıklar | major |
 | `07-chariot` | Savaş Arabası | major |
 | `08-strength` | Güç | major |

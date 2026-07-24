@@ -23,7 +23,7 @@ export const CARD_DISPLAY_REGISTRY: Record<string, CardDisplayMeta> = {
   '02-high-priestess': { cardId: '02-high-priestess', displayName: 'Yüksek Rahibe', arcana: 'major' },
   '03-empress': { cardId: '03-empress', displayName: 'İmparatoriçe', arcana: 'major' },
   '04-emperor': { cardId: '04-emperor', displayName: 'İmparator', arcana: 'major' },
-  '05-hierophant': { cardId: '05-hierophant', displayName: 'Hiyerofant', arcana: 'major' },
+  '05-hierophant': { cardId: '05-hierophant', displayName: 'Aziz', arcana: 'major' },
   '06-lovers': { cardId: '06-lovers', displayName: 'Âşıklar', arcana: 'major' },
   '07-chariot': { cardId: '07-chariot', displayName: 'Savaş Arabası', arcana: 'major' },
   '08-strength': { cardId: '08-strength', displayName: 'Güç', arcana: 'major' },
