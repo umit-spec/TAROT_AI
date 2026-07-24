@@ -63,3 +63,46 @@ export function logReading(input: ReadingLogInput): void {
   if (process.env.NODE_ENV === 'test') return;
   console.log(JSON.stringify(buildReadingLogRecord(input)));
 }
+
+/**
+ * Framing-preview logging (docs/ADR-UX-FRAMING-PREVIEW.md R11). A DISTINCT
+ * event type from reading, on purpose: a preview must never be counted as a
+ * reading, or the reading-completion metric and conversion funnel are
+ * corrupted. Shares the same redaction discipline - only derived, non-free-
+ * text signals; never the question, framing, or crisis text.
+ */
+export interface PreviewLogRecord {
+  event: 'preview_request';
+  requestId: string;
+  status: number;
+  latencyMs: number;
+  outcome: 'preview' | 'crisis' | 'invalid' | 'rate-limited' | 'error';
+  questionDomain?: string;
+  safetyFlagCount?: number;
+}
+
+export interface PreviewLogInput {
+  requestId: string;
+  status: number;
+  latencyMs: number;
+  outcome: PreviewLogRecord['outcome'];
+  questionDomain?: string;
+  safetyFlagCount?: number;
+}
+
+export function buildPreviewLogRecord(input: PreviewLogInput): PreviewLogRecord {
+  return {
+    event: 'preview_request',
+    requestId: input.requestId,
+    status: input.status,
+    latencyMs: Math.round(input.latencyMs),
+    outcome: input.outcome,
+    ...(input.questionDomain ? { questionDomain: input.questionDomain } : {}),
+    ...(input.safetyFlagCount !== undefined ? { safetyFlagCount: input.safetyFlagCount } : {}),
+  };
+}
+
+export function logPreview(input: PreviewLogInput): void {
+  if (process.env.NODE_ENV === 'test') return;
+  console.log(JSON.stringify(buildPreviewLogRecord(input)));
+}
