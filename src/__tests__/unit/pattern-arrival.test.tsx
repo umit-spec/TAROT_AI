@@ -11,9 +11,9 @@ const base = {
   uncertaintyNotice: 'Bu bir kesinlik değil, olası bir bakış açısı.',
 };
 
-function renderArrival(overrides: Partial<typeof base> = {}, onSeeDetails = vi.fn()) {
-  render(<PatternArrival {...base} {...overrides} onSeeDetails={onSeeDetails} />);
-  return onSeeDetails;
+function renderArrival(overrides: Partial<typeof base> = {}, onSeeDetails = vi.fn(), onComplete = vi.fn()) {
+  render(<PatternArrival {...base} {...overrides} onComplete={onComplete} onSeeDetails={onSeeDetails} />);
+  return { onSeeDetails, onComplete };
 }
 
 describe('PatternArrival — single cross-card arrival screen', () => {
@@ -54,12 +54,19 @@ describe('PatternArrival — single cross-card arrival screen', () => {
     expect(screen.getByLabelText('main-synthesis')).not.toHaveTextContent('kesinlik değil');
   });
 
-  test('the CTA moves on to the card details and is keyboard-operable', async () => {
-    const onSeeDetails = renderArrival();
+  test('the secondary CTA opens the card details and is keyboard-operable', async () => {
+    const { onSeeDetails } = renderArrival();
     const cta = screen.getByRole('button', { name: 'Kartların ayrıntılarını gör' });
     cta.focus();
     await userEvent.keyboard('{Enter}');
     expect(onSeeDetails).toHaveBeenCalledTimes(1);
+  });
+
+  test('the primary CTA completes with a question, without opening details', async () => {
+    const { onComplete, onSeeDetails } = renderArrival();
+    await userEvent.click(screen.getByRole('button', { name: 'Bir soruyla tamamla' }));
+    expect(onComplete).toHaveBeenCalledTimes(1);
+    expect(onSeeDetails).not.toHaveBeenCalled();
   });
 
   test('no technical diagnostic (provider/confidence/persona/safety) can appear here', () => {

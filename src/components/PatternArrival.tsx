@@ -14,6 +14,10 @@ export interface PatternArrivalProps {
   /** interpretation.uncertaintyNotice — a boundary note, NOT a reflection
    * question (that is S-UX-5, a separate governed field). */
   uncertaintyNotice: string;
+  /** Primary: close the session with the single reflection question, WITHOUT
+   * requiring the user to open the card details. */
+  onComplete: () => void;
+  /** Secondary: open the optional per-card details. */
   onSeeDetails: () => void;
 }
 
@@ -32,6 +36,7 @@ export function PatternArrival({
   practicalReflection,
   patterns,
   uncertaintyNotice,
+  onComplete,
   onSeeDetails,
 }: PatternArrivalProps) {
   const headingRef = useFocusOnMount<HTMLHeadingElement>();
@@ -64,13 +69,22 @@ export function PatternArrival({
         {uncertaintyNotice}
       </p>
 
-      <button
-        type="button"
-        onClick={onSeeDetails}
-        className="mt-6 min-h-[44px] min-w-[44px] rounded border px-4"
-      >
-        Kartların ayrıntılarını gör
-      </button>
+      <div className="mt-6 flex flex-wrap gap-2">
+        <button
+          type="button"
+          onClick={onComplete}
+          className="min-h-[44px] min-w-[44px] rounded bg-accent px-4 text-white"
+        >
+          Bir soruyla tamamla
+        </button>
+        <button
+          type="button"
+          onClick={onSeeDetails}
+          className="min-h-[44px] min-w-[44px] rounded border px-4"
+        >
+          Kartların ayrıntılarını gör
+        </button>
+      </div>
     </section>
   );
 }

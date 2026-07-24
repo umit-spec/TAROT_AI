@@ -13,6 +13,9 @@ export interface ReadingResultProps {
   knowledgeMeta: KnowledgeResolutionMeta;
   providerUsed: string;
   intakeContext: IntakeContext;
+  /** Optional: close the session with the single reflection question after
+   * the details. Same destination as the pattern screen's primary CTA. */
+  onComplete?: () => void;
 }
 
 /**
@@ -21,7 +24,7 @@ export interface ReadingResultProps {
  * order (Sprint 4 UI Design Contract §5, extending ADR-002/ADR-012's
  * ground-truth invariant to the UI layer).
  */
-export function ReadingResult({ cards, interpretation, knowledgeMeta, providerUsed, intakeContext }: ReadingResultProps) {
+export function ReadingResult({ cards, interpretation, knowledgeMeta, providerUsed, intakeContext, onComplete }: ReadingResultProps) {
   const profile = resolvePersonaProfile(intakeContext.persona, intakeContext.spiritualPreference);
 
   return (
@@ -60,6 +63,16 @@ export function ReadingResult({ cards, interpretation, knowledgeMeta, providerUs
       {providerUsed === 'mock' && <DiagnosticBadge kind="narration-fallback" />}
 
       <DisclaimerFooter />
+
+      {onComplete && (
+        <button
+          type="button"
+          onClick={onComplete}
+          className="mt-4 min-h-[44px] min-w-[44px] rounded bg-accent px-4 text-white"
+        >
+          Okumayı bir soruyla tamamla
+        </button>
+      )}
     </section>
   );
 }

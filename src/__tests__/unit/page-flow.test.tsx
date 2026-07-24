@@ -55,6 +55,21 @@ async function seePatternDetails() {
   await userEvent.click(screen.getByRole('button', { name: 'Kartların ayrıntılarını gör' }));
 }
 
+// Path A: close straight from the pattern with the reflection question.
+async function completeFromPattern() {
+  await waitFor(() => expect(screen.getByLabelText('pattern-arrival')).toBeInTheDocument());
+  await userEvent.click(screen.getByRole('button', { name: 'Bir soruyla tamamla' }));
+}
+
+// Path B: close from the end of the card details.
+async function completeFromDetails() {
+  await seePatternDetails();
+  await waitFor(() => expect(screen.getByLabelText('reading-result')).toBeInTheDocument());
+  await userEvent.click(screen.getByRole('button', { name: 'Okumayı bir soruyla tamamla' }));
+}
+
+const RESPONSE_REFLECTION_PROMPT = 'Bu okuma sana neyi yeniden düşünmen için alan açıyor?';
+
 const baseReading = {
   readingId: null,
   seed: 'demo-001',
@@ -349,6 +364,8 @@ describe('HomePage — pipeline outcomes render distinct, correct screens', () =
     await waitFor(() => expect(screen.getByLabelText('crisis-resources')).toBeInTheDocument());
     expect(screen.queryByLabelText('framing-review')).not.toBeInTheDocument();
     expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('pattern-arrival')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('reflection-close')).not.toBeInTheDocument();
     expect(screen.getByText('crisis test message')).toBeInTheDocument();
   });
 
@@ -420,6 +437,73 @@ describe('HomePage — focus management across transitions (a11y)', () => {
     vi.stubGlobal('fetch', routingFetch({ preview: () => jsonResponse({ error: 'invalid_request' }, 400) }));
     await compose();
     await waitFor(() => expect(screen.getByRole('heading', { name: /Bir hata oluştu/ })).toHaveFocus());
+  });
+});
+
+describe('HomePage — reflection close is reachable from both the pattern and the details', () => {
+  test('reflection is not reachable before the pattern screen', async () => {
+    vi.stubGlobal('fetch', routingFetch({}));
+    await compose();
+    await confirmFraming();
+    await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
+    await userEvent.click(screen.getByRole('button', { name: 'Geçmiş kartını aç' }));
+    expect(screen.queryByLabelText('reflection-close')).not.toBeInTheDocument();
+  });
+
+  test('pattern -> primary CTA lands on the reflection close, without opening details', async () => {
+    vi.stubGlobal('fetch', routingFetch({}));
+    await compose();
+    await confirmFraming();
+    await revealAllAndContinue();
+    await completeFromPattern();
+
+    await waitFor(() => expect(screen.getByLabelText('reflection-close')).toBeInTheDocument());
+    expect(screen.getByLabelText('reflection-question').textContent).toBe(RESPONSE_REFLECTION_PROMPT);
+    // Details were never required.
+    expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
+  });
+
+  test('pattern -> details -> complete reaches the SAME governed reflection prompt', async () => {
+    vi.stubGlobal('fetch', routingFetch({}));
+    await compose();
+    await confirmFraming();
+    await revealAllAndContinue();
+    await completeFromDetails();
+
+    await waitFor(() => expect(screen.getByLabelText('reflection-close')).toBeInTheDocument());
+    expect(screen.getByLabelText('reflection-question').textContent).toBe(RESPONSE_REFLECTION_PROMPT);
+  });
+
+  test('reaching reflection makes no extra API call and never redraws', async () => {
+    const fetchSpy = routingFetch({});
+    vi.stubGlobal('fetch', fetchSpy);
+    await compose();
+    await confirmFraming();
+    await revealAllAndContinue();
+    await completeFromPattern();
+    await waitFor(() => expect(screen.getByLabelText('reflection-close')).toBeInTheDocument());
+    // Only the preview + reading calls; the reflection close calls nothing.
+    expect(fetchSpy).toHaveBeenCalledTimes(2);
+  });
+
+  test('reflectionPromptSource / provider metadata never leaks onto the reflection surface', async () => {
+    vi.stubGlobal('fetch', routingFetch({ reading: () => jsonResponse({ ...baseReadingResolved, provider: 'mock' }) }));
+    await compose();
+    await confirmFraming();
+    await revealAllAndContinue();
+    await completeFromPattern();
+    await waitFor(() => expect(screen.getByLabelText('reflection-close')).toBeInTheDocument());
+    const text = screen.getByLabelText('reflection-close').textContent ?? '';
+    expect(text).not.toMatch(/provider|source|fallback|mock|confidence|safetyFlags/i);
+  });
+
+  test('a provider fallback does not break the path to reflection', async () => {
+    vi.stubGlobal('fetch', routingFetch({ reading: () => jsonResponse({ ...baseReadingResolved, provider: 'mock' }) }));
+    await compose();
+    await confirmFraming();
+    await revealAllAndContinue();
+    await completeFromPattern();
+    await waitFor(() => expect(screen.getByLabelText('reflection-close')).toBeInTheDocument());
   });
 });
 

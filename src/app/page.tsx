@@ -9,6 +9,7 @@ import { ShuffleReveal } from '../components/ShuffleReveal';
 import { CardReveal } from '../components/CardReveal';
 import { PatternArrival } from '../components/PatternArrival';
 import { ReadingResult } from '../components/ReadingResult';
+import { ReflectionClose } from '../components/ReflectionClose';
 import { CrisisNotice } from '../components/CrisisNotice';
 import { ErrorNotice } from '../components/ErrorNotice';
 
@@ -31,6 +32,7 @@ type ViewState =
   | { status: 'revealing'; data: ReadingResponse }
   | { status: 'pattern'; data: ReadingResponse }
   | { status: 'success'; data: ReadingResponse }
+  | { status: 'reflection'; data: ReadingResponse }
   | { status: 'crisis'; data: CrisisResponse }
   | { status: 'error'; message: string; initial?: Pending };
 
@@ -152,6 +154,7 @@ export default function HomePage() {
           practicalReflection={state.data.interpretation.practicalReflection}
           patterns={state.data.interpretation.patterns}
           uncertaintyNotice={state.data.interpretation.uncertaintyNotice}
+          onComplete={() => setState({ status: 'reflection', data: state.data })}
           onSeeDetails={() => setState({ status: 'success', data: state.data })}
         />
       )}
@@ -172,6 +175,14 @@ export default function HomePage() {
           knowledgeMeta={state.data.knowledge.meta}
           providerUsed={state.data.provider}
           intakeContext={state.data.intakeContext}
+          onComplete={() => setState({ status: 'reflection', data: state.data })}
+        />
+      )}
+
+      {state.status === 'reflection' && (
+        <ReflectionClose
+          reflectionPrompt={state.data.interpretation.reflectionPrompt}
+          onRestart={() => setState({ status: 'compose' })}
         />
       )}
     </main>
