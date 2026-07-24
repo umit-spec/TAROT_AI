@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, test, vi } from 'vitest';
 import { ConsentModal } from '../../components/ConsentModal';
@@ -139,5 +139,69 @@ describe('QuestionForm — the only component constructing a request payload', (
     expect(screen.getByRole('button', { name: 'Kartları Çek' })).toHaveFocus();
     await userEvent.keyboard('{Enter}');
     expect(onSubmit).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('QuestionForm — S-UX-1 question guidance (topic cards + reflective scaffolds)', () => {
+  test('topic card shows its guidance hint while its accessible name stays exactly the label', () => {
+    render(<QuestionForm onSubmit={vi.fn()} disabled={false} />);
+    // Name is forced by aria-label, so the visible hint text never pollutes it
+    // (keeps the payload-shape regression tests and role queries stable).
+    expect(screen.getByRole('button', { name: 'İlişki' })).toBeInTheDocument();
+    expect(screen.getByText('Bir bağ, bir mesafe, bir soru işareti üzerine.')).toBeInTheDocument();
+  });
+
+  test('clicking a reflective scaffold inserts its text into an empty textarea and focuses it', async () => {
+    render(<QuestionForm onSubmit={vi.fn()} disabled={false} />);
+    const textarea = screen.getByLabelText('Sorunuz') as HTMLTextAreaElement;
+    expect(textarea.value).toBe('');
+
+    await userEvent.click(screen.getByRole('button', { name: /gözden kaçırıyor/ }));
+
+    expect(textarea.value).toBe('Bu konuda neyi gözden kaçırıyor olabilirim?');
+    expect(textarea).toHaveFocus();
+  });
+
+  test('scaffold insert is non-destructive: it appends after the user’s own text', async () => {
+    render(<QuestionForm onSubmit={vi.fn()} disabled={false} />);
+    const textarea = screen.getByLabelText('Sorunuz') as HTMLTextAreaElement;
+
+    await userEvent.type(textarea, 'kendi sorum');
+    await userEvent.click(screen.getByRole('button', { name: /neye dikkat/ }));
+
+    expect(textarea.value).toContain('kendi sorum');
+    expect(textarea.value).toContain('Şu an neye dikkat etmem iyi olur?');
+  });
+
+  test('empty question still submits, and the payload shape is unchanged', async () => {
+    const onSubmit = vi.fn();
+    render(<QuestionForm onSubmit={onSubmit} disabled={false} />);
+
+    // No topic, no text: the reading must still be requestable (skippable).
+    await userEvent.click(screen.getByRole('button', { name: 'Kartları Çek' }));
+
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+    const payload = onSubmit.mock.calls[0][0];
+    expect(Object.keys(payload).sort()).toEqual(['question', 'topicHint']);
+    expect(payload.question).toBe('');
+    expect(payload.topicHint).toBeUndefined();
+  });
+
+  test('scaffold buttons are disabled during loading', () => {
+    render(<QuestionForm onSubmit={vi.fn()} disabled={true} />);
+    expect(screen.getByRole('button', { name: /gözden kaçırıyor/ })).toBeDisabled();
+  });
+
+  test('every scaffold is reflective, never predictive (anti-prophecy copy guard)', () => {
+    render(<QuestionForm onSubmit={vi.fn()} disabled={false} />);
+    const scaffoldGroup = screen.getByRole('group', { name: 'soru-onerileri' });
+    const buttons = within(scaffoldGroup).getAllByRole('button');
+    expect(buttons.length).toBeGreaterThan(0);
+    for (const button of buttons) {
+      // No certainty/prediction verbs (mirrors validate.ts red-line spirit).
+      expect(button.textContent ?? '').not.toMatch(/olacak|kesinlikle|mutlaka|gelecek/i);
+      // A reflective prompt ends in a question.
+      expect((button.textContent ?? '').trim()).toMatch(/\?$/);
+    }
   });
 });
