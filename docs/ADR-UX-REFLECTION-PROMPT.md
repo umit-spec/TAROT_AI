@@ -1,7 +1,7 @@
 # ADR-UX-REFLECTION-PROMPT — Governed reflection prompt field
 
-**Status:** PROPOSED — AWAITING PRODUCT OWNER GO/NO-GO
-**Type:** Architecture + schema/provider/validation decision. **Documentation only — no schema, provider, validation, fixture, or UI code accompanies this ADR.**
+**Status:** ACCEPTED — IMPLEMENTATION MAY BEGIN (rollout step 2), subject to the four binding amendments in §11.
+**Type:** Architecture + schema/provider/validation decision. This ADR is docs; the amendments in §11 are binding on the implementation that follows.
 **Decision owner:** Product Owner
 **Unblocks:** the S-UX-5 reflection screen (`UX_FLOW_V2.md` §3.6 / §6), which is blocked until a governed `reflectionPrompt` field exists.
 **Branch verified:** `claude/insight-engine-investor-audit-bkofgr` (HEAD `be1d800`).
@@ -161,6 +161,40 @@ Implementation may begin only if:
 **NO-GO** if the question would be client-authored, if `uncertaintyNotice` would be reused, or if a guard failure could surface non-compliant model text to the user.
 
 ### Sign-off
-- **Decision (GO / NO-GO):** ____________________
-- **Reviewed by:** ____________________  **Date:** ____________
+- **Decision:** GO (Product Owner, 2026-07-24) — rollout step 2 may begin, subject to §11.
 - On GO: proceed with rollout step 2 as a separate reviewed change. Do not start S-UX-5 UI, card-name mapping, or visual polish before their turn.
+
+---
+
+## 11. Binding amendments (Product Owner)
+
+These four amendments are binding on the implementation.
+
+### A1 — Separate raw provider output from the final governed output
+The provider may emit output whose `reflectionPrompt` is **missing or unknown**. That raw output is validated against a **raw** schema where `reflectionPrompt` is **optional**; the **final** `InterpretationOutputSchema` (where it is **required, non-empty**) is produced **only after** normalization fills/validates the field. This ordering prevents the final-schema parse from throwing *before* the field-level fallback can run.
+- `RawInterpretationOutputSchema` — `reflectionPrompt: z.string().optional()`; the return type of `InterpretationProvider.generate()`.
+- `InterpretationOutputSchema` — `reflectionPrompt: z.string().min(1)`; produced by `runProvider` after normalization; what the API/UI see.
+
+### A2 — Field-level fallback applies ONLY to a `reflectionPrompt` violation
+If only the `reflectionPrompt` is missing/invalid, substitute the central fallback for that field and keep the rest of the reading. If **any other** field carries prediction, diagnosis, or a forbidden phrase, the existing **whole-reading fallback** (provider → MockProvider in `generateInterpretedReading`'s catch) still applies. Field-level fallback never masks a bad reading elsewhere.
+
+### A3 — Fixed validation thresholds (no repair)
+`validateReflectionPrompt` normalizes whitespace (trim + collapse internal runs), then accepts only if the candidate is:
+- **20–220 characters**,
+- exactly **one** `?`,
+- **ends** with `?`,
+- **single line, not a list** (no newline, no list markers).
+On any failure it does **not** attempt to repair the text (no trimming a second question, no appending `?`): it goes **directly** to the central governed fallback. The §5 prediction / third-party-certainty / diagnosis-instruction guards and the existing forbidden-phrase scan also apply, with the same straight-to-fallback outcome.
+
+### A4 — Fallback telemetry is metadata-only
+If (and only if) suitable telemetry infrastructure exists, a fallback may record **only** `provider | fallback` and a **categorical** reason (e.g. `reflection_prompt_invalid`). It must **never** log the raw question, the rejected prompt, or any reflection text. In this rollout the engine exposes a categorical `reflectionPromptSource: 'provider' | 'fallback'` (no text); nothing logs the rejected or accepted prompt text.
+
+### Binding choices (confirmed)
+| Topic | Decision |
+|---|---|
+| Required / optional | Required in the **final** schema; optional in the **raw** schema (A1) |
+| Field-level / whole-output | Field-level for `reflectionPrompt`; whole-output for other fields (A2) |
+| Central fallback | Approved (single server-side source) |
+| Fallback sentence | Approved |
+| Client-side fallback | Forbidden |
+| `uncertaintyNotice` reuse | Forbidden |
