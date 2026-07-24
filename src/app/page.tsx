@@ -7,6 +7,7 @@ import { QuestionForm } from '../components/QuestionForm';
 import { FramingReview } from '../components/FramingReview';
 import { ShuffleReveal } from '../components/ShuffleReveal';
 import { CardReveal } from '../components/CardReveal';
+import { PatternArrival } from '../components/PatternArrival';
 import { ReadingResult } from '../components/ReadingResult';
 import { CrisisNotice } from '../components/CrisisNotice';
 import { ErrorNotice } from '../components/ErrorNotice';
@@ -28,6 +29,7 @@ type ViewState =
   | { status: 'framing'; framing: FramingPreview; pending: Pending }
   | { status: 'reading' }
   | { status: 'revealing'; data: ReadingResponse }
+  | { status: 'pattern'; data: ReadingResponse }
   | { status: 'success'; data: ReadingResponse }
   | { status: 'crisis'; data: CrisisResponse }
   | { status: 'error'; message: string; initial?: Pending };
@@ -140,7 +142,17 @@ export default function HomePage() {
         <CardReveal
           cards={state.data.cards}
           reducedMotion={reducedMotion}
-          onContinue={() => setState({ status: 'success', data: state.data })}
+          onContinue={() => setState({ status: 'pattern', data: state.data })}
+        />
+      )}
+
+      {state.status === 'pattern' && (
+        <PatternArrival
+          opening={state.data.interpretation.opening}
+          practicalReflection={state.data.interpretation.practicalReflection}
+          patterns={state.data.interpretation.patterns}
+          uncertaintyNotice={state.data.interpretation.uncertaintyNotice}
+          onSeeDetails={() => setState({ status: 'success', data: state.data })}
         />
       )}
 

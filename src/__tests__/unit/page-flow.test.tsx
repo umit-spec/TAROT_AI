@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 import HomePage from '../../app/page';
@@ -39,14 +39,20 @@ async function confirmFraming() {
   await userEvent.click(screen.getByRole('button', { name: 'Evet, böyle devam et' }));
 }
 
-// The reading response resolves into the reveal surface; the user opens all
-// three cards at their own pace, then chooses to see the interpretation.
+// The reading resolves into the reveal; the user opens all three cards at
+// their own pace, then continues -> the pattern arrival screen.
 async function revealAllAndContinue() {
   await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
   await userEvent.click(screen.getByRole('button', { name: 'Geçmiş kartını aç' }));
   await userEvent.click(screen.getByRole('button', { name: 'Şimdi kartını aç' }));
   await userEvent.click(screen.getByRole('button', { name: 'Yön kartını aç' }));
   await userEvent.click(screen.getByRole('button', { name: 'İçgörüyü gör' }));
+}
+
+// From the pattern arrival screen, an explicit user action opens the details.
+async function seePatternDetails() {
+  await waitFor(() => expect(screen.getByLabelText('pattern-arrival')).toBeInTheDocument());
+  await userEvent.click(screen.getByRole('button', { name: 'Kartların ayrıntılarını gör' }));
 }
 
 const baseReading = {
@@ -113,12 +119,111 @@ describe('HomePage — framing review sits between the question and the draw', (
     await userEvent.click(screen.getByRole('button', { name: 'Sorumu düzenle' }));
     expect((screen.getByLabelText('Sorunuz') as HTMLTextAreaElement).value).toBe('my careful question');
 
-    // Continue again, then confirm -> reveal -> interpretation.
+    // Continue again, then confirm -> reveal -> pattern -> details.
     await userEvent.click(screen.getByRole('button', { name: 'Sorumu netleştir' }));
     await confirmFraming();
     await revealAllAndContinue();
+    await seePatternDetails();
     await waitFor(() => expect(screen.getByLabelText('reading-result')).toBeInTheDocument());
-    expect(screen.getByText('test opening')).toBeInTheDocument();
+  });
+});
+
+describe('HomePage — the pattern arrival is the first destination after the reveal', () => {
+  test('pattern is not reachable before all three cards are revealed', async () => {
+    vi.stubGlobal('fetch', routingFetch({}));
+    await compose();
+    await confirmFraming();
+    await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
+    await userEvent.click(screen.getByRole('button', { name: 'Geçmiş kartını aç' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Şimdi kartını aç' }));
+    // 2/3: no pattern, no result.
+    expect(screen.queryByLabelText('pattern-arrival')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
+  });
+
+  test('after 3/3 the İçgörüyü gör CTA lands on the pattern screen, not the full result', async () => {
+    vi.stubGlobal('fetch', routingFetch({}));
+    await compose();
+    await confirmFraming();
+    await revealAllAndContinue();
+
+    await waitFor(() => expect(screen.getByLabelText('pattern-arrival')).toBeInTheDocument());
+    // The pattern screen shows the main synthesis, and the full result is NOT
+    // shown yet.
+    expect(screen.getByLabelText('main-synthesis')).toHaveTextContent('test reflection');
+    expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
+  });
+
+  test('with no patterns, the pattern screen shows no supporting-cues section', async () => {
+    // baseReading.interpretation.patterns === [].
+    vi.stubGlobal('fetch', routingFetch({}));
+    await compose();
+    await confirmFraming();
+    await revealAllAndContinue();
+    await waitFor(() => expect(screen.getByLabelText('pattern-arrival')).toBeInTheDocument());
+    expect(screen.queryByLabelText('supporting-cues')).not.toBeInTheDocument();
+  });
+
+  test('multiple patterns appear as supporting cues on the pattern screen', async () => {
+    vi.stubGlobal(
+      'fetch',
+      routingFetch({
+        reading: () =>
+          jsonResponse({
+            ...baseReadingResolved,
+            interpretation: { ...baseReading.interpretation, patterns: ['ipucu bir', 'ipucu iki'] },
+          }),
+      })
+    );
+    await compose();
+    await confirmFraming();
+    await revealAllAndContinue();
+    await waitFor(() => expect(screen.getByLabelText('supporting-cues')).toBeInTheDocument());
+    expect(screen.getByLabelText('supporting-cues')).toHaveTextContent('ipucu bir');
+    expect(screen.getByLabelText('supporting-cues')).toHaveTextContent('ipucu iki');
+  });
+
+  test('the uncertainty notice is shown as a boundary note, separate from the synthesis', async () => {
+    vi.stubGlobal('fetch', routingFetch({}));
+    await compose();
+    await confirmFraming();
+    await revealAllAndContinue();
+    await waitFor(() => expect(screen.getByLabelText('pattern-arrival')).toBeInTheDocument());
+    expect(screen.getByLabelText('uncertainty-note')).toHaveTextContent('test notice');
+    expect(screen.getByLabelText('main-synthesis')).not.toHaveTextContent('test notice');
+  });
+
+  test('no technical diagnostic badge appears on the pattern screen (even with a fallback provider)', async () => {
+    vi.stubGlobal(
+      'fetch',
+      routingFetch({
+        reading: () => jsonResponse({ ...baseReadingResolved, provider: 'mock' }),
+      })
+    );
+    await compose();
+    await confirmFraming();
+    await revealAllAndContinue();
+    await waitFor(() => expect(screen.getByLabelText('pattern-arrival')).toBeInTheDocument());
+    // Diagnostic badges live in the detail (ReadingResult), never on the pattern.
+    expect(screen.queryByLabelText(/^diagnostic-/)).not.toBeInTheDocument();
+  });
+
+  test('card details require an explicit action and preserve card order + narration index', async () => {
+    vi.stubGlobal('fetch', routingFetch({}));
+    await compose();
+    await confirmFraming();
+    await revealAllAndContinue();
+    await waitFor(() => expect(screen.getByLabelText('pattern-arrival')).toBeInTheDocument());
+    // The details are not shown until the user asks.
+    expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
+    await seePatternDetails();
+    await waitFor(() => expect(screen.getByLabelText('reading-result')).toBeInTheDocument());
+    // Cards render in response order in the detail (index == order).
+    const cardList = screen.getByLabelText('card-list');
+    const ids = within(cardList)
+      .getAllByRole('listitem')
+      .map((li) => li.getAttribute('aria-label'));
+    expect(ids).toEqual(['card-00-fool', 'card-01-magician', 'card-02-high-priestess']);
   });
 });
 
@@ -151,8 +256,9 @@ describe('HomePage — the reveal gates the interpretation (3/3)', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'Yön kartını aç' }));
     await userEvent.click(screen.getByRole('button', { name: 'İçgörüyü gör' }));
-    await waitFor(() => expect(screen.getByLabelText('reading-result')).toBeInTheDocument());
-    expect(screen.getByText('test opening')).toBeInTheDocument();
+    // 3/3 opens the interpretation flow at the pattern screen (not the wall).
+    await waitFor(() => expect(screen.getByLabelText('pattern-arrival')).toBeInTheDocument());
+    expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
   });
 
   test('the revealed card ids/positions match the response (no redraw in the flow)', async () => {
@@ -187,6 +293,7 @@ describe('HomePage — pipeline outcomes render distinct, correct screens', () =
     await compose();
     await confirmFraming();
     await revealAllAndContinue();
+    await seePatternDetails();
 
     await waitFor(() => expect(screen.getByLabelText('reading-result')).toBeInTheDocument());
     expect(screen.getByText('test opening')).toBeInTheDocument();
@@ -204,6 +311,7 @@ describe('HomePage — pipeline outcomes render distinct, correct screens', () =
     await compose();
     await confirmFraming();
     await revealAllAndContinue();
+    await seePatternDetails();
 
     await waitFor(() => expect(screen.getByLabelText('reading-result')).toBeInTheDocument());
     expect(screen.getByLabelText('diagnostic-knowledge-partial')).toBeInTheDocument();
@@ -220,8 +328,9 @@ describe('HomePage — pipeline outcomes render distinct, correct screens', () =
     );
     await compose();
     await confirmFraming();
-    // The reveal is unaffected by the narration fallback.
+    // The reveal and pattern are unaffected by the narration fallback.
     await revealAllAndContinue();
+    await seePatternDetails();
 
     await waitFor(() => expect(screen.getByLabelText('reading-result')).toBeInTheDocument());
     expect(screen.getByLabelText('diagnostic-narration-fallback')).toBeInTheDocument();
