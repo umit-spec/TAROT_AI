@@ -13,7 +13,12 @@ import { buildInterpretations } from './deterministic';
 import { InterpretationProvider } from './providers/types';
 import { MockProvider } from './providers/mock';
 import { findPatterns } from './synthesis';
-import { finalizeReflectionPrompt, ReadingValidationError, validateInterpretation, validateReading } from './validate';
+import {
+  ReadingValidationError,
+  resolveReflectionPrompt,
+  validateInterpretation,
+  validateReading,
+} from './validate';
 
 /**
  * Sprint 6: separates what generateInterpretedReading's single fallback
@@ -78,14 +83,17 @@ async function runProvider(
   intake: IntakeContext,
   knowledge: KnowledgeContext,
   questionText: string
-): Promise<InterpretationOutput> {
+): Promise<{ output: InterpretationOutput; reflectionPromptSource: 'provider' | 'fallback' }> {
   const raw = await provider.generate({ reading, intake, knowledge, questionText });
   // Union, not overwrite: a provider could someday add its own flags
   // (e.g. detecting tone issues) on top of what Intake already found.
   const safetyFlags = Array.from(new Set([...raw.safetyFlags, ...intake.safetyFlags]));
   // Field-level governed reflection prompt (ADR-UX-REFLECTION-PROMPT A1/A2)
   // before the final red-line/schema gate.
-  return validateInterpretation(finalizeReflectionPrompt({ ...raw, safetyFlags }));
+  const withFlags = { ...raw, safetyFlags };
+  const { reflectionPrompt, source } = resolveReflectionPrompt(withFlags);
+  const output = validateInterpretation({ ...withFlags, reflectionPrompt });
+  return { output, reflectionPromptSource: source };
 }
 
 /**
@@ -122,6 +130,10 @@ export async function generateInterpretedReading(input: GenerateInterpretedReadi
   // when that provider exposes it (see providers/types.ts's optional
   // getLastUsage()) - undefined for MockProvider, which has none to report.
   usage?: TokenUsage;
+  // ADR-UX-REFLECTION-PROMPT A4: categorical only - whether the reflection
+  // prompt came from the provider or the central governed fallback. No prompt
+  // text; safe for metadata-only telemetry.
+  reflectionPromptSource: 'provider' | 'fallback';
 }> {
   const reading = generateDeterministicReading({
     seed: input.seed,
@@ -137,7 +149,13 @@ export async function generateInterpretedReading(input: GenerateInterpretedReadi
   );
 
   try {
-    const output = await runProvider(input.provider, reading, input.intake, knowledgeResult.context, questionText);
+    const { output, reflectionPromptSource } = await runProvider(
+      input.provider,
+      reading,
+      input.intake,
+      knowledgeResult.context,
+      questionText
+    );
     return {
       reading,
       output,
@@ -145,10 +163,11 @@ export async function generateInterpretedReading(input: GenerateInterpretedReadi
       promptVersionUsed: input.provider.promptVersion,
       knowledge: knowledgeResult,
       usage: input.provider.getLastUsage?.(),
+      reflectionPromptSource,
     };
   } catch (err) {
     const fallbackReason = classifyFallbackReason(err);
-    const output = await runProvider(
+    const { output, reflectionPromptSource } = await runProvider(
       fallbackProvider,
       reading,
       input.intake,
@@ -162,6 +181,7 @@ export async function generateInterpretedReading(input: GenerateInterpretedReadi
       promptVersionUsed: fallbackProvider.promptVersion,
       knowledge: knowledgeResult,
       fallbackReason,
+      reflectionPromptSource,
     };
   }
 }

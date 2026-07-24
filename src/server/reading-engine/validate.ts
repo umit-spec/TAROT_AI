@@ -47,6 +47,10 @@ const FORBIDDEN_PHRASES = [
 
 export class ReadingValidationError extends Error {}
 
+function containsForbiddenPhrase(lower: string): boolean {
+  return FORBIDDEN_PHRASES.some((phrase) => lower.includes(phrase));
+}
+
 function scanForForbiddenPhrases(haystack: string): void {
   const lower = haystack.toLowerCase();
   for (const phrase of FORBIDDEN_PHRASES) {
@@ -54,6 +58,37 @@ function scanForForbiddenPhrases(haystack: string): void {
       throw new ReadingValidationError(`Forbidden phrase detected: "${phrase}"`);
     }
   }
+}
+
+// docs/ADR-UX-REFLECTION-PROMPT.md §5 guards. Conservative: on any doubt the
+// caller substitutes the governed fallback (never repairs the text), so
+// over-rejection only costs a safe generic prompt.
+const REFLECTION_PREDICTION =
+  /(kesinlikle|mutlaka|garanti|olacaks?ın|olacak\b|gerçekleşecek|kazanacaks?ın|kaybedeceks?in|dönecek|yarın|gelecek hafta|önümüzdeki|ay içinde|hafta içinde)/i;
+// A third party as the certain subject ("O ... mi?", "patronun ...").
+const REFLECTION_THIRD_PARTY = /(^|[^a-zçğıöşü])(o|onun)\s|(patronun|sevgilin|eşin|annen|baban|arkadaşın|kocan|karın)\b/i;
+// Medical/psychological diagnosis, or an imperative "-malısın/-melisin".
+const REFLECTION_DIAGNOSIS = /(depresyon|anksiyete|hastalık|teşhis|tanı\b|ilaç|terapi|m[ae]l[iı]s[iı]n\b)/i;
+
+/**
+ * Governed reflection-prompt validator (docs/ADR-UX-REFLECTION-PROMPT.md A3 /
+ * §5). Returns the whitespace-normalized prompt when it is exactly one
+ * safe, user-focused reflective question; otherwise null. It NEVER repairs a
+ * failing prompt — the caller goes straight to the central fallback.
+ */
+export function validateReflectionPrompt(text: string | undefined): string | null {
+  if (!text) return null;
+  if (/\n/.test(text)) return null; // single line only
+  if (/(^|\s)[-*•]\s/.test(text) || /(^|\s)\d+[.)]\s/.test(text)) return null; // no list
+  const normalized = text.trim().replace(/\s+/g, ' ');
+  if (normalized.length < 20 || normalized.length > 220) return null;
+  if ((normalized.match(/\?/g) ?? []).length !== 1) return null; // exactly one ?
+  if (!normalized.endsWith('?')) return null;
+  if (REFLECTION_PREDICTION.test(normalized)) return null;
+  if (REFLECTION_THIRD_PARTY.test(normalized)) return null;
+  if (REFLECTION_DIAGNOSIS.test(normalized)) return null;
+  if (containsForbiddenPhrase(normalized.toLowerCase())) return null;
+  return normalized;
 }
 
 export function validateReading(reading: DeterministicReading): DeterministicReading {
@@ -85,19 +120,27 @@ export function validateInterpretation(output: InterpretationOutput): Interpreta
 }
 
 /**
- * Raw -> final boundary for the governed reflection prompt
- * (docs/ADR-UX-REFLECTION-PROMPT.md A1/A2). A provider's reflectionPrompt may
- * be missing/invalid; this substitutes the ONE central server-side fallback
- * for that field ONLY (never masking a problem in another field, A2), so the
- * final-schema parse in validateInterpretation always sees a non-empty,
- * governed reflection prompt. Field-level; the client never fabricates one.
- *
- * Step 2 (minimal): fills when missing/empty. The full validation guards
- * (length, single-question, prediction/third-party/diagnosis) are added in
- * the next step and plugged in here.
+ * Resolves the governed reflection prompt for a raw output
+ * (docs/ADR-UX-REFLECTION-PROMPT.md A1/A2/A4): the provider's prompt if it
+ * passes validateReflectionPrompt, else the ONE central server-side fallback —
+ * for THIS field only, never masking a problem elsewhere. Also reports a
+ * categorical source ('provider' | 'fallback') for metadata-only telemetry;
+ * it carries no prompt text.
+ */
+export function resolveReflectionPrompt(raw: RawInterpretationOutput): {
+  reflectionPrompt: string;
+  source: 'provider' | 'fallback';
+} {
+  const valid = validateReflectionPrompt(raw.reflectionPrompt);
+  return valid
+    ? { reflectionPrompt: valid, source: 'provider' }
+    : { reflectionPrompt: REFLECTION_PROMPT_FALLBACK, source: 'fallback' };
+}
+
+/**
+ * Raw -> final boundary: guarantees a non-empty governed reflectionPrompt on
+ * the final output before validateInterpretation's parse/red-line scan.
  */
 export function finalizeReflectionPrompt(raw: RawInterpretationOutput): InterpretationOutput {
-  const candidate = (raw.reflectionPrompt ?? '').trim();
-  const reflectionPrompt = candidate.length > 0 ? candidate : REFLECTION_PROMPT_FALLBACK;
-  return { ...raw, reflectionPrompt };
+  return { ...raw, reflectionPrompt: resolveReflectionPrompt(raw).reflectionPrompt };
 }
