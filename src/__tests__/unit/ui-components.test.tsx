@@ -6,6 +6,7 @@ import { ConsentModal } from '../../components/ConsentModal';
 import { CrisisNotice, type CrisisNoticeProps } from '../../components/CrisisNotice';
 import { DiagnosticBadge } from '../../components/DiagnosticBadge';
 import { QuestionForm } from '../../components/QuestionForm';
+import { FramingReview } from '../../components/FramingReview';
 import { DisclaimerFooter } from '../../components/DisclaimerFooter';
 import { ShuffleReveal } from '../../components/ShuffleReveal';
 import { CONSENT_MODAL_COPY, RESULT_DISCLAIMER_COPY } from '../../lib/constitution-copy';
@@ -203,5 +204,40 @@ describe('QuestionForm — S-UX-1 question guidance (topic cards + reflective sc
       // A reflective prompt ends in a question.
       expect((button.textContent ?? '').trim()).toMatch(/\?$/);
     }
+  });
+
+  test('initial values seed the form so "Sorumu düzenle" preserves prior input', () => {
+    render(<QuestionForm onSubmit={vi.fn()} disabled={false} initialQuestion="önceki sorum" initialTopicHint="career" />);
+    expect((screen.getByLabelText('Sorunuz') as HTMLTextAreaElement).value).toBe('önceki sorum');
+    expect(screen.getByRole('button', { name: 'Kariyer' })).toHaveAttribute('aria-pressed', 'true');
+  });
+});
+
+describe('FramingReview — shows only topic + reflective angle, never internals', () => {
+  const framing = { topicLabel: 'Kariyer', reflectiveFocus: 'Bu kararda gözden kaçırıyor olabileceğin etkenler' };
+
+  test('renders the two safe framing strings and the "not a diagnosis" note', () => {
+    render(<FramingReview framing={framing} onConfirm={vi.fn()} onEdit={vi.fn()} />);
+    expect(screen.getByText('Kariyer')).toBeInTheDocument();
+    expect(screen.getByText('Bu kararda gözden kaçırıyor olabileceğin etkenler')).toBeInTheDocument();
+    expect(screen.getByText(/teşhis değil/)).toBeInTheDocument();
+  });
+
+  test('confirm and edit call their handlers', async () => {
+    const onConfirm = vi.fn();
+    const onEdit = vi.fn();
+    render(<FramingReview framing={framing} onConfirm={onConfirm} onEdit={onEdit} />);
+    await userEvent.click(screen.getByRole('button', { name: 'Evet, böyle devam et' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Sorumu düzenle' }));
+    expect(onConfirm).toHaveBeenCalledTimes(1);
+    expect(onEdit).toHaveBeenCalledTimes(1);
+  });
+
+  test('the rendered surface never shows an internal classification field', () => {
+    // FramingReviewProps exposes only framing/onConfirm/onEdit/disabled - there
+    // is no slot through which an internal field could reach the screen.
+    render(<FramingReview framing={framing} onConfirm={vi.fn()} onEdit={vi.fn()} />);
+    const body = screen.getByLabelText('framing-review').textContent ?? '';
+    expect(body).not.toMatch(/persona|confidence|safetyFlags|reflection-seeking|decision-seeking/i);
   });
 });

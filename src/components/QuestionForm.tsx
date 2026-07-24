@@ -7,6 +7,10 @@ type TopicHint = 'relationship' | 'career' | 'self';
 export interface QuestionFormProps {
   onSubmit: (input: { question: string; topicHint?: TopicHint }) => void;
   disabled: boolean;
+  /** Seed values so returning from framing review ("Sorumu düzenle")
+   * preserves what the user already wrote (docs/UX_FLOW_V2.md §3.3). */
+  initialQuestion?: string;
+  initialTopicHint?: TopicHint;
 }
 
 const TOPIC_HINTS: Array<{ value: TopicHint; label: string; hint: string }> = [
@@ -38,9 +42,9 @@ const QUESTION_SCAFFOLDS: string[] = [
  * reflective scaffolding on top of that guarantee without touching the
  * payload shape.
  */
-export function QuestionForm({ onSubmit, disabled }: QuestionFormProps) {
-  const [question, setQuestion] = useState('');
-  const [topicHint, setTopicHint] = useState<TopicHint | undefined>(undefined);
+export function QuestionForm({ onSubmit, disabled, initialQuestion, initialTopicHint }: QuestionFormProps) {
+  const [question, setQuestion] = useState(initialQuestion ?? '');
+  const [topicHint, setTopicHint] = useState<TopicHint | undefined>(initialTopicHint);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const hintIdBase = useId();
   const scaffoldNoteId = useId();
