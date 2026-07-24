@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 
 type TopicHint = 'relationship' | 'career' | 'self';
 
@@ -11,6 +11,9 @@ export interface QuestionFormProps {
    * preserves what the user already wrote (docs/UX_FLOW_V2.md §3.3). */
   initialQuestion?: string;
   initialTopicHint?: TopicHint;
+  /** When returning here from framing review or an error, move focus back to
+   * the question textarea so a screen-reader/keyboard user lands on it. */
+  autoFocus?: boolean;
 }
 
 const TOPIC_HINTS: Array<{ value: TopicHint; label: string; hint: string }> = [
@@ -42,12 +45,24 @@ const QUESTION_SCAFFOLDS: string[] = [
  * reflective scaffolding on top of that guarantee without touching the
  * payload shape.
  */
-export function QuestionForm({ onSubmit, disabled, initialQuestion, initialTopicHint }: QuestionFormProps) {
+export function QuestionForm({
+  onSubmit,
+  disabled,
+  initialQuestion,
+  initialTopicHint,
+  autoFocus = false,
+}: QuestionFormProps) {
   const [question, setQuestion] = useState(initialQuestion ?? '');
   const [topicHint, setTopicHint] = useState<TopicHint | undefined>(initialTopicHint);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const hintIdBase = useId();
   const scaffoldNoteId = useId();
+
+  useEffect(() => {
+    if (autoFocus) textareaRef.current?.focus();
+    // Only on mount: this fires when the form is re-entered from framing/error.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

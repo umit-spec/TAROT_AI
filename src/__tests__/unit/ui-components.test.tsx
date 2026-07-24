@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, test, vi } from 'vitest';
 import { ConsentModal } from '../../components/ConsentModal';
@@ -7,6 +7,7 @@ import { CrisisNotice, type CrisisNoticeProps } from '../../components/CrisisNot
 import { DiagnosticBadge } from '../../components/DiagnosticBadge';
 import { QuestionForm } from '../../components/QuestionForm';
 import { FramingReview } from '../../components/FramingReview';
+import { ErrorNotice } from '../../components/ErrorNotice';
 import { DisclaimerFooter } from '../../components/DisclaimerFooter';
 import { ShuffleReveal } from '../../components/ShuffleReveal';
 import { CONSENT_MODAL_COPY, RESULT_DISCLAIMER_COPY } from '../../lib/constitution-copy';
@@ -239,5 +240,39 @@ describe('FramingReview — shows only topic + reflective angle, never internals
     render(<FramingReview framing={framing} onConfirm={vi.fn()} onEdit={vi.fn()} />);
     const body = screen.getByLabelText('framing-review').textContent ?? '';
     expect(body).not.toMatch(/persona|confidence|safetyFlags|reflection-seeking|decision-seeking/i);
+  });
+});
+
+describe('Focus management (a11y) — a screen transition lands focus in the new context', () => {
+  test('FramingReview focuses its heading on mount', async () => {
+    render(
+      <FramingReview framing={{ topicLabel: 'Kariyer', reflectiveFocus: 'x' }} onConfirm={vi.fn()} onEdit={vi.fn()} />
+    );
+    await waitFor(() => expect(screen.getByRole('heading', { name: 'Seni doğru mu anladım?' })).toHaveFocus());
+  });
+
+  test('CrisisNotice focuses the crisis heading on mount', async () => {
+    render(<CrisisNotice message="crisis heading" resources={[{ label: 'x', contact: '112' }]} />);
+    await waitFor(() => expect(screen.getByRole('heading', { name: 'crisis heading' })).toHaveFocus());
+  });
+
+  test('ErrorNotice focuses the error heading on mount', async () => {
+    render(<ErrorNotice userMessage="bir sorun" onRetry={vi.fn()} />);
+    await waitFor(() => expect(screen.getByRole('heading', { name: /bir sorun/ })).toHaveFocus());
+  });
+
+  test('the focused heading uses tabIndex=-1 so the normal tab order is unchanged', () => {
+    render(<ErrorNotice userMessage="x" onRetry={vi.fn()} />);
+    expect(screen.getByRole('heading', { name: /x/ })).toHaveAttribute('tabindex', '-1');
+  });
+
+  test('QuestionForm with autoFocus moves focus to the question textarea', async () => {
+    render(<QuestionForm onSubmit={vi.fn()} disabled={false} autoFocus />);
+    await waitFor(() => expect(screen.getByLabelText('Sorunuz')).toHaveFocus());
+  });
+
+  test('QuestionForm without autoFocus does not steal focus on first load', () => {
+    render(<QuestionForm onSubmit={vi.fn()} disabled={false} />);
+    expect(screen.getByLabelText('Sorunuz')).not.toHaveFocus();
   });
 });

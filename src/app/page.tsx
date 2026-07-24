@@ -112,6 +112,7 @@ export default function HomePage() {
           disabled={state.status === 'previewing'}
           initialQuestion={state.status === 'compose' ? state.initial?.question : undefined}
           initialTopicHint={state.status === 'compose' ? state.initial?.topicHint : undefined}
+          autoFocus={state.status === 'compose' && state.initial !== undefined}
         />
       )}
 

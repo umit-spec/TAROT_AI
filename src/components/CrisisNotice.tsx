@@ -1,3 +1,7 @@
+'use client';
+
+import { useFocusOnMount } from '../lib/use-focus-on-mount';
+
 export interface CrisisNoticeProps {
   message: string;
   resources: Array<{ label: string; contact: string }>;
@@ -10,9 +14,12 @@ export interface CrisisNoticeProps {
  * someone has to remember to avoid (Sprint 4 UI Design Contract §5).
  */
 export function CrisisNotice({ message, resources }: CrisisNoticeProps) {
+  const headingRef = useFocusOnMount<HTMLHeadingElement>();
   return (
     <section aria-label="crisis-resources" role="alert" className="rounded bg-crisis-surface p-6">
-      <p className="font-semibold text-crisis-accent">{message}</p>
+      <h2 ref={headingRef} tabIndex={-1} className="font-semibold text-crisis-accent">
+        {message}
+      </h2>
       <ul className="mt-4 list-none">
         {resources.map((r) => (
           <li key={r.label} className="py-1">

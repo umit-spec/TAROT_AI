@@ -204,6 +204,39 @@ describe('HomePage — pipeline outcomes render distinct, correct screens', () =
   });
 });
 
+describe('HomePage — focus management across transitions (a11y)', () => {
+  test('framing transition focuses the framing heading', async () => {
+    vi.stubGlobal('fetch', routingFetch({}));
+    await compose();
+    await waitFor(() => expect(screen.getByRole('heading', { name: 'Seni doğru mu anladım?' })).toHaveFocus());
+  });
+
+  test('edit returns focus to the question textarea', async () => {
+    vi.stubGlobal('fetch', routingFetch({}));
+    await compose('devam eden sorum');
+    await waitFor(() => expect(screen.getByLabelText('framing-review')).toBeInTheDocument());
+    await userEvent.click(screen.getByRole('button', { name: 'Sorumu düzenle' }));
+    await waitFor(() => expect(screen.getByLabelText('Sorunuz')).toHaveFocus());
+  });
+
+  test('preview-stage crisis transition focuses the crisis heading', async () => {
+    vi.stubGlobal(
+      'fetch',
+      routingFetch({
+        preview: () => jsonResponse({ status: 'crisis', message: 'kriz başlığı', resources: [{ label: 'x', contact: '112' }] }),
+      })
+    );
+    await compose('crisis');
+    await waitFor(() => expect(screen.getByRole('heading', { name: 'kriz başlığı' })).toHaveFocus());
+  });
+
+  test('error transition focuses the error heading', async () => {
+    vi.stubGlobal('fetch', routingFetch({ preview: () => jsonResponse({ error: 'invalid_request' }, 400) }));
+    await compose();
+    await waitFor(() => expect(screen.getByRole('heading', { name: /Bir hata oluştu/ })).toHaveFocus());
+  });
+});
+
 describe('HomePage — neither endpoint ever receives a trusted client-side intake field', () => {
   test('preview body is { question } only (no seed); reading body is { seed, question }', async () => {
     const fetchSpy = routingFetch({});

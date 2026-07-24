@@ -1,4 +1,7 @@
+'use client';
+
 import type { FramingPreview } from '../types/api';
+import { useFocusOnMount } from '../lib/use-focus-on-mount';
 
 export interface FramingReviewProps {
   framing: FramingPreview;
@@ -20,9 +23,12 @@ export interface FramingReviewProps {
  * preview is requested on the next continue (R10).
  */
 export function FramingReview({ framing, onConfirm, onEdit, disabled = false }: FramingReviewProps) {
+  const headingRef = useFocusOnMount<HTMLHeadingElement>();
   return (
     <section aria-label="framing-review" className="mt-4 rounded border p-4">
-      <h2 className="font-heading text-lg">Seni doğru mu anladım?</h2>
+      <h2 ref={headingRef} tabIndex={-1} className="font-heading text-lg">
+        Seni doğru mu anladım?
+      </h2>
 
       <dl className="mt-3">
         <dt className="text-sm text-ink-muted">Konun</dt>
