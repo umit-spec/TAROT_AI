@@ -31,7 +31,7 @@ async function compose(question = 'test question') {
   await userEvent.click(screen.getByRole('checkbox'));
   await userEvent.click(screen.getByRole('button', { name: 'Devam Et' }));
   await userEvent.type(screen.getByLabelText('Sorunuz'), question);
-  await userEvent.click(screen.getByRole('button', { name: 'Kartları Çek' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Sorumu netleştir' }));
 }
 
 async function confirmFraming() {
@@ -114,7 +114,7 @@ describe('HomePage — framing review sits between the question and the draw', (
     expect((screen.getByLabelText('Sorunuz') as HTMLTextAreaElement).value).toBe('my careful question');
 
     // Continue again, then confirm -> reveal -> interpretation.
-    await userEvent.click(screen.getByRole('button', { name: 'Kartları Çek' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Sorumu netleştir' }));
     await confirmFraming();
     await revealAllAndContinue();
     await waitFor(() => expect(screen.getByLabelText('reading-result')).toBeInTheDocument());
@@ -344,7 +344,7 @@ describe('HomePage — neither endpoint ever receives a trusted client-side inta
     await userEvent.click(screen.getByRole('button', { name: 'Devam Et' }));
     await userEvent.type(screen.getByLabelText('Sorunuz'), 'career question');
     await userEvent.click(screen.getByRole('button', { name: 'Kariyer' }));
-    await userEvent.click(screen.getByRole('button', { name: 'Kartları Çek' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Sorumu netleştir' }));
     await confirmFraming();
     await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
 

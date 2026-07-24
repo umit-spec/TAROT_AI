@@ -115,9 +115,12 @@ Shown when the user declines consent. It must offer only information and a way b
 | `compose.scaffold.2` | "…konusunda kendime hangi soruyu sormalıyım?" |
 | `compose.scaffold.3` | "Şu an neye dikkat etmem iyi olur?" |
 | `compose.note` | İpucu: "ne olacak?" yerine "neyi düşünmeliyim?" çoğu zaman daha çok işe yarar. |
-| `compose.cta` | Devam et |
+| `compose.cta` | Sorumu netleştir |
+| `compose.cta.loading` | Netleştiriliyor... |
 
 > Note on `compose.scaffold.*`: these steer toward reflective phrasing and away from prediction — the copy-level enforcement of §3. They are prompts, never required.
+
+> **Binding (S-UX-3 copy correction):** the compose submit button is `compose.cta` = **"Sorumu netleştir"**, NOT "Kartları Çek". That button starts the framing preview — it draws no card and runs no shuffle — so it must carry no card/draw/shuffle language ("kart", "çek", "karıl", "shuffle"). The actual draw is initiated later, after framing confirmation.
 
 ### 5.5 `FRAMING_REVIEW` (priority #2)
 | key | copy |
@@ -136,7 +139,7 @@ Shown when the user declines consent. It must offer only information and a way b
 | `draw.prompt` | Hazır olduğunda kartları kendi ritminde açacaksın. |
 | `draw.cta` | Kartları çek |
 
-> Replaces the current always-on `QuestionForm` submit label "Kartları Çek" — same words, but now the moment is user-initiated, not the end of a form.
+> This is the draw that happens AFTER framing confirmation — a distinct moment from the compose submit (`compose.cta` = "Sorumu netleştir", §5.4). The compose button no longer says "Kartları Çek"; card/draw language belongs only here, on the post-framing draw.
 
 ### 5.7 `SHUFFLING`
 | key | copy |

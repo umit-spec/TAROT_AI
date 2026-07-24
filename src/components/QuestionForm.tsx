@@ -142,7 +142,7 @@ export function QuestionForm({
         disabled={disabled}
         className="mt-4 min-h-[44px] min-w-[44px] rounded bg-accent px-4 text-white disabled:opacity-40"
       >
-        {disabled ? 'Okuma hazırlanıyor...' : 'Kartları Çek'}
+        {disabled ? 'Netleştiriliyor...' : 'Sorumu netleştir'}
       </button>
     </form>
   );

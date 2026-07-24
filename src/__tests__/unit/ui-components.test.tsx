@@ -107,7 +107,7 @@ describe('QuestionForm — the only component constructing a request payload', (
 
     await userEvent.type(screen.getByLabelText('Sorunuz'), 'test question');
     await userEvent.click(screen.getByRole('button', { name: 'Kariyer' }));
-    await userEvent.click(screen.getByRole('button', { name: 'Kartları Çek' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Sorumu netleştir' }));
 
     expect(onSubmit).toHaveBeenCalledTimes(1);
     const payload = onSubmit.mock.calls[0][0];
@@ -127,7 +127,7 @@ describe('QuestionForm — the only component constructing a request payload', (
     render(<QuestionForm onSubmit={vi.fn()} disabled={true} />);
     expect(screen.getByLabelText('Sorunuz')).toBeDisabled();
     expect(screen.getByRole('button', { name: 'İlişki' })).toBeDisabled();
-    expect(screen.getByRole('button', { name: /hazırlanıyor/ })).toBeDisabled();
+    expect(screen.getByRole('button', { name: /Netleştiriliyor/ })).toBeDisabled();
   });
 
   test('keyboard-only navigation can reach and activate the submit button', async () => {
@@ -138,9 +138,25 @@ describe('QuestionForm — the only component constructing a request payload', (
     await userEvent.keyboard('kariyer sorusu');
     // Tab from the textarea to the submit button and activate with Enter/Space.
     await userEvent.tab();
-    expect(screen.getByRole('button', { name: 'Kartları Çek' })).toHaveFocus();
+    expect(screen.getByRole('button', { name: 'Sorumu netleştir' })).toHaveFocus();
     await userEvent.keyboard('{Enter}');
     expect(onSubmit).toHaveBeenCalledTimes(1);
+  });
+
+  // S-UX-3 copy correction: the compose submit starts the framing preview, not
+  // a draw, so it must not use card/draw/shuffle language (UX_COPY_CONTRACT
+  // §5.4, compose.cta = "Sorumu netleştir").
+  test('compose submit uses the framing CTA and carries no card/draw/shuffle language', () => {
+    render(<QuestionForm onSubmit={vi.fn()} disabled={false} />);
+    const submit = screen.getByRole('button', { name: 'Sorumu netleştir' });
+    expect(submit).toHaveAttribute('type', 'submit');
+    expect(submit.textContent ?? '').not.toMatch(/kart|çek|karıl|shuffle/i);
+  });
+
+  test('the loading label carries no card/shuffle/reading language either', () => {
+    render(<QuestionForm onSubmit={vi.fn()} disabled={true} />);
+    const submit = screen.getByRole('button', { name: /Netleştiriliyor/ });
+    expect(submit.textContent ?? '').not.toMatch(/kart|çek|karıl|shuffle|okuma/i);
   });
 });
 
@@ -180,7 +196,7 @@ describe('QuestionForm — S-UX-1 question guidance (topic cards + reflective sc
     render(<QuestionForm onSubmit={onSubmit} disabled={false} />);
 
     // No topic, no text: the reading must still be requestable (skippable).
-    await userEvent.click(screen.getByRole('button', { name: 'Kartları Çek' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Sorumu netleştir' }));
 
     expect(onSubmit).toHaveBeenCalledTimes(1);
     const payload = onSubmit.mock.calls[0][0];
