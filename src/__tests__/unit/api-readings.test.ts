@@ -125,30 +125,38 @@ describe('POST /api/readings — crisis gate', () => {
     expect(json.cards).toBeDefined();
   });
 
-  // Regression guard for the MECHANICAL crisis-resource single-source
-  // extraction (docs/ADR-UX-FRAMING-PREVIEW.md §6 Commit A). The extraction
-  // must not change one byte of the user-facing crisis response. If a later
-  // safety-remediation change edits a number/label/message, THIS test is the
-  // one expected to fail - and it should be updated in that reviewed change,
-  // not here.
-  test('crisis response is byte-identical to the extracted single source (content unchanged)', async () => {
+  // Safety-remediated crisis resources (docs/SAFETY_CRISIS_RESOURCES_REVIEW.md,
+  // 2026-07-24). First safe version: 112 only. 155, the unverified private
+  // 0312 line, and (for now) ALO 183 are all absent from the runtime list.
+  test('crisis response exposes the reviewed 112-only resource list (exact regression)', async () => {
     const res = await POST(
       makeRequest({ seed: 'demo-001', question: 'Artık yaşayamam, kendime zarar vermeyi düşünüyorum.' })
     );
     const json = await res.json();
     expect(json.message).toBe(CRISIS_MESSAGE);
     expect(json.resources).toEqual(CRISIS_RESOURCES);
-    // Pinned literal snapshot so the extraction is proven content-preserving
-    // independently of the shared const it now reads from.
-    expect(json.message).toBe(
-      'Bu zor bir durum olabilir. Yalnız değilsiniz - profesyonel destek almanız önemli.'
-    );
+    // Pinned literal snapshot, independent of the shared const.
     expect(json.resources).toEqual([
-      { label: 'İntihar Önleme Derneği Çağrı Hattı', contact: '0312 380 9098' },
-      { label: 'ALO 183 - Çocuk İhbar Hattı', contact: '183' },
-      { label: 'Polis İmdat', contact: '155' },
-      { label: 'Acil Tıp', contact: '112' },
+      { label: 'Acil tehlike veya kendine zarar verme riski — 112', contact: '112' },
     ]);
+  });
+
+  test('crisis response contains 112 and never the removed/unverified numbers', async () => {
+    const res = await POST(
+      makeRequest({ seed: 'demo-001', question: 'Artık yaşayamam, kendime zarar vermeyi düşünüyorum.' })
+    );
+    const json = await res.json();
+    const contacts = json.resources.map((r: { contact: string }) => r.contact);
+    // 112 present on every crisis response.
+    expect(contacts).toContain('112');
+    // 155 removed (consolidated under 112).
+    expect(contacts).not.toContain('155');
+    // ALO 183 deferred from the runtime list until context-aware routing.
+    expect(contacts).not.toContain('183');
+    // No unverified private line anywhere in the response body.
+    const body = JSON.stringify(json);
+    expect(body).not.toContain('9098');
+    expect(body).not.toContain('0312');
   });
 });
 

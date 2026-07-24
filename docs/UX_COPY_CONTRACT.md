@@ -185,7 +185,7 @@ Shown when the user declines consent. It must offer only information and a way b
 | `crisis.lead` | Yazdıkların bana seni zorlayan bir şeyler olduğunu düşündürdü. Yalnız değilsin. |
 | `crisis.body` | Şu an bir kart açmak yerine, konuşabileceğin gerçek destek hatlarını paylaşmak istiyorum. |
 
-> **The crisis resource numbers themselves are NOT set by this contract.** `CrisisNotice.tsx` renders whatever the gate at `src/app/api/readings/route.ts` provides. Correcting those numbers (`155`, the private İntihar Önleme number, `183`, `112`) is a **separate reviewed safety-remediation task** against official sources (`https://www.112.gov.tr/`, ALO 183). This copy contract only governs the surrounding *framing* language, and only proposes it — the crisis path is safety-critical and its final wording needs an explicit safety review.
+> **The crisis resource numbers themselves are NOT set by this contract.** `CrisisNotice.tsx` renders whatever the reviewed gate provides via `src/server/intake/crisis-resources.ts`. Those numbers were set by a separate safety review (`docs/SAFETY_CRISIS_RESOURCES_REVIEW.md`, 2026-07-24): the runtime list is now **112 only** (155 removed, unverified private line removed, ALO 183 deferred to future context-aware routing). This copy contract only governs the surrounding *framing* language, and only proposes it — the crisis path is safety-critical and any wording change needs its own safety review.
 
 ### 5.13 `error` — rate-limit variant (a variant of the error screen, not a separate screen)
 | key | copy |

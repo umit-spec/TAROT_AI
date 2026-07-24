@@ -22,9 +22,13 @@ This ADR does **not** authorize writing the endpoint. It defines the binding con
 
 Single-sourcing the crisis data fixes *consistency*, not *correctness*: a wrong or unverified resource, held in one place, is still wrong. The known crisis-resource safety debt must not be widened onto a second endpoint. Therefore implementation proceeds in this order, and **the preview endpoint must not surface the crisis-resource response over the new route until the safety-remediation (Commit B) is complete:**
 
-- **Commit A — mechanical single-source extraction (done in this change).** The existing crisis `message` + `resources` are moved to `src/server/intake/crisis-resources.ts` **byte-for-byte unchanged**; only `/api/readings` consumes them; a regression test pins the exact content. This commit **verifies nothing** about the resources — it is refactor-only.
-- **Commit B — official-source safety-remediation (separate, not yet done).** Verify every number and its purpose against current official Turkish sources; remove/correct unverified entries; stop presenting an emergency line and a social-support/violence line as the same function; update tests. Its own reviewed safety commit.
-- **S-UX-2 — preview endpoint.** May reference the shared crisis module, but must not expose crisis resources to users over the new route until Commit B has landed.
+- **Commit A — mechanical single-source extraction (done).** The existing crisis `message` + `resources` were moved to `src/server/intake/crisis-resources.ts` **byte-for-byte unchanged**; only `/api/readings` consumes them; a regression test pins the exact content. This commit **verified nothing** about the resources — refactor-only.
+- **Commit B — official-source safety-remediation (done — `docs/SAFETY_CRISIS_RESOURCES_REVIEW.md`, 2026-07-24).** Verified against the authorized official sources. Result — the first safe version shows **112 only**: `155` removed (consolidated under 112), the unverified private `0312` line removed (no substitute), and **ALO 183 deferred** from the runtime crisis list (see §1.2). Tests updated. **Safety gate is now cleared** for S-UX-2 to expose the crisis-resource response.
+- **S-UX-2 — preview endpoint.** May now reference the shared crisis module and expose the reviewed crisis-resource response over the new route.
+
+### 1.2 ALO 183 deferred to future context-aware routing
+
+ALO 183 is a social-support / violence line (aile, kadın, çocuk, engelli, yaşlı), **not** an emergency alternative to 112. The current crisis gate returns one uniform response and does **not** reliably branch on crisis subtype — the `crisis_*` keyword sets in `src/server/intake/keywords.ts` (`crisis_suicide_detected`, `crisis_violence_detected`, `crisis_assault_detected`, …) are too coarse for a safety-critical branch (`'zorla'`, `'istemeden'` are common words). Showing 183 on every crisis message would risk presenting a non-emergency line as emergency help. Introducing 183 is therefore future work requiring: (a) a reliable subtype signal, (b) a crisis gate that selects resources by subtype, and (c) copy + tests that keep the "183 is not an emergency alternative to 112" distinction explicit. Tracked in `docs/SAFETY_CRISIS_RESOURCES_REVIEW.md` §4.
 
 ---
 

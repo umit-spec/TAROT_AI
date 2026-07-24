@@ -223,7 +223,7 @@ These are existing guarantees the V2 flow must not weaken:
 ## 8. Explicitly out of scope for this flow
 
 - **S4 persistence** — reading history, saved readings, "memory center," consented save, durable same-question cooldown. Blocked until S2 live-eval completes and gate **G1** passes. `reflection`/`close` must **not** grow a save/history CTA in V2.
-- **Crisis-resource numbers.** `src/app/api/readings/route.ts` currently carries `155` (Polis), a private İntihar Önleme number, `183`, and `112`. Correcting these is a **separate, reviewed safety-remediation task** verified against current official sources (`https://www.112.gov.tr/`, ALO 183). V2 flow **does not change any crisis number**; `CrisisNotice.tsx` renders whatever the (separately corrected) gate provides.
+- **Crisis-resource numbers.** Remediated 2026-07-24 (`docs/SAFETY_CRISIS_RESOURCES_REVIEW.md`): the runtime crisis list is now **112 only** (`155` removed, the unverified private line removed, ALO 183 deferred to future context-aware routing). V2 flow **does not change any crisis number**; `CrisisNotice.tsx` renders whatever the reviewed gate provides via `src/server/intake/crisis-resources.ts`.
 - **Diagnostic transparency to users.** `confidence`, `safetyFlags`, raw persona, and `narrationStatus` remain **internal diagnostics** surfaced only through hidden-by-default `DiagnosticBadge` affordances (`DiagnosticBadge.tsx`), never as user-facing framing copy.
 - **`framing` and `reflection` code** — blocked on §5 and §6 respectively.
 - **Methodology extraction** — remains on HOLD until its gate.
