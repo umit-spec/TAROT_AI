@@ -13,7 +13,7 @@ import { buildInterpretations } from './deterministic';
 import { InterpretationProvider } from './providers/types';
 import { MockProvider } from './providers/mock';
 import { findPatterns } from './synthesis';
-import { ReadingValidationError, validateInterpretation, validateReading } from './validate';
+import { finalizeReflectionPrompt, ReadingValidationError, validateInterpretation, validateReading } from './validate';
 
 /**
  * Sprint 6: separates what generateInterpretedReading's single fallback
@@ -83,7 +83,9 @@ async function runProvider(
   // Union, not overwrite: a provider could someday add its own flags
   // (e.g. detecting tone issues) on top of what Intake already found.
   const safetyFlags = Array.from(new Set([...raw.safetyFlags, ...intake.safetyFlags]));
-  return validateInterpretation({ ...raw, safetyFlags });
+  // Field-level governed reflection prompt (ADR-UX-REFLECTION-PROMPT A1/A2)
+  // before the final red-line/schema gate.
+  return validateInterpretation(finalizeReflectionPrompt({ ...raw, safetyFlags }));
 }
 
 /**

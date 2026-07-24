@@ -41,12 +41,33 @@ export const CardNarrationSchema = z.object({
 });
 export type CardNarration = z.infer<typeof CardNarrationSchema>;
 
-export const InterpretationOutputSchema = z.object({
+const InterpretationOutputBaseSchema = z.object({
   opening: z.string().min(1),
   cards: z.array(CardNarrationSchema).length(3),
   patterns: z.array(z.string()),
   practicalReflection: z.string().min(1),
   uncertaintyNotice: z.string().min(1),
   safetyFlags: z.array(z.string()),
+});
+
+/**
+ * RAW provider output (docs/ADR-UX-REFLECTION-PROMPT.md A1). A provider's
+ * `reflectionPrompt` may be missing/unknown here; the engine normalizes it
+ * (validate-or-central-fallback) BEFORE producing the final output, so the
+ * final-schema parse never throws ahead of the field-level fallback.
+ */
+export const RawInterpretationOutputSchema = InterpretationOutputBaseSchema.extend({
+  reflectionPrompt: z.string().optional(),
+});
+export type RawInterpretationOutput = z.infer<typeof RawInterpretationOutputSchema>;
+
+/**
+ * FINAL governed output. `reflectionPrompt` is a governed field: exactly one
+ * reflective question, required and non-empty. It is produced through the
+ * provider boundary (never client-authored) and is distinct from
+ * uncertaintyNotice (a boundary statement, not a question) — ADR-UX-REFLECTION-PROMPT.
+ */
+export const InterpretationOutputSchema = InterpretationOutputBaseSchema.extend({
+  reflectionPrompt: z.string().min(1),
 });
 export type InterpretationOutput = z.infer<typeof InterpretationOutputSchema>;

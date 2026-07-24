@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { CardNarration, InterpretationOutput } from '../../../../types/interpretation';
+import { CardNarration, RawInterpretationOutput } from '../../../../types/interpretation';
 import { DeterministicReading } from '../../../../types/reading';
 import { UNCERTAINTY_NOTICE } from '../shared';
 import { ClaudeOutputValidationError } from './errors';
@@ -46,7 +46,7 @@ export function parseClaudeResponseText(text: string): ClaudeInterpretationOutpu
 export function mapToInterpretationOutput(
   claudeOutput: ClaudeInterpretationOutput,
   reading: DeterministicReading
-): InterpretationOutput {
+): RawInterpretationOutput {
   if (claudeOutput.cardInsights.length !== reading.interpretations.length) {
     throw new ClaudeOutputValidationError(
       `Expected ${reading.interpretations.length} cardInsights, got ${claudeOutput.cardInsights.length}`

@@ -1,7 +1,7 @@
 import { Persona } from '../../../types/intake';
-import { CardNarration, InterpretationInput, InterpretationOutput } from '../../../types/interpretation';
+import { CardNarration, InterpretationInput, RawInterpretationOutput } from '../../../types/interpretation';
 import { InterpretationProvider } from './types';
-import { UNCERTAINTY_NOTICE } from './shared';
+import { REFLECTION_PROMPT_FALLBACK, UNCERTAINTY_NOTICE } from './shared';
 
 // Minimal persona-tone hook, not the full AŞAMA_2_PERSONA_WIREFRAME_PATHS.md
 // depth/word-count spec (that's UX work for Sprint 2/3's intake+display
@@ -26,7 +26,7 @@ export class MockProvider implements InterpretationProvider {
   // omitted, so callers can rely on the property existing on this class.
   readonly promptVersion: string | undefined = undefined;
 
-  async generate(input: InterpretationInput): Promise<InterpretationOutput> {
+  async generate(input: InterpretationInput): Promise<RawInterpretationOutput> {
     const { reading, intake, knowledge } = input;
 
     const cards: CardNarration[] = reading.interpretations.map((interp) => ({
@@ -50,6 +50,7 @@ export class MockProvider implements InterpretationProvider {
       patterns: [...reading.patterns, ...relationPatterns],
       practicalReflection:
         'Bu kartların hangisi şu anki durumunuza en çok dokunuyor, ona odaklanabilirsiniz.',
+      reflectionPrompt: REFLECTION_PROMPT_FALLBACK,
       uncertaintyNotice: UNCERTAINTY_NOTICE,
       safetyFlags: [],
     };

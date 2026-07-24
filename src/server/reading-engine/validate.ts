@@ -1,5 +1,10 @@
 import { DeterministicReading, DeterministicReadingSchema } from '../../types/reading';
-import { InterpretationOutput, InterpretationOutputSchema } from '../../types/interpretation';
+import {
+  InterpretationOutput,
+  InterpretationOutputSchema,
+  RawInterpretationOutput,
+} from '../../types/interpretation';
+import { REFLECTION_PROMPT_FALLBACK } from './providers/shared';
 
 /**
  * docs/02-ETHICAL_CONSTITUTION.md forbidden output patterns, by category.
@@ -77,4 +82,22 @@ export function validateInterpretation(output: InterpretationOutput): Interpreta
   const parsed = InterpretationOutputSchema.parse(output);
   scanForForbiddenPhrases(JSON.stringify(parsed));
   return parsed;
+}
+
+/**
+ * Raw -> final boundary for the governed reflection prompt
+ * (docs/ADR-UX-REFLECTION-PROMPT.md A1/A2). A provider's reflectionPrompt may
+ * be missing/invalid; this substitutes the ONE central server-side fallback
+ * for that field ONLY (never masking a problem in another field, A2), so the
+ * final-schema parse in validateInterpretation always sees a non-empty,
+ * governed reflection prompt. Field-level; the client never fabricates one.
+ *
+ * Step 2 (minimal): fills when missing/empty. The full validation guards
+ * (length, single-question, prediction/third-party/diagnosis) are added in
+ * the next step and plugged in here.
+ */
+export function finalizeReflectionPrompt(raw: RawInterpretationOutput): InterpretationOutput {
+  const candidate = (raw.reflectionPrompt ?? '').trim();
+  const reflectionPrompt = candidate.length > 0 ? candidate : REFLECTION_PROMPT_FALLBACK;
+  return { ...raw, reflectionPrompt };
 }

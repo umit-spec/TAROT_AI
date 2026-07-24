@@ -1,21 +1,21 @@
 import { describe, expect, test } from 'vitest';
 import { generateDeterministicReading, generateInterpretedReading, MockProvider } from '../../server/reading-engine';
 import { InterpretationProvider } from '../../server/reading-engine/providers/types';
-import { validateInterpretation, ReadingValidationError } from '../../server/reading-engine/validate';
-import { InterpretationInput, InterpretationOutput } from '../../types/interpretation';
+import { finalizeReflectionPrompt, validateInterpretation, ReadingValidationError } from '../../server/reading-engine/validate';
+import { InterpretationInput, RawInterpretationOutput } from '../../types/interpretation';
 import { testIntake } from '../helpers/intake';
 import { testKnowledge } from '../helpers/knowledge';
 
 class ThrowingProvider implements InterpretationProvider {
   readonly name = 'throwing-test-provider';
-  async generate(): Promise<InterpretationOutput> {
+  async generate(): Promise<RawInterpretationOutput> {
     throw new Error('simulated provider failure (e.g. Claude API down)');
   }
 }
 
 class ManipulativeProvider implements InterpretationProvider {
   readonly name = 'manipulative-test-provider';
-  async generate(input: InterpretationInput): Promise<InterpretationOutput> {
+  async generate(input: InterpretationInput): Promise<RawInterpretationOutput> {
     const mock = await new MockProvider().generate(input);
     return { ...mock, opening: 'Kesinlikle bu ilişki mutlu olacak.' };
   }
@@ -27,7 +27,7 @@ class ManipulativeProvider implements InterpretationProvider {
 // red-line rejection or a raw provider throw.
 class SchemaInvalidProvider implements InterpretationProvider {
   readonly name = 'schema-invalid-test-provider';
-  async generate(input: InterpretationInput): Promise<InterpretationOutput> {
+  async generate(input: InterpretationInput): Promise<RawInterpretationOutput> {
     const mock = await new MockProvider().generate(input);
     return { ...mock, cards: mock.cards.slice(0, 1) };
   }
@@ -38,7 +38,7 @@ class SchemaInvalidProvider implements InterpretationProvider {
 // needing a real Claude/Anthropic call.
 class UsageReportingProvider implements InterpretationProvider {
   readonly name = 'usage-reporting-test-provider';
-  async generate(input: InterpretationInput): Promise<InterpretationOutput> {
+  async generate(input: InterpretationInput): Promise<RawInterpretationOutput> {
     return new MockProvider().generate(input);
   }
   getLastUsage() {
@@ -84,7 +84,7 @@ describe('MockProvider', () => {
       knowledge: testKnowledge(),
       questionText: '',
     });
-    expect(() => validateInterpretation(output)).not.toThrow();
+    expect(() => validateInterpretation(finalizeReflectionPrompt(output))).not.toThrow();
   });
 
   test('surfaces knowledge pair-relation content in patterns, without inventing it', async () => {
@@ -107,6 +107,47 @@ describe('MockProvider', () => {
   });
 });
 
+describe('reflectionPrompt boundary (ADR-UX-REFLECTION-PROMPT step 2)', () => {
+  test('MockProvider emits the governed fallback reflection prompt (one question)', async () => {
+    const reading = generateDeterministicReading({ seed: 'demo-001', spread: 'three-card', topic: 'general' });
+    const out = await new MockProvider().generate({ reading, intake: testIntake(), knowledge: testKnowledge(), questionText: '' });
+    expect(out.reflectionPrompt).toBeDefined();
+    expect((out.reflectionPrompt ?? '').trim().endsWith('?')).toBe(true);
+  });
+
+  test('finalizeReflectionPrompt fills the central fallback when the field is missing/empty', () => {
+    const reading = generateDeterministicReading({ seed: 'demo-001', spread: 'three-card', topic: 'general' });
+    const base = {
+      opening: 'o',
+      cards: reading.interpretations.map((i) => ({
+        cardId: i.cardId,
+        position: i.position,
+        symbolicMeaning: i.symbolicMeaning,
+        relevanceToQuestion: 'r',
+        reflection: i.reflection,
+      })),
+      patterns: [],
+      practicalReflection: 'p',
+      uncertaintyNotice: 'u',
+      safetyFlags: [],
+    };
+    const filled = finalizeReflectionPrompt({ ...base });
+    expect(filled.reflectionPrompt.length).toBeGreaterThan(0);
+    const kept = finalizeReflectionPrompt({ ...base, reflectionPrompt: 'Kendi adımın ne olabilir?' });
+    expect(kept.reflectionPrompt).toBe('Kendi adımın ne olabilir?');
+  });
+
+  test('a reading through generateInterpretedReading always carries a non-empty reflectionPrompt', async () => {
+    const { output } = await generateInterpretedReading({
+      seed: 'demo-001',
+      spread: 'three-card',
+      intake: testIntake(),
+      provider: new MockProvider(),
+    });
+    expect(output.reflectionPrompt.length).toBeGreaterThan(0);
+  });
+});
+
 describe('validateInterpretation (red-line validator)', () => {
   test('rejects output containing a forbidden manipulation phrase', async () => {
     const reading = generateDeterministicReading({ seed: 'demo-001', spread: 'three-card', topic: 'general' });
@@ -116,7 +157,7 @@ describe('validateInterpretation (red-line validator)', () => {
       knowledge: testKnowledge(),
       questionText: '',
     });
-    expect(() => validateInterpretation(output)).toThrow(ReadingValidationError);
+    expect(() => validateInterpretation(finalizeReflectionPrompt(output))).toThrow(ReadingValidationError);
   });
 });
 

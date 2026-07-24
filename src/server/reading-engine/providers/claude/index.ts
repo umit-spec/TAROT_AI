@@ -1,6 +1,6 @@
 import { InterpretationInput, InterpretationOutput } from '../../../../types/interpretation';
 import type { TokenUsage } from '../../../../types/evaluation';
-import { validateInterpretation } from '../../validate';
+import { finalizeReflectionPrompt, validateInterpretation } from '../../validate';
 import { InterpretationProvider } from '../types';
 import { ClaudeProviderConfig, loadClaudeProviderConfig } from './config';
 import { callAnthropicWithRetry } from './http';
@@ -50,8 +50,8 @@ export class ClaudeProvider implements InterpretationProvider {
     this.lastUsage = usage;
 
     const claudeOutput = parseClaudeResponseText(text);
-    const output = mapToInterpretationOutput(claudeOutput, input.reading);
-    return validateInterpretation(output);
+    const raw = mapToInterpretationOutput(claudeOutput, input.reading);
+    return validateInterpretation(finalizeReflectionPrompt(raw));
   }
 
   getLastUsage(): TokenUsage | undefined {

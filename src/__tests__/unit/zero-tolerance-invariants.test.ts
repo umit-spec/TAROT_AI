@@ -8,7 +8,7 @@ import {
   ClaudeProvider,
 } from '../../server/reading-engine';
 import { InterpretationProvider } from '../../server/reading-engine/providers/types';
-import { InterpretationInput, InterpretationOutput, InterpretationOutputSchema } from '../../types/interpretation';
+import { InterpretationInput, InterpretationOutputSchema, RawInterpretationOutput } from '../../types/interpretation';
 import { testIntake } from '../helpers/intake';
 
 /**
@@ -44,7 +44,7 @@ function makeRequest(body: unknown): NextRequest {
 describe('Invariant 9: schema-invalid output never reaches a caller', () => {
   class SchemaInvalidProvider implements InterpretationProvider {
     readonly name = 'schema-invalid-invariant-provider';
-    async generate(input: InterpretationInput): Promise<InterpretationOutput> {
+    async generate(input: InterpretationInput): Promise<RawInterpretationOutput> {
       const mock = await new MockProvider().generate(input);
       return { ...mock, cards: mock.cards.slice(0, 1) }; // violates .length(3)
     }
@@ -204,7 +204,7 @@ describe('Invariant 12: ANTHROPIC_API_KEY never appears in any thrown error mess
 describe('Invariant 13: generateInterpretedReading never returns a raw, unvalidated provider output', () => {
   class RawlyManipulativeProvider implements InterpretationProvider {
     readonly name = 'raw-manipulative-invariant-provider';
-    async generate(input: InterpretationInput): Promise<InterpretationOutput> {
+    async generate(input: InterpretationInput): Promise<RawInterpretationOutput> {
       const mock = await new MockProvider().generate(input);
       return { ...mock, opening: 'Kesinlikle mutlu olacaksın, garantili.' };
     }

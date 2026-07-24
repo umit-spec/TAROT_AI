@@ -82,6 +82,7 @@ const baseReading = {
     ],
     patterns: [],
     practicalReflection: 'test reflection',
+    reflectionPrompt: 'Bu okuma sana neyi yeniden düşünmen için alan açıyor?',
     uncertaintyNotice: 'test notice',
     safetyFlags: [],
   },

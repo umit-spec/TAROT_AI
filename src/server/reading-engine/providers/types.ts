@@ -1,4 +1,4 @@
-import { InterpretationInput, InterpretationOutput } from '../../../types/interpretation';
+import { InterpretationInput, RawInterpretationOutput } from '../../../types/interpretation';
 import type { TokenUsage } from '../../../types/evaluation';
 
 /**
@@ -14,7 +14,9 @@ export interface InterpretationProvider {
   // Undefined for providers with no prompt concept (MockProvider - no LLM
   // call at all). Reported as "n/a" in the API's versions.prompt field.
   readonly promptVersion?: string;
-  generate(input: InterpretationInput): Promise<InterpretationOutput>;
+  // Returns RAW output (reflectionPrompt may be absent); the engine
+  // normalizes it into the final governed output (ADR-UX-REFLECTION-PROMPT A1).
+  generate(input: InterpretationInput): Promise<RawInterpretationOutput>;
   // Sprint 6, additive/optional: a provider MAY expose token usage from its
   // most recent call (ClaudeProvider does; MockProvider has no real usage
   // to report, so it simply doesn't implement this - no existing provider
