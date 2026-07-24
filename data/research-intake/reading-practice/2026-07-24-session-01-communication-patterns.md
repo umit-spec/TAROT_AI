@@ -1,7 +1,7 @@
 # Reading Practice Lab Intake — Session 01 Communication Patterns
 
 **Date:** 2026-07-24  
-**Status:** DRAFT — AWAITING PRODUCT OWNER REVIEW  
+**Status:** REVIEWED AND APPROVED FOR AGENT-SKILL AUTHORING  
 **Source type:** Anonymized real-session communication analysis  
 **Authority level:** Research intake only; not authoritative tarot knowledge  
 **Runtime eligible:** No  
@@ -20,7 +20,7 @@ The session must not be used as:
 - a basis for reproducing the reader's distinctive wording,
 - evidence that statements about third parties or future outcomes are true.
 
-The source session may be used only to identify draft communication patterns, safety risks, and candidate evaluation cases. No source expression should be copied into production wording.
+The source session may be used only to identify communication patterns, safety risks, agent-writing rules, and candidate evaluation cases. No source expression should be copied into production wording.
 
 ## Classification vocabulary
 
@@ -47,9 +47,9 @@ Each pattern receives one classification:
 | RP-009 | Applying clinical labels or presenting a reflective reframe as psychological diagnosis | `PROHIBITED_PATTERN` | The product is not therapy or diagnosis. Terms such as cognitive distortion, trauma conclusion, disorder, or pathology require professional assessment and must not be inferred from cards or a short intake. | “Bu anlatım, dikkatinizin hangi düşünce veya davranış örüntüsüne yöneldiğini fark etmenize yardımcı olabilir.” | Yes — diagnosis/clinical-authority class |
 | RP-010 | Using the reader's personal anecdotes or distinctive metaphors to create trust or authority | `NEEDS_HUMAN_REVIEW` | Limited relatable examples may support warmth, but distinctive source expressions must not be copied, and personal anecdotes must not replace evidence or pressure the user. | Use concise, original, non-identifying product language; do not imitate source slogans, street expressions, or autobiographical authority claims. | Similarity and tone review required |
 
-## Draft product rules
+## Approved communication rules
 
-These rules are candidates only. They are not locked knowledge and do not change runtime behavior.
+The Product Owner approved the following patterns for agent-skill authoring. Approval applies to communication behavior only; it does not make the source session authoritative tarot knowledge.
 
 ### RP-001 — User control area
 
@@ -105,26 +105,11 @@ The following negative cases may later be proposed for the governed evaluation c
 
 These are candidate test concepts, not approved production phrases or locked evaluation records.
 
-## Review checklist
-
-A named human reviewer must confirm:
-
-- [ ] The source session is handled as communication research only.
-- [ ] No source-specific expression has been copied into production language.
-- [ ] All third-party mind-reading patterns are prohibited.
-- [ ] All deceptive/manipulative advice patterns are prohibited.
-- [ ] Future language is conditional and does not guarantee an outcome.
-- [ ] Clinical or diagnostic language is excluded.
-- [ ] Structural schema validation is not confused with semantic safety validation.
-- [ ] ADR-002 is not cited as the anti-prophecy authority.
-- [ ] No record has been promoted to KnowledgeBundle.
-- [ ] No runtime behavior has changed.
-
 ## Human review
 
-**Reviewed by:**  
-**Review date:**  
-**Disposition:** Pending
+**Reviewed by:** Ümit Karakeleş  
+**Review date:** 2026-07-24  
+**Disposition:** Approved for agent-skill authoring only
 
 ## Governance state
 
@@ -132,4 +117,5 @@ A named human reviewer must confirm:
 - Lock authority exercised: no
 - Runtime modification: none
 - Methodology extraction resumed: no
-- Next permitted action: Product Owner review of this intake record
+- Agent-skill authoring: approved
+- Next permitted action: use RP-001–RP-007 in non-runtime agent guidance and future evaluation design
