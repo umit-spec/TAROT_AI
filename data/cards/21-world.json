@@ -1,0 +1,34 @@
+{
+  "cardId": "21-world",
+  "name_en": "The World",
+  "name_tr": "Dünya",
+  "arcana": "major",
+  "number": 21,
+  "symbolicMeaning": "Tamamlanma, bütünlük, bir döngünün başarıyla kapanması.",
+  "psychologicalReflection": "Bir sürecin bütünlüğünü görüp emeğin karşılığını kabul etme.",
+  "keywords": [
+    "tamamlanma",
+    "bütünlük",
+    "entegrasyon"
+  ],
+  "positionMeanings": {
+    "past": "Bir döngüyü tamamladığınız bir dönem.",
+    "present": "Şu anda bir bütünlük ve tamamlanma hissi var.",
+    "future": "Bir sürecin başarıyla kapanıp yenisine alan açması."
+  },
+  "contextualMeanings": {
+    "relationship": "Karşılıklı bütünlük ve tamamlanmışlık hissi.",
+    "career": "Bir hedefin tamamlanması, yeni bir döngüye hazırlık.",
+    "general": "Emeğin karşılığını görme ve bütünlüğü kutlama."
+  },
+  "reflectionQuestions": [
+    "Hangi döngüyü tamamladığınızı hissediyorsunuz?",
+    "Bu tamamlanma size hangi yeni başlangıcı işaret ediyor?"
+  ],
+  "redFlags": {
+    "avoid": [
+      "mutlak/final bir mutluluk vaadi"
+    ],
+    "instead": "Tamamlanmanın da yeni bir başlangıcın parçası olduğunu vurgulayın."
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "cardId": "20-judgement",
+  "name_en": "Judgement",
+  "name_tr": "Yargı",
+  "arcana": "major",
+  "number": 20,
+  "symbolicMeaning": "Hesaplaşma, kendini değerlendirme, bir çağrıya yanıt verme.",
+  "psychologicalReflection": "Geçmişi dürüstçe değerlendirip bilinçli bir sonraki adım atma.",
+  "keywords": [
+    "hesaplaşma",
+    "netleşme",
+    "çağrı"
+  ],
+  "positionMeanings": {
+    "past": "Geçmişinizi değerlendirdiğiniz bir dönem.",
+    "present": "Şu anda kendinizle dürüst bir hesaplaşma zamanı.",
+    "future": "Bilinçli bir sonraki adıma karar verme."
+  },
+  "contextualMeanings": {
+    "relationship": "İlişkiyi dürüstçe değerlendirme zamanı.",
+    "career": "Geçmiş deneyimlerden ders çıkarıp yön belirleme.",
+    "general": "Kendinize karşı dürüst bir değerlendirme."
+  },
+  "reflectionQuestions": [
+    "Bu deneyimden hangi dersi çıkardınız?",
+    "Şimdi hangi bilinçli adımı atmaya hazırsınız?"
+  ],
+  "redFlags": {
+    "avoid": [
+      "kıyamet/felaket günü kehaneti",
+      "dini yargı iması"
+    ],
+    "instead": "Bu kartın kişisel hesaplaşma anlamına geldiğini netleştirin."
+  }
+}

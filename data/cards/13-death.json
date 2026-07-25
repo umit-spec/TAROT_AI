@@ -1,0 +1,35 @@
+{
+  "cardId": "13-death",
+  "name_en": "Death",
+  "name_tr": "Ölüm",
+  "arcana": "major",
+  "number": 13,
+  "symbolicMeaning": "Sona erme, dönüşüm, bir evrenin kapanıp yenisinin açılması.",
+  "psychologicalReflection": "Bir şeyin bitmesine izin verip yeni bir başlangıca alan açma.",
+  "keywords": [
+    "dönüşüm",
+    "kapanış",
+    "yenilenme"
+  ],
+  "positionMeanings": {
+    "past": "Bir evrenin kapandığı bir dönem.",
+    "present": "Şu anda bir şeyin bitmesine izin vermeniz gerekiyor.",
+    "future": "Bir dönüşümün ardından gelecek yenilenme."
+  },
+  "contextualMeanings": {
+    "relationship": "Bir dinamiğin sona erip yenisine yer açması.",
+    "career": "Bir dönemin kapanıp yeni bir aşamanın başlaması.",
+    "general": "Değişimin doğal bir parçası olarak kapanış."
+  },
+  "reflectionQuestions": [
+    "Neyin bitmesine izin vermeniz gerekiyor?",
+    "Bu kapanış hangi yeni başlangığa alan açabilir?"
+  ],
+  "redFlags": {
+    "avoid": [
+      "gerçek ölüm/kayıp kehaneti",
+      "sağlık/yaşam süresi ima etme"
+    ],
+    "instead": "Bu kartın sembolik olarak dönüşümü temsil ettiğini açıkça belirtin."
+  }
+}

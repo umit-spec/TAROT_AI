@@ -1,0 +1,103 @@
+{
+  "version": "0.1.0",
+  "sources": [
+    {
+      "sourceId": "tarot-ai-original-synthesis-v1",
+      "title": "TAROT AI Editorial Voice & Pair-Relation Reasoning Framework",
+      "author": "TAROT AI editorial team",
+      "type": "original-synthesis",
+      "publicationYear": 2026,
+      "notes": "This project's own symbolic/psychological reasoning framework for how adjacent Major Arcana cards interact - not a citation to an external work. Covers records authored directly by a human without AI-assisted drafting."
+    },
+    {
+      "sourceId": "notebooklm-major-arcana-research-2026-07",
+      "title": "NotebookLM-assisted research notebook - Major Arcana symbolic pairings",
+      "author": "NotebookLM (Google), used as a drafting aid",
+      "type": "ai-assisted-draft",
+      "publicationYear": 2026,
+      "notes": "Research/drafting aid only. Per the Product Owner's explicit decision (2026-07-23), this source's type is deliberately distinct from classic-text/academic and must never be a record's sole evidentiary backing - draftOrigin: ai-assisted describes how a draft's text originated, it is not itself an authoritative citation. Every record citing this source (for lineage/transparency) still requires an individually verified sourceVerifications entry by a named human before it can reach red-teamed status."
+    },
+    {
+      "sourceId": "waite-pictorial-key-1910",
+      "title": "The Pictorial Key to the Tarot",
+      "author": "Arthur Edward Waite",
+      "type": "classic-text",
+      "publicationYear": 1910,
+      "notes": "Public-domain primary/historical source for traditional Major Arcana card meanings (London: William Rider & Son, 1910). Cited here for individual card meanings only (e.g. the Hermit's traditional association with prudence/solitary wisdom-seeking, the Chariot's traditional association with willful triumph over opposing forces) - the specific *pair-relation* connecting two cards is this project's own synthesis and is co-cited with tarot-ai-original-synthesis-v1, not attributed to Waite."
+    },
+    {
+      "sourceId": "pollack-seventy-eight-degrees-1980",
+      "title": "Seventy-Eight Degrees of Wisdom: A Book of Tarot",
+      "author": "Rachel Pollack",
+      "type": "academic",
+      "publicationYear": 1980,
+      "notes": "Widely cited symbolic/psychological analysis of the Tarot, first published 1980. Cited here specifically for its well-established discussion of Strength as gentle, compassionate inner mastery rather than forceful domination - the individual-card meaning this project's Chariot-to-Strength pair relation draws on. As with Waite above, the pair-relation itself is original synthesis, co-cited accordingly."
+    },
+    {
+      "sourceId": "baslangic-tarot-rehberi-2025",
+      "title": "Başlangıç Tarot Rehberi — 78 Kartın Yolculuğu",
+      "author": "The Bill Store (publisher)",
+      "type": "classic-text",
+      "publicationYear": 2025,
+      "rights": {
+        "rightsHolder": "The Bill Store",
+        "permissionStatus": "unverified",
+        "permissionEvidence": null,
+        "usageScope": "abstract-principle-lineage-only",
+        "allowsRetrievalStorage": false
+      },
+      "governance": {
+        "sourceRole": "human-background-lineage-only",
+        "usageScope": "abstract-methodology-learning-only",
+        "runtimeEligible": false,
+        "soleAuthorityAllowed": false,
+        "storedText": false,
+        "embeddingAllowed": false,
+        "imageUseAllowed": false,
+        "rightsStatus": "copyrighted-no-ingestion",
+        "relatedSources": [
+          {
+            "sourceId": "modern-klasik-tarot-rehberi-2025",
+            "relationshipType": "related-edition",
+            "contentOverlapStatus": "high-overlap-confirmed",
+            "deduplicationRequired": true
+          }
+        ]
+      },
+      "notes": "LINEAGE-ONLY reference under Human-Governed Methodology Extraction (docs/HUMAN_GOVERNED_METHODOLOGY_EXTRACTION_PROPOSAL_v1.0.md). Only abstract, independently-corroborated methodology principles are derived from it; no text or image is stored, OCR'd, embedded, retrieved, or served, and none enters runtime. Never a record's or lesson's sole evidentiary backing (same rule as the NotebookLM ai-assisted source). The book uses Marseille numbering (Justice 8 / Strength 11) - NOT adopted; the project keeps its canonical RWS ids (Strength 8 / Justice 11). It also contains reversed meanings, yes/no framing and all 78 cards, all out of MVP scope. Its card illustrations are Rider-Waite-Smith plates and are never extracted or used. Shares publisher, year, Ministry registration No. 2025/14830, table-of-contents structure and near-identical preface text with 'modern-klasik-tarot-rehberi-2025' - the two are one lineage family and must NOT be counted as two independent corroborating sources. permissionStatus 'unverified' reflects that no reproduction license exists - and none is needed, because nothing is reproduced; before commercial launch an IP lawyer should review the concrete flow."
+    },
+    {
+      "sourceId": "modern-klasik-tarot-rehberi-2025",
+      "title": "Modern Klasik Tarot Rehberi — 78 Kartın Yolculuğu",
+      "author": "The Bill Store (publisher)",
+      "type": "classic-text",
+      "publicationYear": 2025,
+      "rights": {
+        "rightsHolder": "The Bill Store",
+        "permissionStatus": "unverified",
+        "permissionEvidence": null,
+        "usageScope": "abstract-principle-lineage-only",
+        "allowsRetrievalStorage": false
+      },
+      "governance": {
+        "sourceRole": "human-background-lineage-only",
+        "usageScope": "abstract-methodology-learning-only",
+        "runtimeEligible": false,
+        "soleAuthorityAllowed": false,
+        "storedText": false,
+        "embeddingAllowed": false,
+        "imageUseAllowed": false,
+        "rightsStatus": "copyrighted-no-ingestion",
+        "relatedSources": [
+          {
+            "sourceId": "baslangic-tarot-rehberi-2025",
+            "relationshipType": "related-edition",
+            "contentOverlapStatus": "high-overlap-confirmed",
+            "deduplicationRequired": true
+          }
+        ]
+      },
+      "notes": "SECOND Bill Store book, registered LINEAGE-ONLY under the same Human-Governed Methodology Extraction policy as 'baslangic-tarot-rehberi-2025'. RAG ingestion / OCR storage / chunking / embedding / vector index / runtime PDF access / illustration extraction are all PROHIBITED; no book-derived text is shipped; no user-facing citations to the book. DUPLICATE-LINEAGE WARNING: same publisher (The Bill Store), same year (2025), same Ministry registration No. 2025/14830, identical table-of-contents structure (Önsöz / Tarihçe / Niyet-Tek-Üç kart / Majör / Minör), same Marseille numbering (Justice 24 / Strength 21 by folio) and near-identical preface ('Tarot bir aynadır'). Treated as a related-edition of the first book - the two count as ONE lineage family, never two independent corroborating sources. Copyright page (verified visually, not stored): rights The Bill Store, all rights reserved, no storage in a retrieval system or electronic transmission without written permission. Card illustrations are not approved production assets and are never cropped/extracted/embedded/used (incl. as references for S1's fully-original deck). Methodology extraction is DEFERRED until after a genuine S2 live evaluation, independent human subset scoring, and an explicit G1 GO. Before commercial launch an IP lawyer should review the concrete flow."
+    }
+  ]
+}

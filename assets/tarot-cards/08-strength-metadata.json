@@ -1,0 +1,57 @@
+{
+  "id": "08-strength",
+  "name": {
+    "en": "Strength",
+    "tr": "Güç"
+  },
+  "number": 8,
+  "arcana": "major",
+  "source": {
+    "type": "provided_illustration",
+    "montage": "1000214766.png",
+    "extraction_date": "2026-07-22",
+    "position": {
+      "row": 2,
+      "column": 1
+    },
+    "crop_coordinates": {
+      "x": 12,
+      "y": 327,
+      "width": 179,
+      "height": 329
+    }
+  },
+  "assets": {
+    "web": {
+      "path": "assets/tarot-cards/08-strength.webp",
+      "dimensions": [
+        512,
+        768
+      ],
+      "format": "webp",
+      "file_size": 12904,
+      "checksum": "0a21c83f396d41885cbe478d7a0de633584dabcb9254ebe59a5b9765dbc81d71"
+    },
+    "hq": {
+      "path": "assets/tarot-cards/08-strength-hq.webp",
+      "dimensions": [
+        2048,
+        3072
+      ],
+      "format": "webp",
+      "file_size": 27530,
+      "checksum": "f0bfc1f95facb56323b7091210af8e2046d2dc19700c182a646229cfce86052f"
+    }
+  },
+  "provenance": {
+    "status": "approved-for-prototype",
+    "notes": "Extracted from user-provided montage image",
+    "extraction_date": "2026-07-22",
+    "version": "1.0"
+  },
+  "qa": {
+    "score": null,
+    "status": "pending-review",
+    "notes": "Extracted from montage, pending visual QA"
+  }
+}

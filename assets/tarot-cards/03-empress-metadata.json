@@ -1,0 +1,57 @@
+{
+  "id": "03-empress",
+  "name": {
+    "en": "The Empress",
+    "tr": "İmparatoriçe"
+  },
+  "number": 3,
+  "arcana": "major",
+  "source": {
+    "type": "provided_illustration",
+    "montage": "1000214766.png",
+    "extraction_date": "2026-07-22",
+    "position": {
+      "row": 1,
+      "column": 4
+    },
+    "crop_coordinates": {
+      "x": 287,
+      "y": 13,
+      "width": 79,
+      "height": 314
+    }
+  },
+  "assets": {
+    "web": {
+      "path": "assets/tarot-cards/03-empress.webp",
+      "dimensions": [
+        512,
+        768
+      ],
+      "format": "webp",
+      "file_size": 6144,
+      "checksum": "44002440969fbe36df4fa68c245a9100ec97f87afc94a534d24aa6d8777b067d"
+    },
+    "hq": {
+      "path": "assets/tarot-cards/03-empress-hq.webp",
+      "dimensions": [
+        2048,
+        3072
+      ],
+      "format": "webp",
+      "file_size": 18814,
+      "checksum": "b3d2da00a6a32edf5f87b8751f386723acf43bd4cbecd474a14f9b9d61ccafda"
+    }
+  },
+  "provenance": {
+    "status": "approved-for-prototype",
+    "notes": "Extracted from user-provided montage image",
+    "extraction_date": "2026-07-22",
+    "version": "1.0"
+  },
+  "qa": {
+    "score": null,
+    "status": "pending-review",
+    "notes": "Extracted from montage, pending visual QA"
+  }
+}

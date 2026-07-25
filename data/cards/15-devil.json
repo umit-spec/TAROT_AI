@@ -1,0 +1,35 @@
+{
+  "cardId": "15-devil",
+  "name_en": "The Devil",
+  "name_tr": "Şeytan",
+  "arcana": "major",
+  "number": 15,
+  "symbolicMeaning": "Bağlanma, alışkanlık, kendi kendine koyduğu sınırlar.",
+  "psychologicalReflection": "Özgür hissetmeyi engelleyen alışkanlık ya da bağımlılık örüntülerini fark etme.",
+  "keywords": [
+    "bağlanma",
+    "alışkanlık",
+    "farkındalık"
+  ],
+  "positionMeanings": {
+    "past": "Sizi kısıtlayan bir örüntüye girdiğiniz bir dönem.",
+    "present": "Şu anda özgürlüğünüzü sınırlayan bir alışkanlığı fark etme zamanı.",
+    "future": "Bu örüntüden çıkma fırsatı."
+  },
+  "contextualMeanings": {
+    "relationship": "Sağlıksız bir bağımlılık örüntüsünü fark etme.",
+    "career": "Konfor alanının sizi sınırlayıp sınırlamadığını sorgulama.",
+    "general": "Kendi kendine koyduğunuz sınırları görme."
+  },
+  "reflectionQuestions": [
+    "Sizi neye bağlı hissettiriyor?",
+    "Bu bağın gerçekten zorunlu mu, alışkanlık mı olduğunu düşündünüz mü?"
+  ],
+  "redFlags": {
+    "avoid": [
+      "bağımlılık/madde kullanımı hakkında tıbbi tavsiye",
+      "şeytan/kötü ruh kehaneti"
+    ],
+    "instead": "Alışkanlık örüntüleri için profesyonel destek önerin."
+  }
+}

@@ -1,0 +1,48 @@
+name: Code Gates — Insight Engine
+
+# Runs the real engineering gates (lint, typecheck, test, build) on every PR
+# into the integration branch. This is the check the protected `main` ruleset
+# will require once the default-branch migration runs (see
+# docs/DEFAULT_BRANCH_MIGRATION_PROPOSAL.md). Additive to validation-gates.yml
+# (docs-only). Targets `main` for when it exists, plus the current active line.
+on:
+  pull_request:
+    branches:
+      - main
+      - feat/insight-engine-milestone-3
+      - 'claude/**'
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  code-gates:
+    name: lint / typecheck / test / build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm run test
+
+      - name: Build
+        run: npm run build
+
+      - name: Asset gate (report-only for now — pilot art pending)
+        run: npm run assets:validate

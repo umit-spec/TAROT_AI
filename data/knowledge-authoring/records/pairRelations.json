@@ -1,0 +1,195 @@
+[
+  {
+    "recordId": "pair-02-high-priestess-09-hermit",
+    "sourceRefs": [
+      "waite-pictorial-key-1910",
+      "tarot-ai-original-synthesis-v1"
+    ],
+    "sourceVerifications": [],
+    "lifecycle": {
+      "status": "draft",
+      "authorId": "umit",
+      "draftOrigin": "ai-assisted",
+      "aiTool": "notebooklm",
+      "singleOperatorMode": true
+    },
+    "createdAt": "2026-07-21T09:00:00Z",
+    "updatedAt": "2026-07-23T11:00:00Z",
+    "recordType": "pairRelation",
+    "payload": {
+      "previousCardId": "02-high-priestess",
+      "focusCardId": "09-hermit",
+      "relationType": "reinforces",
+      "semanticEffect": [
+        "Sözcüklere dökülmemiş bir iç bilgiye duyulan güven, kişiyi yalnız ve sessiz bir düşünme sürecine yöneltiyor."
+      ],
+      "warnings": [
+        "İzolasyonu öneriyormuş gibi bir dil kullanmayın; bu içe dönüş, dışlanma değil tercih edilen bir mesafe."
+      ],
+      "sourceRefs": []
+    }
+  },
+  {
+    "recordId": "pair-07-chariot-08-strength",
+    "sourceRefs": [
+      "waite-pictorial-key-1910",
+      "pollack-seventy-eight-degrees-1980",
+      "tarot-ai-original-synthesis-v1"
+    ],
+    "sourceVerifications": [],
+    "lifecycle": {
+      "status": "draft",
+      "authorId": "umit",
+      "draftOrigin": "ai-assisted",
+      "aiTool": "notebooklm",
+      "singleOperatorMode": true
+    },
+    "createdAt": "2026-07-21T09:15:00Z",
+    "updatedAt": "2026-07-23T11:00:00Z",
+    "recordType": "pairRelation",
+    "payload": {
+      "previousCardId": "07-chariot",
+      "focusCardId": "08-strength",
+      "relationType": "transforms",
+      "semanticEffect": [
+        "Dışa dönük, engelleri aşmaya odaklı bir irade gösterimi; zamanla sabır ve şefkatle yönetilen içsel bir güce evriliyor."
+      ],
+      "warnings": [
+        "Bu geçişi zayıflık olarak çerçevelemeyin; kontrolün biçim değiştirmesi kararlılığın azalması anlamına gelmez."
+      ],
+      "sourceRefs": []
+    }
+  },
+  {
+    "recordId": "pair-10-wheel-of-fortune-12-hanged-man",
+    "sourceRefs": [
+      "tarot-ai-original-synthesis-v1"
+    ],
+    "sourceVerifications": [],
+    "lifecycle": {
+      "status": "draft",
+      "authorId": "umit",
+      "draftOrigin": "human",
+      "singleOperatorMode": true
+    },
+    "createdAt": "2026-07-21T09:30:00Z",
+    "updatedAt": "2026-07-23T11:00:00Z",
+    "recordType": "pairRelation",
+    "payload": {
+      "previousCardId": "10-wheel-of-fortune",
+      "focusCardId": "12-hanged-man",
+      "relationType": "contrasts",
+      "semanticEffect": [
+        "Koşullardaki değişim, bekleme veya bakış açısını değiştirme ihtimalini gündeme getirebilir."
+      ],
+      "warnings": [
+        "Şansı veya kaderi kesin bir güç olarak sunmayın; vurgu kişinin değişime tepki verme biçimindeki seçimde olmalı."
+      ],
+      "sourceRefs": []
+    }
+  },
+  {
+    "recordId": "pair-17-star-19-sun",
+    "sourceRefs": [
+      "tarot-ai-original-synthesis-v1"
+    ],
+    "sourceVerifications": [],
+    "lifecycle": {
+      "status": "locked",
+      "authorId": "umit",
+      "reviewerId": "umit",
+      "reviewedAt": "2026-07-22T15:06:00Z",
+      "redTeamActorId": "claude",
+      "redTeamedAt": "2026-07-23T10:00:00Z",
+      "lockAuthorityId": "umit",
+      "lockedAt": "2026-07-23T04:23:56.307Z",
+      "draftOrigin": "human",
+      "singleOperatorMode": true
+    },
+    "createdAt": "2026-07-21T09:45:00Z",
+    "updatedAt": "2026-07-23T04:23:56.307Z",
+    "recordType": "pairRelation",
+    "payload": {
+      "previousCardId": "17-star",
+      "focusCardId": "19-sun",
+      "relationType": "reinforces",
+      "semanticEffect": [
+        "Zorlu bir sürecin ardından inşa edilen umut, zamanla netlik ve kendine güvenle ifade edilen bir canlılığa doğru olgunlaşma potansiyeli taşıyor."
+      ],
+      "warnings": [
+        "Bu ilerlemeyi kesin veya otomatik bir mutluluk vaadi gibi sunmayın; süreç kişiye özgüdür ve doğrusal ilerlemeyebilir.",
+        "İki kartın da geleneksel olarak 'olumlu' sayılması garanti bir iyi sonuç anlamına gelmez - bu bir potansiyel, bir kesinlik değil."
+      ],
+      "sourceRefs": []
+    }
+  },
+  {
+    "recordId": "pair-03-empress-05-hierophant",
+    "sourceRefs": [
+      "tarot-ai-original-synthesis-v1"
+    ],
+    "sourceVerifications": [],
+    "lifecycle": {
+      "status": "locked",
+      "authorId": "umit",
+      "reviewerId": "umit",
+      "reviewedAt": "2026-07-22T15:08:00Z",
+      "redTeamActorId": "claude",
+      "redTeamedAt": "2026-07-23T10:00:00Z",
+      "lockAuthorityId": "umit",
+      "lockedAt": "2026-07-23T04:24:00.601Z",
+      "draftOrigin": "human",
+      "singleOperatorMode": true
+    },
+    "createdAt": "2026-07-21T10:00:00Z",
+    "updatedAt": "2026-07-23T04:24:00.601Z",
+    "recordType": "pairRelation",
+    "payload": {
+      "previousCardId": "03-empress",
+      "focusCardId": "05-hierophant",
+      "relationType": "contrasts",
+      "semanticEffect": [
+        "Organik, besleyici bir büyüme isteği ile paylaşılan yapı ve gelenek ihtiyacı arasında bir gerilim var."
+      ],
+      "warnings": [
+        "Geleneği veya yaratıcılığı birbirine üstün gösteren bir dil kullanmayın; ikisi de geçerli ihtiyaçlar."
+      ],
+      "sourceRefs": []
+    }
+  },
+  {
+    "recordId": "pair-18-moon-20-judgement",
+    "sourceRefs": [
+      "tarot-ai-original-synthesis-v1"
+    ],
+    "sourceVerifications": [],
+    "lifecycle": {
+      "status": "locked",
+      "authorId": "umit",
+      "reviewerId": "umit",
+      "reviewedAt": "2026-07-22T15:10:00Z",
+      "redTeamActorId": "claude",
+      "redTeamedAt": "2026-07-23T10:00:00Z",
+      "lockAuthorityId": "umit",
+      "lockedAt": "2026-07-23T04:24:03.758Z",
+      "draftOrigin": "human",
+      "singleOperatorMode": true
+    },
+    "createdAt": "2026-07-21T10:15:00Z",
+    "updatedAt": "2026-07-23T04:24:03.758Z",
+    "recordType": "pairRelation",
+    "payload": {
+      "previousCardId": "18-moon",
+      "focusCardId": "20-judgement",
+      "relationType": "resolves",
+      "semanticEffect": [
+        "Netleşmemiş belirsizlik ve kaygı, dürüst bir öz-değerlendirme anıyla kısmen görünür ve ele alınabilir hale gelme potansiyeli taşıyor."
+      ],
+      "warnings": [
+        "Bu geçişi ansızın gelen kesin bir aydınlanma ya da kaygının tamamen ortadan kalkması gibi sunmayın; kademeli ve kısmi bir netleşme sürecidir.",
+        "Kaygı temalı bir kart çiftidir; ruh sağlığı hassasiyetiyle, kesin bir çözüm ya da teşhis ima etmeyin."
+      ],
+      "sourceRefs": []
+    }
+  }
+]

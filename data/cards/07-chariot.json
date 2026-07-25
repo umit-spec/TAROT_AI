@@ -1,0 +1,34 @@
+{
+  "cardId": "07-chariot",
+  "name_en": "The Chariot",
+  "name_tr": "Savaş Arabası",
+  "arcana": "major",
+  "number": 7,
+  "symbolicMeaning": "Odaklanmış irade, zıt güçleri aynı yöne kanalize etme.",
+  "psychologicalReflection": "İç çatışmaları bir hedef etrafında birleştirme becerisi.",
+  "keywords": [
+    "odak",
+    "irade",
+    "ilerleme"
+  ],
+  "positionMeanings": {
+    "past": "Zıt yönlere çeken güçleri bir arada tutup ilerlediğiniz bir dönem.",
+    "present": "Şu anda net bir hedefe odaklanma ihtiyacı var.",
+    "future": "Kararlılıkla ilerleyeceğiniz bir aşama."
+  },
+  "contextualMeanings": {
+    "relationship": "Ortak bir yönde ilerleme çabası.",
+    "career": "Dağınık enerjiyi tek bir hedefe kanalize etme.",
+    "general": "İrade ile disiplini birleştirme."
+  },
+  "reflectionQuestions": [
+    "Şu an sizi hangi yönlere çeken güçler var?",
+    "Hangi tek hedefe odaklanmak işinize yarar?"
+  ],
+  "redFlags": {
+    "avoid": [
+      "kesin zafer vaadi"
+    ],
+    "instead": "İlerlemenin süreklilik gerektirdiğini hatırlatın."
+  }
+}

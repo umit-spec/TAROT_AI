@@ -1,0 +1,35 @@
+{
+  "cardId": "01-magician",
+  "name_en": "The Magician",
+  "name_tr": "Büyücü",
+  "arcana": "major",
+  "number": 1,
+  "symbolicMeaning": "Elde var olan araçları bilinçli şekilde kullanma, niyeti eyleme dönüştürme.",
+  "psychologicalReflection": "İstenç ve beceri arasındaki uyum; potansiyeli somut bir sonuca kanalize etme.",
+  "keywords": [
+    "irade",
+    "beceri",
+    "niyet"
+  ],
+  "positionMeanings": {
+    "past": "Geçmişte bir beceri ya da kaynağı etkin şekilde kullanmışsınız.",
+    "present": "Şu anda elinizdeki araçları nasıl kullandığınız önemli.",
+    "future": "Niyetinizi somut bir adıma dönüştürme fırsatı yaklaşıyor."
+  },
+  "contextualMeanings": {
+    "relationship": "İletişimde niyetinizi net ifade etme kapasitesi.",
+    "career": "Elinizdeki becerileri görünür kılma, inisiyatif alma zamanı.",
+    "general": "Kaynaklarınızı bilinçli kullanma isteği."
+  },
+  "reflectionQuestions": [
+    "Elinizde olan hangi kaynağı henüz kullanmadınız?",
+    "Niyetiniz ile eyleminiz ne kadar uyumlu?"
+  ],
+  "redFlags": {
+    "avoid": [
+      "manipülasyon önerisi",
+      "başkasını kontrol etme çağrısı"
+    ],
+    "instead": "Kendi becerilerinize dair farkındalığınızı güçlendirin."
+  }
+}

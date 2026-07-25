@@ -1,0 +1,15 @@
+{
+  "knowledgeVersion": "0.1.0",
+  "builtAt": "2026-07-23T04:24:21.493Z",
+  "recordCounts": {
+    "pairRelations": 3,
+    "positionRules": 0,
+    "domainModifiers": 0,
+    "personaModifiers": 0,
+    "safetyConstraints": 0
+  },
+  "sourceCount": 4,
+  "lockedRecordCount": 3,
+  "schemaVersion": "1.0.0",
+  "checksum": "sha256:c736e6a1aa70940f25cd28c711180f020f3ba4e9a12cb5e03e7741143bc9ca0a"
+}

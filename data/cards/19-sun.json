@@ -1,0 +1,34 @@
+{
+  "cardId": "19-sun",
+  "name_en": "The Sun",
+  "name_tr": "Güneş",
+  "arcana": "major",
+  "number": 19,
+  "symbolicMeaning": "Netlik, canlılık, kendini olduğun gibi ifade etme.",
+  "psychologicalReflection": "İçsel bir netlik ve kendine güvenle görünür olma.",
+  "keywords": [
+    "netlik",
+    "canlılık",
+    "özgüven"
+  ],
+  "positionMeanings": {
+    "past": "Kendinizi net ve rahat hissettiğiniz bir dönem.",
+    "present": "Şu anda bir netlik ve canlılık hissi öne çıkıyor.",
+    "future": "Daha açık ve kendinden emin bir aşama."
+  },
+  "contextualMeanings": {
+    "relationship": "Açık ve samimi bir iletişim ortamı.",
+    "career": "Emeğinizin görünür olduğu bir dönem.",
+    "general": "Kendini olduğu gibi ifade etme rahatlığı."
+  },
+  "reflectionQuestions": [
+    "Şu an sizi neşelendiren ne?",
+    "Kendinizi en net hissettiğiniz an ne zamandı?"
+  ],
+  "redFlags": {
+    "avoid": [
+      "abartılı mutluluk/başarı garantisi"
+    ],
+    "instead": "Bu netliğin sürdürülebilir küçük adımlarla geldiğini vurgulayın."
+  }
+}

@@ -1,0 +1,182 @@
+{
+  "montage_info": {
+    "source_filename": "1000214766.png",
+    "source_width": 1536,
+    "source_height": 1024,
+    "arrangement": "8+8+6 (rows 1-2 have 8 cards, row 3 has 6 cards)",
+    "analysis_date": "2026-07-22",
+    "edge_detection": "Contour analysis with manual refinement"
+  },
+  "row_boundaries": {
+    "row_1_top": 13,
+    "row_1_2_boundary": 327,
+    "row_2_3_boundary": 656,
+    "row_3_bottom": 990
+  },
+  "cards": [
+    {
+      "id": "00-the-fool",
+      "position": {"row": 1, "column": 1},
+      "canonical_number": 0,
+      "crop": {"x": 12, "y": 13, "width": 179, "height": 314},
+      "notes": "First card, leftmost"
+    },
+    {
+      "id": "01-the-magician",
+      "position": {"row": 1, "column": 2},
+      "canonical_number": 1,
+      "crop": {"x": 99, "y": 13, "width": 80, "height": 314},
+      "notes": ""
+    },
+    {
+      "id": "02-the-high-priestess",
+      "position": {"row": 1, "column": 3},
+      "canonical_number": 2,
+      "crop": {"x": 179, "y": 13, "width": 108, "height": 314},
+      "notes": ""
+    },
+    {
+      "id": "03-the-empress",
+      "position": {"row": 1, "column": 4},
+      "canonical_number": 3,
+      "crop": {"x": 287, "y": 13, "width": 79, "height": 314},
+      "notes": ""
+    },
+    {
+      "id": "04-the-emperor",
+      "position": {"row": 1, "column": 5},
+      "canonical_number": 4,
+      "crop": {"x": 366, "y": 13, "width": 146, "height": 314},
+      "notes": ""
+    },
+    {
+      "id": "05-the-hierophant",
+      "position": {"row": 1, "column": 6},
+      "canonical_number": 5,
+      "crop": {"x": 512, "y": 13, "width": 231, "height": 314},
+      "notes": ""
+    },
+    {
+      "id": "06-the-lovers",
+      "position": {"row": 1, "column": 7},
+      "canonical_number": 6,
+      "crop": {"x": 743, "y": 13, "width": 198, "height": 314},
+      "notes": ""
+    },
+    {
+      "id": "07-the-chariot",
+      "position": {"row": 1, "column": 8},
+      "canonical_number": 7,
+      "crop": {"x": 941, "y": 13, "width": 199, "height": 314},
+      "notes": "Last card row 1"
+    },
+    {
+      "id": "08-strength",
+      "position": {"row": 2, "column": 1},
+      "canonical_number": 8,
+      "crop": {"x": 12, "y": 327, "width": 179, "height": 329},
+      "notes": "First card row 2"
+    },
+    {
+      "id": "09-the-hermit",
+      "position": {"row": 2, "column": 2},
+      "canonical_number": 9,
+      "crop": {"x": 99, "y": 327, "width": 80, "height": 329},
+      "notes": ""
+    },
+    {
+      "id": "10-wheel-of-fortune",
+      "position": {"row": 2, "column": 3},
+      "canonical_number": 10,
+      "crop": {"x": 179, "y": 327, "width": 108, "height": 329},
+      "notes": ""
+    },
+    {
+      "id": "11-justice",
+      "position": {"row": 2, "column": 4},
+      "canonical_number": 11,
+      "crop": {"x": 287, "y": 327, "width": 79, "height": 329},
+      "notes": ""
+    },
+    {
+      "id": "12-the-hanged-man",
+      "position": {"row": 2, "column": 5},
+      "canonical_number": 12,
+      "crop": {"x": 366, "y": 327, "width": 146, "height": 329},
+      "notes": ""
+    },
+    {
+      "id": "13-death",
+      "position": {"row": 2, "column": 6},
+      "canonical_number": 13,
+      "crop": {"x": 512, "y": 327, "width": 231, "height": 329},
+      "notes": ""
+    },
+    {
+      "id": "14-temperance",
+      "position": {"row": 2, "column": 7},
+      "canonical_number": 14,
+      "crop": {"x": 743, "y": 327, "width": 198, "height": 329},
+      "notes": ""
+    },
+    {
+      "id": "15-the-devil",
+      "position": {"row": 2, "column": 8},
+      "canonical_number": 15,
+      "crop": {"x": 941, "y": 327, "width": 199, "height": 329},
+      "notes": "Last card row 2"
+    },
+    {
+      "id": "16-the-tower",
+      "position": {"row": 3, "column": 1},
+      "canonical_number": 16,
+      "crop": {"x": 12, "y": 656, "width": 179, "height": 334},
+      "notes": "First card row 3"
+    },
+    {
+      "id": "17-the-star",
+      "position": {"row": 3, "column": 2},
+      "canonical_number": 17,
+      "crop": {"x": 99, "y": 656, "width": 80, "height": 334},
+      "notes": ""
+    },
+    {
+      "id": "18-the-moon",
+      "position": {"row": 3, "column": 3},
+      "canonical_number": 18,
+      "crop": {"x": 179, "y": 656, "width": 108, "height": 334},
+      "notes": ""
+    },
+    {
+      "id": "19-the-sun",
+      "position": {"row": 3, "column": 4},
+      "canonical_number": 19,
+      "crop": {"x": 287, "y": 656, "width": 79, "height": 334},
+      "notes": ""
+    },
+    {
+      "id": "20-judgement",
+      "position": {"row": 3, "column": 5},
+      "canonical_number": 20,
+      "crop": {"x": 366, "y": 656, "width": 146, "height": 334},
+      "notes": ""
+    },
+    {
+      "id": "21-the-world",
+      "position": {"row": 3, "column": 6},
+      "canonical_number": 21,
+      "crop": {"x": 512, "y": 656, "width": 231, "height": 334},
+      "notes": "Last card row 3"
+    }
+  ],
+  "extraction_parameters": {
+    "output_format": "PNG",
+    "web_dimensions": {"width": 512, "height": 768},
+    "hq_dimensions": {"width": 2048, "height": 3072},
+    "normalize_canvas": true,
+    "preserve_aspect_ratio": true,
+    "object_fit": "contain",
+    "background_color": "#000000",
+    "strip_metadata": true
+  }
+}

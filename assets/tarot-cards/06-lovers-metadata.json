@@ -1,0 +1,57 @@
+{
+  "id": "06-lovers",
+  "name": {
+    "en": "The Lovers",
+    "tr": "Âşıklar"
+  },
+  "number": 6,
+  "arcana": "major",
+  "source": {
+    "type": "provided_illustration",
+    "montage": "1000214766.png",
+    "extraction_date": "2026-07-22",
+    "position": {
+      "row": 1,
+      "column": 7
+    },
+    "crop_coordinates": {
+      "x": 743,
+      "y": 13,
+      "width": 198,
+      "height": 314
+    }
+  },
+  "assets": {
+    "web": {
+      "path": "assets/tarot-cards/06-lovers.webp",
+      "dimensions": [
+        512,
+        768
+      ],
+      "format": "webp",
+      "file_size": 13640,
+      "checksum": "577f1b29f044e15064dcc8a1628008a7ce363e9c734c31dd16cf031a24699eec"
+    },
+    "hq": {
+      "path": "assets/tarot-cards/06-lovers-hq.webp",
+      "dimensions": [
+        2048,
+        3072
+      ],
+      "format": "webp",
+      "file_size": 28622,
+      "checksum": "1fe499a00bd5c4afeb6bd070571bbc661177e47034f029543c3849158f988f3d"
+    }
+  },
+  "provenance": {
+    "status": "approved-for-prototype",
+    "notes": "Extracted from user-provided montage image",
+    "extraction_date": "2026-07-22",
+    "version": "1.0"
+  },
+  "qa": {
+    "score": null,
+    "status": "pending-review",
+    "notes": "Extracted from montage, pending visual QA"
+  }
+}

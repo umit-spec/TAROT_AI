@@ -1,0 +1,35 @@
+{
+  "cardId": "00-fool",
+  "name_en": "The Fool",
+  "name_tr": "Deli",
+  "arcana": "major",
+  "number": 0,
+  "symbolicMeaning": "Yeni bir başlangıç, bilinmeyene ilk adım, saf potansiyel.",
+  "psychologicalReflection": "Kontrolü bırakıp güvenle ilerleme kapasitesi; bilinmezlik karşısında meraklı kalabilme.",
+  "keywords": [
+    "başlangıç",
+    "cesaret",
+    "açıklık"
+  ],
+  "positionMeanings": {
+    "past": "Geçmişte alınmış bir risk ya da atılmış bir ilk adım.",
+    "present": "Şu anda bir eşiktesiniz; henüz netleşmemiş bir karar var.",
+    "future": "Önünüzde deneyim isteyen, tanımsız bir alan var."
+  },
+  "contextualMeanings": {
+    "relationship": "Yeni bir başlangıç ya da ilişkide taze bir enerji ihtimali.",
+    "career": "Bilinmeyen bir yola çıkma isteği ya da yeni bir denemenin eşiği.",
+    "general": "Hayatınızda bir dönüm noktası hissi."
+  },
+  "reflectionQuestions": [
+    "Şu an neyi riske atmaya hazırsınız?",
+    "Bilinmezlik sizi ne kadar geriyor, ne kadar heyecanlandırıyor?"
+  ],
+  "redFlags": {
+    "avoid": [
+      "garanti bir başarı vaadi",
+      "kesin bir karar dayatması"
+    ],
+    "instead": "Bu adım sizin için ne ifade ediyor, kendinize sorun."
+  }
+}

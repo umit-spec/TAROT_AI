@@ -306,17 +306,293 @@ Neden bu kararı almak zorunda kaldık?
 
 ---
 
+### ADR-011: Interpretation Knowledge Architecture (LLM as narration layer only)
+
+**Status:** Accepted
+
+**Context:** Sprint 2 begins Claude integration (Layer 3, ADR-004). Risk: if
+the Reading Engine binds directly to Claude's SDK, and the eventual
+interpretation knowledge model (card pair relations, position/persona/topic
+rule matrices, sourced and curated content) is designed later, Sprint 2's
+integration work becomes incompatible with it and has to be rewritten. The
+full knowledge model (potentially hundreds of card-pair relations, a
+NotebookLM-based research pipeline, sourced/citable content, a SQLite or JSON
+build pipeline, curation + Red Team review) is real future work — but
+building it now, before its shape is validated by a working product, is
+premature. This ADR locks the *architecture* so Sprint 2 can proceed without
+that model existing yet.
+
+**Decision:** Interpretation knowledge is structured, versioned data, layered
+as follows — all of it already exists in skeletal form as of Sprint 1
+(`data/cards/*.json`) except where marked "not yet built":
+
+1. **Card core character** — per-card base symbolic + psychological meaning,
+   independent of context. *(Exists: `symbolicMeaning`, `psychologicalReflection`, `keywords`.)*
+2. **Adjacent card influence** — how a card's reading is modulated by the
+   cards drawn before/after it in the same spread. *(Not yet built — Sprint 1's
+   Layer 2 only does keyword-overlap pattern detection, not directional
+   pairwise influence. Schema, not data, is Sprint 2/3 scope at most.)*
+3. **Spread position semantics** — meaning contributed by position (past/
+   present/future today; extensible to 5-card and beyond). *(Exists: `positionMeanings`.)*
+4. **Question domain (topic) context** — meaning contributed by the user's
+   stated topic. *(Exists: `contextualMeanings`, currently relationship/
+   career/general.)*
+5. **Persona adaptation** — tone/depth variation across the 5 personas
+   (`AŞAMA_2_PERSONA_WIREFRAME_PATHS.md`). Applied at the narration layer
+   (step 7), never by rewriting the underlying structured meaning itself.
+6. **Safety constraints** — `docs/02-ETHICAL_CONSTITUTION.md` red lines,
+   enforced as a validation gate on whatever the narration layer produces
+   (extends the `validate.ts` forbidden-phrase pattern from Sprint 1).
+7. **LLM as narration-only layer** — Claude (or any model) receives the
+   fully-resolved output of steps 1-6 and does exactly one job: render it as
+   natural, persona-toned Turkish. It never originates a card meaning,
+   pairing, or safety judgment. Enforced in code via an `InterpretationProvider`
+   interface (`ClaudeProvider`, `MockProvider`, future providers all
+   implement the same contract and receive the same structured input) —
+   swapping the provider must never change what the reading *means*, only
+   how it *reads*.
+
+**Explicitly deferred (not Sprint 2, not this ADR's scope):**
+- Generating the full card-pair relation matrix (previous/next-card
+  influence data for all combinations)
+- NotebookLM-based research pipeline for sourced interpretation content
+- Citation/source structure for interpretations
+- SQLite or JSON build pipeline for a larger interpretation knowledge base
+- Curation workflow and Red Team review of that content
+
+These become real work no earlier than Milestone 3 (Intelligence Layer, per
+`MILESTONE_2_GAP_ANALYSIS_ROADMAP_v1.1.md`), once Milestone 2's working
+product has validated which relations actually matter.
+
+**Consequences:**
+- Sprint 2's Claude adapter depends only on the `InterpretationProvider`
+  contract and `DeterministicReading` shape (already defined,
+  `src/types/reading.ts`) — not on any future knowledge-model internals.
+- A `MockProvider` can satisfy the same contract for deterministic testing,
+  with no network calls and no API key required.
+- Adding real pairwise/persona/citation depth later means adding a new
+  provider or enriching steps 1-6's data — the provider boundary doesn't move.
+
+**Revisit:** Before Milestone 3 (Intelligence Layer) work begins, when the
+pair-relation model and NotebookLM pipeline get designed for real.
+
+---
+
+### ADR-012: Knowledge Layer sits between Reading Engine and Provider; ground-truth invariant extends to it
+
+**Status:** Accepted
+
+**Context:** Sprint 3 introduces a Knowledge Layer (`PairRelation`,
+`PositionRule`, `DomainModifier`, `PersonaModifier`, `SafetyConstraint`) so
+Claude's semantic input is richer than raw card data alone - without this,
+API/UI would ossify around today's minimal interpretation shape and break
+when a real pair-relation matrix / NotebookLM pipeline lands (the exact
+outcome ADR-011 was written to prevent). The open question: does adding a
+new layer between Reading Engine and Provider weaken the "LLM never
+invents a card meaning" guarantee ADR-011 established?
+
+**Decision:** No - the ground-truth invariant extends one layer over,
+unchanged in kind:
+- `DeterministicReading` (already-drawn cards) remains the sole source of
+  *which* cards, in *what* order. No new layer may select or reorder cards.
+- A `KnowledgeProvider` (mirroring `InterpretationProvider`'s swappable
+  design - `LocalJsonKnowledgeProvider` today, a future DB-backed one
+  later) resolves a read-only `KnowledgeContext` *about* an
+  already-drawn reading - it looks up relations for the cards it's given,
+  it does not choose them.
+- `InterpretationProvider` (Claude, Mock) receives this richer context but
+  the rule is unchanged: it narrates given semantic content, it does not
+  invent new semantic content (a pair relation's `semanticEffect` comes
+  from the Knowledge Provider, never synthesized by the LLM).
+- `IntakeContext.safetyFlags` gating (crisis_* -> refuse to generate)
+  remains a caller-level decision (now: the API route), not something any
+  provider or the Knowledge Layer enforces itself.
+
+**Consequences:**
+- Sprint 3's API/UI can be built against a stable contract even though the
+  actual knowledge data (pair relations, etc.) is a small proof-of-concept
+  set today, not the full matrix - swapping `LocalJsonKnowledgeProvider`
+  for a future database-backed one changes zero call sites.
+- The full pair-relation matrix, NotebookLM pipeline, and citation
+  structure remain explicitly deferred (ADR-011's deferral list is
+  unchanged by this ADR - only the *contract* moves up to Sprint 3, not
+  the data).
+
+**Revisit:** When the full knowledge matrix / NotebookLM pipeline is
+designed (Milestone 3, unchanged from ADR-011).
+
+---
+
+### ADR-013: Development branch renamed by succession, not `git branch -m`; legacy `claude/tarot-ai-mvp-setup-h2fyf7` declared deprecated
+
+**Status:** Accepted
+
+**Context:** `feat/major-arcana-asset-migration` was the branch name when
+asset migration was the active task. Five sprints of ADR-driven,
+Sprint/Milestone-tracked product development (Sprints 1-5, ADR-001
+through ADR-012, this ADR) have since landed on that same branch - asset
+migration is long since superseded, and the name no longer describes
+what the branch is. Separately, a second branch,
+`claude/tarot-ai-mvp-setup-h2fyf7`, exists in the remote: a pre-ADR,
+monorepo-oriented "AŞAMA" (stage) plan lineage that shares no commit
+history with the ADR/Sprint track and directly contradicts ADR-003
+(single Next.js app, not a monorepo). It was mistakenly named as the
+target branch in at least one automated task-runner configuration
+during Sprint 5, which could have caused a future session to develop
+against the wrong, architecturally stale lineage had it not been caught.
+
+**Options considered:**
+1. `git branch -m` to rename in place - rewrites what the remote tracks
+   under the old name; anything (CI config, task templates, a
+   collaborator's local clone) still pointing at the old name silently
+   breaks or diverges.
+2. Keep developing on the misnamed branch indefinitely - the name/content
+   mismatch only grows, and it does nothing about the legacy branch risk.
+3. Create a new branch from the current tip, without rewriting history;
+   freeze the old name as a historical reference; explicitly document the
+   unrelated legacy branch as deprecated so no future session mistakes it
+   for a valid target.
+
+**Decision:** Option 3.
+- New active development branch: **`feat/insight-engine-milestone-3`**,
+  branched from `feat/major-arcana-asset-migration` at commit `51093b6`
+  (Sprint 5 evidence report), no history rewritten.
+- `feat/major-arcana-asset-migration` is **retained, not deleted** - a
+  frozen reference for Sprints 1-5's history. It receives no further
+  commits.
+- `claude/tarot-ai-mvp-setup-h2fyf7` is **DEPRECATED / ABANDONED**,
+  effective this ADR. It must not be used as a base or target for any
+  future work - repo automation, task templates, or session configs that
+  still name it are stale and should be corrected to the current active
+  branch. Reviving it would require an explicit, separate Product Owner
+  decision, not an assumption by a future session.
+
+**Consequences:**
+- All Sprint 5+ work (Milestone 3 onward) proceeds on
+  `feat/insight-engine-milestone-3`. A future rename-by-succession should
+  follow the same pattern: new branch, old one frozen, decision recorded
+  here.
+- Any tooling/config still pointing at either
+  `feat/major-arcana-asset-migration` (as a push target) or
+  `claude/tarot-ai-mvp-setup-h2fyf7` (as anything) should be updated when
+  next touched; not proactively hunted down as its own task.
+
+**Revisit:** When Milestone 3 closes and the next milestone begins - same
+succession pattern, new ADR entry.
+
+---
+
+### ADR-014: Insight Cadence Model for MVP Validation
+
+**Status:** Accepted (Product Owner, 2026-07-23, at Phase 2 approval)
+
+**What this ADR is and is not:** it accepts the Insight Cadence Model as an
+**MVP hypothesis and product constraint** — a direction to build toward and
+test — **not** as validated user behavior. No user has yet demonstrated they
+want Daily/Weekly/Threshold cadence; accepting this ADR commits the product's
+*shape and guardrails*, and the closed beta (Phase 2, S7) is where the
+hypothesis gets tested. If beta evidence contradicts it (G2 STOP/HOLD gate),
+this ADR is revisited, not defended.
+
+**Accepted model (the product constraint):**
+- **Daily** = lightweight reflection only — a daily intention, one reflection
+  question, a short journal prompt, a small callback to the previous reading.
+  **Not tarot.**
+- **Weekly** = the week's theme, recurring emotional patterns, decision
+  pressure points, a short insight summary.
+- **Threshold** = the actual deep three-card tarot-guided reflection, reserved
+  for meaningful events a user names explicitly (job change, relationship
+  decision, relocation, separation, new beginning, serious uncertainty). The
+  user consults the product *at* a decision, not to generate a new answer
+  every day.
+- **Product framing:** tarot is the first strong module inside "a personal
+  insight system that structures thinking at life's important thresholds,"
+  not the whole product.
+
+**Hard behavioral guardrails (binding on all future product work):**
+- Do **not** encourage compulsive daily divination.
+- Do **not** encourage or enable repeated readings of the same question.
+- Threshold tarot is gated to named meaningful events, not always-on.
+- These extend, not replace, ADR-002 (upright-only, no certain prophecy) and
+  ADR-007 (metered, no addiction loop).
+
+**Context:** The current product framing (and every prior sprint's
+implicit model) is a single-mode tarot reading, available whenever a
+user opens the app - closer to "daily fortune-telling" than a considered
+tool. This was never explicitly chosen as a strategy; it's just the
+literal shape of what's been built (Intake -> Spread -> Reading) so far.
+The Product Owner observed that daily-availability framing risks two
+things this project's own founding documents already worried about: (1)
+an addiction-style engagement loop (the original MVP charter's Red Team
+checklist explicitly asked "Addiction loop kurulmuş mu?"), and (2)
+undercutting the "no certain prophecy, psychological insight not
+fortune-telling" positioning ADR-002 already committed to - a product
+someone consults daily reads more like fortune-telling in practice,
+regardless of how careful the narration language is.
+
+**Proposed model (not yet designed at the architecture level):**
+- **Daily:** not tarot - a lighter layer: a daily intention, one
+  reflection question, a short journal prompt, a small callback to the
+  previous reading.
+- **Weekly:** the week's theme, recurring emotional patterns, decision
+  pressure points, a short insight summary.
+- **Threshold moments (the actual tarot spread):** reserved for real
+  inflection points a user names explicitly - job change, relationship
+  decision, relocation, partnership, separation, new beginning, serious
+  uncertainty. The user consults the product *at* a decision, not to
+  generate a new answer every day.
+- **Product reframing:** tarot stops being the product itself and
+  becomes "the first strong tool" inside a broader positioning - *"a
+  personal insight system that structures thinking at life's important
+  thresholds"* - with dream analysis, symbol analysis, a journal, a
+  decision log, and weekly pattern reports as later modules built on the
+  same underlying structure. The subscription pitch shifts from "read
+  tarot every day" to "a daily thinking space, a weekly insight, and a
+  real tarot reading exactly when you need one."
+
+**Scope of this acceptance (architecture deferred):** this ADR accepts the
+*constraint and framing* above. It does **not** yet specify schemas, data
+models, or UI for Daily/Weekly — those remain future work, each requiring its
+own proposal-only plan (a new record type distinct from the Sprint 5
+knowledge-authoring pattern, UI surfaces beyond the current single-reading
+flow) before any implementation, same discipline as every schema/
+architecture-level sprint so far. The MVP scope (Phase 2) builds only the
+Threshold three-card loop; Daily/Weekly are positioning the beta may probe
+but the MVP does not build.
+
+**Consequences:**
+- Every future product surface must honor the behavioral guardrails above;
+  a design that nudges toward daily/repeated tarot violates this ADR.
+- Monetization framing (ADR-007, and Phase 2 S8) shifts from "read tarot
+  every day" toward "a daily thinking space, a weekly insight, and a real
+  tarot reading exactly when you need one" — but no pricing is locked before
+  user evidence (Phase 2 S8).
+- The closed beta (S7) is the designated test of this hypothesis; the G2
+  gate is where it is confirmed, revised, or repositioned.
+
+**Revisit:** At the Phase 2 G2 (post-beta) gate, when real user cadence
+preference evidence exists — or sooner at the Product Owner's discretion.
+
+---
+
 ## Future Decision Points
 
-These decisions will likely be needed post-MVP:
+These are named topics likely to need a real decision later - **not
+pre-assigned ADR numbers.** An earlier revision of this list numbered
+them (ADR-013 through ADR-020) as if reserved; that was a mistake this
+project corrected once already (Sprint 5, per the Product Owner) and
+will not repeat: a placeholder consumes no number, and every renumbering
+of unwritten placeholders is pure churn against nothing. The next real,
+accepted decision - on any topic, from this list or not - gets whatever
+the next sequential ADR number actually is at the time it's written.
 
-- **ADR-011:** 56 Küçük Arkana expansion strategy (when?)
-- **ADR-012:** Reversed cards inclusion (MVP+ or later?)
-- **ADR-013:** Multi-language support (roadmap?)
-- **ADR-014:** Other modules (Dream Analysis, Journaling — priority?)
-- **ADR-015:** Real payment integration (post-MVP test?)
-- **ADR-016:** Backend separation (if API load warrants?)
-- **ADR-017:** AI model upgrade path (Claude → GPT-4.5 parity?)
+- Persistence Architecture
+- Citation and Source Governance
+- Knowledge Ingestion at Scale
+- Live Provider Integration
+- Production Asset Licensing
+- Analytics and Evaluation
+- Deployment Architecture
 
 ---
 
@@ -335,18 +611,21 @@ Example:
 ```bash
 # After deciding on something big:
 git add docs/decisions/ADR-011-*.md
-git commit -m "ADR-011: [Decision Title] - [reason in 1 line]"
+git commit -m "ADR-013: [Decision Title] - [reason in 1 line]"
 ```
 
 ---
 
 ## Current Status
 
-**Total Decisions Recorded:** 10
+**Total Decisions Recorded:** 14
 **Pending Review:** 0
 **Rejected (documented for learning):** 0
 
-All Aşama 1 founding decisions are documented and signed off.
+All Aşama 1 founding decisions plus ADR-011 (Sprint 2 knowledge architecture),
+ADR-012 (Sprint 3 Knowledge Layer boundary), ADR-013 (branch succession) and
+ADR-014 (Insight Cadence Model for MVP Validation) are documented and signed
+off.
 
 ---
 
