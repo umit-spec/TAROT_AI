@@ -1,0 +1,13 @@
+{
+  "deckVersion": "v1",
+  "majorArcana": 22,
+  "minorArcana": 56,
+  "cardBacks": 1,
+  "cardFaces": 78,
+  "totalImages": 79,
+  "canvaFolderId": "FAHQYxCIKSg",
+  "canvaFolderUrl": "https://www.canva.com/folder/FAHQYxCIKSg",
+  "binarySourceBundle": "Insight_Engine_Tarot_Deck_V1_FULL.zip",
+  "binarySourceCommitted": false,
+  "binarySourceReason": "GitHub connector has no direct binary file upload parameter"
+}
