@@ -1,0 +1,55 @@
+{
+  "folder": {
+    "id": "FAHQYxCIKSg",
+    "name": "04_PRODUCTION_EXPORTS_REGISTRY",
+    "url": "https://www.canva.com/folder/FAHQYxCIKSg"
+  },
+  "counts": {
+    "majorArcanaDesigns": 22,
+    "cardBackDesigns": 1,
+    "minorArcanaGroupDesigns": 14,
+    "minorArcanaPages": 56,
+    "totalCardPages": 79
+  },
+  "majorArcana": [
+    {"index":0,"name":"Deli","designId":"DAHQZm8fJmU","editUrl":"https://www.canva.com/d/8w0lPJWF1r3a97d"},
+    {"index":1,"name":"Büyücü","designId":"DAHQZlsFNEw","editUrl":"https://www.canva.com/d/gk1hVliESKoUfdz"},
+    {"index":2,"name":"Yüksek Rahibe","designId":"DAHQZoNr7sQ","editUrl":"https://www.canva.com/d/Sj8xcCaBS9O9tP7"},
+    {"index":3,"name":"İmparatoriçe","designId":"DAHQZjTBWMc","editUrl":"https://www.canva.com/d/jBHh05BWn0JGMDS"},
+    {"index":4,"name":"İmparator","designId":"DAHQZveCKO8","editUrl":"https://www.canva.com/d/GIIrdOskjYGUVh4"},
+    {"index":5,"name":"Aziz","designId":"DAHQZtKqhY8","editUrl":"https://www.canva.com/d/UWuCpNxBzZOTEEh"},
+    {"index":6,"name":"Âşıklar","designId":"DAHQZtEDu_k","editUrl":"https://www.canva.com/d/9QvXu3uUwfjmY_1"},
+    {"index":7,"name":"Savaş Arabası","designId":"DAHQZhHlb1c","editUrl":"https://www.canva.com/d/d9rOgHYZAEmT2Fd"},
+    {"index":8,"name":"Güç","designId":"DAHQZn46oLw","editUrl":"https://www.canva.com/d/B_1N0jBzCrj3X4u"},
+    {"index":9,"name":"Ermiş","designId":"DAHQZg3Ihs0","editUrl":"https://www.canva.com/d/KJevojrIPakPK7G"},
+    {"index":10,"name":"Kader Çarkı","designId":"DAHQZq5mQnw","editUrl":"https://www.canva.com/d/qAreq7pckLHkgnL"},
+    {"index":11,"name":"Adalet","designId":"DAHQZhlI00s","editUrl":"https://www.canva.com/d/q-RC_KM6RjuM_Yu"},
+    {"index":12,"name":"Asılan Adam","designId":"DAHQZvTt7r4","editUrl":"https://www.canva.com/d/YTU34Z1QqTnsGpt"},
+    {"index":13,"name":"Ölüm","designId":"DAHQZgSD1tE","editUrl":"https://www.canva.com/d/4h_AHRZuM0i0Adx"},
+    {"index":14,"name":"Denge","designId":"DAHQZq3qTRQ","editUrl":"https://www.canva.com/d/JndTEl4lZvMpnCS"},
+    {"index":15,"name":"Şeytan","designId":"DAHQZmZmzjA","editUrl":"https://www.canva.com/d/9PYhGOpr8GpZGAu"},
+    {"index":16,"name":"Kule","designId":"DAHQZgkP36A","editUrl":"https://www.canva.com/d/gEG35w3aFDXKmVC"},
+    {"index":17,"name":"Yıldız","designId":"DAHQZiVFKzI","editUrl":"https://www.canva.com/d/xgl9RgFJ-3CHetg"},
+    {"index":18,"name":"Ay","designId":"DAHQZt60POk","editUrl":"https://www.canva.com/d/J2w4ilXKh5UKRD_"},
+    {"index":19,"name":"Güneş","designId":"DAHQZnbg_cQ","editUrl":"https://www.canva.com/d/inMuLP77U9-Kc86"},
+    {"index":20,"name":"Yargı","designId":"DAHQZkcfwHw","editUrl":"https://www.canva.com/d/Uj90_VLOuKkP71N"},
+    {"index":21,"name":"Dünya","designId":"DAHQZjEObv8","editUrl":"https://www.canva.com/d/p-JzozSEOghfWxm"}
+  ],
+  "cardBack": {"designId":"DAHQZowjJbU","editUrl":"https://www.canva.com/d/I1FQ1IPZOQk_g3D"},
+  "minorArcanaGroups": [
+    {"rank":"Aslar","designId":"DAHQg6ElQjw","pages":4,"editUrl":"https://www.canva.com/d/atpu9wWxH-DEhYn"},
+    {"rank":"İkililer","designId":"DAHQg63jiqU","pages":4,"editUrl":"https://www.canva.com/d/OrLs64LtJO88IAi"},
+    {"rank":"Üçlüler","designId":"DAHQgyWaS1k","pages":4,"editUrl":"https://www.canva.com/d/fbE92WPrWUKCIlM"},
+    {"rank":"Dörtlüler","designId":"DAHQg9aPYaE","pages":4,"editUrl":"https://www.canva.com/d/Gi05gkXFtOt6URS"},
+    {"rank":"Beşliler","designId":"DAHQgxBm99A","pages":4,"editUrl":"https://www.canva.com/d/UV5nrEWOxcGsuZ4"},
+    {"rank":"Altılılar","designId":"DAHQg-ogeMY","pages":4,"editUrl":"https://www.canva.com/d/H5u8la6iTBxkufU"},
+    {"rank":"Yedililer","designId":"DAHQg2jBsz8","pages":4,"editUrl":"https://www.canva.com/d/N4P1tH0F4RKuHVW"},
+    {"rank":"Sekizliler","designId":"DAHQg6P7wfA","pages":4,"editUrl":"https://www.canva.com/d/vxnhlOAS3JNY9OK"},
+    {"rank":"Dokuzlular","designId":"DAHQgyhMHr8","pages":4,"editUrl":"https://www.canva.com/d/IlaqagOqIFsXmCh"},
+    {"rank":"Onlular","designId":"DAHQg_zA1uY","pages":4,"editUrl":"https://www.canva.com/d/cIpOCsXtHDMIfXz"},
+    {"rank":"Valeler","designId":"DAHQgxC14Rc","pages":4,"editUrl":"https://www.canva.com/d/hzBPz0-mZwehwkm"},
+    {"rank":"Şövalyeler","designId":"DAHQg40m3lY","pages":4,"editUrl":"https://www.canva.com/d/VL1ctxDcaT5xH9i"},
+    {"rank":"Kraliçeler","designId":"DAHQg5IB22Q","pages":4,"editUrl":"https://www.canva.com/d/Ug4OI54ER9FAus6"},
+    {"rank":"Krallar","designId":"DAHQg3V29EY","pages":4,"editUrl":"https://www.canva.com/d/UC-UVwipf--dwkp"}
+  ]
+}
