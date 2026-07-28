@@ -2,14 +2,16 @@
 
 This directory is the governance landing zone for the 78-card deck plus one card back.
 
-## Current state
+## Current state (updated FAZ 9A, RC-1 asset audit)
 
-- Rights/provenance manifest: prepared
-- Source archive SHA-256: locked
-- Expected source images: 79 PNG
-- Binary files: not yet committed
-- Product integration: prohibited before explicit FAZ 9 approval
-- Commercial release: blocked by open licensing debt
+- Rights/provenance manifest: committed (`assets/tarot-cards-v2/provenance-manifest.json`)
+- Source archive SHA-256: locked; archive-level identity ACCEPTED RESIDUAL RISK (V2-D006) - per-file SHA-256 is the operative identity evidence
+- Source images: 79 PNG committed, binary commit `ac34905349b7d4795e0eee0d8a05c23af86e82b3`
+- Product-owner provenance attestation: confirmed (`docs/evidence/FULL_DECK_V2_PROVENANCE_DECLARATION.md` §5)
+- Production derivatives: 79 deterministic 512×768 WebP files generated and reproducibility-verified on `asset/09-production-derivatives` (`assets/tarot-cards-v2/derivatives/`); **canonical PNGs above are not modified by this step**
+- Visual QA: complete for all 79 derivatives, no REGENERATE/BLOCKED findings (`docs/evidence/FULL_DECK_V2_VISUAL_QA.md`)
+- Product integration (FAZ 9B): still gated - V2-D002 (generation-session evidence) remains PARTIAL and V2-D005 (Canva content audit) remains OPEN; see `docs/ASSET_LICENSING_DEBT_LOG_FULL_DECK_V2.md`
+- Commercial release: separately gated (V2-D003, V2-D004, V2-D009, V2-D010 remain open) - FAZ 9 integration, if it proceeds, does **not** clear commercial release
 
 ## Intended binary path
 

@@ -1,6 +1,6 @@
 # Asset License Manifest — Insight Engine Full Tarot Deck V2
 
-**Status:** PREPARED — binary ingest and product integration are still gated  
+**Status:** FAZ 9A (2026-07-28) — binary ingest complete, production derivatives generated and visually QA'd (V2-D012/D013 CLOSED, see `docs/ASSET_LICENSING_DEBT_LOG_FULL_DECK_V2.md`); product integration (FAZ 9B) remains gated on V2-D002 (PARTIAL) and V2-D005 (OPEN)  
 **Manifest ID:** `insight-engine-full-tarot-deck-v2-provenance`  
 **Internal rights class:** `IE-AI-OUTPUT-PROPRIETARY-1.0`  
 **Prepared:** 2026-07-28  
@@ -23,7 +23,7 @@ This record covers the source archive currently identified as:
 | Major Arcana | `22` |
 | Minor Arcana | `56` |
 | Non-image archive entries | `README.txt`, `manifest.json` |
-| Current integration status | `staging_only_not_integrated` |
+| Current integration status | `production_derivatives_generated_ui_integration_pending` |
 
 The canonical per-file path, SHA-256, byte size and dimensions will be locked at binary intake in:
 
