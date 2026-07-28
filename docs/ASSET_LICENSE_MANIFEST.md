@@ -145,4 +145,4 @@ FAZ 9 integration is blocked until:
 
 Current status:
 
-> The source files have a documented platform-rights basis and archive-level checksum, but the full deck is **not yet cleared for production integration or commercial release** until the open items in `docs/ASSET_LICENSING_DEBT_LOG.md` are resolved or formally accepted.
+> The source files have a documented platform-rights basis and archive-level checksum, but the full deck is **not yet cleared for production integration or commercial release** until the open items in `docs/ASSET_LICENSING_DEBT_LOG_FULL_DECK_V2.md` are resolved or formally accepted.
