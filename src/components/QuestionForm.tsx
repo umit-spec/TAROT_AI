@@ -90,7 +90,7 @@ export function QuestionForm({
               aria-describedby={hintId}
               onClick={() => setTopicHint(topicHint === hint.value ? undefined : hint.value)}
               disabled={disabled}
-              className="flex min-h-[44px] min-w-[44px] flex-col items-start rounded border px-3 py-2 text-left aria-pressed:bg-accent aria-pressed:text-white"
+              className="flex min-h-[44px] min-w-[44px] flex-col items-start rounded border px-3 py-2 text-left aria-pressed:bg-accent aria-pressed:text-background"
             >
               <span>{hint.label}</span>
               <span id={hintId} className="text-xs text-ink-muted">
@@ -140,7 +140,7 @@ export function QuestionForm({
       <button
         type="submit"
         disabled={disabled}
-        className="mt-4 min-h-[44px] min-w-[44px] rounded bg-accent px-4 text-white disabled:opacity-40"
+        className="mt-4 min-h-[44px] min-w-[44px] rounded bg-accent px-4 text-background disabled:opacity-40"
       >
         {disabled ? 'Netleştiriliyor...' : 'Sorumu netleştir'}
       </button>

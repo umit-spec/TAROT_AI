@@ -101,7 +101,7 @@ export function CardReveal({ cards, reducedMotion, onContinue }: CardRevealProps
         <button
           type="button"
           onClick={onContinue}
-          className="mt-4 min-h-[44px] min-w-[44px] rounded bg-accent px-4 text-white"
+          className="mt-4 min-h-[44px] min-w-[44px] rounded bg-accent px-4 text-background"
         >
           İçgörüyü gör
         </button>

@@ -68,7 +68,7 @@ export function ReadingResult({ cards, interpretation, knowledgeMeta, providerUs
         <button
           type="button"
           onClick={onComplete}
-          className="mt-4 min-h-[44px] min-w-[44px] rounded bg-accent px-4 text-white"
+          className="mt-4 min-h-[44px] min-w-[44px] rounded bg-accent px-4 text-background"
         >
           Okumayı bir soruyla tamamla
         </button>

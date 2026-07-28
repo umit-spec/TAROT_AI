@@ -46,7 +46,7 @@ export function FramingReview({ framing, onConfirm, onEdit, disabled = false }: 
           type="button"
           onClick={onConfirm}
           disabled={disabled}
-          className="min-h-[44px] min-w-[44px] rounded bg-accent px-4 text-white disabled:opacity-40"
+          className="min-h-[44px] min-w-[44px] rounded bg-accent px-4 text-background disabled:opacity-40"
         >
           Evet, böyle devam et
         </button>

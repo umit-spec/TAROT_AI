@@ -73,7 +73,7 @@ export function PatternArrival({
         <button
           type="button"
           onClick={onComplete}
-          className="min-h-[44px] min-w-[44px] rounded bg-accent px-4 text-white"
+          className="min-h-[44px] min-w-[44px] rounded bg-accent px-4 text-background"
         >
           Bir soruyla tamamla
         </button>
