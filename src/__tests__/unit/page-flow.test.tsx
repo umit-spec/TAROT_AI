@@ -113,6 +113,44 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
+describe('HomePage — consent decline does not enter the reading flow', () => {
+  test('accept moves to compose', async () => {
+    render(<HomePage />);
+    await userEvent.click(screen.getByRole('checkbox'));
+    await userEvent.click(screen.getByRole('button', { name: 'Devam Et' }));
+    expect(screen.getByLabelText('question-form')).toBeInTheDocument();
+  });
+
+  test('decline moves to a declined screen, not compose', async () => {
+    render(<HomePage />);
+    await userEvent.click(screen.getByRole('button', { name: 'Çıkış' }));
+    expect(screen.getByLabelText('consent-declined')).toBeInTheDocument();
+    expect(screen.queryByLabelText('question-form')).not.toBeInTheDocument();
+  });
+
+  test('declined screen never renders the question form and makes no API call', async () => {
+    const fetchSpy = vi.fn();
+    vi.stubGlobal('fetch', fetchSpy);
+    render(<HomePage />);
+    await userEvent.click(screen.getByRole('button', { name: 'Çıkış' }));
+    await waitFor(() => expect(screen.getByLabelText('consent-declined')).toBeInTheDocument());
+    expect(screen.queryByLabelText('question-form')).not.toBeInTheDocument();
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  test('"Kararımı değiştir" returns to consent, not directly to compose', async () => {
+    render(<HomePage />);
+    await userEvent.click(screen.getByRole('button', { name: 'Çıkış' }));
+    await waitFor(() => expect(screen.getByLabelText('consent-declined')).toBeInTheDocument());
+    await userEvent.click(screen.getByRole('button', { name: 'Kararımı değiştir' }));
+
+    expect(screen.getByLabelText('consent-modal')).toBeInTheDocument();
+    expect(screen.queryByLabelText('question-form')).not.toBeInTheDocument();
+    // Re-entering consent still requires the checkbox again - no auto-compose.
+    expect(screen.getByRole('button', { name: 'Devam Et' })).toBeDisabled();
+  });
+});
+
 describe('HomePage — framing review sits between the question and the draw', () => {
   test('preview is fetched first and shows the framing review, no cards yet', async () => {
     const fetchSpy = routingFetch({});

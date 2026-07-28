@@ -13,6 +13,7 @@ import { ReflectionClose } from '../components/ReflectionClose';
 import { CrisisNotice } from '../components/CrisisNotice';
 import { ErrorNotice } from '../components/ErrorNotice';
 import { AppShell } from '../components/AppShell';
+import { ConsentDeclined } from '../components/ConsentDeclined';
 
 type TopicHint = 'relationship' | 'career' | 'self';
 type Pending = { question: string; topicHint?: TopicHint };
@@ -26,6 +27,7 @@ type Pending = { question: string; topicHint?: TopicHint };
 //   framing --edit--> compose (prior input preserved)
 type ViewState =
   | { status: 'consent' }
+  | { status: 'declined' }
   | { status: 'compose'; initial?: Pending }
   | { status: 'previewing' }
   | { status: 'framing'; framing: FramingPreview; pending: Pending }
@@ -109,8 +111,12 @@ export default function HomePage() {
       {state.status === 'consent' && (
         <ConsentModal
           onAccept={() => setState({ status: 'compose' })}
-          onDecline={() => setState({ status: 'compose' })}
+          onDecline={() => setState({ status: 'declined' })}
         />
+      )}
+
+      {state.status === 'declined' && (
+        <ConsentDeclined onReconsider={() => setState({ status: 'consent' })} />
       )}
 
       {(state.status === 'compose' || state.status === 'previewing') && (
