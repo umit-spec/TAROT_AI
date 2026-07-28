@@ -1342,3 +1342,123 @@ hariç - o FAZ 8'de yapılmıştı), `FramingLoading`, `LoadingMark`,
 altındaki her dosya değişmedi. Yeni npm bağımlılığı eklenmedi. Yeni
 component, yeni sayfa, yeni route eklenmedi. `asset/06-full-tarot-deck-v2`
 bu fazda merge edilmedi ve gerçek kart görseli entegre edilmedi.
+
+## 22. FAZ 9 — Governed Card Asset Integration (record)
+
+**Detaylı governance zinciri, provenance, ve rollback planı için:
+`docs/ASSET_INTEGRATION_V2.md`.** Bu bölüm yalnız UI tarafını özetler.
+
+FAZ 9, iki zorunlu kapıdan oluştu: FAZ 9A (asset production readiness,
+`asset/09-production-derivatives` branch'inde) ve FAZ 9B (seçici UI
+entegrasyonu, `claude/faz9-governed-card-assets` branch'inde). Tam branch
+merge hiçbir noktada kullanılmadı; her dosya `git checkout <exact-SHA> --
+<paths>` ile seçici olarak taşındı. Frozen UI branch
+(`claude/premium-ui-foundation-phase1-4d2940` @ `3f75408`) hiç
+değişmedi.
+
+### 22.1 Kapsam kararı: yalnız 22 Major Arcana
+
+Governed Full Deck V2 seti 78 kart yüzü + 1 kart arkası içeriyor (22
+Major + 56 Minor Arcana). Ancak uygulamanın reading engine'i
+(`src/server/reading-engine/cards.ts`) `data/cards/*.json`'da tam olarak
+22 Major Arcana kartı olmadığı sürece hard-fail veriyor - Minor Arcana
+kartının gösterilebileceği hiçbir `CardId` yok, ve bu geçici bir eksiklik
+değil (`CardDataSchema` `arcana: z.literal('major')` olarak sabitlenmiş).
+Bu yüzden governed artwork registry yalnız gerçek 22 `CardId` + 1 kart
+arkası üzerinde exhaustive; 56 Minor Arcana derivative'i asset
+branch'lerinde provenance için duruyor ama `public/`'a kopyalanmadı,
+registry'ye girmedi, hiçbir component'e bağlanmadı. Bu bir kapsam kararı,
+bir eksiklik değil - reading engine değişikliği gerektirir, ki bu FAZ
+9'un sınırları dışında.
+
+### 22.2 What changed
+
+- **`src/lib/tarot-card-artwork.ts`** (yeni, generated) -
+  `tools/assets/generate_tarot_artwork_registry.py` tarafından üretiliyor;
+  `data/cards/*.json`, canonical provenance manifest ve derivative
+  manifest'i reconcile ediyor. `CardId` union (22 literal), `CARD_ARTWORK`
+  (`satisfies Record<CardId, CardArtworkEntry>` - compile-time exhaustive),
+  `CARD_BACK_ARTWORK` sabiti. Generator `--check` modunda dry-run
+  reproducibility kanıtlıyor.
+- **`tools/assets/generate_tarot_artwork_registry.py`** (yeni) - eksik
+  CardId, extra face asset, hash mismatch, yanlış boyut, eksik public
+  dosya gibi durumlarda sessizce devam etmek yerine sert hata veriyor
+  (`fail()` → non-zero exit, kısmi registry yazılmıyor).
+- **`CardArtworkPlaceholder.tsx`** - yeni opsiyonel `cardId?: CardId` prop,
+  yalnız `state === 'revealed'` iken okunuyor. Locked/current her zaman
+  `CARD_BACK_ARTWORK` gösteriyor (hangi kart olduğundan bağımsız).
+  Revealed, `CARD_ARTWORK[cardId]`'yi + mevcut governed `displayName`'i bir
+  scrim overlay içinde gösteriyor. `cardId` çözümlenemezse (savunma amaçlı)
+  aynı nötr geometrik shell'e düşüyor - asla başka bir kartın görseline
+  değil. 2:3 aspect-ratio sözleşmesi, reveal animasyonu (`card-artwork__reveal`,
+  yalnız `reducedMotion=false` iken), locked/current opacity/glow mantığı
+  değişmedi.
+- **`CardReveal.tsx`** - yalnız minimal wiring: `resolveArtworkCardId(card.id)`
+  yalnız revealed dalına `cardId` olarak geçiyor (locked/current asla
+  cardId almıyor, kart kimliği kapalı kartların DOM'una hiç girmiyor); bir
+  eski docblock satırı güncellendi. Reveal sırası, gate, focus, kopya
+  değişmedi.
+- **`public/assets/tarot-cards/v2/`** (yeni, 23 dosya) - yalnız 22 Major
+  Arcana + Card Back derivative'i, byte-birebir kopyalandı, her biri
+  `derivative-manifest.json`'daki SHA-256 ile doğrulandı. Canonical PNG'ler
+  hiçbir zaman bu path'e veya bu branch'e kopyalanmadı.
+
+### 22.3 Identity isolation (doğrulandı)
+
+Kapalı kart (locked/current) her zaman aynı kart arkası görselini
+gösteriyor; face path DOM'a hiç girmiyor; face network request'i hiç
+atılmıyor. Gerçek tarayıcı network QA: reveal ekranına varışta 1 istek
+(paylaşılan kart arkası), her reveal tam olarak 1 face isteği ekliyor,
+crisis/error path'lerinde 0 kart görseli isteği, restart sonrası 0 istek.
+Hiçbir yerde `.png` isteği, external domain isteği, veya 404 yok.
+
+### 22.4 Accessibility
+
+Kart arkası dekoratif (`alt=""`, wrapper `aria-hidden`); revealed face
+`alt` = governed `displayName`, raw id asla görünmüyor/duyulmuyor.
+Current buton accessible name'i ("Geçmiş/Şimdi/Yön kartını aç") mevcut
+gibi dışarıdan geliyor. Live region davranışı, focus progression, keyboard
+Enter/Space değişmedi.
+
+### 22.5 Performance
+
+22 kayıtlı yüz + kart arkası: min 96 KB, medyan 114 KB, p95 129 KB, maks
+130 KB, kart arkası 108 KB, tipik 3-kart oturumu ~451 KB - tüm hedefler
+kalite düşürülmeden rahatça karşılandı. Detaylar: `docs/ASSET_INTEGRATION_V2.md` §7.
+
+### 22.6 Tests added
+
+`tarot-card-artwork.test.ts` (16 test - exhaustiveness, hash
+reconciliation, generator reproducibility), `card-artwork-placeholder.test.tsx`
+(18 test - closed/revealed identity isolation, a11y, reduced motion,
+defensive fallback), `card-reveal.test.tsx` (+4 net: 1 eski "no image
+anywhere" testi FAZ9 gerçeğiyle çelişiyordu, kaldırıldı; 5 yeni identity-
+isolation testi eklendi), `page-flow.test.tsx` (+5 - progressive loading,
+crisis/error path'lerinde 0 görsel, restart sonrası 0 görsel). Toplam: 446
+(RC-1 sonrası) + 43 = **489/489 geçti**.
+
+### 22.7 Governance
+
+V2-D012/D013/D014 CLOSED, V2-D002 ACCEPTED RESIDUAL RISK, V2-D005 CLOSED -
+tümü ürün sahibinin gerçek, doğrulanabilir aksiyonlarına dayanıyor (kanıt
+uydurulmadı). Detaylar: `docs/ASSET_LICENSING_DEBT_LOG_FULL_DECK_V2.md`,
+`docs/evidence/FULL_DECK_V2_*`.
+
+### 22.8 What FAZ 9 does NOT clear
+
+Commercial release ayrı gated kalmaya devam ediyor (V2-D003/D004/D009/D010
+hâlâ açık). V2-D002 kabul edilmiş bir residual risk, ortadan kaldırılmış
+bir kanıt değil. 56 kayıtsız Minor Arcana derivative'i hiçbir component'e
+bağlanmadı.
+
+### 22.9 Not touched
+
+`AppShell`, `ConsentModal`, `ConsentDeclined`, `QuestionForm`,
+`FramingReview`, `FramingLoading`, `ShuffleReveal`, `PatternArrival`,
+`ReadingResult`, `CardNarrationItem`, `DiagnosticBadge`,
+`DisclaimerFooter`, `ReflectionClose`, `CrisisNotice`, `ErrorNotice`,
+`src/app/page.tsx`, `globals.css`, `tailwind.config.ts`, state machine, ve
+`src/app/api/**` / `src/server/**` altındaki her dosya değişmedi
+(`CardArtworkPlaceholder` ve `CardReveal` dışında, ki bu fazın açık
+hedefiydi). `ReadingResult` bu fazda gerçek kart görseli almadı - kapsam
+yalnız `CardArtworkPlaceholder` katmanıyla sınırlıydı.
