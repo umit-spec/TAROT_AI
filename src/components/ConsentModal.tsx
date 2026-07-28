@@ -20,6 +20,7 @@ export function ConsentModal({ onAccept, onDecline }: ConsentModalProps) {
   const [checked, setChecked] = useState(false);
   const headingRef = useFocusOnMount<HTMLHeadingElement>();
   const containerRef = useDialogFocus<HTMLDivElement>({ onEscape: onDecline });
+  const headingId = useId();
   const introId = useId();
   const checkboxId = useId();
 
@@ -29,13 +30,22 @@ export function ConsentModal({ onAccept, onDecline }: ConsentModalProps) {
         ref={containerRef}
         role="dialog"
         aria-modal="true"
-        aria-label="consent-modal"
+        aria-labelledby={headingId}
         aria-describedby={introId}
+        data-testid="consent-modal"
         className="consent-modal__panel max-h-[88vh] w-full overflow-y-auto rounded-t-3xl border border-border-subtle bg-surface-raised p-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] shadow-2xl sm:max-w-xl sm:rounded-3xl sm:p-8"
       >
         <p className="text-xs uppercase tracking-[0.2em] text-foreground-muted">Başlamadan önce</p>
 
-        <h2 ref={headingRef} tabIndex={-1} className="mt-2 font-heading text-xl text-foreground sm:text-2xl">
+        {/* Non-interactive: only receives programmatic focus-on-mount so
+            screen readers land here, so it must never show the interactive
+            focus-visible ring - that reads as a form control, not a heading. */}
+        <h2
+          ref={headingRef}
+          id={headingId}
+          tabIndex={-1}
+          className="mt-2 font-heading text-xl text-foreground focus-visible:outline-none sm:text-2xl"
+        >
           {CONSENT_MODAL_COPY.title}
         </h2>
         <p id={introId} className="mt-3 text-sm text-foreground-secondary sm:text-base">
@@ -85,14 +95,12 @@ export function ConsentModal({ onAccept, onDecline }: ConsentModalProps) {
           <span className="text-sm text-foreground">{CONSENT_MODAL_COPY.checkboxLabel}</span>
         </label>
 
-        <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-          <button
-            type="button"
-            onClick={onDecline}
-            className="min-h-[44px] min-w-[44px] rounded-xl border border-border-strong px-5 text-sm text-foreground sm:flex-none"
-          >
-            {CONSENT_MODAL_COPY.declineLabel}
-          </button>
+        {/* DOM order is Accept-then-Decline and intentionally matches the
+            visual order on every breakpoint (no flex-*-reverse trick) - Tab
+            order must match reading/visual order (WCAG 2.4.3), and a CSS
+            reversal here previously made Tab visit Decline before the Accept
+            it was visually below. */}
+        <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-end">
           <button
             type="button"
             onClick={onAccept}
@@ -104,6 +112,13 @@ export function ConsentModal({ onAccept, onDecline }: ConsentModalProps) {
             }`}
           >
             {CONSENT_MODAL_COPY.acceptLabel}
+          </button>
+          <button
+            type="button"
+            onClick={onDecline}
+            className="min-h-[44px] min-w-[44px] rounded-xl border border-border-strong px-5 text-sm text-foreground sm:flex-none"
+          >
+            {CONSENT_MODAL_COPY.declineLabel}
           </button>
         </div>
       </div>

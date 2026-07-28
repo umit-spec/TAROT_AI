@@ -3,6 +3,7 @@ import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 import HomePage from '../../app/page';
+import { CONSENT_MODAL_COPY } from '../../lib/constitution-copy';
 
 function jsonResponse(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } });
@@ -144,7 +145,7 @@ describe('HomePage — consent decline does not enter the reading flow', () => {
     await waitFor(() => expect(screen.getByLabelText('consent-declined')).toBeInTheDocument());
     await userEvent.click(screen.getByRole('button', { name: 'Kararımı değiştir' }));
 
-    expect(screen.getByLabelText('consent-modal')).toBeInTheDocument();
+    expect(screen.getByRole('dialog', { name: CONSENT_MODAL_COPY.title })).toBeInTheDocument();
     expect(screen.queryByLabelText('question-form')).not.toBeInTheDocument();
     // Re-entering consent still requires the checkbox again - no auto-compose.
     expect(screen.getByRole('button', { name: 'Devam Et' })).toBeDisabled();

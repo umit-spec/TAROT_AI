@@ -46,11 +46,14 @@ describe('ConsentModal — premium consent behavior & accessibility (FAZ 2)', ()
     await waitFor(() => expect(screen.getByRole('heading', { name: CONSENT_MODAL_COPY.title })).toHaveFocus());
   });
 
-  test('has the expected dialog aria relationships', () => {
+  test('has the expected dialog aria relationships - accessible name is the visible heading', () => {
     render(<ConsentModal onAccept={vi.fn()} onDecline={vi.fn()} />);
-    const dialog = screen.getByRole('dialog');
+    // Semantic query, not a test-hook string: the dialog's accessible name
+    // must be the real heading text, not an internal label a screen-reader
+    // user would never recognize (docs/UI_PREMIUM_V1.md FAZ 2.1).
+    const dialog = screen.getByRole('dialog', { name: CONSENT_MODAL_COPY.title });
     expect(dialog).toHaveAttribute('aria-modal', 'true');
-    expect(dialog).toHaveAttribute('aria-label', 'consent-modal');
+    expect(dialog).toHaveAttribute('data-testid', 'consent-modal');
     const describedBy = dialog.getAttribute('aria-describedby');
     expect(describedBy).toBeTruthy();
     expect(document.getElementById(describedBy as string)).toHaveTextContent(CONSENT_MODAL_COPY.intro);
@@ -91,6 +94,31 @@ describe('ConsentModal — premium consent behavior & accessibility (FAZ 2)', ()
     await userEvent.tab();
     expect(decline).toHaveFocus();
     await userEvent.tab();
+    expect(checkbox).toHaveFocus();
+  });
+
+  test('once checked, Tab cycles checkbox -> Accept -> Decline -> checkbox (forward and reverse)', async () => {
+    render(<ConsentModal onAccept={vi.fn()} onDecline={vi.fn()} />);
+    const checkbox = screen.getByRole('checkbox');
+    const accept = screen.getByRole('button', { name: CONSENT_MODAL_COPY.acceptLabel });
+    const decline = screen.getByRole('button', { name: CONSENT_MODAL_COPY.declineLabel });
+
+    await userEvent.click(checkbox);
+    checkbox.focus();
+
+    await userEvent.tab();
+    expect(accept).toHaveFocus();
+    await userEvent.tab();
+    expect(decline).toHaveFocus();
+    await userEvent.tab();
+    expect(checkbox).toHaveFocus();
+
+    // Reverse must retrace the same three elements, never escaping the dialog.
+    await userEvent.tab({ shift: true });
+    expect(decline).toHaveFocus();
+    await userEvent.tab({ shift: true });
+    expect(accept).toHaveFocus();
+    await userEvent.tab({ shift: true });
     expect(checkbox).toHaveFocus();
   });
 

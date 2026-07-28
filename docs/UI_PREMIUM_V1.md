@@ -391,3 +391,80 @@ checked, declined), plus a dedicated Escape→declined check per breakpoint:
 no horizontal overflow in any state/breakpoint, Escape reaches the declined
 screen on every breakpoint, no new console errors (the one pre-existing
 `favicon.ico` 404 predates this branch and is unrelated to consent).
+
+## 14. FAZ 2.1 — Consent Accessibility & Visual Polish Patch (record)
+
+Two defects found in FAZ 2 review, both real and independently reproduced
+before fixing:
+
+### 14.1 Non-interactive heading showed an interactive-looking focus ring
+
+`useFocusOnMount` moves real focus to the `<h2>` on mount (`tabIndex={-1}`),
+which is correct and unchanged. But FAZ 1's global `:focus-visible { outline:
+... }` rule then drew the same gold rectangle around that heading as around
+a real control, reading as a stray form field rather than a screen
+transition. Fixed with `focus-visible:outline-none` on the heading only -
+scoped to `ConsentModal`, per this patch's file boundary. **Not fixed
+elsewhere**: `FramingReview`, `PatternArrival`, `CardReveal`, `CrisisNotice`,
+`ErrorNotice`, and `ReflectionClose` headings use the identical
+`useFocusOnMount` + `tabIndex={-1}` pattern and will show the same ring once
+their transitions are screenshotted - flagged here as a follow-up for
+whichever phase next touches each of those files, not fixed now (out of
+this patch's scope).
+
+Verified with `getComputedStyle(document.activeElement)` at the instant the
+heading holds real focus, not after focus moved away (a naive check that
+only reads `outlineStyle` is misleading here: Tailwind's `outline-none`
+keeps `outline-style: solid` for the high-contrast-mode fallback and relies
+on `outline-color: transparent` for the actual visual suppression - the
+correct check is that the rendered ring is invisible, confirmed by
+screenshot).
+
+### 14.2 Dialog accessible name was a test-hook string, not real content
+
+`aria-label="consent-modal"` was preserved from FAZ 2 §4's literal
+instruction, but a screen reader announces that string as the dialog's
+name, not "Tarot Nedir?" - meaningless to a real user. Replaced with
+`aria-labelledby` pointing at the (now `id`-bearing) heading, `aria-label`
+removed, and `data-testid="consent-modal"` added so the prior
+test-hook role moves to a dedicated attribute instead of overloading ARIA.
+`page-flow.test.tsx` and `ui-components.test.tsx` now query
+`getByRole('dialog', { name: CONSENT_MODAL_COPY.title })` instead of
+`getByLabelText('consent-modal')`.
+
+### 14.3 Tab order didn't match visual order once both buttons were enabled
+
+The FAZ 2 button row used `flex-col-reverse` (mobile) / `flex-row`
+(desktop) with DOM order `[Decline, Accept]` to get "Accept visually on
+top" on mobile while keeping "Decline left / Accept right" on desktop. That
+CSS trick decoupled Tab order from visual order: Tab always visited Decline
+before Accept, regardless of which one actually appeared first on screen.
+Fixed by making DOM order match visual order everywhere instead - no
+reversal at all: `[Accept, Decline]` in the DOM, plain `flex-col` /
+`sm:flex-row`. Tab now reliably goes checkbox → Accept → Decline → checkbox
+(and reverse) on every breakpoint, verified by a new dynamic test.
+
+**Visible side effect**: this flips the desktop button order - "Devam Et"
+is now on the left, "Çıkış" on the right (previously the reverse). No
+instruction protected the prior desktop arrangement once the tab-order
+requirement was explicit, and a mismatch between visual and Tab order on
+any single breakpoint was judged worse than a symmetric, fully consistent
+order everywhere. Screenshotted and reported for the product owner to
+confirm or reject.
+
+### 14.4 Tests
+
+New: `ui-components.test.tsx` - dynamic checked-state Tab cycle
+(checkbox → Accept → Decline → checkbox, forward and Shift+Tab reverse).
+Updated (not counted as new): the aria-relationship test now asserts
+`getByRole('dialog', { name: CONSENT_MODAL_COPY.title })` and
+`data-testid="consent-modal"` instead of the old `aria-label` assertion.
+Total: 340 (FAZ 2 baseline) + 1 = **341/341 passing.**
+
+### 14.5 Viewport QA (375×812, 390×844)
+
+Confirmed via Playwright in a real browser: dialog's `aria-labelledby`
+target resolves to "Tarot Nedir?"; heading shows no visible ring while
+holding real focus (screenshot-verified); checkbox and "Devam Et" both show
+a clear gold ring when keyboard-focused; Escape reaches `declined` on both
+sizes; no horizontal overflow in any state; no new console errors.
