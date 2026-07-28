@@ -1,0 +1,18 @@
+INSIGHT ENGINE TAROT — FULL DECK V2 ASSET NOTICE
+
+Internal rights class: IE-AI-OUTPUT-PROPRIETARY-1.0
+Rights holder record: Ümit Karakeleş, subject to applicable law and platform terms.
+
+NO PUBLIC ASSET LICENCE IS GRANTED BY THIS FILE.
+
+The image assets in this directory are not automatically covered by the repository's source-code licence. Viewing, cloning or accessing the repository does not grant permission to reproduce, redistribute, sell, sublicense, train on, publish as a competing deck, or otherwise exploit these image assets.
+
+Use inside the Insight Engine project is governed by:
+
+- docs/ASSET_LICENSE_MANIFEST.md
+- docs/ASSET_LICENSING_DEBT_LOG_FULL_DECK_V2.md
+- docs/evidence/FULL_DECK_V2_PROVENANCE_DECLARATION.md
+
+The assets were produced through user-directed OpenAI ChatGPT image generation and may not be unique. Copyright eligibility and protection vary by jurisdiction. Third-party similarity and trademark clearance remain separate obligations.
+
+For permission outside the Insight Engine project, obtain express written authorization from the recorded rights holder.
