@@ -57,3 +57,31 @@ Repeat this review if:
 - Canva Licensed Content is added;
 - the project enters paid beta/public launch;
 - a third-party similarity or IP concern is raised.
+
+## CRG-1B update (2026-07-28) — dated evidence attempt, V2-D004 remains PARTIAL
+
+A commercial-release gate review (CRG-1) pass attempted to strengthen
+this record with dated, snapshot-style evidence per
+`docs/evidence/platform-terms/`. Direct fetch of all three official URLs
+returned HTTP 403 (bot-blocked in this execution environment); the
+fallback evidence (search-indexed snippets and secondary-source quotes,
+cross-checked for consistency with the conclusions above) is recorded in
+that folder with full disclosure of this limitation.
+
+Two open sub-questions surfaced during this pass that the original
+review did not carry, both requiring the product owner's own account
+records to resolve (not further external search):
+
+1. Whether generation occurred under OpenAI's **consumer ChatGPT** Terms
+   of Use specifically (vs. Business Terms), and on what date relative to
+   the current terms revision — see `platform-terms/openai-terms-of-use.md`.
+2. Whether the Canva design(s) holding the 79 card images were ever
+   **shared** (triggering Canva's separate perpetual-license clause for
+   shared Designs) rather than kept private — see
+   `platform-terms/canva-terms-of-use.md`.
+
+**V2-D004 status: remains PARTIAL.** This pass added evidence structure
+and surfaced two new factual questions; it did not close the gate. A
+successful primary-source re-fetch (manual browser visit + dated
+screenshot) or legal counsel's own terms review is still recommended
+before commercial release, per `docs/legal/COMMERCIAL_RELEASE_LEGAL_REVIEW_PACKET_TR.md`.
