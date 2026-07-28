@@ -5,6 +5,18 @@
 **Baseline:** `governance/crg1-commercial-release-review` @ `f05a74a` (itself RC-2 `80ec612` + governance docs only, zero `src/` diff)
 **Bu fazda runtime entegrasyonu yoktur.**
 
+> **IG-2 correction note (2026-07-28):** IG-1'in kapanış raporunda iki
+> sayım hatası yapıldı ve IG-2'nin repo doğrulaması sırasında
+> yakalandı: (1) oluşturulan dosya sayısı "13" olarak raporlandı, gerçek
+> sayı **14**'tür; (2) toplam global guardrail sayısı "23" olarak
+> raporlandı (bu rakam aslında bir kartın `safetyRefs` referans
+> listesinin uzunluğuydu — 9 must + 14 mustNot, "may" hariç), oysa
+> `ontology/global-guardrails.json`'daki gerçek toplam **29**'dur
+> (9 must + 6 may + 14 mustNot). Bu, yalnız kapanış raporundaki bir
+> aritmetik/raporlama hatasıydı — hiçbir veri dosyası, şema veya commit
+> geçmişi bu düzeltmeyle değiştirilmedi/silinmedi; hata burada açıkça
+> kayıt altına alınıyor, gizlenmiyor.
+
 ## Problem statement
 
 Mevcut ürün, her kart için tek, sabit, konudan bağımsız bir yorum
