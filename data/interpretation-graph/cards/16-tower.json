@@ -1,0 +1,360 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "16-tower",
+  "displayName": "Kule",
+  "englishName": "The Tower",
+  "arcanaNumber": 16,
+  "arcana": "major",
+  "sourceLayer": {
+    "themes": [
+      "beklenmedik farkındalık",
+      "mevcut temellerin sorgulanması",
+      "katılaşmış varsayımların esnemesi",
+      "yeniden değerlendirme için alan açılması"
+    ],
+    "meaning": "Kule, güvenilir veya değişmez kabul edilen bazı yapıların ve varsayımların yeniden değerlendirilmesine yol açabilecek bir farkındalık anını sembolize eder.",
+    "centralTension": "Mevcut düzeni koruma isteği ile yeni bilgiler karşısında düşünce ve planları yeniden değerlendirme ihtiyacı arasındaki gerilim.",
+    "doesNotMean": [
+      "fiziksel kaza veya ölüm",
+      "kaçınılmaz felaket",
+      "cezalandırılma",
+      "iş, ilişki, sağlık, hukuk veya finans sonucu hakkında kesin tahmin"
+    ],
+    "symbols": [
+      {
+        "id": "lightning",
+        "label": "Yıldırım",
+        "meaning": "Ani, dışarıdan gelen bir gerçeklik anı; önceden inşa edilmiş yapıyı test eden ani bir dokunuş.",
+        "safeUse": "'Aniden fark edilen bir gerçek' olarak çerçevelemek.",
+        "risk": "'Başınıza bir felaket gelecek' gibi literal afet kehaneti üretmek."
+      },
+      {
+        "id": "tower",
+        "label": "Kule",
+        "meaning": "Sağlam sanılan ama temeli sorgulanabilir bir yapı.",
+        "safeUse": "'Hangi inanç/alışkanlık artık sizi eskisi kadar taşımıyor olabilir?' sorusu.",
+        "risk": "'İlişkiniz/işiniz kesin bitecek' demek."
+      },
+      {
+        "id": "flames",
+        "label": "Alevler/ışık patlaması",
+        "meaning": "Karanlıkta aniden açığa çıkan bir farkındalık anı.",
+        "safeUse": "'Aniden netleşen bir şey' olarak çerçevelemek.",
+        "risk": "Mistik/kader dili ('evren size mesaj gönderiyor') kullanmak."
+      },
+      {
+        "id": "falling-figures",
+        "label": "Düşen figürler",
+        "meaning": "Ani bir sarsıntının yarattığı denge kaybı hissi.",
+        "safeUse": "'Kontrolü bırakmanın nasıl hissettirdiği' sorusu.",
+        "risk": "Kullanıcının kişisel olarak 'düşeceğini/başarısız olacağını' ima etmek."
+      }
+    ]
+  },
+  "reflectionLayer": {
+    "positions": {
+      "past": {
+        "focus": "Önceki bir kırılma, değişiklik veya farkındalık deneyiminin bugünkü bakış açısına olası etkisi.",
+        "safeInterpretations": [
+          "Geçmişte yaşanan ani bir farkındalık anı, o dönem güvenilir sanılan bir yapının aslında sorgulanabilir olduğunu gösterebilir.",
+          "Bu kart, geçmişteki bir kırılmanın bugünkü bakış açınızı şekillendirmiş olabileceğini yansıtabilir."
+        ],
+        "reflectionQuestions": [
+          "O dönem hangi yapının sandığınızdan daha kırılgan olduğunu fark ettiniz mi?",
+          "O deneyimden bugüne taşıdığınız bir öğrenme var mı?"
+        ],
+        "prohibitedInferences": [
+          "Kullanıcının o dönem travma yaşadığı varsayılamaz.",
+          "Olayın sorumlusunun kim olduğu hakkında kesin çıkarım yapılamaz."
+        ]
+      },
+      "present": {
+        "focus": "Mevcut düzende sürdürülebilirliği veya işlevi yeniden değerlendirilebilecek unsurlar.",
+        "safeInterpretations": [
+          "Şu anda, mevcut düzende sürdürülebilirliği sorgulanabilecek bir unsur görünür olabilir.",
+          "Bu kart, daha önce fark edilmeyen bir gerilimin şimdi daha görünür hale geldiğini yansıtabilir."
+        ],
+        "reflectionQuestions": [
+          "Şu anda hangi yapı ya da anlayış sizi eskisi kadar taşımıyor olabilir?",
+          "Bu durumda gerçekten neyin hâlâ işlevsel kaldığını fark ediyor musunuz?"
+        ],
+        "prohibitedInferences": [
+          "Kullanıcının şu anda bir kriz yaşadığı varsayılamaz.",
+          "Kullanıcının çaresiz veya bunalmış olduğu varsayılamaz."
+        ]
+      },
+      "direction": {
+        "focus": "Daha esnek, doğrulanabilir veya sürdürülebilir bir yaklaşımın hangi alanlarda değerlendirilebileceği.",
+        "safeInterpretations": [
+          "Bu kart, daha esnek ya da doğrulanabilir bir yaklaşımın hangi alanlarda değerlendirilebileceğini düşündürebilir.",
+          "Yön, yeni bilgiler karşısında bir planı yeniden gözden geçirmenin bir seçenek olabileceğine işaret edebilir."
+        ],
+        "reflectionQuestions": [
+          "Şu an sahip olduğunuz seçeneklerden hangisini daha yakından incelemek isterdiniz?",
+          "Bu farkındalık sizi hangi soruyu sormaya çağırıyor?"
+        ],
+        "prohibitedInferences": [
+          "Kullanıcının hangi kararı vereceği kesin olarak varsayılamaz.",
+          "Belirli bir ilişkiyi bitirip bitirmeyeceği ya da işi bırakıp bırakmayacağı varsayılamaz."
+        ]
+      }
+    },
+    "contexts": {
+      "career": {
+        "focus": "Mevcut çalışma düzenindeki varsayımların yeniden değerlendirilmesi.",
+        "followUpQuestion": "Mevcut çalışma düzeninizde hangi varsayımları yeniden değerlendirmek size daha fazla netlik sağlayabilir?",
+        "avoid": "Belirli bir iş kaybı ya da terfi sonucu hakkında kesin tahmin üretmek."
+      },
+      "relationship": {
+        "focus": "İlişkideki beklenti ve iletişim biçimlerinin yeniden değerlendirilmesi.",
+        "followUpQuestion": "Bu ilişkide hangi beklentilerin veya iletişim biçimlerinin daha açık değerlendirilmesi size yardımcı olabilir?",
+        "avoid": "İlişkinin bitip bitmeyeceği ya da bir ihanet olup olmadığı hakkında kesin iddia üretmek."
+      },
+      "decision": {
+        "focus": "Bir kararın dayandığı varsayımların gözden geçirilmesi.",
+        "followUpQuestion": "Bu kararı hangi varsayım üzerine kuruyorsunuz?",
+        "avoid": "Hangi seçimin 'doğru' olduğunu söylemek."
+      },
+      "family": {
+        "focus": "Aile içinde uzun süredir konuşulmamış bir gerilimin görünür hale gelmesi.",
+        "followUpQuestion": "Ailede sessizce taşınan bir gerginlik var mı?",
+        "avoid": "Belirli bir aile üyesi hakkında suçlama ya da teşhis üretmek."
+      },
+      "boundaries": {
+        "focus": "Bir sınırın daha açık ifade edilmesi ihtiyacı.",
+        "followUpQuestion": "Bu ilişkide veya ortamda hangi sınırlarınızın daha açık ifade edilmesi size yardımcı olabilir?",
+        "avoid": "Belirli bir kişiden uzaklaşılması gerektiğini söylemek."
+      },
+      "self-awareness": {
+        "focus": "Kendinizle ilgili bir anlatının yeniden değerlendirilmesi.",
+        "followUpQuestion": "Kendinizle ilgili hangi anlatı veya beklentiyi yeniden değerlendirmek istersiniz?",
+        "avoid": "Kişilik teşhisi ya da sabit bir etiket kullanmak."
+      },
+      "uncertainty": {
+        "focus": "Kontrolün bir kısmının elden bırakılmasıyla gelen rahatsızlığın kabulü.",
+        "followUpQuestion": "Kontrol edemediğiniz neyi kabul etmek zor geliyor?",
+        "avoid": "Belirsizliğin ne zaman veya nasıl biteceğini söylemek."
+      },
+      "change": {
+        "focus": "Gündemdeki bir değişim ihtimalinin seçenekleri yeniden değerlendirmeye açması.",
+        "followUpQuestion": "Gündeminizdeki değişim ihtimali, hangi seçenekleri yeniden değerlendirmenize alan açıyor?",
+        "avoid": "Değişimin kaçınılmaz olduğunu ya da felakete yol açacağını söylemek."
+      }
+    },
+    "userSignalLenses": {
+      "financial-security-concern": {
+        "signalRef": "financial-security-concern",
+        "focus": "Mevcut mali/yapısal güvencenin sağlamlığının değerlendirilmesi.",
+        "safeInterpretation": "Bu kart, güvence hissinin nereye dayandığını sorgulamaya davet edebilir.",
+        "reflectionQuestion": "Güvenliğinizi neye dayandırıyorsunuz?",
+        "prohibitedAssumptions": [
+          "Kullanıcının gerçekten mali kayıp yaşayacağı varsayılamaz.",
+          "Belirli bir yatırım/kararın sonucu hakkında tahmin üretilemez."
+        ]
+      },
+      "decision-uncertainty": {
+        "signalRef": "decision-uncertainty",
+        "focus": "Kararın 'mükemmel' olmasından çok, sağlam bir temele dayanmasının önemi.",
+        "safeInterpretation": "Kule, kusursuz değil, sağlam bir temel aramanın önemine işaret edebilir.",
+        "reflectionQuestion": "Bu kararı sağlam kılan nedir sizce?",
+        "prohibitedAssumptions": [
+          "Kullanıcının yakında yanlış bir karar vereceği varsayılamaz.",
+          "Hangi seçimin doğru olduğu söylenemez."
+        ]
+      },
+      "control-scope-clarification": {
+        "signalRef": "control-scope-clarification",
+        "focus": "Kontrolün bir kısmının elden bırakılmasının getirdiği rahatsızlığın kabulü.",
+        "safeInterpretation": "Bu kart, her şeyi kontrol etmenin mümkün olmadığı anları yansıtabilir.",
+        "reflectionQuestion": "Bırakmakta zorlandığınız kontrol nedir?",
+        "prohibitedAssumptions": [
+          "Kullanıcının 'kontrolcü' bir kişilik olduğu varsayılamaz.",
+          "Kontrol kaybının olumsuz bir sonuca yol açacağı iddia edilemez."
+        ]
+      },
+      "change-hesitation": {
+        "signalRef": "change-hesitation",
+        "focus": "Değişimin yıkıcı değil, açığa çıkarıcı bir yönü olabileceği.",
+        "safeInterpretation": "Kule, korkulan değişimin bazen önceden görünmeyen bir şeyi görünür kıldığını düşündürebilir.",
+        "reflectionQuestion": "Bu değişimi yalnızca kayıp olarak değerlendirmeseydiniz, hangi seçenekleri daha açık inceleyebilirdiniz?",
+        "prohibitedAssumptions": [
+          "Kullanıcının değişime 'hazır olmadığı' varsayılamaz.",
+          "Değişimin olumsuz sonuçlanacağı iddia edilemez."
+        ]
+      },
+      "responsibility-sustainability": {
+        "signalRef": "responsibility-sustainability",
+        "focus": "Mevcut sorumlulukların sürdürülebilirliğinin ve kapasiteyle uyumunun değerlendirilmesi.",
+        "safeInterpretation": "Bu kart, mevcut sorumlulukların sürdürülebilirliğini ve kapasitenizle uyumunu değerlendirmek için bir mercek sunabilir.",
+        "reflectionQuestion": "Mevcut sorumluluklarınızdan hangileri kapasitenizle uyumlu, hangileri yeniden değerlendirilmeye ihtiyaç duyuyor olabilir?",
+        "prohibitedAssumptions": [
+          "Kullanıcının klinik anlamda tükenmişlik yaşadığı varsayılamaz.",
+          "Belirli bir sorumluluğun bırakılması gerektiği söylenemez."
+        ]
+      },
+      "uncertainty-discomfort": {
+        "signalRef": "uncertainty-discomfort",
+        "focus": "Netliğin bazen beklenmedik bir andan sonra geldiği.",
+        "safeInterpretation": "Kule, netliğin bazen beklenmedik bir andan sonra geldiğini gösterebilir.",
+        "reflectionQuestion": "Belirsizlikte en çok neyi kontrol etmek istiyorsunuz?",
+        "prohibitedAssumptions": [
+          "Kullanıcının kaygı bozukluğu yaşadığı varsayılamaz.",
+          "Belirsizliğin ne zaman biteceği söylenemez."
+        ]
+      },
+      "loss-concern": {
+        "signalRef": "loss-concern",
+        "focus": "Kaybın bazen artık işlevi kalmamış bir yapının ortadan kalkması anlamına gelebileceği.",
+        "safeInterpretation": "Bu kart, kaybın bazen artık işlevi kalmamış bir yapının ortadan kalkması anlamına gelebileceğini düşündürebilir.",
+        "reflectionQuestion": "Kaybetmekten korktuğunuz şey aslında neyi temsil ediyor?",
+        "prohibitedAssumptions": [
+          "Kullanıcının gerçekten bir şey/kişi kaybedeceği varsayılamaz.",
+          "Kaybın kesin olarak gerçekleşeceği iddia edilemez."
+        ]
+      },
+      "external-evaluation-pressure": {
+        "signalRef": "external-evaluation-pressure",
+        "focus": "Başkalarının değerlendirmesinin tek ölçüt olmadığı bir bakış açısının değerlendirilmesi.",
+        "safeInterpretation": "Bu kart, dışsal değerlendirmenin tek ölçüt olmadığını düşünmeye davet edebilir.",
+        "reflectionQuestion": "Başkalarının değerlendirmesi belirleyici olmasaydı, hangi beklentilerinizi yeniden gözden geçirmek isterdiniz?",
+        "prohibitedAssumptions": [
+          "Kullanıcının başkalarının onayına bağımlı olduğu varsayılamaz.",
+          "Belirli bir kişinin kullanıcı hakkındaki değerlendirmesi hakkında kesin çıkarım yapılamaz."
+        ]
+      },
+      "boundary-expression-need": {
+        "signalRef": "boundary-expression-need",
+        "focus": "Bir sınırın daha açık ifade edilmesinin getirebileceği denge.",
+        "safeInterpretation": "Bu kart, sessizce zorlanan bir sınırın artık fark edildiğini yansıtabilir.",
+        "reflectionQuestion": "Hangi sınırlarınızı daha açık ifade etmek size daha dengeli bir alan sağlayabilir?",
+        "prohibitedAssumptions": [
+          "Kullanıcının belirli bir ilişkide istismar gördüğü varsayılamaz.",
+          "Belirli bir kişiden uzaklaşılması gerektiği söylenemez."
+        ]
+      },
+      "current-structure-attachment": {
+        "signalRef": "current-structure-attachment",
+        "focus": "Tanıdık ama artık uymayan bir düzenin sorgulanması.",
+        "safeInterpretation": "Kule, tanıdık ama artık uymayan bir düzenin sorgulanmasına davet edebilir.",
+        "reflectionQuestion": "Hangi eski düzen artık sizi eskisi kadar tanımlamıyor olabilir?",
+        "prohibitedAssumptions": [
+          "Kullanıcının 'yanlış' bir hayat sürdüğü varsayılamaz.",
+          "Değişimin zorunlu olduğu iddia edilemez."
+        ]
+      }
+    },
+    "adaptiveQuestionRefs": [
+      {
+        "id": "decision-basis-question",
+        "question": "Bu kararı değerlendirirken hangi bilgi türleri sizin için daha belirleyici oluyor?",
+        "purpose": "Kullanıcının karar verme tarzına dair açık bir sinyal toplamak (bu fazda UI seçenekleri eklenmiyor).",
+        "trigger": { "topics": ["decision"], "goals": ["weigh-decision"], "explicitSignalRefs": [] },
+        "collectsOneSignalOnly": true,
+        "optional": true
+      },
+      {
+        "id": "structure-sustainability-question",
+        "question": "Mevcut sorumluluklarınızdan hangileri kapasitenizle uyumlu, hangileri yeniden değerlendirilmeye ihtiyaç duyuyor olabilir?",
+        "purpose": "responsibility-sustainability sinyalini kullanıcının kendi açık ifadesiyle doğrulamak.",
+        "trigger": { "topics": ["career"], "goals": [], "explicitSignalRefs": ["responsibility-sustainability"] },
+        "collectsOneSignalOnly": true,
+        "optional": true
+      },
+      {
+        "id": "change-perspective-question",
+        "question": "Bu değişimi yalnızca kayıp olarak değerlendirmeseydiniz, hangi seçenekleri daha açık inceleyebilirdiniz?",
+        "purpose": "change-hesitation sinyaline bağlı, farklı bir açı görme hedefini destekleyen soru.",
+        "trigger": { "topics": ["change"], "goals": ["see-different-perspective"], "explicitSignalRefs": ["change-hesitation"] },
+        "collectsOneSignalOnly": true,
+        "optional": true
+      },
+      {
+        "id": "external-evaluation-question",
+        "question": "Başkalarının değerlendirmesi belirleyici olmasaydı, hangi beklentilerinizi yeniden gözden geçirmek isterdiniz?",
+        "purpose": "external-evaluation-pressure sinyalini açık kullanıcı beyanıyla doğrulamak.",
+        "trigger": { "topics": ["self-awareness"], "goals": [], "explicitSignalRefs": ["external-evaluation-pressure"] },
+        "collectsOneSignalOnly": true,
+        "optional": true
+      },
+      {
+        "id": "boundary-expression-question",
+        "question": "Hangi sınırlarınızı daha açık ifade etmek size daha dengeli bir alan sağlayabilir?",
+        "purpose": "boundary-expression-need sinyaline bağlı refleksiyon.",
+        "trigger": { "topics": ["boundaries"], "goals": [], "explicitSignalRefs": ["boundary-expression-need"] },
+        "collectsOneSignalOnly": true,
+        "optional": true
+      },
+      {
+        "id": "emotion-naming-question",
+        "question": "Bu farkındalıkla birlikte şu anda hangi duyguyu fark ediyorsunuz?",
+        "purpose": "understand-emotions hedefine bağlı, duygu adlandırmayı destekleyen açık soru.",
+        "trigger": { "topics": [], "goals": ["understand-emotions"], "explicitSignalRefs": [] },
+        "collectsOneSignalOnly": true,
+        "optional": true
+      },
+      {
+        "id": "control-scope-question",
+        "question": "Bu durumda gerçekten sizin elinizde olan neyi fark ediyorsunuz?",
+        "purpose": "control-scope-clarification sinyaline bağlı, eylemlilik odaklı refleksiyon.",
+        "trigger": { "topics": [], "goals": [], "explicitSignalRefs": ["control-scope-clarification"] },
+        "collectsOneSignalOnly": true,
+        "optional": true
+      },
+      {
+        "id": "curiosity-open-question",
+        "question": "Bu kartta şu anda en çok dikkatinizi çeken sembol hangisi?",
+        "purpose": "curiosity hedefi için baskısız, keşif odaklı açık soru.",
+        "trigger": { "topics": [], "goals": ["curiosity"], "explicitSignalRefs": [] },
+        "collectsOneSignalOnly": true,
+        "optional": true
+      }
+    ],
+    "relationshipTypeRefs": [
+      "supporting",
+      "softening",
+      "heightening-tension",
+      "reframing",
+      "agency-linking",
+      "interiorizing",
+      "leaving-open"
+    ]
+  },
+  "safetyRefs": [
+    "upright-only",
+    "deterministic-order",
+    "reflective-probabilistic-language",
+    "non-causal-framing",
+    "user-agency",
+    "one-primary-hypothesis",
+    "one-closing-reflection-question",
+    "crisis-short-circuit",
+    "governed-artwork-symbols-only",
+    "future-certainty",
+    "professional-medical-legal-financial-conclusion",
+    "third-party-mind-reading",
+    "direct-life-command",
+    "diagnosis-or-personality-label",
+    "fabricated-symbol",
+    "dependency-encouragement",
+    "spiritual-certainty-or-magical-causality",
+    "moral-judgment",
+    "immutable-fate",
+    "binary-life-verdict",
+    "biological-event-prediction",
+    "hidden-user-profiling",
+    "unconfirmed-signal-inference"
+  ],
+  "provenance": {
+    "status": "pilot-reviewed",
+    "sourceNotesPath": "data/interpretation-graph/evidence/16-tower-source-notes.md",
+    "normalizationNotes": [
+      "CardId '16-the-tower' (NotebookLM önerisi) repo kanonu '16-tower' olarak normalize edildi.",
+      "Kesinlik ve yönlendirici ifadeler ('olacak', 'kesinlikle') olasılıksal dile ('olabilir', 'düşündürebilir') çevrildi.",
+      "'crown' aday sembolü, governed artwork'te (public/assets/tarot-cards/v2/16_Kule.webp) görsel olarak doğrulanamadığı için sembol listesinden çıkarıldı.",
+      "Rider-Waite-Smith / RWS adı hiçbir alanda kullanılmadı; yalnız 'governed artwork üzerinde gerçekten görülen semboller' ifadesi kullanıldı.",
+      "Source-backed sembolik katman (sourceLayer) ile ürün tarafından tasarlanan yansıtma katmanı (reflectionLayer) açıkça ayrıldı; hiçbiri 'evrensel tarot gerçeği' olarak sunulmadı."
+    ],
+    "runtimeEnabled": false,
+    "reviewRequiredBeforeRuntime": true
+  }
+}
