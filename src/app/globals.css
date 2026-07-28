@@ -77,3 +77,26 @@ body {
     animation: none;
   }
 }
+
+/* ConsentModal entrance — a single opacity/translate settle, well under the
+   240ms ceiling; dropped entirely under reduced-motion. */
+@keyframes consent-modal-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.consent-modal__panel {
+  animation: consent-modal-in 220ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .consent-modal__panel {
+    animation: none;
+  }
+}

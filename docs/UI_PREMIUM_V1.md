@@ -284,3 +284,110 @@ asset integration (blocked on explicit user approval).
    CDN at build time. Confirmed reachable from this environment; if a
    future CI/build environment blocks that host, the build will need
    self-hosted font files instead.
+
+---
+
+## 13. FAZ 2 — Consent & Onboarding (record)
+
+### 13.1 Behavior fix (not a visual change)
+
+`src/app/page.tsx` wired both `ConsentModal.onAccept` and `onDecline` to the
+same `{ status: 'compose' }` transition, so pressing "Çıkış" silently
+bypassed the "Anlıyorum" checkbox requirement. Fixed by adding a `declined`
+`ViewState` and a `ConsentDeclined` screen. Declining now reaches a screen
+with no `QuestionForm`, no `fetch` call, and no path into the reading flow;
+the only way back is "Kararımı değiştir", which returns to `consent` (not
+directly to `compose` - the checkbox requirement applies again). Covered by
+4 new `HomePage` integration tests in `page-flow.test.tsx`.
+
+### 13.2 Also fixed: a WCAG-AA regression from FAZ 1
+
+While rebuilding `ConsentModal`, contrast-checked every `bg-accent` button
+and found `text-white` (used on 6 pre-existing buttons across
+`ConsentModal`, `QuestionForm`, `FramingReview`, `CardReveal`,
+`PatternArrival`, `ReadingResult`) measures **~2.0-2.3:1** against the new
+gold `accent` token - well under the 4.5:1 AA floor. This was a defect in
+FAZ 1 (the old gray `accent` made white text safe; gold does not), not
+something introduced by FAZ 2's copy or logic. Fixed by swapping
+`text-white` → `text-background` (`#07060B` on gold = 8.8:1) on all 6
+buttons - a one-class value swap per line, no structural/copy/test change,
+verified no test asserts `text-white`. This technically touches
+`QuestionForm.tsx`, `CardReveal.tsx`, `PatternArrival.tsx`, and
+`ReadingResult.tsx`, which FAZ 2's file-boundary list marks "don't touch
+unless necessary" - judged necessary because it corrects a false AA claim
+already reported as PASS for FAZ 1, and the fix carries no behavioral risk.
+
+### 13.3 What changed
+
+- `src/components/ConsentModal.tsx` - full presentational rewrite. Exact
+  `CONSENT_MODAL_COPY` text preserved verbatim (title, intro, both list
+  headings/items, checkbox/accept/decline labels). `aria-label="consent-modal"`
+  preserved exactly (kept as the stable accessible name, matching every other
+  screen's `aria-label` test-hook convention in this app) rather than adding
+  a competing `aria-labelledby`, which would silently override it per the
+  ARIA naming precedence rules. Added `aria-describedby` (intro paragraph),
+  a real `role="dialog"` on the panel itself (previously on the full-screen
+  backdrop), Tab/Shift+Tab focus containment, Escape-to-decline, background
+  scroll lock while open (via `useDialogFocus`), and heading-focus-on-mount
+  (via the existing `useFocusOnMount`, matching every other screen
+  transition in the app).
+- `src/hooks/useDialogFocus.ts` (new) - small, dialog-specific focus trap +
+  Escape + scroll-lock hook; no external focus-trap dependency added. Not
+  built as a general design-system primitive - `ConsentModal` is the only
+  caller, but the `containerRef` contract is generic enough to reuse.
+- `src/components/ConsentDeclined.tsx` (new) - the decline destination
+  (§13.1).
+- `src/app/page.tsx` - `declined` state + wiring only.
+- Native checkbox semantics preserved (`<input type="checkbox">` in the DOM,
+  Space-toggleable, real `checked` state) - only styled via `accent-color`.
+- Responsive dialog: mobile (`<640px`) renders as a bottom-anchored sheet
+  (`items-end`, top-rounded only, `max-h-[88vh]` + internal scroll,
+  `env(safe-area-inset-bottom)` padding); `sm:` and up renders centered,
+  `max-w-xl`, fully rounded, with a blurred backdrop
+  (`bg-background/80 backdrop-blur-sm`).
+- Entrance animation: single 220ms opacity/translate settle
+  (`.consent-modal__panel`, `globals.css`), removed entirely under
+  `prefers-reduced-motion: reduce`.
+- List items for "YAPILMAZ"/"NASIL KULLANILIR" use a small neutral gold/violet
+  dot marker instead of default browser bullets - deliberately the *same*
+  calm marker style for both lists (not red/alarm styling for "YAPILMAZ"),
+  per the "don't turn this into an alarm screen" instruction.
+- Primary/secondary CTA hierarchy: `flex-col-reverse` (mobile: primary on
+  top) / `sm:flex-row` (desktop: secondary left, primary right) - a
+  CSS-only reordering, no JS breakpoint logic.
+- Disabled "Devam Et" is styled explicitly (`bg-surface-interactive` +
+  `border-border-subtle` + `text-foreground-muted`) rather than just a faded
+  gold, so it reads as inert rather than as a dim/hover-active gold button.
+
+### 13.4 Not created
+
+`Surface.tsx` / `PrimaryButton.tsx` / `SecondaryButton.tsx` were on the
+allowed-if-needed list but not created - `ConsentModal`/`ConsentDeclined`
+inline their button classes, consistent with how every other existing
+screen component in this codebase already does it (no shared button
+primitive exists yet anywhere). Introducing one now, usable only by these
+two components, would be exactly the "abstract design system used only by
+ConsentModal" the instruction says not to build.
+
+### 13.5 Tests added
+
+- `ui-components.test.tsx`: heading focus-on-mount, dialog aria
+  relationships (`role`, `aria-modal`, `aria-label`, `aria-describedby`
+  resolving to the intro text), Decline calls `onDecline` only, Escape
+  calls `onDecline`, checkbox is Space-toggleable, Tab wraps within the
+  dialog (checkbox ↔ decline while accept is disabled), 44×44px minimum
+  targets on both buttons.
+- `page-flow.test.tsx`: accept → compose, decline → declined (not compose),
+  declined renders no `QuestionForm` and makes no `fetch` call, "Kararımı
+  değiştir" → `consent` (re-entering still requires the checkbox, no
+  automatic compose).
+- Total: 329 (FAZ 1 baseline) + 4 (decline fix) + 7 (ConsentModal a11y) =
+  **340/340 passing.**
+
+### 13.6 Viewport QA (Playwright, real browser, not simulated)
+
+375×812, 390×844, 768×1024, 1440×900, each in three states (unchecked,
+checked, declined), plus a dedicated Escape→declined check per breakpoint:
+no horizontal overflow in any state/breakpoint, Escape reaches the declined
+screen on every breakpoint, no new console errors (the one pre-existing
+`favicon.ico` 404 predates this branch and is unrelated to consent).

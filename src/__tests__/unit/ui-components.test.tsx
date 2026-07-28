@@ -40,6 +40,71 @@ describe('ConsentModal — exact Ethical Constitution copy', () => {
   });
 });
 
+describe('ConsentModal — premium consent behavior & accessibility (FAZ 2)', () => {
+  test('focuses the dialog heading on mount', async () => {
+    render(<ConsentModal onAccept={vi.fn()} onDecline={vi.fn()} />);
+    await waitFor(() => expect(screen.getByRole('heading', { name: CONSENT_MODAL_COPY.title })).toHaveFocus());
+  });
+
+  test('has the expected dialog aria relationships', () => {
+    render(<ConsentModal onAccept={vi.fn()} onDecline={vi.fn()} />);
+    const dialog = screen.getByRole('dialog');
+    expect(dialog).toHaveAttribute('aria-modal', 'true');
+    expect(dialog).toHaveAttribute('aria-label', 'consent-modal');
+    const describedBy = dialog.getAttribute('aria-describedby');
+    expect(describedBy).toBeTruthy();
+    expect(document.getElementById(describedBy as string)).toHaveTextContent(CONSENT_MODAL_COPY.intro);
+  });
+
+  test('Decline calls onDecline directly, never onAccept', async () => {
+    const onAccept = vi.fn();
+    const onDecline = vi.fn();
+    render(<ConsentModal onAccept={onAccept} onDecline={onDecline} />);
+    await userEvent.click(screen.getByRole('button', { name: CONSENT_MODAL_COPY.declineLabel }));
+    expect(onDecline).toHaveBeenCalledTimes(1);
+    expect(onAccept).not.toHaveBeenCalled();
+  });
+
+  test('Escape calls onDecline', async () => {
+    const onDecline = vi.fn();
+    render(<ConsentModal onAccept={vi.fn()} onDecline={onDecline} />);
+    await userEvent.keyboard('{Escape}');
+    expect(onDecline).toHaveBeenCalledTimes(1);
+  });
+
+  test('checkbox is keyboard operable (Space toggles it)', async () => {
+    render(<ConsentModal onAccept={vi.fn()} onDecline={vi.fn()} />);
+    const checkbox = screen.getByRole('checkbox');
+    checkbox.focus();
+    expect(checkbox).not.toBeChecked();
+    await userEvent.keyboard(' ');
+    expect(checkbox).toBeChecked();
+  });
+
+  test('Tab wraps from the last focusable back to the first (focus stays inside the dialog)', async () => {
+    render(<ConsentModal onAccept={vi.fn()} onDecline={vi.fn()} />);
+    const checkbox = screen.getByRole('checkbox');
+    const decline = screen.getByRole('button', { name: CONSENT_MODAL_COPY.declineLabel });
+    // Accept starts disabled, so with the checkbox unchecked the trap cycles
+    // between the two elements that are actually focusable: checkbox <-> decline.
+    checkbox.focus();
+    await userEvent.tab();
+    expect(decline).toHaveFocus();
+    await userEvent.tab();
+    expect(checkbox).toHaveFocus();
+  });
+
+  test('Accept and Decline keep 44x44px minimum touch targets', () => {
+    render(<ConsentModal onAccept={vi.fn()} onDecline={vi.fn()} />);
+    const accept = screen.getByRole('button', { name: CONSENT_MODAL_COPY.acceptLabel });
+    const decline = screen.getByRole('button', { name: CONSENT_MODAL_COPY.declineLabel });
+    expect(accept.className).toMatch(/min-h-\[44px\]/);
+    expect(accept.className).toMatch(/min-w-\[44px\]/);
+    expect(decline.className).toMatch(/min-h-\[44px\]/);
+    expect(decline.className).toMatch(/min-w-\[44px\]/);
+  });
+});
+
 describe('DisclaimerFooter — exact Result Disclaimer copy', () => {
   test('renders all 4 quoted lines', () => {
     render(<DisclaimerFooter />);
