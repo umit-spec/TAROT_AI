@@ -468,3 +468,96 @@ target resolves to "Tarot Nedir?"; heading shows no visible ring while
 holding real focus (screenshot-verified); checkbox and "Devam Et" both show
 a clear gold ring when keyboard-focused; Escape reaches `declined` on both
 sizes; no horizontal overflow in any state; no new console errors.
+
+## 15. FAZ 3 — Question Compose (record)
+
+### 15.1 What changed
+
+`src/components/QuestionForm.tsx` - full presentational rewrite inside one
+editorial surface (`rounded-[28px] border-border-subtle bg-surface-raised/60`),
+matching the FAZ 2 pattern of one main surface rather than a card-per-section
+layout:
+
+- New screen-entry block: eyebrow ("Niyetini belirle"), `h2` heading ("Bugün
+  neye bakmak istersin?"), supporting copy. UI-only text, never sent in the
+  payload.
+- Focus now branches on `autoFocus` (a prop `page.tsx` already passes
+  unchanged): `autoFocus=false` (first compose entry) focuses the new
+  heading; `autoFocus=true` (return from framing/error) still focuses the
+  textarea, exactly as before. `page.tsx` itself was not touched - the
+  existing wiring already expresses "first entry vs. return" via that one
+  prop.
+- The heading is `tabIndex={-1}` + `focus-visible:outline-none`, the same
+  fix as ConsentModal's heading (FAZ 2.1 §14.1), applied here from the
+  start since this is a new instance of the same pattern, not a retrofit.
+- Topic buttons became a `grid grid-cols-1 sm:grid-cols-3` of cards (single
+  column below 640px so the hint sentences don't wrap awkwardly at
+  375-390px); selected state adds a border + low-opacity violet surface +
+  a decorative gold checkmark (`aria-hidden`, `aria-pressed` still carries
+  the state for AT). `aria-label`, `aria-pressed`, `aria-describedby`, and
+  the literal `min-h-[44px] min-w-[44px]` classes are all unchanged.
+- Guidance prompts became bordered cards with a CSS `::after`-generated `+`
+  mark - **not** a DOM text node, specifically because a first attempt using
+  a real `<span>+</span>` broke the anti-prophecy copy test (`toMatch(/\?$/)`
+  on `button.textContent`, which a literal `+` character after the `?`
+  fails). `aria-label` format (`${example} — soruna ekle`) unchanged.
+- Textarea: `rows={4}` (was 3), `text-base` (16px, avoids iOS auto-zoom),
+  explicit `placeholder:text-foreground-muted` (was relying on browser
+  default, which can render illegibly light on a dark surface),
+  `bg-surface-raised` + `border-border-subtle` + `focus:border-border-strong`.
+  No autosize library added - a fixed `min-h-[8rem]` + `resize-y` was judged
+  lower-risk (no cursor-jump/measurement edge cases), matching the
+  instruction's explicit fallback permission.
+- The reflection-guidance note became a small bordered panel (gold left
+  accent, low-opacity violet background) instead of a bare muted paragraph.
+  Text unchanged.
+- Primary CTA: `min-h-[52px]` (was 44, still ≥44 everywhere else), full
+  width on mobile / auto on `sm:`, `motion-safe:active:scale-[0.98]` for
+  tactile press feedback that fully disables under `prefers-reduced-motion`
+  via Tailwind's built-in `motion-safe:` variant (no JS, no new prop).
+
+### 15.2 Payload, validation, and behavior contracts - unchanged
+
+`onSubmit({ question, topicHint })` is exactly the same call, from the same
+state, with the same shape - verified by the existing payload-shape tests
+plus a new one (§15.3). No `required` attribute was added to the textarea,
+no client-side validation blocks submission, and the CTA is never disabled
+by an empty question - only by the `disabled` prop (loading). Topic
+toggle-off-on-reclick, scaffold non-destructive insert, and
+`initialQuestion`/`initialTopicHint`/`autoFocus` all use the exact same
+state and effects as before this rewrite - only the JSX changed.
+
+### 15.3 Tests added
+
+- Heading focuses on first entry (`autoFocus=false`) and carries
+  `focus-visible:outline-none` in its class list.
+- A topic selected alone (no question text) still submits
+  `{ question: '', topicHint: 'self' }` - the empty-submission guarantee
+  holds for the topic-only path specifically, not just the fully-empty case
+  already covered.
+- Total: 341 (FAZ 2.1 baseline) + 3 = **344/344 passing.**
+
+### 15.4 Viewport QA (Playwright, real browser)
+
+375×812, 390×844, 768×1024, 1440×900, four states each (empty; topic +
+guidance-prompt insert + typed addition; an edit-return visual proxy -
+typed text + topic + textarea focus, since driving the real preview API in
+this sandbox wasn't in scope - the actual `initialQuestion`/`autoFocus`
+wiring is covered by unit tests, not this screenshot; and a genuinely
+in-flight loading state captured by delaying the `/api/readings/preview`
+response 4s via route interception). No horizontal overflow in any
+cell, no new console errors, disabled/loading state visibly inert with
+"Netleştiriliyor..." shown, non-destructive scaffold insertion confirmed
+visually (existing text preserved, blank line, new text appended).
+
+### 15.5 Not touched
+
+`src/app/page.tsx` was not touched - `autoFocus`'s existing value (`true`
+only when returning with prior input) already expressed exactly the
+distinction this phase needed. `ConsentModal`, `ConsentDeclined`,
+`useDialogFocus`, and all reading-flow screens (`FramingReview`,
+`CardReveal`, `PatternArrival`, `ReadingResult`, `ReflectionClose`,
+`CrisisNotice`, `ErrorNotice`) are unchanged - the focus-ring-on-heading
+fix from FAZ 2.1 §14.1 still applies only to `ConsentModal` and (as of this
+phase) `QuestionForm`; the other six screens remain open follow-up items
+for whichever phase next touches each file.

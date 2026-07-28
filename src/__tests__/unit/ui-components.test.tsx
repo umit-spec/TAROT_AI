@@ -210,6 +210,20 @@ describe('QuestionForm — the only component constructing a request payload', (
     expect(payload.topicHint).toBe('career');
   });
 
+  test('a topic alone (no question text) still submits with an empty question and the chosen topicHint', async () => {
+    const onSubmit = vi.fn();
+    render(<QuestionForm onSubmit={onSubmit} disabled={false} />);
+
+    await userEvent.click(screen.getByRole('button', { name: 'Kendim' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Sorumu netleştir' }));
+
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+    const payload = onSubmit.mock.calls[0][0];
+    expect(Object.keys(payload).sort()).toEqual(['question', 'topicHint']);
+    expect(payload.question).toBe('');
+    expect(payload.topicHint).toBe('self');
+  });
+
   test('topic hint buttons are ≥44x44px touch targets (via className, structural check)', () => {
     render(<QuestionForm onSubmit={vi.fn()} disabled={false} />);
     const button = screen.getByRole('button', { name: 'İlişki' });
@@ -422,5 +436,19 @@ describe('Focus management (a11y) — a screen transition lands focus in the new
   test('QuestionForm without autoFocus does not steal focus on first load', () => {
     render(<QuestionForm onSubmit={vi.fn()} disabled={false} />);
     expect(screen.getByLabelText('Sorunuz')).not.toHaveFocus();
+  });
+
+  test('QuestionForm without autoFocus focuses the screen heading instead (first compose entry)', async () => {
+    render(<QuestionForm onSubmit={vi.fn()} disabled={false} />);
+    await waitFor(() =>
+      expect(screen.getByRole('heading', { name: 'Bugün neye bakmak istersin?' })).toHaveFocus()
+    );
+  });
+
+  test('the QuestionForm heading is tabIndex=-1 and never shows the interactive focus-visible ring', () => {
+    render(<QuestionForm onSubmit={vi.fn()} disabled={false} />);
+    const heading = screen.getByRole('heading', { name: 'Bugün neye bakmak istersin?' });
+    expect(heading).toHaveAttribute('tabindex', '-1');
+    expect(heading.className).toMatch(/focus-visible:outline-none/);
   });
 });
