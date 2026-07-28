@@ -274,12 +274,16 @@ describe('CardReveal — governed artwork identity isolation (FAZ 9)', () => {
     expect(screen.queryByText('00-fool')).not.toBeInTheDocument();
   });
 
-  test('no external URL and no canonical PNG path is ever used as an image src', async () => {
+  test('no external-domain URL and no canonical PNG path is ever used as an image src', async () => {
     const { container } = render(<CardReveal cards={CARDS} reducedMotion={false} onContinue={vi.fn()} />);
     await revealAll();
     for (const img of Array.from(container.querySelectorAll('img'))) {
       const src = img.getAttribute('src') ?? '';
-      expect(src).not.toMatch(/^https?:\/\//);
+      // Same-origin (localhost, in this test environment) is fine - see
+      // RC-2 §14's real-browser network QA for the actual no-external-domain
+      // guarantee; next/image's onError handling renders a fully-qualified
+      // same-origin _next/image proxy URL here, which is not a leak.
+      expect(src).not.toMatch(/^https?:\/\/(?!localhost)/);
       expect(src).not.toMatch(/\.png/);
     }
   });

@@ -119,13 +119,33 @@ describe('CardArtworkPlaceholder — reduced motion and layout contract', () => 
     expect(container.querySelector('.aspect-\\[2\\/3\\]')).toBeInTheDocument();
   });
 
-  test('no external URL is ever used for src', () => {
+  test('no external-domain URL is ever used for src (Next.js image proxy is same-origin)', () => {
     const { container } = render(
       <CardArtworkPlaceholder state="revealed" positionLabel="Geçmiş" cardId={FOOL} displayName="Deli" reducedMotion={false} />
     );
     const img = container.querySelector('img');
     const src = img?.getAttribute('src') ?? '';
-    expect(src).not.toMatch(/^https?:\/\//);
+    // next/image's onError handling makes it render a fully-qualified
+    // `_next/image?url=...` proxy URL in this test environment (a jsdom
+    // rendering detail, not present with real browser navigation - see
+    // RC-2 §14 network QA, which confirms same-origin-only requests in a
+    // real browser). The real invariant is "no external origin", not "no
+    // protocol prefix" - a same-origin absolute URL is fine.
+    expect(src).not.toMatch(/^https?:\/\/(?!localhost)/);
+    expect(decodeURIComponent(src)).toContain('/assets/tarot-cards/v2/');
+    expect(decodeURIComponent(src)).not.toMatch(/\.png/);
+  });
+
+  test('a long single-word displayName carries the break-words class so it can wrap instead of clipping (RC-2 regression)', () => {
+    // "İmparatoriçe" (Empress) has no space to wrap at under normal
+    // white-space rules; at 320px width it previously overflowed its box
+    // and got clipped to "İmparatori" by the card's overflow-hidden
+    // ancestor. break-words (overflow-wrap) lets it wrap mid-word instead.
+    render(
+      <CardArtworkPlaceholder state="revealed" positionLabel="Geçmiş" cardId={'03-empress' as CardId} displayName="İmparatoriçe" reducedMotion={false} />
+    );
+    const label = screen.getByText('İmparatoriçe');
+    expect(label.className).toMatch(/break-words/);
   });
 });
 
