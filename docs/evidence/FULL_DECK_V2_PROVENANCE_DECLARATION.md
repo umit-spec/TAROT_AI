@@ -89,3 +89,55 @@ This statement substantively satisfies the required attestation in §5 above (di
 ## 6. Final limitation
 
 This declaration documents chain-of-production and platform-rights evidence. It is not a guarantee against infringement claims and is not a substitute for jurisdiction-specific legal advice before commercial release.
+
+## 7. V2-D002 — Generation-session evidence residual risk acceptance
+
+The product owner has not supplied, and this record does not claim to
+supply, a redacted export or screenshot of the original OpenAI ChatGPT
+generation session(s). The following is the product owner's explicit,
+verbatim acceptance of that gap as a residual risk, given in this
+repository's Claude Code session on 2026-07-28, in response to the FAZ 9
+master prompt's own required text (FAZ 9 master prompt §6):
+
+> V2-D002 — Generation-session evidence residual risk kabulü
+>
+> Orijinal kart üretim oturumlarının eksiksiz platform export veya ekran
+> görüntülerini sağlayamıyorum.
+>
+> Mevcut ürün sahibi provenance beyanını, 79 dosyalık SHA-256 envanterini,
+> canonical ve derivative manifestlerini, repository chain-of-custody
+> kayıtlarını ve asset/09-production-derivatives branch'indeki doğrulanmış
+> üretim zincirini FAZ 9 ürün entegrasyonu açısından yeterli kabul
+> ediyorum.
+>
+> Generation-session platform kanıtının eksikliğini ürün sahibi olarak
+> residual risk şeklinde açıkça kabul ediyorum.
+>
+> Bu kabul:
+>
+> - görsellerin üçüncü kişi haklarını ihlal etmediğine dair mutlak
+>   garanti,
+> - telif hakkı tescil edilebilirliği beyanı,
+> - commercial-release hukuki incelemesi,
+> - marka veya görsel benzerlik araştırması
+>
+> anlamına gelmez ve bunların yerine geçmez.
+
+Acceptance record:
+
+- Status: **ACCEPTED RESIDUAL RISK** (not CLOSED - the underlying
+  platform-side evidence gap is not eliminated, only explicitly accepted;
+  see `docs/ASSET_LICENSING_DEBT_LOG_FULL_DECK_V2.md` status vocabulary)
+- Accepted by: `Ümit Karakeleş (Product Owner)`
+- Date: `2026-07-28`
+- Branch/commit references: `asset/09-production-derivatives` @
+  `8263a4b` (production derivatives), `7789e15` (visual QA), `2227374`
+  (FAZ 9A governance closures); canonical source binaries at
+  `ac34905349b7d4795e0eee0d8a05c23af86e82b3` on
+  `asset/06-full-tarot-deck-v2`
+- Explicitly does **not** constitute: a guarantee against third-party
+  rights infringement, a copyright-registrability statement, a
+  commercial-release legal clearance, or a trademark/visual-similarity
+  review (V2-D003, V2-D004, V2-D009, V2-D010 remain separately open)
+- Explicitly does **not** constitute FAZ 9B (UI integration) approval on
+  its own - that remains gated on V2-D005 closing separately
