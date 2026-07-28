@@ -6,6 +6,15 @@ import type { CardPositionKey } from '../types/card';
 import { cardDisplayName } from '../lib/card-display';
 import { useFocusOnMount } from '../lib/use-focus-on-mount';
 import { CardArtworkPlaceholder } from './CardArtworkPlaceholder';
+import { CARD_ARTWORK, type CardId } from '../lib/tarot-card-artwork';
+
+// Defensive narrowing at the UI boundary, same pattern as cardDisplayName's
+// fallback: an id the server sends that isn't in the governed artwork
+// registry never crashes or borrows another card's art - it just resolves
+// to undefined, which CardArtworkPlaceholder renders as the neutral shell.
+function resolveArtworkCardId(id: string): CardId | undefined {
+  return id in CARD_ARTWORK ? (id as CardId) : undefined;
+}
 
 export interface CardRevealProps {
   cards: DrawnCard[];
@@ -38,8 +47,11 @@ const POSITION_LABEL: Record<CardPositionKey, string> = {
  *  - The move to the interpretation is gated behind revealing all cards.
  *  - It shows the drawn card's position and identity only; it never authors a
  *    card meaning or symbol (that lives in the governed reading response).
- *  - No real card artwork exists anywhere in this component - only
- *    CardArtworkPlaceholder, a CSS shell (FAZ 9 adds real art, not this).
+ *  - Card identity is passed to CardArtworkPlaceholder only for the
+ *    revealed card (`cardId={resolveArtworkCardId(card.id)}`); locked and
+ *    current cards never receive an id, so a closed card's face artwork
+ *    can never be requested before the user opens it (docs/UI_PREMIUM_V1.md
+ *    FAZ 9).
  */
 export function CardReveal({ cards, reducedMotion, onContinue }: CardRevealProps) {
   const [revealed, setRevealed] = useState(0);
@@ -119,6 +131,7 @@ export function CardReveal({ cards, reducedMotion, onContinue }: CardRevealProps
                     state="revealed"
                     positionLabel={POSITION_LABEL[card.position]}
                     displayName={cardDisplayName(card.id)}
+                    cardId={resolveArtworkCardId(card.id)}
                     reducedMotion={reducedMotion}
                   />
                 </div>

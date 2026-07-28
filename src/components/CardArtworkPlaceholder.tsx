@@ -1,3 +1,6 @@
+import Image from 'next/image';
+import { CARD_ARTWORK, CARD_BACK_ARTWORK, type CardId } from '../lib/tarot-card-artwork';
+
 export type CardArtworkPlaceholderState = 'locked' | 'current' | 'revealed';
 
 export interface CardArtworkPlaceholderProps {
@@ -5,20 +8,28 @@ export interface CardArtworkPlaceholderProps {
   positionLabel: string;
   /** Only meaningful (and only rendered) once state === 'revealed'. */
   displayName?: string;
+  /** Only meaningful (and only read) once state === 'revealed' - the
+   * governed CardId whose face artwork to show. Never read for locked or
+   * current cards, so a closed card's identity can never reach the DOM. */
+  cardId?: CardId;
   reducedMotion: boolean;
 }
 
 /**
- * A CSS-only, deliberately abstract card-shaped surface - NOT tarot
- * artwork (docs/UI_PREMIUM_V1.md FAZ 5 §3). Every closed card (locked or
- * current) renders identically regardless of which card it actually is -
- * nothing here reveals a card's identity before the user opens it, and
- * this will never grow real illustration, a suit symbol, or anything that
- * could be mistaken for a shipped tarot deck. Real card artwork is FAZ 9,
- * out of scope until separately approved. The 2:3 aspect ratio is the
- * contract that real artwork will later drop into unchanged.
+ * Governed card artwork (docs/UI_PREMIUM_V1.md FAZ 9). Locked and current
+ * cards always render the same constant card-back image regardless of
+ * which card they actually are - `cardId` is read only when
+ * `state === 'revealed'`, so a closed card's face path never reaches the
+ * DOM and no face image is ever requested before the user opens it. The
+ * 2:3 aspect ratio contract from the FAZ 5 CSS placeholder is unchanged.
+ *
+ * If `state === 'revealed'` but `cardId` is missing or unresolvable in the
+ * registry, this falls back to the same neutral geometric shell every
+ * closed card used to use - never another card's artwork.
  */
-export function CardArtworkPlaceholder({ state, positionLabel, displayName, reducedMotion }: CardArtworkPlaceholderProps) {
+export function CardArtworkPlaceholder({ state, positionLabel, displayName, cardId, reducedMotion }: CardArtworkPlaceholderProps) {
+  const revealedArtwork = state === 'revealed' && cardId ? CARD_ARTWORK[cardId] : undefined;
+
   return (
     <div
       aria-hidden={state !== 'revealed'}
@@ -31,30 +42,48 @@ export function CardArtworkPlaceholder({ state, positionLabel, displayName, redu
         state === 'revealed' && !reducedMotion ? 'card-artwork__reveal' : ''
       }`}
     >
-      {/* Inner border ring - one of the few allowed decorative details. */}
-      <div className="pointer-events-none absolute inset-[6%] rounded-lg border border-border-subtle/70" />
+      {state !== 'revealed' && (
+        <Image
+          src={CARD_BACK_ARTWORK.src}
+          alt=""
+          fill
+          sizes="(max-width: 640px) 30vw, 220px"
+          className="object-contain"
+        />
+      )}
 
-      {/* Low-opacity ambient glow, static (no pulse/spin). */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-        style={{ background: 'radial-gradient(circle at 50% 38%, rgba(208,164,92,0.16), transparent 65%)' }}
-      />
+      {revealedArtwork && (
+        <>
+          <Image
+            src={revealedArtwork.src}
+            alt={displayName ?? ''}
+            fill
+            sizes="(max-width: 640px) 30vw, 220px"
+            className="object-contain"
+          />
+          {displayName && (
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/90 via-background/40 to-transparent px-2 pb-2 pt-8">
+              <span className="block text-center font-heading text-[13px] leading-snug text-foreground sm:text-base">
+                {displayName}
+              </span>
+            </div>
+          )}
+        </>
+      )}
 
-      {/* Small top/bottom decorative lines. */}
-      <div className="pointer-events-none absolute left-1/2 top-[9%] h-px w-6 -translate-x-1/2 bg-border-strong/60" />
-      <div className="pointer-events-none absolute bottom-[9%] left-1/2 h-px w-6 -translate-x-1/2 bg-border-strong/60" />
-
-      <div className="absolute inset-0 flex items-center justify-center p-3 text-center">
-        {state === 'revealed' ? (
-          <span className="font-heading text-[13px] leading-snug text-foreground sm:text-base">{displayName}</span>
-        ) : (
+      {state === 'revealed' && !revealedArtwork && (
+        <div className="absolute inset-0 flex items-center justify-center p-3 text-center">
           <svg aria-hidden="true" viewBox="0 0 24 24" className="h-6 w-6 text-gold/70 sm:h-8 sm:w-8" fill="none" stroke="currentColor" strokeWidth="1">
-            {/* Eight-pointed star - a neutral geometric mark, not a suit symbol. */}
+            {/* Eight-pointed star - same neutral geometric mark the closed
+                shell always used, shown only if a revealed card has no
+                resolvable artwork (defensive; never another card's face). */}
             <path d="M12 2 L14 9 L21 9 L15.5 13.5 L17.5 21 L12 16.5 L6.5 21 L8.5 13.5 L3 9 L10 9 Z" strokeLinejoin="round" />
           </svg>
-        )}
-      </div>
+          {displayName && (
+            <span className="sr-only">{displayName}</span>
+          )}
+        </div>
+      )}
     </div>
   );
 }
