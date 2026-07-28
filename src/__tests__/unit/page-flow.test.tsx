@@ -43,7 +43,7 @@ async function confirmFraming() {
 // The reading resolves into the reveal; the user opens all three cards at
 // their own pace, then continues -> the pattern arrival screen.
 async function revealAllAndContinue() {
-  await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
+  await waitFor(() => expect(screen.getByRole('region', { name: 'Kartlarını kendi hızında aç' })).toBeInTheDocument());
   await userEvent.click(screen.getByRole('button', { name: 'Geçmiş kartını aç' }));
   await userEvent.click(screen.getByRole('button', { name: 'Şimdi kartını aç' }));
   await userEvent.click(screen.getByRole('button', { name: 'Yön kartını aç' }));
@@ -245,10 +245,10 @@ describe('HomePage — the preview loading surface reflects real request state, 
     expect(status).toHaveAttribute('aria-atomic', 'true');
     expect(status).toHaveAttribute('aria-busy', 'true');
     expect(status).toHaveTextContent('Kartlar karılıyor...');
-    expect(screen.queryByLabelText('card-reveal')).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Kartlarını kendi hızında aç' })).not.toBeInTheDocument();
 
     resolveReading(jsonResponse(baseReadingResolved));
-    await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Kartlarını kendi hızında aç' })).toBeInTheDocument());
     expect(screen.queryByTestId('shuffle-loading')).not.toBeInTheDocument();
   });
 });
@@ -258,7 +258,7 @@ describe('HomePage — the pattern arrival is the first destination after the re
     vi.stubGlobal('fetch', routingFetch({}));
     await compose();
     await confirmFraming();
-    await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Kartlarını kendi hızında aç' })).toBeInTheDocument());
     await userEvent.click(screen.getByRole('button', { name: 'Geçmiş kartını aç' }));
     await userEvent.click(screen.getByRole('button', { name: 'Şimdi kartını aç' }));
     // 2/3: no pattern, no result.
@@ -358,7 +358,7 @@ describe('HomePage — the reveal gates the interpretation (3/3)', () => {
     await compose();
     await confirmFraming();
 
-    await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Kartlarını kendi hızında aç' })).toBeInTheDocument());
     // No interpretation, no synthesis, no result yet.
     expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
     expect(screen.queryByText('test opening')).not.toBeInTheDocument();
@@ -371,7 +371,7 @@ describe('HomePage — the reveal gates the interpretation (3/3)', () => {
     vi.stubGlobal('fetch', routingFetch({}));
     await compose();
     await confirmFraming();
-    await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Kartlarını kendi hızında aç' })).toBeInTheDocument());
 
     await userEvent.click(screen.getByRole('button', { name: 'Geçmiş kartını aç' }));
     await userEvent.click(screen.getByRole('button', { name: 'Şimdi kartını aç' }));
@@ -390,11 +390,11 @@ describe('HomePage — the reveal gates the interpretation (3/3)', () => {
     vi.stubGlobal('fetch', routingFetch({}));
     await compose();
     await confirmFraming();
-    await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Kartlarını kendi hızında aç' })).toBeInTheDocument());
     await userEvent.click(screen.getByRole('button', { name: 'Geçmiş kartını aç' }));
-    // The revealed element still carries the internal id (aria-label), while the
-    // user sees the governed display name, never the raw id.
-    const revealed = screen.getByLabelText('revealed-00-fool');
+    // The revealed element still carries the internal id (data-testid), while
+    // the user sees the governed display name, never the raw id.
+    const revealed = screen.getByTestId('revealed-00-fool');
     expect(revealed).toHaveTextContent('Deli');
     expect(revealed.textContent ?? '').not.toContain('00-fool');
   });
@@ -403,7 +403,7 @@ describe('HomePage — the reveal gates the interpretation (3/3)', () => {
     vi.stubGlobal('fetch', routingFetch({}));
     await compose();
     await confirmFraming();
-    await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Kartlarını kendi hızında aç' })).toBeInTheDocument());
     expect(screen.queryByRole('button', { name: /yeniden|tekrar çek|redraw/i })).not.toBeInTheDocument();
   });
 
@@ -494,7 +494,7 @@ describe('HomePage — pipeline outcomes render distinct, correct screens', () =
     await waitFor(() => expect(screen.getByLabelText('crisis-resources')).toBeInTheDocument());
     expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
     // Crisis never enters the reveal path.
-    expect(screen.queryByLabelText('card-reveal')).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Kartlarını kendi hızında aç' })).not.toBeInTheDocument();
   });
 
   test('preview 400 renders ErrorNotice, not a crash', async () => {
@@ -557,7 +557,7 @@ describe('HomePage — reflection close is reachable from both the pattern and t
     vi.stubGlobal('fetch', routingFetch({}));
     await compose();
     await confirmFraming();
-    await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Kartlarını kendi hızında aç' })).toBeInTheDocument());
     await userEvent.click(screen.getByRole('button', { name: 'Geçmiş kartını aç' }));
     expect(screen.queryByLabelText('reflection-close')).not.toBeInTheDocument();
   });
@@ -625,7 +625,7 @@ describe('HomePage — neither endpoint ever receives a trusted client-side inta
     vi.stubGlobal('fetch', fetchSpy);
     await compose('my question');
     await confirmFraming();
-    await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Kartlarını kendi hızında aç' })).toBeInTheDocument());
 
     expect(fetchSpy).toHaveBeenCalledTimes(2);
     const previewBody = JSON.parse((fetchSpy.mock.calls[0][1] as RequestInit).body as string);
@@ -652,7 +652,7 @@ describe('HomePage — neither endpoint ever receives a trusted client-side inta
     await userEvent.click(screen.getByRole('button', { name: 'Kariyer' }));
     await userEvent.click(screen.getByRole('button', { name: 'Sorumu netleştir' }));
     await confirmFraming();
-    await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Kartlarını kendi hızında aç' })).toBeInTheDocument());
 
     const previewBody = JSON.parse((fetchSpy.mock.calls[0][1] as RequestInit).body as string);
     const readingBody = JSON.parse((fetchSpy.mock.calls[1][1] as RequestInit).body as string);

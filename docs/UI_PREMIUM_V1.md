@@ -674,3 +674,117 @@ countdown anywhere.
 `useDialogFocus`, and every file under `src/app/api/**` / `src/server/**`
 are unchanged. No card artwork or card placeholder was introduced - FAZ 5
 is still the first phase to touch card-shaped surfaces.
+
+## 17. FAZ 5 — Card Field & Reveal Shell (record)
+
+**Gerçek kart görselleri eklenmedi; kart yüzeyleri yalnız CSS tabanlı
+CardArtworkPlaceholder kullanıyor.**
+
+### 17.1 What changed
+
+- **`src/components/CardArtworkPlaceholder.tsx`** (new) - a CSS-only,
+  deliberately abstract `aspect-[2/3]` shell in three states
+  (`locked`/`current`/`revealed`). Every closed card (locked or current)
+  renders *identically* regardless of which card it actually is - a
+  neutral eight-pointed-star mark, gold/violet gradient, thin antique-gold
+  border, a second inset border ring, a static low-opacity radial glow, two
+  small decorative lines. No suit symbols, no per-card iconography, no
+  raster asset, no `<img>`/`next/image`. Only the `revealed` state's face
+  shows text, and that text is always `cardDisplayName(cardId)` - the same
+  governed registry `CardNarrationItem`/the old `CardReveal` already used,
+  unchanged, still falling back to the neutral `"Kart"` string for an
+  unknown id, never the raw id.
+- **`src/components/CardReveal.tsx`** - full presentational rewrite,
+  identical `{ cards, reducedMotion, onContinue }` contract. Sequence
+  authority is unchanged: `cards` array order is the only order, exactly
+  one card (`i === revealed`) is ever a button, everything after it is an
+  `aria-hidden`, non-focusable, non-button `<li>`, and `onContinue` is
+  reachable only once `revealed >= cards.length`. `aria-label="card-reveal"`
+  → `role="region"` + `aria-labelledby` (mirrors FramingReview/ConsentModal);
+  `aria-label="reveal-list"` → `aria-label="Üç kartlık açılım"` (a real
+  name, not a test-hook) + `data-testid="reveal-list"`; the revealed item's
+  `aria-label={`revealed-${id}`}` (which put a raw card id into the
+  accessible name) → `data-testid` only, since a screen reader has no use
+  for hearing an internal id spoken.
+- **Real progress**, not a game meter: a three-segment gold-fill line plus
+  literal `"{revealed} / {cards.length} kart açıldı"` text - both update
+  from the same `revealed` state already driving the sequence, no separate
+  source of truth.
+- **Live-region announcement upgraded**: from the old terse
+  `"Geçmiş kartı açıldı (1/3)"` to
+  `"Geçmiş kartı açıldı: Deli. 3 karttan 1'i açık."` - governed display
+  name + position + real progress, per the FAZ 5 instruction's example
+  format. This changed the exact string the pre-existing live-region test
+  asserted on, so that assertion was updated to match (not loosened - it
+  still asserts an exact string, just a richer one).
+- **Focus progression** (new): after the heading's own focus-on-mount
+  (guarded by an `isFirstRender` ref so the two mount-time effects don't
+  fight over focus), each reveal moves focus to the next actionable
+  target - the next card's open button, or the `İçgörüyü gör` gate once
+  `allRevealed` - via two refs and one `useEffect` keyed on `revealed`.
+  Verified in both jsdom (unit tests) and a real browser (`document.activeElement`
+  after the third reveal, §17.4).
+- **Reveal motion**: a single 280ms opacity + small `rotateY` + scale
+  settle (`.card-artwork__reveal`, `globals.css`) applied to the
+  `CardArtworkPlaceholder` only when it mounts in the `revealed` state with
+  `reducedMotion === false` - a fresh DOM mount each time (the wrapping
+  element changes from `<button>` to `<div>` on reveal, so this is always a
+  genuine new mount, never a replayed/restarted animation). Reduced motion
+  drops the class entirely; verified by asserting its absence via
+  `querySelector`, not by eyeballing a screenshot.
+- **Layout**: `grid grid-cols-3` on the `<ol>` at every breakpoint (a
+  three-card spread reads correctly even at 375px with `gap-2`/`sm:gap-4`);
+  no `order`/`flex-reverse` trick anywhere, so DOM order and visual order
+  are identical (Geçmiş → Şimdi → Yön, always).
+
+### 17.2 Data and sequence contracts - unchanged
+
+No sort/reorder/redraw/shuffle logic exists anywhere in the new file (same
+as before - this was never here). `orientation` stays `'upright'`-only,
+untouched, un-displayed (no new "Düz" label was added - the instruction
+explicitly said this isn't required). The internal `future` position value
+is never renamed; only its Turkish display label ("Yön") is shown, exactly
+as before.
+
+### 17.3 Tests added
+
+`card-reveal.test.tsx`: unknown-id fallback (`"Kart"`, never the raw id);
+locked cards carry no card identity in the DOM and can't be Tab-reached;
+region accessible name is the heading text; heading has no
+focus-visible ring; focus moves to the next reveal button after each of the
+first two reveals and to the continue gate after the third; full keyboard
+(Enter) reveal sequence; upgraded live-region text; reduced-motion
+class-presence assertions (via `querySelector`, not a screenshot);
+`aspect-[2/3]` contract present on all three card faces; 3-column grid;
+44×44px minimum on the current reveal button; no `<img>` anywhere.
+`page-flow.test.tsx`: all `card-reveal`/`revealed-*` queries migrated to
+the same region/testid pattern; no new integration test was added because
+the existing "reveal gates the interpretation" and pattern-arrival tests
+already exercise the full consent → question → framing → reading →
+CardReveal → Pattern path end-to-end with the real component (Section 20's
+requirement was already met before this phase, confirmed by re-running that
+existing suite against the rewritten component). Total: 357 (FAZ 4
+baseline) + 12 = **369/369 passing.**
+
+### 17.4 Viewport QA (Playwright, real browser, real routes)
+
+375×812, 390×844, 768×1024, 1440×900 × states A (0/3) through D (3/3,
+continue gate present) + E (reduced motion, same sequence, verified
+`.card-artwork__reveal` count is 0 via `page.locator(...).count()`), plus a
+dedicated stress case (the longest real display name, "Kaderin Tekerleği",
+alongside an unknown-id card that must fall back to "Kart") at 375px. 21
+cells total: no horizontal overflow anywhere, no console errors, long
+names wrap inside their card face without breaking the grid, the unknown
+id never leaks into the DOM, and a real-browser check after the third
+reveal confirms `document.activeElement` is the "İçgörüyü gör" button
+(not just asserted in jsdom).
+
+### 17.5 Not touched
+
+`PatternArrival`, `ReadingResult`, `ReflectionClose`, `CrisisNotice`,
+`ErrorNotice`, `ConsentModal`, `ConsentDeclined`, `useDialogFocus`,
+`QuestionForm`, `FramingReview`, `FramingLoading`, `LoadingMark`,
+`ShuffleReveal`, `src/app/page.tsx`, and every file under
+`src/app/api/**` / `src/server/**` are unchanged. No card meaning,
+interpretation text, or symbolic content was added to `CardReveal` - it
+still only ever shows a position and a governed display name.
