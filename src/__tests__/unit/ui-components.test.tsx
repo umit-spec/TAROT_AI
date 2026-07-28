@@ -307,10 +307,10 @@ describe('ErrorNotice — user-safe technical failure, never a crisis look-alike
     expect(onRetry).toHaveBeenCalledTimes(2);
   });
 
-  test('retry button keeps a 44px+ minimum touch target (48px preferred)', () => {
+  test('retry button matches the 52px primary-CTA touch target used by every other bg-accent button', () => {
     render(<ErrorNotice userMessage="x" onRetry={vi.fn()} />);
     const retry = screen.getByRole('button', { name: 'Tekrar Dene' });
-    expect(retry.className).toMatch(/min-h-\[48px\]/);
+    expect(retry.className).toMatch(/min-h-\[52px\]/);
     expect(retry.className).toMatch(/min-w-\[44px\]/);
   });
 

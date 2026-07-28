@@ -1218,3 +1218,127 @@ dot animation on the framing-review reveal step. All passed.
 `src/server/**` are unchanged. No new npm dependency was added.
 `asset/06-full-tarot-deck-v2` was not merged into this branch and no real
 card artwork was integrated anywhere in this phase.
+
+## 21. RC-1 — Release Candidate Audit (record)
+
+**Bir redesign fazı değildir.** RC-1, FAZ 1–8'in ürettiği premium UI
+hattının tek seferlik tutarlılık ve doğrulama denetimidir; yalnız somut,
+doğrulanmış bulgular düzeltildi.
+
+### 21.1 UI Freeze / Design Consistency — bulgular ve düzeltmeler
+
+- **`ConsentDeclined.tsx`** - FAZ 2'de yazılmış, FAZ 3'te kurulan
+  "top-level screen surface" kalıbından (`rounded-[28px] border
+  border-border-subtle bg-surface-raised/60 p-6 sm:p-8` + `font-heading
+  text-2xl ... sm:text-3xl` başlık) hiç geçirilmemiş tek ekrandı - diğer
+  sekiz tam-ekran bileşenin (`CardReveal`, `CrisisNotice`, `ErrorNotice`,
+  `FramingReview`, `PatternArrival`, `QuestionForm`, `ReadingResult`,
+  `ReflectionClose`) tamamı bu kalıbı birebir kullanıyor, `ConsentDeclined`
+  hâlâ `rounded-2xl border-border-subtle bg-surface p-6` + `text-xl`
+  başlık kullanıyordu. Aynı bileşende ikincil buton `rounded-xl px-4` (diğer
+  nötr-outline butonlarda `rounded-2xl px-5`) ve destek metni
+  `text-foreground-muted` (diğerlerinde `text-foreground-secondary
+  sm:text-base`) idi. Dördü de tek bir bulgu grubu olarak, sadece
+  class-name düzeyinde, kopya/davranış/prop değişmeden düzeltildi. Eyebrow
+  eklenmedi - `CardReveal` ve `ReadingResult` de eyebrow'suz, yani
+  eyebrow'un yokluğu tek başına bir tutarsızlık değil.
+- **`ErrorNotice.tsx`** - "Tekrar Dene" butonu `bg-accent` (altın primary)
+  stilinde ama `min-h-[48px]` idi; `bg-accent` kullanan diğer beş primary
+  CTA'nın (`CardReveal`, `FramingReview`, `PatternArrival`, `QuestionForm`,
+  `ReadingResult`) tamamı `min-h-[52px]`. FAZ 8'de bilinçli olarak
+  `ReflectionClose`'un nötr 48px restart butonuyla eşleştirilmişti, ama
+  "Tekrar Dene" primary-CTA olarak stillendirildiği için doğru referans
+  grubu 52px'lik primary CTA'lar. `min-h-[48px]` → `min-h-[52px]`
+  düzeltildi; ilgili test (`ui-components.test.tsx`) güncellendi.
+- Spacing ölçeği, border-radius kullanım amaçları (`rounded-[28px]`
+  tam-ekran / `rounded-2xl` orta-yüzey / `rounded-xl` küçük-rozet),
+  boundary-note (`<aside>`) kalıbı, `bg-accent` buton metni
+  (`text-background`, hiçbir yerde `text-white` yok) taranmış, başka
+  sapma bulunmamıştır.
+
+### 21.2 Accessibility Freeze — bulgular
+
+Bulgu yok. On ekranın tamamında `tabIndex={-1}` başlık ↔
+`focus-visible:outline-none` eşleşmesi 1:1; `role` + `aria-labelledby`
+(veya `role="alert"`/`role="dialog"`) + `data-testid` üçlüsü eksiksiz;
+DOM/Tab sırasını bozan bir `order-*`/`flex-*-reverse` yok. Kalan iki
+teknik `aria-label` (`QuestionForm`'daki `"topic-hint"` ve
+`"soru-onerileri"` grup etiketleri) FAZ 8'de tespit edilip bilinçli olarak
+dokunulmamıştı; ürün sahibi bu kararı FAZ 8 değerlendirmesinde açıkça
+onayladı ("gerçek ürün semantiği taşıyan grup etiketleri... sırf debt
+sıfırlansın diye bozmazdım") - RC-1 bu kararı değiştirmedi.
+
+### 21.3 Test Freeze
+
+`getByLabelText`/`queryByLabelText` kalıntıları tarandı; kalan iki
+kullanım (`ui-components.test.tsx`'te `crisis-resources`/`error-state`)
+kasıtlı negatif-doğrulama testleri - eski machine-name `aria-label`in
+gerçekten kaybolduğunu kanıtlıyorlar, stale query değiller.
+`npm run typecheck` / `npm test` / `npm run build` / `npm run lint`
+hepsi temiz. Test sayısı RC-1 öncesi 446'dan değişmedi (bir testin
+beklediği sınıf değeri `min-h-[48px]` → `min-h-[52px]` olarak güncellendi,
+yeni test eklenmedi/silinmedi çünkü bulgu sayısı azdı ve mevcut testler
+zaten doğru şeyi ölçüyordu).
+
+### 21.4 Documentation Freeze
+
+`docs/UI_PREMIUM_V1.md` FAZ 0–8 bölümleri kod durumuyla karşılaştırıldı;
+FAZ 8'in §20.5'inde geçen "44/48px touch target" ifadesi RC-1'in
+`ErrorNotice` düzeltmesinden önceki (o zamanki doğru) durumu anlatıyor -
+geçmiş faz kayıtları geriye dönük düzenlenmez, bu RC-1 bölümü güncel
+durumu ayrıca kayda geçirir. Başka yanlış/eskimiş iddia bulunmadı.
+
+### 21.5 Asset Isolation
+
+`src/components/` ve `src/app/` altında `<img>`, `.png/.jpg/.webp`, veya
+`tarot-cards-v2` referansı yok (grep ile doğrulandı).
+`asset/06-full-tarot-deck-v2` bu branch'e hiçbir commit'iyle sızmamış.
+
+Şeffaflık için önemli bir gözlem: bu branch'in ağacında, FAZ 0'dan ÖNCE
+var olan (commit `f753075`, 2026-07-22, bu oturumdan bağımsız) ayrı bir
+`assets/tarot-cards/` dizini bulunuyor - 22 Major Arcana kartı, kendi
+`README.md`'sinde "montage'dan çıkarılmış, yalnız prototip kullanımı için
+onaylanmış" olarak tanımlanmış, kendi lisans-kapısı sistemi
+(`src/types/asset-license.ts`, `evaluateAssetGate`) tarafından kalıcı
+olarak `purpose: 'prototype-nonproduction'` işaretlenmiş ve production
+kullanımı testlerle (`asset-license.test.ts`) engellenmiş. Bu, bu
+oturumdaki FULL_DECK_V2 çalışmasından tamamen ayrı, önceden var olan bir
+yapı - hiçbir UI component'i bu dizine referans vermiyor (grep ile
+doğrulandı), FAZ 0-8 ve RC-1'in hiçbirinde dokunulmadı veya bağlanmadı.
+Not ediliyor, düzeltme gerektirmiyor.
+
+### 21.6 Yapılan düzeltmeler (özet)
+
+1. `ConsentDeclined.tsx` - top-level screen surface/heading/button/support-text
+   class-name'leri kanonik kalıba hizalandı.
+2. `ErrorNotice.tsx` - "Tekrar Dene" butonu `min-h-[48px]` → `min-h-[52px]`
+   (primary CTA kalıbına hizalandı); `ui-components.test.tsx`'teki ilgili
+   test güncellendi.
+
+### 21.7 Düzeltilmeyen / not edilen gözlemler
+
+- `QuestionForm`'un `"topic-hint"`/`"soru-onerileri"` grup `aria-label`'ları
+  - gerçek ürün semantiği taşıyor, ürün sahibi tarafından FAZ 8'de
+  onaylanmış bir "dokunma" kararı.
+- `ReadingResult`'un `text-lg` alt-başlıkları (`h3`) `CrisisNotice`/
+  `QuestionForm`/`PatternArrival`'daki `text-base` grup etiketlerinden
+  farklı - incelendi, farklı hiyerarşi seviyelerini (büyük bölüm vs. küçük
+  grup etiketi) temsil ettiği doğrulandı, tutarsızlık değil.
+- `FramingLoading` (küçük, `QuestionForm` altında gömülü durum şeridi) ile
+  `ShuffleReveal` (tam ekran yükleme yüzeyi) arasındaki görsel ağırlık
+  farkı - incelendi, `page.tsx`'teki render bağlamları gerçekten farklı
+  (biri forma gömülü, diğeri tek başına tam ekran), kasıtlı mimari
+  farklılaşma olduğu doğrulandı, tutarsızlık değil.
+- `assets/tarot-cards/` (V1, pre-FAZ0) - §21.5'te not edildi, kapsam dışı.
+
+### 21.8 Not touched
+
+`ConsentModal`, `useDialogFocus`, `QuestionForm` (aria-label değişikliği
+hariç - o FAZ 8'de yapılmıştı), `FramingLoading`, `LoadingMark`,
+`ShuffleReveal`, `CardReveal`, `CardArtworkPlaceholder`, `PatternArrival`,
+`ReadingResult`, `CardNarrationItem`, `DiagnosticBadge`,
+`DisclaimerFooter`, `ReflectionClose`, `CrisisNotice`, `src/app/page.tsx`,
+`globals.css`, `tailwind.config.ts`, ve `src/app/api/**` / `src/server/**`
+altındaki her dosya değişmedi. Yeni npm bağımlılığı eklenmedi. Yeni
+component, yeni sayfa, yeni route eklenmedi. `asset/06-full-tarot-deck-v2`
+bu fazda merge edilmedi ve gerçek kart görseli entegre edilmedi.

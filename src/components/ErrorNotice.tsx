@@ -45,7 +45,7 @@ export function ErrorNotice({ userMessage, onRetry }: ErrorNoticeProps) {
       <button
         type="button"
         onClick={onRetry}
-        className="mt-6 min-h-[48px] w-full min-w-[44px] rounded-2xl bg-accent px-5 text-base font-medium text-background motion-safe:transition-transform motion-safe:duration-150 motion-safe:active:scale-[0.98] sm:w-auto"
+        className="mt-6 min-h-[52px] w-full min-w-[44px] rounded-2xl bg-accent px-5 text-base font-medium text-background motion-safe:transition-transform motion-safe:duration-150 motion-safe:active:scale-[0.98] sm:w-auto"
       >
         Tekrar Dene
       </button>
