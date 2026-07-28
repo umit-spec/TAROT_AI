@@ -66,10 +66,25 @@ The following statement must be confirmed by the product owner in a signed recor
 
 Attestation record:
 
-- Status: `PENDING`
-- Confirmed by: `________________________`
-- Date: `________________________`
-- Commit/PR/evidence reference: `________________________`
+- Status: `CONFIRMED`
+- Confirmed by: `Ümit Karakeleş (Product Owner)`
+- Date: `2026-07-28`
+- Commit/PR/evidence reference: binary staging `ac34905349b7d4795e0eee0d8a05c23af86e82b3`, `2b6112a9b8ab352b8f66a7fd43ae15bb75a665f0`; this attestation recorded in the commit that introduces this section
+
+### Recorded product-owner statement (verbatim, 2026-07-28)
+
+> Ürün sahibi olarak Full Tarot Deck V2 provenance beyanını onaylıyorum.
+>
+> Beyanlarım:
+>
+> 1. 78 kart yüzü ve 1 kart arkasından oluşan görseller, benim yönlendirmelerimle OpenAI ChatGPT görüntü üretimi kullanılarak bu proje için oluşturuldu.
+> 2. Bilerek herhangi bir üçüncü kişiye ait tarot destesini, markayı, karakteri, logoyu veya yaşayan sanatçının belirgin üslubunu kopyalama talimatı vermedim.
+> 3. Canva yalnızca yüklediğim görsellerin düzenlenmesi ve saklanması için kullanıldı. Bilgim dahilinde kart yüzlerine Canva stok illüstrasyonu veya lisanslı template görseli eklenmedi.
+> 4. asset/06-full-tarot-deck-v2 branch'indeki 79 PNG, bu konuşmada oluşturduğumuz ve seçtiğimiz tam deste setidir.
+> 5. Orijinal tek ZIP hash'inin yedi yeniden paketlenmiş parçadan yeniden üretilememesini kabul ediyorum. Dosya bazlı 79 SHA-256 doğrulamasını asset kimliği açısından yeterli intake kanıtı olarak kabul ediyorum.
+> 6. Bu kabul FAZ 9 entegrasyon onayı değildir. Kartların uygulama arayüzüne bağlanması için ayrıca açık onay vereceğim.
+
+This statement substantively satisfies the required attestation in §5 above (directed production via OpenAI ChatGPT image generation; no knowing use of a named third-party deck/character/logo/artist style; files intended for the Insight Engine project), and additionally: confirms the Canva usage scope (V2-D005 remains open pending a separate element-level audit), identifies the exact 79-file set this attestation covers, and explicitly accepts the V2-D006 archive-hash limitation as a residual risk rather than a blocking defect — without granting FAZ 9 integration approval, which remains a separate, explicit future decision.
 
 ## 6. Final limitation
 
