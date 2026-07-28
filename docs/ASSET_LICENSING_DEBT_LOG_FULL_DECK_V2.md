@@ -23,14 +23,14 @@
 | V2-D001 | Product-owner provenance attestation | OPEN | Binary ingest | Confirm the declaration in `docs/evidence/FULL_DECK_V2_PROVENANCE_DECLARATION.md`, with commit/PR reference |
 | V2-D002 | Generation-session evidence | OPEN | Binary ingest | Redacted ChatGPT conversation export, screenshots, or platform export proving user-directed generation; private data may be redacted |
 | V2-D003 | Third-party visual similarity review | OPEN | Commercial release | Human review of all 79 images against known tarot decks, franchises, logos and distinctive third-party works; reviewer/date/result recorded |
-| V2-D004 | Official platform-terms evidence | PARTIAL | Commercial release | Current official OpenAI and Canva URLs are recorded; optional immutable PDF/HTML snapshot or legal memo should be archived before launch |
+| V2-D004 | Official platform-terms evidence | PARTIAL | Commercial release | Current official OpenAI and Canva URLs plus conclusions are recorded in `docs/evidence/FULL_DECK_V2_PLATFORM_TERMS_REVIEW.md`; optional immutable snapshot/legal memo remains recommended before launch |
 | V2-D005 | Canva Licensed Content audit | OPEN | Product integration | Confirm each final Canva design contains only uploaded User Content and ordinary text/layout, with no Canva library illustration/template/stock dependency |
 | V2-D006 | Archive identity verification | PARTIAL | Binary ingest | Supplied ZIP must match SHA-256 `580ae8f69759e060ac20e3df9dc68eae6fdf66e2f4ad97f3ef49fdef979eef9c` |
 | V2-D007 | Per-file binary verification | OPEN | Binary ingest | Generate and verify the 79-file SHA-256 inventory; attach verifier output and binary commit SHA |
 | V2-D008 | Count/path/dimension reconciliation | PARTIAL | Binary ingest | Expected count is 79 PNG; 75 files are 1024×1536 and 4 King cards are 512×768; close after branch tree matches |
 | V2-D009 | Jurisdiction-specific copyright/commercial legal review | OPEN | Commercial release | Counsel review or explicit product-owner risk acceptance; AI-output copyright protection is not guaranteed by platform ownership terms |
 | V2-D010 | Product/deck title and trademark clearance | OPEN | Commercial release | Search/clear “Insight Engine” and final deck/product branding for intended markets/classes |
-| V2-D011 | Public-repository asset reuse notice | OPEN | Binary ingest | Decide whether binaries remain private/LFS/release-only or add a clear `NO THIRD-PARTY LICENCE` notice beside them |
+| V2-D011 | Public-repository asset reuse notice | CLOSED | Binary ingest | `assets/tarot-cards-v2/ASSET_LICENSE.txt` states that no public asset licence is granted and source-code licensing does not automatically cover the images |
 | V2-D012 | Derivative export provenance | OPEN | Product integration | For WebP/AVIF/optimized files, record source SHA, output SHA, converter/version/settings and commit SHA |
 | V2-D013 | Final visual QA and regeneration reconciliation | OPEN | Product integration | Confirm corrected/regenerated cards replace old hashes through a manifest version bump rather than silent overwrite |
 | V2-D014 | FAZ 9 product-owner approval | OPEN | Product integration | Explicit written approval to replace CSS placeholders with real card assets |
@@ -46,13 +46,14 @@ Must close:
 - V2-D006
 - V2-D007
 - V2-D008
-- V2-D011
+
+V2-D011 is already closed through the committed no-public-licence notice.
 
 ### Before FAZ 9 product integration
 
 Must close:
 
-- all binary-ingest items;
+- all remaining binary-ingest items;
 - V2-D005;
 - V2-D012;
 - V2-D013;
@@ -91,3 +92,4 @@ Recheck this log at:
 ## Changelog
 
 - **2026-07-28:** Full-deck V2 log opened separately from the historical 22-card pilot debt. Archive identity, 79-image count and current platform-rights basis recorded; no production clearance claimed.
+- **2026-07-28:** Platform-terms evidence note added. Public-repository reuse notice closed through `assets/tarot-cards-v2/ASSET_LICENSE.txt`.
