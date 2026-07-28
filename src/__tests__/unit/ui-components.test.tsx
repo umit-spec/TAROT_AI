@@ -172,7 +172,7 @@ describe('DiagnosticBadge — enum-only, no free-string copy drift', () => {
     ['narration-fallback', /yedek modda/],
   ] as const)('%s renders its fixed copy', (kind, expectedPattern) => {
     render(<DiagnosticBadge kind={kind} />);
-    expect(screen.getByLabelText(`diagnostic-${kind}`)).toHaveTextContent(expectedPattern);
+    expect(screen.getByTestId(`diagnostic-${kind}`)).toHaveTextContent(expectedPattern);
   });
 });
 
@@ -464,6 +464,7 @@ describe('CardNarrationItem — third position reads "Yön", not "Gelecek"', () 
     render(
       <ul>
         <CardNarrationItem
+          index={0}
           position="future"
           cardId="02-high-priestess"
           orientation="upright"
@@ -485,6 +486,7 @@ describe('CardNarrationItem — third position reads "Yön", not "Gelecek"', () 
     render(
       <ul>
         <CardNarrationItem
+          index={0}
           position="past"
           cardId="00-fool"
           orientation="upright"

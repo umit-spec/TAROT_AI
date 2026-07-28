@@ -788,3 +788,118 @@ reveal confirms `document.activeElement` is the "İçgörüyü gör" button
 `src/app/api/**` / `src/server/**` are unchanged. No card meaning,
 interpretation text, or symbolic content was added to `CardReveal` - it
 still only ever shows a position and a governed display name.
+
+## 18. FAZ 6 — Pattern & Reading Editorial Experience (record)
+
+**Gerçek kart görselleri eklenmedi; FAZ 6 yalnız metin ve editorial okuma
+yüzeylerini düzenledi.**
+
+### 18.1 What changed
+
+Five components, all presentation-only on top of the unchanged governed
+data contracts:
+
+- **`PatternArrival.tsx`** - full rewrite. `aria-label="pattern-arrival"` →
+  `role="region"` + `aria-labelledby` (accessible name is now the real
+  heading, mirroring every prior screen migration). `practicalReflection`
+  is now visually the strongest element (gold-accented panel, 18–20px
+  mobile / 20–24px desktop, `leading-[1.6]`), `patterns` render as a plain
+  equal-weight list under a visible "Destekleyen ipuçları" heading,
+  `uncertaintyNotice` moved into an `<aside>` labelled "Sınır notu" instead
+  of an italic paragraph. `main-synthesis`/`supporting-cues`/`uncertainty-note`
+  test-hook `aria-label`s all became `data-testid`. CTA order is unchanged
+  in the DOM (Confirm-equivalent "Bir soruyla tamamla" before "Kartların
+  ayrıntılarını gör") - no reversal trick was ever present here to begin
+  with, so this phase didn't need the FAZ 2.1-style follow-up fix.
+- **`ReadingResult.tsx`** - full rewrite, same props. Gained a real visible
+  heading ("Kartların ayrıntılı okuması") it never had before, with
+  focus-on-mount (previously nothing focused when this screen appeared).
+  `aria-label="reading-result"` → `role="region"` + `aria-labelledby`.
+  `persona-framing`/`card-list`/`detailed-synthesis`/`patterns` test-hook
+  `aria-label`s → `data-testid`. Heading hierarchy is now real: h2 (screen)
+  → h3 ("Kartların anlattığı", "Bütünsel değerlendirme") → h4
+  ("Destekleyen ipuçları" inside the synthesis section). The repeated
+  governed fields (`practicalReflection`/`patterns`/`uncertaintyNotice`,
+  same content as PatternArrival) are visually de-emphasized here relative
+  to the per-card narration - satisfying "don't hide or drop repeated
+  content" (§12) while making this screen read as a different weighting,
+  not a copy of the pattern screen.
+- **`CardNarrationItem.tsx`** - gained a required `index: number` prop
+  purely for an identity-free test hook (`data-testid="card-narration-{i}"`);
+  `aria-label={`card-${cardId}`}` (which put a raw card id into an
+  accessible name) removed entirely. Desktop layout is now a
+  `sm:grid-cols-[8rem_minmax(0,1fr)]` identity-rail + content split
+  (position + name narrow left, narrative wide right), single column below
+  `sm:`. `narration.symbolicMeaning` is not a prop path on this component -
+  not hidden, not `sr-only`, not a data attribute, simply never read.
+- **`DiagnosticBadge.tsx`** - `aria-label={`diagnostic-${kind}`}` →
+  `data-testid`; copy and the `DiagnosticBadgeKind` enum unchanged.
+  `ReadingResult` now wraps one-or-more badges in a single "Okuma durumu"
+  `<aside>` when any diagnostic condition is true (§13's optional
+  recommendation), instead of three independently-styled pill badges.
+- **`DisclaimerFooter.tsx`** - `aria-label="result-disclaimer"` →
+  `aria-labelledby` pointing at the existing visible "Hatırlatma" heading
+  (now given a stable `id` via `useId`) + `data-testid` for the hook. Four
+  lines, exact text, unchanged order.
+
+### 18.2 Content and matching contracts - unchanged
+
+`cards[i]` ↔ `interpretation.cards[i]` pairing is still a straight
+array-index read with no sort/join/re-key logic anywhere - verified by a
+new dedicated test file (§18.3) that asserts index 0/1/2 map to the correct
+governed display name AND the correct `relevanceToQuestion`/`reflection`
+text simultaneously (proving both order *and* identity, not just one).
+`narration.symbolicMeaning` was checked against three governed fixture
+values containing a distinctive marker string and confirmed absent from
+both `textContent` and `innerHTML` of the whole `ReadingResult` region -
+not just "not visibly rendered" but genuinely never written to the DOM.
+
+### 18.3 Tests added
+
+New file `reading-result.test.tsx` (27 tests, since `ReadingResult` had no
+prior dedicated unit-test file - all its coverage used to be indirect, via
+`page-flow.test.tsx` integration): structure/region-name/focus, card
+order+index+identity pairing, unknown-id fallback, raw-id absence (text
+*and* HTML), `symbolicMeaning` absence (text *and* HTML), synthesis
+section, the full diagnostics matrix (resolved/partial/fallback/mock, and
+that raw `providerUsed`/`safetyFlags` never leak), disclaimer exact text +
+accessible name, `onComplete` present/absent, a plain-text security test
+(a literal `<script>` string fixture renders as inert text - confirmed via
+`document.querySelectorAll('script').length === 0` and that the script's
+side effect never ran, not just that the text is visible), and a
+long-text stress fixture across every governed field at once. 4 new tests
+added to `pattern-arrival.test.tsx` (empty-opening, Tab order, touch
+targets, long-text stress). `ui-components.test.tsx` and `page-flow.test.tsx`
+had every `aria-label`/`getByLabelText` reference to these five components
+migrated to the matching `role`+name or `data-testid` query - no assertion
+was loosened, only the query mechanism changed. No new HomePage-level
+integration test was added for the two closing paths (Yol A/B, FAZ 6 §24)
+because `page-flow.test.tsx` already had full coverage of both before this
+phase (pattern → complete → reflection, and pattern → details → complete
+→ reflection) - re-confirmed passing against the rewritten components.
+Total: 369 (FAZ 5 baseline) + 33 = **402/402 passing.**
+
+### 18.4 Viewport QA (Playwright, real browser, real routes)
+
+375×812, 390×844, 768×1024, 1440×900 × five states: (A) a normal pattern
+screen; (B) empty patterns (no supporting-cues section rendered); (C) a
+pattern-screen long-text stress fixture; (D) the reading-result screen
+combined-stress case (an unknown card id → "Kart" fallback, one very long
+`relevanceToQuestion`/`reflection` pair, `knowledge.status: 'partial'`,
+and `provider: 'mock'` all at once, to see the worst realistic combination
+in one screen); (E) a clean reading-result screen with no diagnostics. 20
+cells: no horizontal overflow anywhere, no console errors, the unknown id
+never leaked into visible text, long text wrapped inside its surface
+without breaking the card grid or identity rail, and the diagnostics
+panel read as calm status text, not an error banner.
+
+### 18.5 Not touched
+
+`ReflectionClose`, `CrisisNotice`, `ErrorNotice`, `ConsentModal`,
+`ConsentDeclined`, `useDialogFocus`, `QuestionForm`, `FramingReview`,
+`FramingLoading`, `LoadingMark`, `ShuffleReveal`, `CardReveal`,
+`CardArtworkPlaceholder`, `src/app/page.tsx`, and every file under
+`src/app/api/**` / `src/server/**` are unchanged. No `dangerouslySetInnerHTML`,
+markdown renderer, or HTML-parsing code was introduced anywhere - every
+governed string still goes through plain JSX text interpolation, which is
+what the new script-fixture test exists to prove rather than assume.

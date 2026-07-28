@@ -3,6 +3,10 @@ import { CardNarration } from '../types/interpretation';
 import { cardDisplayName } from '../lib/card-display';
 
 export interface CardNarrationItemProps {
+  /** Position within the reading (0/1/2) - used only for a stable,
+   * identity-free test hook (docs/UI_PREMIUM_V1.md FAZ 6 §10); the raw
+   * cardId never appears in an accessible name, visible text, or attribute. */
+  index: number;
   position: CardPositionKey;
   cardId: string;
   orientation: 'upright'; // ADR-002 - no 'reversed' variant exists in the type
@@ -17,14 +21,30 @@ const POSITION_LABEL: Record<CardPositionKey, string> = {
   future: 'Yön',
 };
 
-/** Receives only what it needs to render - no access to the full response, no access to raw safetyFlags. */
-export function CardNarrationItem({ position, cardId, narration }: CardNarrationItemProps) {
+/**
+ * An editorial section, not a dashboard card (docs/UI_PREMIUM_V1.md FAZ 6).
+ * Receives only what it needs to render - no access to the full response, no
+ * access to raw safetyFlags, and deliberately no `narration.symbolicMeaning`
+ * prop path: that field exists in the governed data but is not part of the
+ * current visible-content contract, so it is never read here.
+ */
+export function CardNarrationItem({ index, position, narration, cardId }: CardNarrationItemProps) {
   return (
-    <li aria-label={`card-${cardId}`} className="border-b border-diagnostic-subtle py-3 last:border-0">
-      <p className="text-sm font-semibold uppercase tracking-wide text-ink-muted">{POSITION_LABEL[position]}</p>
-      <p className="font-heading text-lg">{cardDisplayName(cardId)}</p>
-      <p className="mt-1">{narration.relevanceToQuestion}</p>
-      <p className="mt-1 text-sm italic text-ink-muted">{narration.reflection}</p>
+    <li data-testid={`card-narration-${index}`} className="border-b border-border-subtle py-6 first:pt-0 last:border-0 last:pb-0">
+      <article className="sm:grid sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-6">
+        <header>
+          <p className="text-xs font-semibold uppercase tracking-wide text-foreground-muted">{POSITION_LABEL[position]}</p>
+          <p className="mt-1 break-words font-heading text-xl text-foreground">{cardDisplayName(cardId)}</p>
+        </header>
+        <div className="mt-3 sm:mt-0">
+          <p className="whitespace-pre-line break-words text-base leading-relaxed text-foreground sm:text-lg">
+            {narration.relevanceToQuestion}
+          </p>
+          <p className="mt-3 whitespace-pre-line break-words rounded-r-lg border-l-2 border-violet/50 bg-violet-deep/10 p-3 text-sm italic leading-relaxed text-foreground-secondary">
+            {narration.reflection}
+          </p>
+        </div>
+      </article>
     </li>
   );
 }

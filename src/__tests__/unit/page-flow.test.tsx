@@ -52,20 +52,20 @@ async function revealAllAndContinue() {
 
 // From the pattern arrival screen, an explicit user action opens the details.
 async function seePatternDetails() {
-  await waitFor(() => expect(screen.getByLabelText('pattern-arrival')).toBeInTheDocument());
+  await waitFor(() => expect(screen.getByRole('region', { name: 'Üç kartın birlikte gösterdiği örüntü' })).toBeInTheDocument());
   await userEvent.click(screen.getByRole('button', { name: 'Kartların ayrıntılarını gör' }));
 }
 
 // Path A: close straight from the pattern with the reflection question.
 async function completeFromPattern() {
-  await waitFor(() => expect(screen.getByLabelText('pattern-arrival')).toBeInTheDocument());
+  await waitFor(() => expect(screen.getByRole('region', { name: 'Üç kartın birlikte gösterdiği örüntü' })).toBeInTheDocument());
   await userEvent.click(screen.getByRole('button', { name: 'Bir soruyla tamamla' }));
 }
 
 // Path B: close from the end of the card details.
 async function completeFromDetails() {
   await seePatternDetails();
-  await waitFor(() => expect(screen.getByLabelText('reading-result')).toBeInTheDocument());
+  await waitFor(() => expect(screen.getByRole('region', { name: 'Kartların ayrıntılı okuması' })).toBeInTheDocument());
   await userEvent.click(screen.getByRole('button', { name: 'Okumayı bir soruyla tamamla' }));
 }
 
@@ -160,7 +160,7 @@ describe('HomePage — framing review sits between the question and the draw', (
 
     await waitFor(() => expect(screen.getByRole('region', { name: 'Seni doğru mu anladım?' })).toBeInTheDocument());
     expect(screen.getByText('Açık uçlu')).toBeInTheDocument();
-    expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Kartların ayrıntılı okuması' })).not.toBeInTheDocument();
     // Only the preview endpoint was hit so far - no draw.
     expect(fetchSpy).toHaveBeenCalledTimes(1);
     expect(String(fetchSpy.mock.calls[0][0])).toContain('/api/readings/preview');
@@ -179,7 +179,7 @@ describe('HomePage — framing review sits between the question and the draw', (
     await confirmFraming();
     await revealAllAndContinue();
     await seePatternDetails();
-    await waitFor(() => expect(screen.getByLabelText('reading-result')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Kartların ayrıntılı okuması' })).toBeInTheDocument());
   });
 });
 
@@ -262,8 +262,8 @@ describe('HomePage — the pattern arrival is the first destination after the re
     await userEvent.click(screen.getByRole('button', { name: 'Geçmiş kartını aç' }));
     await userEvent.click(screen.getByRole('button', { name: 'Şimdi kartını aç' }));
     // 2/3: no pattern, no result.
-    expect(screen.queryByLabelText('pattern-arrival')).not.toBeInTheDocument();
-    expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Üç kartın birlikte gösterdiği örüntü' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Kartların ayrıntılı okuması' })).not.toBeInTheDocument();
   });
 
   test('after 3/3 the İçgörüyü gör CTA lands on the pattern screen, not the full result', async () => {
@@ -272,11 +272,11 @@ describe('HomePage — the pattern arrival is the first destination after the re
     await confirmFraming();
     await revealAllAndContinue();
 
-    await waitFor(() => expect(screen.getByLabelText('pattern-arrival')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Üç kartın birlikte gösterdiği örüntü' })).toBeInTheDocument());
     // The pattern screen shows the main synthesis, and the full result is NOT
     // shown yet.
-    expect(screen.getByLabelText('main-synthesis')).toHaveTextContent('test reflection');
-    expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
+    expect(screen.getByTestId('main-synthesis')).toHaveTextContent('test reflection');
+    expect(screen.queryByRole('region', { name: 'Kartların ayrıntılı okuması' })).not.toBeInTheDocument();
   });
 
   test('with no patterns, the pattern screen shows no supporting-cues section', async () => {
@@ -285,8 +285,8 @@ describe('HomePage — the pattern arrival is the first destination after the re
     await compose();
     await confirmFraming();
     await revealAllAndContinue();
-    await waitFor(() => expect(screen.getByLabelText('pattern-arrival')).toBeInTheDocument());
-    expect(screen.queryByLabelText('supporting-cues')).not.toBeInTheDocument();
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Üç kartın birlikte gösterdiği örüntü' })).toBeInTheDocument());
+    expect(screen.queryByTestId('supporting-cues')).not.toBeInTheDocument();
   });
 
   test('multiple patterns appear as supporting cues on the pattern screen', async () => {
@@ -303,9 +303,9 @@ describe('HomePage — the pattern arrival is the first destination after the re
     await compose();
     await confirmFraming();
     await revealAllAndContinue();
-    await waitFor(() => expect(screen.getByLabelText('supporting-cues')).toBeInTheDocument());
-    expect(screen.getByLabelText('supporting-cues')).toHaveTextContent('ipucu bir');
-    expect(screen.getByLabelText('supporting-cues')).toHaveTextContent('ipucu iki');
+    await waitFor(() => expect(screen.getByTestId('supporting-cues')).toBeInTheDocument());
+    expect(screen.getByTestId('supporting-cues')).toHaveTextContent('ipucu bir');
+    expect(screen.getByTestId('supporting-cues')).toHaveTextContent('ipucu iki');
   });
 
   test('the uncertainty notice is shown as a boundary note, separate from the synthesis', async () => {
@@ -313,9 +313,9 @@ describe('HomePage — the pattern arrival is the first destination after the re
     await compose();
     await confirmFraming();
     await revealAllAndContinue();
-    await waitFor(() => expect(screen.getByLabelText('pattern-arrival')).toBeInTheDocument());
-    expect(screen.getByLabelText('uncertainty-note')).toHaveTextContent('test notice');
-    expect(screen.getByLabelText('main-synthesis')).not.toHaveTextContent('test notice');
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Üç kartın birlikte gösterdiği örüntü' })).toBeInTheDocument());
+    expect(screen.getByTestId('uncertainty-note')).toHaveTextContent('test notice');
+    expect(screen.getByTestId('main-synthesis')).not.toHaveTextContent('test notice');
   });
 
   test('no technical diagnostic badge appears on the pattern screen (even with a fallback provider)', async () => {
@@ -328,9 +328,9 @@ describe('HomePage — the pattern arrival is the first destination after the re
     await compose();
     await confirmFraming();
     await revealAllAndContinue();
-    await waitFor(() => expect(screen.getByLabelText('pattern-arrival')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Üç kartın birlikte gösterdiği örüntü' })).toBeInTheDocument());
     // Diagnostic badges live in the detail (ReadingResult), never on the pattern.
-    expect(screen.queryByLabelText(/^diagnostic-/)).not.toBeInTheDocument();
+    expect(screen.queryByTestId(/^diagnostic-/)).not.toBeInTheDocument();
   });
 
   test('card details require an explicit action and preserve card order + narration index', async () => {
@@ -338,17 +338,22 @@ describe('HomePage — the pattern arrival is the first destination after the re
     await compose();
     await confirmFraming();
     await revealAllAndContinue();
-    await waitFor(() => expect(screen.getByLabelText('pattern-arrival')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Üç kartın birlikte gösterdiği örüntü' })).toBeInTheDocument());
     // The details are not shown until the user asks.
-    expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Kartların ayrıntılı okuması' })).not.toBeInTheDocument();
     await seePatternDetails();
-    await waitFor(() => expect(screen.getByLabelText('reading-result')).toBeInTheDocument());
-    // Cards render in response order in the detail (index == order).
-    const cardList = screen.getByLabelText('card-list');
-    const ids = within(cardList)
-      .getAllByRole('listitem')
-      .map((li) => li.getAttribute('aria-label'));
-    expect(ids).toEqual(['card-00-fool', 'card-01-magician', 'card-02-high-priestess']);
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Kartların ayrıntılı okuması' })).toBeInTheDocument());
+    // Cards render in response order in the detail (index == order); the
+    // raw card id never appears in an accessible name or attribute
+    // (docs/UI_PREMIUM_V1.md FAZ 6 §10) - the governed display name proves
+    // identity instead.
+    const cardList = screen.getByTestId('card-list');
+    const items = within(cardList).getAllByTestId(/^card-narration-/);
+    const testids = items.map((el) => el.getAttribute('data-testid'));
+    expect(testids).toEqual(['card-narration-0', 'card-narration-1', 'card-narration-2']);
+    expect(items[0]).toHaveTextContent('Deli');
+    expect(items[1]).toHaveTextContent('Büyücü');
+    expect(items[2]).toHaveTextContent('Yüksek Rahibe');
   });
 });
 
@@ -360,7 +365,7 @@ describe('HomePage — the reveal gates the interpretation (3/3)', () => {
 
     await waitFor(() => expect(screen.getByRole('region', { name: 'Kartlarını kendi hızında aç' })).toBeInTheDocument());
     // No interpretation, no synthesis, no result yet.
-    expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Kartların ayrıntılı okuması' })).not.toBeInTheDocument();
     expect(screen.queryByText('test opening')).not.toBeInTheDocument();
     // Only the first card is openable; the reader cannot jump ahead.
     expect(screen.getByRole('button', { name: 'Geçmiş kartını aç' })).toBeInTheDocument();
@@ -377,13 +382,13 @@ describe('HomePage — the reveal gates the interpretation (3/3)', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Şimdi kartını aç' }));
     // 2/3 revealed - still no gate, still no result.
     expect(screen.queryByRole('button', { name: 'İçgörüyü gör' })).not.toBeInTheDocument();
-    expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Kartların ayrıntılı okuması' })).not.toBeInTheDocument();
 
     await userEvent.click(screen.getByRole('button', { name: 'Yön kartını aç' }));
     await userEvent.click(screen.getByRole('button', { name: 'İçgörüyü gör' }));
     // 3/3 opens the interpretation flow at the pattern screen (not the wall).
-    await waitFor(() => expect(screen.getByLabelText('pattern-arrival')).toBeInTheDocument());
-    expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Üç kartın birlikte gösterdiği örüntü' })).toBeInTheDocument());
+    expect(screen.queryByRole('region', { name: 'Kartların ayrıntılı okuması' })).not.toBeInTheDocument();
   });
 
   test('the revealed card ids/positions match the response (no redraw in the flow)', async () => {
@@ -423,9 +428,9 @@ describe('HomePage — pipeline outcomes render distinct, correct screens', () =
     await revealAllAndContinue();
     await seePatternDetails();
 
-    await waitFor(() => expect(screen.getByLabelText('reading-result')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Kartların ayrıntılı okuması' })).toBeInTheDocument());
     expect(screen.getByText('test opening')).toBeInTheDocument();
-    expect(screen.queryByLabelText(/^diagnostic-/)).not.toBeInTheDocument();
+    expect(screen.queryByTestId(/^diagnostic-/)).not.toBeInTheDocument();
   });
 
   test('knowledge partial renders the reading with the partial badge (not an error)', async () => {
@@ -441,8 +446,8 @@ describe('HomePage — pipeline outcomes render distinct, correct screens', () =
     await revealAllAndContinue();
     await seePatternDetails();
 
-    await waitFor(() => expect(screen.getByLabelText('reading-result')).toBeInTheDocument());
-    expect(screen.getByLabelText('diagnostic-knowledge-partial')).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Kartların ayrıntılı okuması' })).toBeInTheDocument());
+    expect(screen.getByTestId('diagnostic-knowledge-partial')).toBeInTheDocument();
     expect(screen.queryByLabelText('error-state')).not.toBeInTheDocument();
   });
 
@@ -460,8 +465,8 @@ describe('HomePage — pipeline outcomes render distinct, correct screens', () =
     await revealAllAndContinue();
     await seePatternDetails();
 
-    await waitFor(() => expect(screen.getByLabelText('reading-result')).toBeInTheDocument());
-    expect(screen.getByLabelText('diagnostic-narration-fallback')).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Kartların ayrıntılı okuması' })).toBeInTheDocument());
+    expect(screen.getByTestId('diagnostic-narration-fallback')).toBeInTheDocument();
   });
 
   test('preview-stage crisis short-circuits: CrisisNotice, never framing or reading', async () => {
@@ -475,8 +480,8 @@ describe('HomePage — pipeline outcomes render distinct, correct screens', () =
 
     await waitFor(() => expect(screen.getByLabelText('crisis-resources')).toBeInTheDocument());
     expect(screen.queryByRole('region', { name: 'Seni doğru mu anladım?' })).not.toBeInTheDocument();
-    expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
-    expect(screen.queryByLabelText('pattern-arrival')).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Kartların ayrıntılı okuması' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Üç kartın birlikte gösterdiği örüntü' })).not.toBeInTheDocument();
     expect(screen.queryByLabelText('reflection-close')).not.toBeInTheDocument();
     expect(screen.getByText('crisis test message')).toBeInTheDocument();
   });
@@ -492,7 +497,7 @@ describe('HomePage — pipeline outcomes render distinct, correct screens', () =
     await confirmFraming();
 
     await waitFor(() => expect(screen.getByLabelText('crisis-resources')).toBeInTheDocument());
-    expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Kartların ayrıntılı okuması' })).not.toBeInTheDocument();
     // Crisis never enters the reveal path.
     expect(screen.queryByRole('region', { name: 'Kartlarını kendi hızında aç' })).not.toBeInTheDocument();
   });
@@ -572,7 +577,7 @@ describe('HomePage — reflection close is reachable from both the pattern and t
     await waitFor(() => expect(screen.getByLabelText('reflection-close')).toBeInTheDocument());
     expect(screen.getByLabelText('reflection-question').textContent).toBe(RESPONSE_REFLECTION_PROMPT);
     // Details were never required.
-    expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Kartların ayrıntılı okuması' })).not.toBeInTheDocument();
   });
 
   test('pattern -> details -> complete reaches the SAME governed reflection prompt', async () => {
