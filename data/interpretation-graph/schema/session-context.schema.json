@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tarot-ai.internal/schema/interpretation-graph/session-context.schema.json",
+  "title": "Interpretation Graph — Session Context",
+  "description": "The explicit, user-provided context a future matching engine would read. Not implemented anywhere in the running product as of this pilot — no route, no component, and no persistence layer constructs this shape today. Defines the boundary a future engine must respect: no hidden profiling, no inferred/diagnosed signals, no persistent storage implied by this schema alone.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["topic", "goal", "explicitSignals"],
+  "properties": {
+    "topic": {
+      "type": "string",
+      "minLength": 1,
+      "description": "An explicit topic hint the user selected (e.g. 'career'), matching the existing product's QuestionForm topic-hint concept — not inferred from free text."
+    },
+    "goal": {
+      "type": "string",
+      "description": "ID into ontology/user-goals.json, explicitly selected by the user."
+    },
+    "explicitSignals": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/explicitSignal" },
+      "uniqueItems": true
+    }
+  },
+  "$defs": {
+    "explicitSignal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["signalId", "source", "confidence"],
+      "properties": {
+        "signalId": {
+          "type": "string",
+          "description": "ID into ontology/user-signals.json."
+        },
+        "source": {
+          "type": "string",
+          "const": "explicit-user-selection",
+          "description": "Fixed to the one currently-implemented origin. A future 'user-confirmed' origin (e.g. a follow-up question the user answers yes/no to) is allowed by confidence below but has no producing UI in this pilot."
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["explicit", "user-confirmed"],
+          "description": "No 'inferred' or 'diagnosed' value exists in this enum, by design — the engine may never guess a signal on the user's behalf."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "schemaVersion": "1.0.0",
+  "must": [
+    {
+      "id": "upright-only",
+      "rule": "Yorum yalnız upright (düz) kart anlamı üzerinden üretilir; ters kart anlamı yoktur.",
+      "rationale": "Ürünün ADR-002 kararı ve mevcut reading engine, yalnız upright çekilişi destekler (src/server/reading-engine/validate.ts).",
+      "severity": "block"
+    },
+    {
+      "id": "deterministic-order",
+      "rule": "Kartların pozisyon sırası (Geçmiş, Şimdi, Yön) sabittir ve LLM/graph tarafından değiştirilemez.",
+      "rationale": "Kart sırası deterministic reading engine tarafından üretilir; yorum katmanı bu sırayı asla yeniden düzenlemez.",
+      "severity": "block"
+    },
+    {
+      "id": "reflective-probabilistic-language",
+      "rule": "Bütün safe interpretation ve reflection question metinleri olasılıksal/davetkâr dil kullanır ('olabilir', 'düşündürebilir'); kesinlik dili kullanmaz.",
+      "rationale": "Ürünün anti-kehanet ilkesi ve mevcut red-line validator (CATEGORY_4_MANIPULATION) ile tutarlıdır.",
+      "severity": "block"
+    },
+    {
+      "id": "non-causal-framing",
+      "rule": "Kart, bir olayın nedeni ya da bir sonucun garantisi olarak sunulamaz.",
+      "rationale": "Sembolik yansıtma aracı, nedensel/mistik bir mekanizma değildir.",
+      "severity": "block"
+    },
+    {
+      "id": "user-agency",
+      "rule": "Yorum, kararın kullanıcıya ait olduğunu açık ya da örtük şekilde koruyacak biçimde kurgulanır.",
+      "rationale": "RESULT_DISCLAIMER_COPY.autonomyNote ('Siz karar verirsiniz. Kartlar sadece ayna.') ile tutarlı çekirdek ilke.",
+      "severity": "block"
+    },
+    {
+      "id": "one-primary-hypothesis",
+      "rule": "Bir okuma turunda kart başına yalnız bir birincil yorum hipotezi sunulur; çelişen çoklu kesin iddialar üretilmez.",
+      "rationale": "Kullanıcıyı çelişkili kesinliklerle karıştırmamak ve tek, tutarlı bir yansıtma sunmak için.",
+      "severity": "block"
+    },
+    {
+      "id": "one-closing-reflection-question",
+      "rule": "Her kart yorumu tam olarak bir kapanış refleksiyon sorusuyla biter.",
+      "rationale": "docs/ADR-UX-REFLECTION-PROMPT.md ile tutarlı; validateReflectionPrompt tam olarak bir '?' bekler.",
+      "severity": "block"
+    },
+    {
+      "id": "crisis-short-circuit",
+      "rule": "Kriz sinyali varsa hiçbir kart yorumu üretilmez; mevcut kriz kısa devresi (src/server/intake/crisis-resources.ts) değişmeden korunur.",
+      "rationale": "Güvenlik en yüksek önceliktir; Interpretation Graph kriz akışını asla geçersiz kılamaz veya baypas edemez.",
+      "severity": "block"
+    },
+    {
+      "id": "governed-artwork-symbols-only",
+      "rule": "Yalnız çekilen kart için governed artwork üzerinde gerçekten görülen sembollere başvurulabilir.",
+      "rationale": "Görselde bulunmayan bir sembolün anlamı üretmek, uydurma/halüsinasyon riski taşır.",
+      "severity": "block"
+    }
+  ],
+  "may": [
+    {
+      "id": "explicit-context-adaptation",
+      "rule": "Kullanıcının açıkça seçtiği konu bağlamına (career, relationship, vb.) göre yorum odağı uyarlanabilir.",
+      "rationale": "Yalnız açık kullanıcı seçimiyle tetiklenen kişiselleştirme güvenlidir.",
+      "severity": "block"
+    },
+    {
+      "id": "user-selected-tone-preference",
+      "rule": "Kullanıcının açıkça belirttiği bir ton tercihi (ör. daha kısa/daha derin) yorum sunumuna yansıtılabilir.",
+      "rationale": "Ton tercihi içerik iddiasını değiştirmez, yalnız sunum biçimini etkiler.",
+      "severity": "block"
+    },
+    {
+      "id": "one-alternative-perspective",
+      "rule": "Birincil hipoteze ek olarak en fazla bir alternatif bakış açısı sunulabilir.",
+      "rationale": "Tek bir kesin okuma dayatmamak için sınırlı çoğulluk faydalıdır; sınırsız spekülasyon değil.",
+      "severity": "block"
+    },
+    {
+      "id": "adjacent-card-tension",
+      "rule": "Komşu kartla ilişkilendirme, ontology/relationship-types.json içindeki tanımlı ilişki türleri üzerinden yapılabilir.",
+      "rationale": "İlişki iddiaları yalnız governed, önceden tanımlı kategoriler üzerinden kurulmalı, serbestçe uydurulmamalı.",
+      "severity": "block"
+    },
+    {
+      "id": "direction-as-consideration-lens",
+      "rule": "'Yön' pozisyonu, kesin gelecek değil, değerlendirme merceği olarak sunulabilir.",
+      "rationale": "'Direction' kavramının 'future/trajectory/kader' anlamına kaymasını önlemek için açık izin ve sınır birlikte tanımlanır.",
+      "severity": "block"
+    },
+    {
+      "id": "literal-governed-artwork-symbol",
+      "rule": "Governed artwork üzerinde gerçekten görülen bir sembole doğrudan atıf yapılabilir.",
+      "rationale": "governed-artwork-symbols-only ilkesinin izin veren yüzü; doğrulanabilir görsel gerçekliğe dayanır.",
+      "severity": "block"
+    }
+  ],
+  "mustNot": [
+    {
+      "id": "future-certainty",
+      "rule": "Gelecekte kesin olarak ne olacağı hiçbir biçimde iddia edilemez.",
+      "rationale": "Ürünün temel anti-kehanet ilkesi; CONSENT_MODAL_COPY.notDone → 'Kesin kehanet'.",
+      "severity": "block"
+    },
+    {
+      "id": "professional-medical-legal-financial-conclusion",
+      "rule": "Sağlık, hukuk veya finans hakkında kesin sonuç ya da tavsiye üretilemez.",
+      "rationale": "CONSENT_MODAL_COPY.notDone ve RESULT_DISCLAIMER_COPY.professionalNote ile tutarlı sınır.",
+      "severity": "block"
+    },
+    {
+      "id": "third-party-mind-reading",
+      "rule": "Kullanıcı dışındaki bir kişinin (ör. sevgili, patron, aile üyesi) niyeti/duygusu hakkında kesin çıkarım yapılamaz.",
+      "rationale": "src/server/reading-engine/validate.ts içindeki REFLECTION_THIRD_PARTY guard'ı ile aynı ilke.",
+      "severity": "block"
+    },
+    {
+      "id": "direct-life-command",
+      "rule": "'Ayrıl', 'kal', 'işten çık', 'yatırım yap' gibi doğrudan hayat talimatı verilemez.",
+      "rationale": "Kullanıcının özerkliğini korumak; kart bir talimat motoru değil, bir yansıtma merceğidir.",
+      "severity": "block"
+    },
+    {
+      "id": "diagnosis-or-personality-label",
+      "rule": "Kullanıcıya klinik teşhis ya da sabit kişilik etiketi (ör. 'kontrolcüsünüz', 'tükenmişsiniz') yapıştırılamaz.",
+      "rationale": "src/server/reading-engine/validate.ts REFLECTION_DIAGNOSIS guard'ı ile aynı ilke; sinyaller teşhis değildir.",
+      "severity": "block"
+    },
+    {
+      "id": "fabricated-symbol",
+      "rule": "Kaynakta veya governed artwork'te doğrulanamayan bir sembol anlamı üretilemez.",
+      "rationale": "Halüsinasyon riskini önlemek; yalnız doğrulanabilir sembollerle çalışmak.",
+      "severity": "block"
+    },
+    {
+      "id": "dependency-encouragement",
+      "rule": "Kullanıcıyı uygulamaya/karta tekrar tekrar başvurmaya teşvik eden dil kullanılamaz.",
+      "rationale": "Ürün bir refleksiyon aracıdır, bağımlılık yaratacak bir döngü değildir.",
+      "severity": "block"
+    },
+    {
+      "id": "spiritual-certainty-or-magical-causality",
+      "rule": "'Evren sana mesaj gönderiyor', 'kaderin yazılı' gibi mistik nedensellik iddiaları kullanılamaz.",
+      "rationale": "CATEGORY_4_MANIPULATION forbidden-phrase listesiyle aynı ilke (src/server/reading-engine/validate.ts).",
+      "severity": "block"
+    },
+    {
+      "id": "moral-judgment",
+      "rule": "Kullanıcının eylemleri/kararları hakkında ahlaki yargı üretilemez.",
+      "rationale": "Yorum yansıtıcıdır, yargılayıcı değildir.",
+      "severity": "block"
+    },
+    {
+      "id": "immutable-fate",
+      "rule": "Bir durumun değiştirilemez/kaçınılmaz olduğu iddia edilemez.",
+      "rationale": "Kullanıcı özerkliği ve değişebilirlik ilkesiyle doğrudan çelişir.",
+      "severity": "block"
+    },
+    {
+      "id": "binary-life-verdict",
+      "rule": "'Doğru/yanlış', 'başarılı/başarısız' gibi ikili kesin hüküm üretilemez.",
+      "rationale": "Sembolik yansıtma, ikili hüküm mekanizması değildir.",
+      "severity": "block"
+    },
+    {
+      "id": "biological-event-prediction",
+      "rule": "Hamilelik, hastalık, ölüm gibi biyolojik olaylar hakkında tahmin üretilemez.",
+      "rationale": "src/server/reading-engine/validate.ts CATEGORY_1_HEALTH_ABSOLUTE listesiyle aynı ilke.",
+      "severity": "block"
+    },
+    {
+      "id": "hidden-user-profiling",
+      "rule": "Kullanıcı hakkında açıkça beyan edilmemiş, gizli/kalıcı bir profil oluşturulamaz.",
+      "rationale": "session-context.schema.json yalnız explicit/user-confirmed sinyalleri kabul eder; gizli çıkarım yasaktır.",
+      "severity": "block"
+    },
+    {
+      "id": "unconfirmed-signal-inference",
+      "rule": "Kullanıcı bir sinyali açıkça seçmedikçe/onaylamadıkça, o sinyal varmış gibi yorum üretilemez.",
+      "rationale": "Kart node'u kullanıcının sinyalini kendi başına tespit etmez; yalnız session context'te açık olanı kullanır.",
+      "severity": "block"
+    }
+  ]
+}

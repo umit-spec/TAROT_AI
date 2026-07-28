@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "1.0.0",
+  "signals": [
+    {
+      "id": "financial-security-concern",
+      "displayName": "Maddi güvence kaygısı",
+      "description": "Kullanıcının açıkça belirttiği, mali güvenceyle ilgili bir kaygı.",
+      "allowedSources": ["explicit-user-selection", "user-confirmed"],
+      "notADiagnosis": true
+    },
+    {
+      "id": "decision-uncertainty",
+      "displayName": "Yanlış karar verme korkusu",
+      "description": "Kullanıcının açıkça belirttiği, bir kararın yanlış olabileceğine dair kaygı.",
+      "allowedSources": ["explicit-user-selection", "user-confirmed"],
+      "notADiagnosis": true
+    },
+    {
+      "id": "control-scope-clarification",
+      "displayName": "Kontrol ihtiyacı",
+      "description": "Kullanıcının açıkça belirttiği, hangi şeylerin kontrolünde olduğunu netleştirme isteği.",
+      "allowedSources": ["explicit-user-selection", "user-confirmed"],
+      "notADiagnosis": true
+    },
+    {
+      "id": "change-hesitation",
+      "displayName": "Değişim korkusu",
+      "description": "Kullanıcının açıkça belirttiği, bir değişim karşısında tereddüt.",
+      "allowedSources": ["explicit-user-selection", "user-confirmed"],
+      "notADiagnosis": true
+    },
+    {
+      "id": "responsibility-sustainability",
+      "displayName": "Sorumluluk sürdürülebilirliği",
+      "description": "Kullanıcının açıkça belirttiği, mevcut sorumluluk yükünün sürdürülebilirliğine dair soru.",
+      "allowedSources": ["explicit-user-selection", "user-confirmed"],
+      "notADiagnosis": true
+    },
+    {
+      "id": "uncertainty-discomfort",
+      "displayName": "Belirsizliğe tahammülsüzlük",
+      "description": "Kullanıcının açıkça belirttiği, belirsizlikle baş etmekte zorlanma hissi.",
+      "allowedSources": ["explicit-user-selection", "user-confirmed"],
+      "notADiagnosis": true
+    },
+    {
+      "id": "loss-concern",
+      "displayName": "Kaybetme korkusu",
+      "description": "Kullanıcının açıkça belirttiği, bir şeyi/kişiyi kaybetme kaygısı.",
+      "allowedSources": ["explicit-user-selection", "user-confirmed"],
+      "notADiagnosis": true
+    },
+    {
+      "id": "external-evaluation-pressure",
+      "displayName": "Dışsal değerlendirme baskısı",
+      "description": "Kullanıcının açıkça belirttiği, başkalarının değerlendirmesinden kaynaklanan baskı hissi.",
+      "allowedSources": ["explicit-user-selection", "user-confirmed"],
+      "notADiagnosis": true
+    },
+    {
+      "id": "boundary-expression-need",
+      "displayName": "Sınır ifade etme ihtiyacı",
+      "description": "Kullanıcının açıkça belirttiği, bir sınırı daha açık ifade etme ihtiyacı.",
+      "allowedSources": ["explicit-user-selection", "user-confirmed"],
+      "notADiagnosis": true
+    },
+    {
+      "id": "current-structure-attachment",
+      "displayName": "Mevcut düzene bağlılık",
+      "description": "Kullanıcının açıkça belirttiği, tanıdık/mevcut bir düzene bağlılık hissi.",
+      "allowedSources": ["explicit-user-selection", "user-confirmed"],
+      "notADiagnosis": true
+    }
+  ]
+}

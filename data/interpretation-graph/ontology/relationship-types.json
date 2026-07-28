@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "1.0.0",
+  "relationshipTypes": [
+    {
+      "id": "supporting",
+      "displayName": "Destekleyici",
+      "definition": "Komşu kart, mevcut kartın temasını pekiştirir; aynı yöne işaret eder.",
+      "sentenceTemplate": "Bu iki kart birlikte, [otherCardTheme] temasının bu okumada daha belirgin olabileceğine dikkat çekebilir.",
+      "avoidCertainty": "İki kartın birlikte görülmesi bir temayı güçlendirebilir demek, o temanın kesin gerçekleştiği anlamına gelmez."
+    },
+    {
+      "id": "softening",
+      "displayName": "Yumuşatıcı",
+      "definition": "Komşu kart, mevcut kartın daha yoğun/sarsıcı okunabilecek yönünü dengeleyebilir.",
+      "sentenceTemplate": "Bu iki kart birlikte, [otherCardTheme] ile mevcut sarsıntının aynı zamanda dengelenebilir bir yönü olduğuna işaret edebilir.",
+      "avoidCertainty": "Dengeleme olasılığından söz etmek, sarsıntının önemsiz veya geçersiz olduğu anlamına gelmez."
+    },
+    {
+      "id": "heightening-tension",
+      "displayName": "Gerilimi artıran",
+      "definition": "Komşu kart, mevcut kartın gerilimini daha görünür kılabilir.",
+      "sentenceTemplate": "Bu iki kart birlikte, [otherCardTheme] ile mevcut gerilimin daha belirgin hissedilebileceğine dikkat çekebilir.",
+      "avoidCertainty": "Gerilimin daha belirgin hissedilebileceğini söylemek, bir kriz veya kötü sonuç vaat etmez."
+    },
+    {
+      "id": "reframing",
+      "displayName": "Yeniden çerçeveleyen",
+      "definition": "Komşu kart, mevcut kartın anlamını farklı bir açıdan görmeye davet edebilir.",
+      "sentenceTemplate": "Bu iki kart birlikte, [otherCardTheme] üzerinden durumu farklı bir açıdan görmeye davet edebilir.",
+      "avoidCertainty": "Farklı bir açı önerisi, önceki yorumun yanlış olduğu anlamına gelmez."
+    },
+    {
+      "id": "agency-linking",
+      "displayName": "Eylemlilikle bağlantı kuran",
+      "definition": "Komşu kart, kullanıcının kendi seçenekleri üzerine düşünmesini teşvik edebilir; doğrudan eylem emri üretmez.",
+      "sentenceTemplate": "Bu iki kart birlikte, [otherCardTheme] ışığında hangi seçeneklerin sizin elinizde olduğunu düşünmeye davet edebilir.",
+      "avoidCertainty": "Bu ilişki türü hiçbir zaman 'şunu yap' biçiminde doğrudan bir talimata dönüşmemelidir."
+    },
+    {
+      "id": "interiorizing",
+      "displayName": "İçselleştiren",
+      "definition": "Komşu kart, dış olaydan çok kullanıcının iç deneyimine odaklanmayı önerebilir.",
+      "sentenceTemplate": "Bu iki kart birlikte, [otherCardTheme] ile dışarıda olandan çok içeride hissedilene odaklanmayı önerebilir.",
+      "avoidCertainty": "İçe dönük bir odak önerisi, dış durumun önemsiz olduğu anlamına gelmez."
+    },
+    {
+      "id": "leaving-open",
+      "displayName": "Açık bırakan",
+      "definition": "Komşu kart, tek bir kapanışa varmak yerine soruyu açık tutmaya davet edebilir; çaresizlik anlamı üretmez.",
+      "sentenceTemplate": "Bu iki kart birlikte, [otherCardTheme] ile bu sorunun şimdilik açık kalabileceğine dikkat çekebilir.",
+      "avoidCertainty": "Soruyu açık bırakmak, bir çıkış yolu olmadığı anlamına gelmez; yalnızca henüz netleşmediği anlamına gelir."
+    }
+  ]
+}

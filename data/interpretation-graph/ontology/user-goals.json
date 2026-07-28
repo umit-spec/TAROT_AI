@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "goals": [
+    {
+      "id": "clarify-thoughts",
+      "displayName": "Düşüncelerimi netleştirmek",
+      "description": "Kullanıcı zaten sahip olduğu düşünceleri daha net görmek istiyor; yeni bir gerçek vaat edilmez."
+    },
+    {
+      "id": "see-different-perspective",
+      "displayName": "Farklı bir açı görmek",
+      "description": "Kullanıcı mevcut durumu alternatif bir çerçeveden görmek istiyor; tek doğru açı sunulmaz."
+    },
+    {
+      "id": "weigh-decision",
+      "displayName": "Bir kararı tartmak",
+      "description": "Kullanıcı zaten önünde duran bir kararı değerlendirmek istiyor; hangi kararın doğru olduğu söylenmez."
+    },
+    {
+      "id": "understand-emotions",
+      "displayName": "Duygularımı anlamak",
+      "description": "Kullanıcı kendi duygusal tepkisini adlandırmak/anlamak istiyor. Bu, bilinçaltını çözmek veya terapi sunmak olarak tanımlanmaz."
+    },
+    {
+      "id": "curiosity",
+      "displayName": "Sadece merak ediyorum",
+      "description": "Kullanıcının belirli bir amacı yok, sembolik/görsel keşif ilgisi var; kesin sonuç beklentisi yok."
+    }
+  ]
+}

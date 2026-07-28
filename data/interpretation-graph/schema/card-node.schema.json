@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tarot-ai.internal/schema/interpretation-graph/card-node.schema.json",
+  "title": "Interpretation Graph — Card Node",
+  "description": "A single card's normalized, three-layer interpretation node (source-backed symbolic layer, product-designed reflection layer, global safety references). Pilot scope: one card only (16-tower). Not consumed by any runtime import as of schemaVersion 1.0.0 — see provenance.runtimeEnabled.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "displayName",
+    "englishName",
+    "arcanaNumber",
+    "arcana",
+    "sourceLayer",
+    "reflectionLayer",
+    "safetyRefs",
+    "provenance"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "id": {
+      "type": "string",
+      "description": "Must exactly match the canonical CardId in data/cards/*.json — never a NotebookLM-suggested variant such as '16-the-tower'.",
+      "pattern": "^[0-9]{2}-[a-z-]+$"
+    },
+    "displayName": { "type": "string", "minLength": 1 },
+    "englishName": { "type": "string", "minLength": 1 },
+    "arcanaNumber": { "type": "integer", "minimum": 0, "maximum": 21 },
+    "arcana": { "type": "string", "const": "major" },
+    "sourceLayer": { "$ref": "#/$defs/sourceLayer" },
+    "reflectionLayer": { "$ref": "#/$defs/reflectionLayer" },
+    "safetyRefs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+      "uniqueItems": true,
+      "description": "IDs into ontology/global-guardrails.json. Guardrail bodies are never copied into the card node."
+    },
+    "provenance": { "$ref": "#/$defs/provenance" }
+  },
+  "$defs": {
+    "symbol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "meaning", "safeUse", "risk"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+        "label": { "type": "string", "minLength": 1 },
+        "meaning": { "type": "string", "minLength": 1 },
+        "safeUse": { "type": "string", "minLength": 1 },
+        "risk": { "type": "string", "minLength": 1 }
+      }
+    },
+    "sourceLayer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["themes", "meaning", "centralTension", "doesNotMean", "symbols"],
+      "properties": {
+        "themes": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "meaning": { "type": "string", "minLength": 1 },
+        "centralTension": { "type": "string", "minLength": 1 },
+        "doesNotMean": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "symbols": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/symbol" }
+        }
+      }
+    },
+    "position": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["focus", "safeInterpretations", "reflectionQuestions", "prohibitedInferences"],
+      "properties": {
+        "focus": { "type": "string", "minLength": 1 },
+        "safeInterpretations": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "reflectionQuestions": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "prohibitedInferences": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "contextEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["focus", "followUpQuestion", "avoid"],
+      "properties": {
+        "focus": { "type": "string", "minLength": 1 },
+        "followUpQuestion": { "type": "string", "minLength": 1 },
+        "avoid": { "type": "string", "minLength": 1 }
+      }
+    },
+    "userSignalLens": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["signalRef", "focus", "safeInterpretation", "reflectionQuestion", "prohibitedAssumptions"],
+      "properties": {
+        "signalRef": {
+          "type": "string",
+          "description": "ID into ontology/user-signals.json."
+        },
+        "focus": { "type": "string", "minLength": 1 },
+        "safeInterpretation": { "type": "string", "minLength": 1 },
+        "reflectionQuestion": { "type": "string", "minLength": 1 },
+        "prohibitedAssumptions": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "adaptiveQuestion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "question", "purpose", "trigger", "collectsOneSignalOnly", "optional"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+        "question": { "type": "string", "minLength": 1 },
+        "purpose": { "type": "string", "minLength": 1 },
+        "trigger": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["topics", "goals", "explicitSignalRefs"],
+          "properties": {
+            "topics": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+            "goals": {
+              "type": "array",
+              "items": { "type": "string", "description": "ID into ontology/user-goals.json." }
+            },
+            "explicitSignalRefs": {
+              "type": "array",
+              "items": { "type": "string", "description": "ID into ontology/user-signals.json." }
+            }
+          }
+        },
+        "collectsOneSignalOnly": { "type": "boolean", "const": true },
+        "optional": { "type": "boolean", "const": true }
+      }
+    },
+    "reflectionLayer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "positions",
+        "contexts",
+        "userSignalLenses",
+        "adaptiveQuestionRefs",
+        "relationshipTypeRefs"
+      ],
+      "properties": {
+        "positions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["past", "present", "direction"],
+          "properties": {
+            "past": { "$ref": "#/$defs/position" },
+            "present": { "$ref": "#/$defs/position" },
+            "direction": { "$ref": "#/$defs/position" }
+          }
+        },
+        "contexts": {
+          "type": "object",
+          "propertyNames": { "pattern": "^[a-z][a-z-]*$" },
+          "additionalProperties": { "$ref": "#/$defs/contextEntry" }
+        },
+        "userSignalLenses": {
+          "type": "object",
+          "propertyNames": { "pattern": "^[a-z][a-z-]*$" },
+          "additionalProperties": { "$ref": "#/$defs/userSignalLens" }
+        },
+        "adaptiveQuestionRefs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/adaptiveQuestion" }
+        },
+        "relationshipTypeRefs": {
+          "type": "array",
+          "items": { "type": "string", "description": "ID into ontology/relationship-types.json." },
+          "uniqueItems": true
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "sourceNotesPath",
+        "normalizationNotes",
+        "runtimeEnabled",
+        "reviewRequiredBeforeRuntime"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["imported-from-notebooklm", "normalized", "pilot-reviewed", "not-source-verified-in-repository", "pilot-only"]
+        },
+        "sourceNotesPath": { "type": "string", "minLength": 1 },
+        "normalizationNotes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "runtimeEnabled": { "type": "boolean", "const": false },
+        "reviewRequiredBeforeRuntime": { "type": "boolean", "const": true }
+      }
+    }
+  }
+}
