@@ -10,7 +10,7 @@ This directory is the governance landing zone for the 78-card deck plus one card
 - Product-owner provenance attestation: confirmed (`docs/evidence/FULL_DECK_V2_PROVENANCE_DECLARATION.md` §5)
 - Production derivatives: 79 deterministic 512×768 WebP files generated and reproducibility-verified on `asset/09-production-derivatives` (`assets/tarot-cards-v2/derivatives/`); **canonical PNGs above are not modified by this step**
 - Visual QA: complete for all 79 derivatives, no REGENERATE/BLOCKED findings (`docs/evidence/FULL_DECK_V2_VISUAL_QA.md`)
-- Product integration (FAZ 9B): still gated - V2-D002 (generation-session evidence) remains PARTIAL and V2-D005 (Canva content audit) remains OPEN; see `docs/ASSET_LICENSING_DEBT_LOG_FULL_DECK_V2.md`
+- Product integration (FAZ 9B): all integration-gate items resolved - V2-D002 (generation-session evidence) is an explicit product-owner ACCEPTED RESIDUAL RISK, V2-D005 (Canva content audit) is CLOSED on a genuine product-owner element-level audit; see `docs/ASSET_LICENSING_DEBT_LOG_FULL_DECK_V2.md`
 - Commercial release: separately gated (V2-D003, V2-D004, V2-D009, V2-D010 remain open) - FAZ 9 integration, if it proceeds, does **not** clear commercial release
 
 ## Intended binary path
