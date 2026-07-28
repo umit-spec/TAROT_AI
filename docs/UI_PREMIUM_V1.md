@@ -1462,3 +1462,25 @@ bağlanmadı.
 (`CardArtworkPlaceholder` ve `CardReveal` dışında, ki bu fazın açık
 hedefiydi). `ReadingResult` bu fazda gerçek kart görseli almadı - kapsam
 yalnız `CardArtworkPlaceholder` katmanıyla sınırlıydı.
+
+## 23. RC-2 — Integrated Asset Release Candidate Audit (özet)
+
+Tam rapor: `docs/RC2_INTEGRATED_ASSET_AUDIT.md`. **Karar: PASS.**
+
+İzole clean-install (`npm ci`), registry/public-asset reconciliation, 22
+karta tam display-name audit (19 MATCH, 2 kabul edilebilir tipografik
+varyant, 1 gerçek kelime farkı - hiçbiri yanlış kart eşleşmesi değil),
+gerçek tarayıcıda cache açık/kapalı network isolation, 320px dahil 7
+viewport, slow-load, image-failure, accessibility (200% zoom dahil),
+reduced motion, performance yeniden hesaplama, bundle audit, frozen UI
+diff, ve - en kritik test - izole worktree'de gerçekten çalıştırılmış
+rollback provası (tam FAZ 9 zincirinin geri alınması `3f75408` ile
+**byte-birebir aynı** ağacı üretti) tamamlandı.
+
+İki MAJOR bulgu tespit edildi ve minimal, doğrulanmış düzeltmelerle
+kapatıldı: (1) uzun tek-kelime `displayName`'lerin (İmparatoriçe) 320px'te
+kırpılması → `break-words`; (2) görsel yükleme hatasında native
+broken-image ikonu görünmesi → nötr shell her zaman temel katman olacak
+şekilde yeniden yapılandırıldı, `onError` ile görsel gizleniyor. BLOCKER
+yok. Test: 489 → 490/490. Commercial-release kapıları
+(V2-D003/D004/D009/D010) hâlâ açık.
