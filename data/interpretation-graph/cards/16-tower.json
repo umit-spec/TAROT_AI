@@ -116,8 +116,8 @@
         "avoid": "Hangi seçimin 'doğru' olduğunu söylemek."
       },
       "family": {
-        "focus": "Aile içinde uzun süredir konuşulmamış bir gerilimin görünür hale gelmesi.",
-        "followUpQuestion": "Ailede sessizce taşınan bir gerginlik var mı?",
+        "focus": "Aile içindeki beklenti, rol veya iletişim biçimlerinin yeniden değerlendirilmesi.",
+        "followUpQuestion": "Aile içindeki hangi beklenti, rol veya iletişim biçimini daha açık değerlendirmek istersiniz?",
         "avoid": "Belirli bir aile üyesi hakkında suçlama ya da teşhis üretmek."
       },
       "boundaries": {
@@ -131,8 +131,8 @@
         "avoid": "Kişilik teşhisi ya da sabit bir etiket kullanmak."
       },
       "uncertainty": {
-        "focus": "Kontrolün bir kısmının elden bırakılmasıyla gelen rahatsızlığın kabulü.",
-        "followUpQuestion": "Kontrol edemediğiniz neyi kabul etmek zor geliyor?",
+        "focus": "Belirsizlik içinde kontrol alanında olanlarla açık kalan unsurların ayırt edilmesi.",
+        "followUpQuestion": "Bu durumda hangi unsurlar kontrolünüzde, hangileri henüz açık görünüyor?",
         "avoid": "Belirsizliğin ne zaman veya nasıl biteceğini söylemek."
       },
       "change": {
@@ -164,9 +164,9 @@
       },
       "control-scope-clarification": {
         "signalRef": "control-scope-clarification",
-        "focus": "Kontrolün bir kısmının elden bırakılmasının getirdiği rahatsızlığın kabulü.",
+        "focus": "Kontrol alanında olanlarla olmayanların ayırt edilmesi.",
         "safeInterpretation": "Bu kart, her şeyi kontrol etmenin mümkün olmadığı anları yansıtabilir.",
-        "reflectionQuestion": "Bırakmakta zorlandığınız kontrol nedir?",
+        "reflectionQuestion": "Bu durumda kontrolünüzde olanlarla olmayanları nasıl ayırıyorsunuz?",
         "prohibitedAssumptions": [
           "Kullanıcının 'kontrolcü' bir kişilik olduğu varsayılamaz.",
           "Kontrol kaybının olumsuz bir sonuca yol açacağı iddia edilemez."
@@ -206,7 +206,7 @@
         "signalRef": "loss-concern",
         "focus": "Kaybın bazen artık işlevi kalmamış bir yapının ortadan kalkması anlamına gelebileceği.",
         "safeInterpretation": "Bu kart, kaybın bazen artık işlevi kalmamış bir yapının ortadan kalkması anlamına gelebileceğini düşündürebilir.",
-        "reflectionQuestion": "Kaybetmekten korktuğunuz şey aslında neyi temsil ediyor?",
+        "reflectionQuestion": "Kaybetmekle ilişkilendirdiğiniz şey aslında neyi temsil ediyor?",
         "prohibitedAssumptions": [
           "Kullanıcının gerçekten bir şey/kişi kaybedeceği varsayılamaz.",
           "Kaybın kesin olarak gerçekleşeceği iddia edilemez."
@@ -352,7 +352,9 @@
       "Kesinlik ve yönlendirici ifadeler ('olacak', 'kesinlikle') olasılıksal dile ('olabilir', 'düşündürebilir') çevrildi.",
       "'crown' aday sembolü, governed artwork'te (public/assets/tarot-cards/v2/16_Kule.webp) görsel olarak doğrulanamadığı için sembol listesinden çıkarıldı.",
       "Rider-Waite-Smith / RWS adı hiçbir alanda kullanılmadı; yalnız 'governed artwork üzerinde gerçekten görülen semboller' ifadesi kullanıldı.",
-      "Source-backed sembolik katman (sourceLayer) ile ürün tarafından tasarlanan yansıtma katmanı (reflectionLayer) açıkça ayrıldı; hiçbiri 'evrensel tarot gerçeği' olarak sunulmadı."
+      "Source-backed sembolik katman (sourceLayer) ile ürün tarafından tasarlanan yansıtma katmanı (reflectionLayer) açıkça ayrıldı; hiçbiri 'evrensel tarot gerçeği' olarak sunulmadı.",
+      "IG-2 düzeltmesi (2026-07-28): contexts.family, contexts.uncertainty ve userSignalLenses.control-scope-clarification içindeki üç soru/focus metni, gerçekten gerilim/rahatsızlık/zorlanma olduğunu varsayan dilden nötr, araştırıcı dile çevrildi. Bu değişiklik yalnız pilot veri kalitesini artırır; runtime davranışını veya sourceLayer'ı etkilemez (bkz. data/interpretation-graph/evaluation/README.md).",
+      "IG-2 assumption audit bulgusu (2026-07-28): userSignalLenses.loss-concern.reflectionQuestion, adı verilen üç düzeltmenin dışında, sistematik tarama (tools/interpretation-graph/lib/assumption_audit.py) tarafından bulundu — 'korktuğunuz' ifadesi, sinyal kullanıcı tarafından açıkça seçilmiş olsa bile kullanıcının korktuğunu varsayıyordu. 'Kaybetmekle ilişkilendirdiğiniz şey aslında neyi temsil ediyor?' olarak nötrleştirildi."
     ],
     "runtimeEnabled": false,
     "reviewRequiredBeforeRuntime": true
