@@ -1035,3 +1035,186 @@ even with the unbroken long-word/long-sentence fixture.
 `src/app/api/**` / `src/server/**` are unchanged.
 `asset/06-full-tarot-deck-v2` was not merged into this branch and no real
 card artwork was integrated anywhere in this phase.
+
+## 20. FAZ 8 — Crisis, Error & Final System Polish (record)
+
+**Gerçek kart görselleri entegre edilmedi; asset/06-full-tarot-deck-v2
+branch'i bu fazda merge edilmedi. FAZ 8 kriz ekranını, hata ekranını ve
+sistem genelinde küçük tutarlılık boşluklarını düzenledi.**
+
+### 20.1 What changed
+
+Two components fully rewritten, same prop contracts they have always had,
+plus two small proven consistency fixes elsewhere:
+
+- **`CrisisNotice.tsx`** - full rewrite. Prop contract unchanged:
+  `{ message: string; resources: Array<{ label: string; contact: string }> }`
+  - no new prop exists, so none of the explicitly forbidden fields
+  (cards/interpretation/provider/persona/confidence/safetyFlags/crisisReason/
+  classifierScore/rawInput/sessionData/share/save/retry/dismiss/restart) can
+  reach this screen. `aria-label="crisis-resources"` → `role="alert"` +
+  `aria-labelledby` + `data-testid="crisis-resources"`. Previously the
+  governed `message` string *was* the heading; now the heading is fixed UI
+  copy ("Destek kaynakları") and `message` renders verbatim in its own
+  `data-testid="crisis-message"` paragraph - this keeps the region's
+  accessible name stable and semantic regardless of what the message
+  contains, and stops a long or oddly-punctuated message from bending
+  heading semantics. A quiet eyebrow ("Önce güvenlik") was added above the
+  heading, the one small addition the brief allowed. `resources` render in
+  exact array order as plain `<li>` items (never `<button>`/`<a>`, never
+  auto-linked into `<a href>`) inside a `data-testid="crisis-resource-list"`
+  `<ul>` under a visible "Şimdi ulaşabileceğin kaynaklar" heading; the whole
+  resource section is omitted (not rendered empty) when `resources` is an
+  empty array, mirroring the FAZ 6 empty-patterns pattern. Visual language:
+  muted burgundy `crisis-surface`/`crisis-accent` tokens (already existing,
+  unchanged), generous spacing, no flashing/pulse/siren/countdown, no tarot
+  or mystical vocabulary anywhere in the fixed copy.
+- **`ErrorNotice.tsx`** - full rewrite. Prop contract unchanged:
+  `{ userMessage: string; onRetry: () => void }` - no new prop, so raw
+  stack/Zod issues/status codes/provider names/request IDs structurally
+  cannot reach this screen. `aria-label="error-state"` → `role="alert"` +
+  `aria-labelledby` + `data-testid="error-state"`. Previously the heading
+  was `"Bir hata oluştu: " + userMessage` glued into one string; now the
+  heading is fixed UI copy ("Bir şeyler yolunda gitmedi") and `userMessage`
+  renders verbatim in its own `data-testid="error-message"` paragraph, with
+  no prefix, no punctuation, no fallback. A quiet eyebrow ("Geçici bir
+  aksaklık") was added. "Tekrar Dene" is unchanged text, still calls only
+  `onRetry` - no automatic retry, no countdown, no retry counter, no
+  storage/analytics/reload side effect was added. Visual language:
+  neutral/violet `diagnostic-subtle` surface (existing token, unchanged),
+  a primary gold CTA (this *is* a forward action, unlike ReflectionClose's
+  restart) - deliberately calmer and less severe-looking than the crisis
+  screen's burgundy surface.
+- **`QuestionForm.tsx`** (final-polish fix, not a redesign) - the `<form>`
+  carried `aria-label="question-form"`, a raw machine test-hook name with
+  no real accessible-name value to a screen-reader user, structurally
+  identical to the `crisis-resources`/`error-state` debt this phase was
+  already fixing. Replaced with `aria-labelledby` pointing at the screen's
+  existing visible heading id (`headingId`, already computed via `useId`
+  for the h2) plus `data-testid="question-form"` for the test hook. No
+  other line in this file changed.
+- **`ConsentDeclined.tsx`** (final-polish fix, not a redesign) -
+  `aria-label="consent-declined"` → `role="region"` + `aria-labelledby` +
+  `data-testid="consent-declined"`, matching every other screen's
+  migration pattern; the heading also gained `focus-visible:outline-none`,
+  which every other programmatically-focused heading in the app already
+  had but this one had been missed. No copy, layout, or behavior changed.
+
+### 20.2 Final system consistency audit (§14 of the brief)
+
+Swept every component under `src/components/` for the specific debt
+categories the brief named, and only touched what was actually found:
+
+- **Focus**: every `tabIndex={-1}` screen heading across all twelve
+  screens already carries `focus-visible:outline-none` except
+  `ConsentDeclined`, which was missing it (fixed above, §20.1).
+- **Technical `aria-label` test hooks**: grepped every remaining
+  `aria-label=` in `src/components/` after this phase's crisis/error
+  fixes. Found two genuine machine-name debts on whole-screen containers
+  (`question-form`, `consent-declined`, both fixed above). Two remaining
+  `aria-label`s on `QuestionForm.tsx`'s sub-groups (`"topic-hint"`,
+  `"soru-onerileri"`) were identified but deliberately left alone - unlike
+  a screen container, a `role="group"` here has no single natural visible
+  heading to point an `aria-labelledby` at, and migrating them would
+  require rewriting an already-passing, purpose-built anti-prophecy test
+  outside this phase's stated component boundary (CrisisNotice/ErrorNotice
+  + minimal proven fixes). `CardReveal`'s `aria-label="Üç kartlık açılım"`
+  and `ConsentModal`'s checkbox label are real semantic Turkish names, not
+  machine names - left untouched.
+- **Touch targets**: every button in every component keeps at least a
+  44×44px target (`min-h-[44px] min-w-[44px]` or larger); primary CTAs
+  are 48-52px. No gaps found.
+- **Contrast**: `CrisisNotice`'s new eyebrow (`text-crisis-accent/80` on
+  `bg-crisis-surface`) and `ErrorNotice`'s new eyebrow
+  (`text-foreground-muted` on `bg-diagnostic-subtle`) both reuse existing
+  token pairings already in use elsewhere in the app; no new hex value was
+  introduced anywhere in this phase.
+- **Overflow**: both new components apply `whitespace-pre-line
+  break-words` to their governed-text paragraphs, the same pattern used by
+  every prior phase's governed-content surfaces.
+- **Motion**: no new keyframe, transition, or continuous animation was
+  added; `globals.css` was not touched this phase.
+- **Asset isolation**: confirmed by grep - no `<img>`, no `.png`/`.jpg`
+  reference, and no `tarot-cards-v2` reference anywhere under
+  `src/components/` or `src/app/`.
+
+### 20.3 Retry behaviour
+
+`onRetry` fires exactly once per click/Enter/Space activation and never
+during render (verified by a dedicated test asserting zero calls
+immediately after mount). No automatic retry, countdown, exponential
+backoff UI, retry counter, `localStorage`, analytics payload, or
+`window.location.reload` was added - a dedicated test stubs both `fetch`
+and `Storage.prototype.setItem` and asserts neither fires when "Tekrar
+Dene" is clicked.
+
+### 20.4 Plain-text safety
+
+Both `message` (crisis) and `userMessage` (error), plus crisis
+`resources[].label`/`resources[].contact`, still only ever reach the DOM
+through JSX text interpolation - no `dangerouslySetInnerHTML`, markdown
+parser, HTML parser, or auto-linking anywhere in either component.
+Verified with three fixture families in both the unit suite and a real
+Chromium browser: `<script>alert(...)</script>` (zero `<script>` elements
+created, no `alert()` fired), `<img src=x onerror=alert(1)>` (zero `<img>`
+elements created inside the crisis/error surface, no `onerror` fired), and
+`<a href="javascript:alert(1)">...</a>` (zero `<a>` elements created, no
+navigation triggered). Also verified: 800+ character messages render in
+full, and both an empty `message` and an empty `userMessage` render with
+no crash and no client-authored fallback body.
+
+### 20.5 Tests added
+
+`ui-components.test.tsx` gained 16 new `CrisisNotice` tests (region name,
+verbatim message paragraph, exact resource order/content, no
+button/link/auto-link semantics on resource items, empty-resources
+section omission, empty-message defensive case, script/img/javascript-link
+security fixtures, 800+ char stress, heading focus-ring suppression) and
+18 new `ErrorNotice` tests (fixed heading, no prefix concatenation, single
+interactive control, keyboard retry, 44/48px touch target, no raw
+diagnostic leakage, empty-message defensive case, the same three security
+fixtures, 800+ char stress, no network/storage side effect on retry). The
+two pre-existing focus-management tests for both components were migrated
+to query the new fixed headings instead of the old message-as-heading
+text. `page-flow.test.tsx` had its 7 `getByLabelText`/`queryByLabelText`
+references to `crisis-resources`/`error-state`/`question-form`/
+`consent-declined` migrated to `getByTestId`/`queryByTestId`, and the two
+focus-transition tests (crisis, error) updated to assert focus on the new
+fixed headings rather than the old dynamic text. No assertion was
+loosened - every migrated test still proves the same guarantee, only the
+query mechanism changed. Total: 416 (FAZ 7 baseline) + 30 = **446/446
+passing.**
+
+### 20.6 Viewport QA (Playwright, real browser, real routes)
+
+375×812, 390×844, 768×1024, 1440×900 × six crisis states (normal/2
+resources, 4+ resources, long message, long contact, empty resources,
+plain-text security fixture across message/label/contact simultaneously) =
+24 cells, and the same four viewports × four error states (normal, long
+`userMessage`, empty `userMessage`, plain-text security fixture) = 16
+cells - all through real `/api/readings/preview` route interception, not
+component-level mocks. Every cell: no horizontal overflow, the heading
+correctly receives focus, the message/resources render byte-for-byte
+identical to what the route returned, zero `<script>`/`<img>`/`<a>`
+elements were created inside the crisis or error surface even for the
+combined HTML-injection fixture, and the resource item count matched
+exactly. The normal error case was additionally driven end-to-end with a
+real keyboard Enter on "Tekrar Dene", confirming it returns to the
+question-form screen. A separate final-smoke pass at 390×844 covered: the
+full happy path through to reflection close; restart from reflection
+returning to a clean compose screen with no leftover question text;
+consent decline showing the declined screen with no question form and no
+API call; "Sorumu düzenle" preserving the previously typed question; and
+`prefers-reduced-motion: reduce` correctly suppressing the loading-mark
+dot animation on the framing-review reveal step. All passed.
+
+### 20.7 Not touched
+
+`ConsentModal`, `useDialogFocus`, `FramingLoading`, `LoadingMark`,
+`ShuffleReveal`, `CardReveal`, `CardArtworkPlaceholder`, `PatternArrival`,
+`ReadingResult`, `CardNarrationItem`, `DiagnosticBadge`,
+`DisclaimerFooter`, `ReflectionClose`, `src/app/page.tsx`, `globals.css`,
+`tailwind.config.ts`, and every file under `src/app/api/**` /
+`src/server/**` are unchanged. No new npm dependency was added.
+`asset/06-full-tarot-deck-v2` was not merged into this branch and no real
+card artwork was integrated anywhere in this phase.

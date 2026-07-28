@@ -119,14 +119,14 @@ describe('HomePage — consent decline does not enter the reading flow', () => {
     render(<HomePage />);
     await userEvent.click(screen.getByRole('checkbox'));
     await userEvent.click(screen.getByRole('button', { name: 'Devam Et' }));
-    expect(screen.getByLabelText('question-form')).toBeInTheDocument();
+    expect(screen.getByTestId('question-form')).toBeInTheDocument();
   });
 
   test('decline moves to a declined screen, not compose', async () => {
     render(<HomePage />);
     await userEvent.click(screen.getByRole('button', { name: 'Çıkış' }));
-    expect(screen.getByLabelText('consent-declined')).toBeInTheDocument();
-    expect(screen.queryByLabelText('question-form')).not.toBeInTheDocument();
+    expect(screen.getByTestId('consent-declined')).toBeInTheDocument();
+    expect(screen.queryByTestId('question-form')).not.toBeInTheDocument();
   });
 
   test('declined screen never renders the question form and makes no API call', async () => {
@@ -134,19 +134,19 @@ describe('HomePage — consent decline does not enter the reading flow', () => {
     vi.stubGlobal('fetch', fetchSpy);
     render(<HomePage />);
     await userEvent.click(screen.getByRole('button', { name: 'Çıkış' }));
-    await waitFor(() => expect(screen.getByLabelText('consent-declined')).toBeInTheDocument());
-    expect(screen.queryByLabelText('question-form')).not.toBeInTheDocument();
+    await waitFor(() => expect(screen.getByTestId('consent-declined')).toBeInTheDocument());
+    expect(screen.queryByTestId('question-form')).not.toBeInTheDocument();
     expect(fetchSpy).not.toHaveBeenCalled();
   });
 
   test('"Kararımı değiştir" returns to consent, not directly to compose', async () => {
     render(<HomePage />);
     await userEvent.click(screen.getByRole('button', { name: 'Çıkış' }));
-    await waitFor(() => expect(screen.getByLabelText('consent-declined')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByTestId('consent-declined')).toBeInTheDocument());
     await userEvent.click(screen.getByRole('button', { name: 'Kararımı değiştir' }));
 
     expect(screen.getByRole('dialog', { name: CONSENT_MODAL_COPY.title })).toBeInTheDocument();
-    expect(screen.queryByLabelText('question-form')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('question-form')).not.toBeInTheDocument();
     // Re-entering consent still requires the checkbox again - no auto-compose.
     expect(screen.getByRole('button', { name: 'Devam Et' })).toBeDisabled();
   });
@@ -205,8 +205,8 @@ describe('HomePage — the preview loading surface reflects real request state, 
 
     // Still mid-flight: the form is not replaced by the loading surface, it
     // stays visible and marked busy/disabled alongside it (docs/UI_PREMIUM_V1.md FAZ 4).
-    expect(screen.getByLabelText('question-form')).toBeInTheDocument();
-    expect(screen.getByLabelText('question-form')).toHaveAttribute('aria-busy', 'true');
+    expect(screen.getByTestId('question-form')).toBeInTheDocument();
+    expect(screen.getByTestId('question-form')).toHaveAttribute('aria-busy', 'true');
     expect(screen.getByLabelText('Sorunuz')).toBeDisabled();
 
     const status = screen.getByTestId('preview-loading');
@@ -220,7 +220,7 @@ describe('HomePage — the preview loading surface reflects real request state, 
     resolvePreview(jsonResponse(previewOk));
     await waitFor(() => expect(screen.getByRole('region', { name: 'Seni doğru mu anladım?' })).toBeInTheDocument());
     expect(screen.queryByTestId('preview-loading')).not.toBeInTheDocument();
-    expect(screen.queryByLabelText('question-form')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('question-form')).not.toBeInTheDocument();
   });
 
   test('while the reading request is in flight, ShuffleReveal shows a truthful busy status and no card data', async () => {
@@ -448,7 +448,7 @@ describe('HomePage — pipeline outcomes render distinct, correct screens', () =
 
     await waitFor(() => expect(screen.getByRole('region', { name: 'Kartların ayrıntılı okuması' })).toBeInTheDocument());
     expect(screen.getByTestId('diagnostic-knowledge-partial')).toBeInTheDocument();
-    expect(screen.queryByLabelText('error-state')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('error-state')).not.toBeInTheDocument();
   });
 
   test('provider fallback (provider: mock) still flows through the reveal to full content', async () => {
@@ -478,11 +478,11 @@ describe('HomePage — pipeline outcomes render distinct, correct screens', () =
     );
     await compose('crisis-triggering question');
 
-    await waitFor(() => expect(screen.getByLabelText('crisis-resources')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByTestId('crisis-resources')).toBeInTheDocument());
     expect(screen.queryByRole('region', { name: 'Seni doğru mu anladım?' })).not.toBeInTheDocument();
     expect(screen.queryByRole('region', { name: 'Kartların ayrıntılı okuması' })).not.toBeInTheDocument();
     expect(screen.queryByRole('region', { name: 'Üç kartın birlikte gösterdiği örüntü' })).not.toBeInTheDocument();
-    expect(screen.queryByLabelText('reflection-close')).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Kendine bırakacağın soru' })).not.toBeInTheDocument();
     expect(screen.getByText('crisis test message')).toBeInTheDocument();
   });
 
@@ -496,7 +496,7 @@ describe('HomePage — pipeline outcomes render distinct, correct screens', () =
     await compose();
     await confirmFraming();
 
-    await waitFor(() => expect(screen.getByLabelText('crisis-resources')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByTestId('crisis-resources')).toBeInTheDocument());
     expect(screen.queryByRole('region', { name: 'Kartların ayrıntılı okuması' })).not.toBeInTheDocument();
     // Crisis never enters the reveal path.
     expect(screen.queryByRole('region', { name: 'Kartlarını kendi hızında aç' })).not.toBeInTheDocument();
@@ -506,7 +506,7 @@ describe('HomePage — pipeline outcomes render distinct, correct screens', () =
     vi.stubGlobal('fetch', routingFetch({ preview: () => jsonResponse({ error: 'invalid_request' }, 400) }));
     await compose();
 
-    await waitFor(() => expect(screen.getByLabelText('error-state')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByTestId('error-state')).toBeInTheDocument());
     expect(screen.queryByRole('region', { name: 'Seni doğru mu anladım?' })).not.toBeInTheDocument();
   });
 
@@ -516,11 +516,11 @@ describe('HomePage — pipeline outcomes render distinct, correct screens', () =
     }));
     await compose();
 
-    await waitFor(() => expect(screen.getByLabelText('error-state')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByTestId('error-state')).toBeInTheDocument());
     expect(screen.getByText(/Bağlantı hatası oluştu/)).toBeInTheDocument();
 
     await userEvent.click(screen.getByRole('button', { name: 'Tekrar Dene' }));
-    expect(screen.getByLabelText('question-form')).toBeInTheDocument();
+    expect(screen.getByTestId('question-form')).toBeInTheDocument();
   });
 });
 
@@ -547,13 +547,14 @@ describe('HomePage — focus management across transitions (a11y)', () => {
       })
     );
     await compose('crisis');
-    await waitFor(() => expect(screen.getByRole('heading', { name: 'kriz başlığı' })).toHaveFocus());
+    await waitFor(() => expect(screen.getByRole('heading', { name: 'Destek kaynakları' })).toHaveFocus());
+    expect(screen.getByTestId('crisis-message')).toHaveTextContent('kriz başlığı');
   });
 
   test('error transition focuses the error heading', async () => {
     vi.stubGlobal('fetch', routingFetch({ preview: () => jsonResponse({ error: 'invalid_request' }, 400) }));
     await compose();
-    await waitFor(() => expect(screen.getByRole('heading', { name: /Bir hata oluştu/ })).toHaveFocus());
+    await waitFor(() => expect(screen.getByRole('heading', { name: 'Bir şeyler yolunda gitmedi' })).toHaveFocus());
   });
 });
 

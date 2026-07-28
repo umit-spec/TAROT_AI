@@ -1,5 +1,6 @@
 'use client';
 
+import { useId } from 'react';
 import { useFocusOnMount } from '../lib/use-focus-on-mount';
 
 export interface ConsentDeclinedProps {
@@ -18,10 +19,21 @@ export interface ConsentDeclinedProps {
  */
 export function ConsentDeclined({ onReconsider }: ConsentDeclinedProps) {
   const headingRef = useFocusOnMount<HTMLHeadingElement>();
+  const headingId = useId();
 
   return (
-    <section aria-label="consent-declined" className="mt-4 rounded-2xl border border-border-subtle bg-surface p-6">
-      <h2 ref={headingRef} tabIndex={-1} className="font-heading text-xl text-foreground">
+    <section
+      role="region"
+      aria-labelledby={headingId}
+      data-testid="consent-declined"
+      className="mt-4 rounded-2xl border border-border-subtle bg-surface p-6"
+    >
+      <h2
+        ref={headingRef}
+        id={headingId}
+        tabIndex={-1}
+        className="font-heading text-xl text-foreground focus-visible:outline-none"
+      >
         Bu deneyimi kullanmamayı seçtiniz.
       </h2>
       <p className="mt-3 text-sm text-foreground-muted">İstediğiniz zaman geri dönebilirsiniz.</p>

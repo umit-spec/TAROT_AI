@@ -152,7 +152,8 @@ describe('CrisisNotice — cannot structurally carry tarot content', () => {
     };
     render(<CrisisNotice {...props} />);
     expect(screen.getByText('test crisis message')).toBeInTheDocument();
-    expect(screen.getByText(/Test Hattı/)).toBeInTheDocument();
+    expect(screen.getByText('Test Hattı')).toBeInTheDocument();
+    expect(screen.getByText('000')).toBeInTheDocument();
     expect(screen.getByRole('alert')).toBeInTheDocument();
   });
 
@@ -162,6 +163,220 @@ describe('CrisisNotice — cannot structurally carry tarot content', () => {
     // this test's existence (and a clean `npm run typecheck`) is the proof.
     const props: CrisisNoticeProps = { message: 'x', resources: [] };
     expect(Object.keys(props)).toEqual(['message', 'resources']);
+  });
+
+  test('region accessible name is the fixed heading, not the governed message', () => {
+    render(<CrisisNotice message="herhangi bir kriz metni" resources={[]} />);
+    expect(screen.getByRole('alert', { name: 'Destek kaynakları' })).toHaveAttribute(
+      'data-testid',
+      'crisis-resources'
+    );
+  });
+
+  test('message renders verbatim in its own paragraph, separate from the heading', () => {
+    render(<CrisisNotice message="tam olarak bu metin" resources={[]} />);
+    expect(screen.getByRole('heading', { name: 'Destek kaynakları' })).toBeInTheDocument();
+    expect(screen.getByTestId('crisis-message')).toHaveTextContent('tam olarak bu metin');
+    expect(screen.getByTestId('crisis-message').textContent).toBe('tam olarak bu metin');
+  });
+
+  test('resources render in exact given order, labels and contacts unmodified', () => {
+    const resources = [
+      { label: 'İlk Hat', contact: '111' },
+      { label: 'İkinci Hat', contact: '222' },
+      { label: 'Üçüncü Hat', contact: '333' },
+    ];
+    render(<CrisisNotice message="x" resources={resources} />);
+    const items = screen.getAllByRole('listitem');
+    expect(items.map((li) => li.textContent)).toEqual(['İlk Hat111', 'İkinci Hat222', 'Üçüncü Hat333']);
+  });
+
+  test('resource items are plain list items, not buttons or links', () => {
+    render(<CrisisNotice message="x" resources={[{ label: 'Hat', contact: '112' }]} />);
+    expect(screen.queryByRole('button')).not.toBeInTheDocument();
+    expect(screen.queryByRole('link')).not.toBeInTheDocument();
+    expect(screen.getAllByRole('listitem')).toHaveLength(1);
+  });
+
+  test('contact is not auto-linked into an <a href>', () => {
+    render(<CrisisNotice message="x" resources={[{ label: 'Hat', contact: '112' }]} />);
+    expect(document.querySelector('a')).not.toBeInTheDocument();
+  });
+
+  test('no technical aria-label="crisis-resources" test-hook string remains', () => {
+    render(<CrisisNotice message="x" resources={[]} />);
+    expect(screen.queryByLabelText('crisis-resources')).not.toBeInTheDocument();
+  });
+
+  test('empty resources renders no resource list section', () => {
+    render(<CrisisNotice message="x" resources={[]} />);
+    expect(screen.queryByTestId('crisis-resource-list')).not.toBeInTheDocument();
+    expect(screen.queryByRole('list')).not.toBeInTheDocument();
+    expect(screen.queryByText('Şimdi ulaşabileceğin kaynaklar')).not.toBeInTheDocument();
+  });
+
+  test('empty message does not crash and produces no fabricated fallback text', () => {
+    render(<CrisisNotice message="" resources={[{ label: 'Hat', contact: '112' }]} />);
+    expect(screen.getByTestId('crisis-message').textContent).toBe('');
+  });
+
+  test('no interpretation/card/provider/persona/confidence/safetyFlags leak - the props cannot carry them', () => {
+    render(<CrisisNotice message="x" resources={[{ label: 'Hat', contact: '112' }]} />);
+    const text = screen.getByRole('alert').textContent ?? '';
+    expect(text).not.toMatch(/provider|persona|confidence|safetyFlags|interpretation|kart/i);
+  });
+
+  test('an HTML/script-like message renders as inert text, never as a DOM element', () => {
+    const malicious = '<script>alert("crisis")</script>';
+    render(<CrisisNotice message={malicious} resources={[]} />);
+    expect(screen.getByTestId('crisis-message')).toHaveTextContent(malicious);
+    expect(document.querySelectorAll('script').length).toBe(0);
+  });
+
+  test('an <img onerror> style message renders as inert text, no image element is created', () => {
+    const malicious = '<img src=x onerror=alert(1)>';
+    render(<CrisisNotice message={malicious} resources={[]} />);
+    expect(screen.getByTestId('crisis-message')).toHaveTextContent(malicious);
+    expect(document.querySelectorAll('img').length).toBe(0);
+  });
+
+  test('a javascript: link style message renders as inert text, no anchor is created', () => {
+    const malicious = '<a href="javascript:alert(1)">tıkla</a>';
+    render(<CrisisNotice message={malicious} resources={[]} />);
+    expect(screen.getByTestId('crisis-message')).toHaveTextContent(malicious);
+    expect(document.querySelectorAll('a').length).toBe(0);
+  });
+
+  test('an 800+ character message renders in full, not truncated', () => {
+    const long = 'Uzun bir kriz mesajı parçası. '.repeat(30).trim();
+    expect(long.length).toBeGreaterThan(800);
+    render(<CrisisNotice message={long} resources={[]} />);
+    expect(screen.getByTestId('crisis-message').textContent).toBe(long);
+  });
+
+  test('the heading is tabIndex=-1 and never shows the interactive focus-visible ring', () => {
+    render(<CrisisNotice message="x" resources={[]} />);
+    const heading = screen.getByRole('heading', { name: 'Destek kaynakları' });
+    expect(heading).toHaveAttribute('tabindex', '-1');
+    expect(heading.className).toMatch(/focus-visible:outline-none/);
+  });
+});
+
+describe('ErrorNotice — user-safe technical failure, never a crisis look-alike', () => {
+  test('the fixed heading is exact, and userMessage renders verbatim in its own paragraph', () => {
+    render(<ErrorNotice userMessage="sunucuya ulaşılamadı" onRetry={vi.fn()} />);
+    expect(screen.getByRole('heading', { name: 'Bir şeyler yolunda gitmedi' })).toBeInTheDocument();
+    expect(screen.getByTestId('error-message').textContent).toBe('sunucuya ulaşılamadı');
+  });
+
+  test('no "Bir hata oluştu:" prefix is glued onto userMessage', () => {
+    render(<ErrorNotice userMessage="sunucuya ulaşılamadı" onRetry={vi.fn()} />);
+    expect(screen.queryByText(/Bir hata oluştu:/)).not.toBeInTheDocument();
+  });
+
+  test('the retry button is exact and region accessible name is the fixed heading', () => {
+    render(<ErrorNotice userMessage="x" onRetry={vi.fn()} />);
+    expect(screen.getByRole('button', { name: 'Tekrar Dene' })).toBeInTheDocument();
+    expect(screen.getByRole('alert', { name: 'Bir şeyler yolunda gitmedi' })).toHaveAttribute(
+      'data-testid',
+      'error-state'
+    );
+  });
+
+  test('no technical aria-label="error-state" test-hook string remains', () => {
+    render(<ErrorNotice userMessage="x" onRetry={vi.fn()} />);
+    expect(screen.queryByLabelText('error-state')).not.toBeInTheDocument();
+  });
+
+  test('retry fires onRetry exactly once per click, not during render', async () => {
+    const onRetry = vi.fn();
+    render(<ErrorNotice userMessage="x" onRetry={onRetry} />);
+    expect(onRetry).not.toHaveBeenCalled();
+    await userEvent.click(screen.getByRole('button', { name: 'Tekrar Dene' }));
+    expect(onRetry).toHaveBeenCalledTimes(1);
+  });
+
+  test('retry works with the keyboard (Enter and Space)', async () => {
+    const onRetry = vi.fn();
+    render(<ErrorNotice userMessage="x" onRetry={onRetry} />);
+    const retry = screen.getByRole('button', { name: 'Tekrar Dene' });
+    retry.focus();
+    await userEvent.keyboard('{Enter}');
+    expect(onRetry).toHaveBeenCalledTimes(1);
+    await userEvent.keyboard(' ');
+    expect(onRetry).toHaveBeenCalledTimes(2);
+  });
+
+  test('retry button keeps a 44px+ minimum touch target (48px preferred)', () => {
+    render(<ErrorNotice userMessage="x" onRetry={vi.fn()} />);
+    const retry = screen.getByRole('button', { name: 'Tekrar Dene' });
+    expect(retry.className).toMatch(/min-h-\[48px\]/);
+    expect(retry.className).toMatch(/min-w-\[44px\]/);
+  });
+
+  test('only one interactive control exists on the whole screen', () => {
+    render(<ErrorNotice userMessage="x" onRetry={vi.fn()} />);
+    expect(screen.getAllByRole('button')).toHaveLength(1);
+  });
+
+  test('no raw stack trace, Zod issue, status code, or provider name leaks - the props cannot carry them', () => {
+    render(<ErrorNotice userMessage="x" onRetry={vi.fn()} />);
+    const text = screen.getByRole('alert').textContent ?? '';
+    expect(text).not.toMatch(/stack|zod|status|provider|requestId|debug/i);
+  });
+
+  test('empty userMessage does not crash; heading and retry stay present with no fabricated body', () => {
+    render(<ErrorNotice userMessage="" onRetry={vi.fn()} />);
+    expect(screen.getByRole('heading', { name: 'Bir şeyler yolunda gitmedi' })).toBeInTheDocument();
+    expect(screen.getByTestId('error-message').textContent).toBe('');
+    expect(screen.getByRole('button', { name: 'Tekrar Dene' })).toBeInTheDocument();
+  });
+
+  test('an HTML/script-like userMessage renders as inert text, never as a DOM element', () => {
+    const malicious = '<script>alert("error")</script>';
+    render(<ErrorNotice userMessage={malicious} onRetry={vi.fn()} />);
+    expect(screen.getByTestId('error-message')).toHaveTextContent(malicious);
+    expect(document.querySelectorAll('script').length).toBe(0);
+  });
+
+  test('an <img onerror> style userMessage renders as inert text, no image element is created', () => {
+    const malicious = '<img src=x onerror=alert(1)>';
+    render(<ErrorNotice userMessage={malicious} onRetry={vi.fn()} />);
+    expect(screen.getByTestId('error-message')).toHaveTextContent(malicious);
+    expect(document.querySelectorAll('img').length).toBe(0);
+  });
+
+  test('a javascript: link style userMessage renders as inert text, no anchor is created', () => {
+    const malicious = '<a href="javascript:alert(1)">tıkla</a>';
+    render(<ErrorNotice userMessage={malicious} onRetry={vi.fn()} />);
+    expect(screen.getByTestId('error-message')).toHaveTextContent(malicious);
+    expect(document.querySelectorAll('a').length).toBe(0);
+  });
+
+  test('an 800+ character userMessage renders in full, not truncated', () => {
+    const long = 'Uzun bir hata mesajı parçası. '.repeat(30).trim();
+    expect(long.length).toBeGreaterThan(800);
+    render(<ErrorNotice userMessage={long} onRetry={vi.fn()} />);
+    expect(screen.getByTestId('error-message').textContent).toBe(long);
+  });
+
+  test('the heading is tabIndex=-1 and never shows the interactive focus-visible ring', () => {
+    render(<ErrorNotice userMessage="x" onRetry={vi.fn()} />);
+    const heading = screen.getByRole('heading', { name: 'Bir şeyler yolunda gitmedi' });
+    expect(heading).toHaveAttribute('tabindex', '-1');
+    expect(heading.className).toMatch(/focus-visible:outline-none/);
+  });
+
+  test('no new network, storage, or reload side-effect fires on retry', async () => {
+    const fetchSpy = vi.fn();
+    vi.stubGlobal('fetch', fetchSpy);
+    const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
+    render(<ErrorNotice userMessage="x" onRetry={vi.fn()} />);
+    await userEvent.click(screen.getByRole('button', { name: 'Tekrar Dene' }));
+    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(setItemSpy).not.toHaveBeenCalled();
+    setItemSpy.mockRestore();
+    vi.unstubAllGlobals();
   });
 });
 
@@ -507,19 +722,19 @@ describe('Focus management (a11y) — a screen transition lands focus in the new
     await waitFor(() => expect(screen.getByRole('heading', { name: 'Seni doğru mu anladım?' })).toHaveFocus());
   });
 
-  test('CrisisNotice focuses the crisis heading on mount', async () => {
+  test('CrisisNotice focuses the fixed crisis heading on mount', async () => {
     render(<CrisisNotice message="crisis heading" resources={[{ label: 'x', contact: '112' }]} />);
-    await waitFor(() => expect(screen.getByRole('heading', { name: 'crisis heading' })).toHaveFocus());
+    await waitFor(() => expect(screen.getByRole('heading', { name: 'Destek kaynakları' })).toHaveFocus());
   });
 
-  test('ErrorNotice focuses the error heading on mount', async () => {
+  test('ErrorNotice focuses the fixed error heading on mount', async () => {
     render(<ErrorNotice userMessage="bir sorun" onRetry={vi.fn()} />);
-    await waitFor(() => expect(screen.getByRole('heading', { name: /bir sorun/ })).toHaveFocus());
+    await waitFor(() => expect(screen.getByRole('heading', { name: 'Bir şeyler yolunda gitmedi' })).toHaveFocus());
   });
 
   test('the focused heading uses tabIndex=-1 so the normal tab order is unchanged', () => {
     render(<ErrorNotice userMessage="x" onRetry={vi.fn()} />);
-    expect(screen.getByRole('heading', { name: /x/ })).toHaveAttribute('tabindex', '-1');
+    expect(screen.getByRole('heading', { name: 'Bir şeyler yolunda gitmedi' })).toHaveAttribute('tabindex', '-1');
   });
 
   test('QuestionForm with autoFocus moves focus to the question textarea', async () => {
