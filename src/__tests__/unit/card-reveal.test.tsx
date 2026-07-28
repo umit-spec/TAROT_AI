@@ -206,7 +206,7 @@ describe('CardReveal — a11y, focus progression, and reduced motion', () => {
   });
 });
 
-describe('CardReveal — layout contract for future real artwork', () => {
+describe('CardReveal — layout contract', () => {
   test('every card surface carries the 2:3 aspect-ratio contract', () => {
     const { container } = render(<CardReveal cards={CARDS} reducedMotion={false} onContinue={vi.fn()} />);
     const faces = container.querySelectorAll('.aspect-\\[2\\/3\\]');
@@ -228,9 +228,59 @@ describe('CardReveal — layout contract for future real artwork', () => {
     expect(button.className).toMatch(/min-h-\[44px\]/);
     expect(button.className).toMatch(/min-w-\[44px\]/);
   });
+});
 
-  test('no <img>, Next <Image>, or raster asset is rendered anywhere in the reveal', () => {
+describe('CardReveal — governed artwork identity isolation (FAZ 9)', () => {
+  test('before any reveal, no face image is rendered - only card backs', async () => {
     const { container } = render(<CardReveal cards={CARDS} reducedMotion={false} onContinue={vi.fn()} />);
-    expect(container.querySelectorAll('img').length).toBe(0);
+    const imgs = container.querySelectorAll('img');
+    // Card back is a decorative image shown for both the current and the
+    // two locked cards - three card-back images, zero face images.
+    expect(imgs.length).toBe(3);
+    for (const img of Array.from(imgs)) {
+      expect(img.getAttribute('alt')).toBe('');
+    }
+  });
+
+  test('revealing the first card adds exactly one face image, others remain card backs', async () => {
+    const { container } = render(<CardReveal cards={CARDS} reducedMotion={false} onContinue={vi.fn()} />);
+    await userEvent.click(screen.getByRole('button', { name: 'Geçmiş kartını aç' }));
+    const revealed = screen.getByTestId('revealed-00-fool');
+    const faceImg = within(revealed).getByAltText('Deli');
+    expect(faceImg).toBeInTheDocument();
+    // Still exactly 2 non-face (card-back) images for the remaining current+locked cards.
+    const decorativeImgs = Array.from(container.querySelectorAll('img[alt=""]'));
+    expect(decorativeImgs).toHaveLength(2);
+  });
+
+  test('revealing all three cards shows exactly three distinct face images, no leftover card backs', async () => {
+    const { container } = render(<CardReveal cards={CARDS} reducedMotion={false} onContinue={vi.fn()} />);
+    await revealAll();
+    expect(screen.getByAltText('Deli')).toBeInTheDocument();
+    expect(screen.getByAltText('Büyücü')).toBeInTheDocument();
+    expect(screen.getByAltText('Yüksek Rahibe')).toBeInTheDocument();
+    expect(container.querySelectorAll('img[alt=""]')).toHaveLength(0);
+  });
+
+  test('no raw card id ever appears in the rendered HTML, revealed or not', async () => {
+    const { container } = render(<CardReveal cards={CARDS} reducedMotion={false} onContinue={vi.fn()} />);
+    await userEvent.click(screen.getByRole('button', { name: 'Geçmiş kartını aç' }));
+    // "00-fool" appears in data-testid (a technical hook, not visible content
+    // or an accessible name) - assert it never appears as visible text or in
+    // an alt attribute, which is the actual leak surface.
+    for (const img of Array.from(container.querySelectorAll('img'))) {
+      expect(img.getAttribute('alt')).not.toMatch(/fool|magician|priestess/i);
+    }
+    expect(screen.queryByText('00-fool')).not.toBeInTheDocument();
+  });
+
+  test('no external URL and no canonical PNG path is ever used as an image src', async () => {
+    const { container } = render(<CardReveal cards={CARDS} reducedMotion={false} onContinue={vi.fn()} />);
+    await revealAll();
+    for (const img of Array.from(container.querySelectorAll('img'))) {
+      const src = img.getAttribute('src') ?? '';
+      expect(src).not.toMatch(/^https?:\/\//);
+      expect(src).not.toMatch(/\.png/);
+    }
   });
 });

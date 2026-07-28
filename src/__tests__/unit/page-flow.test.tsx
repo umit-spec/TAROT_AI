@@ -420,6 +420,72 @@ describe('HomePage — the reveal gates the interpretation (3/3)', () => {
   });
 });
 
+describe('HomePage — governed card artwork loads progressively through the real flow (FAZ 9)', () => {
+  test('arriving at the reveal shows only card-back images, no face images', async () => {
+    vi.stubGlobal('fetch', routingFetch({}));
+    await compose();
+    await confirmFraming();
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Kartlarını kendi hızında aç' })).toBeInTheDocument());
+    const list = screen.getByTestId('reveal-list');
+    const imgs = list.querySelectorAll('img');
+    expect(imgs.length).toBe(3);
+    for (const img of Array.from(imgs)) {
+      expect(img.getAttribute('alt')).toBe('');
+    }
+  });
+
+  test('revealing one card at a time adds exactly one face image per click, in order', async () => {
+    vi.stubGlobal('fetch', routingFetch({}));
+    await compose();
+    await confirmFraming();
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Kartlarını kendi hızında aç' })).toBeInTheDocument());
+
+    await userEvent.click(screen.getByRole('button', { name: 'Geçmiş kartını aç' }));
+    expect(screen.getByAltText('Deli')).toBeInTheDocument();
+    expect(screen.queryByAltText('Büyücü')).not.toBeInTheDocument();
+    expect(screen.queryByAltText('Yüksek Rahibe')).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole('button', { name: 'Şimdi kartını aç' }));
+    expect(screen.getByAltText('Büyücü')).toBeInTheDocument();
+    expect(screen.queryByAltText('Yüksek Rahibe')).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole('button', { name: 'Yön kartını aç' }));
+    expect(screen.getByAltText('Yüksek Rahibe')).toBeInTheDocument();
+  });
+
+  test('crisis path never renders a card face or card-back image', async () => {
+    vi.stubGlobal(
+      'fetch',
+      routingFetch({
+        preview: () => jsonResponse({ status: 'crisis', message: 'crisis test message', resources: [{ label: 'x', contact: '112' }] }),
+      })
+    );
+    await compose('crisis');
+    await waitFor(() => expect(screen.getByTestId('crisis-resources')).toBeInTheDocument());
+    expect(document.querySelectorAll('img').length).toBe(0);
+  });
+
+  test('error path never renders a card face or card-back image', async () => {
+    vi.stubGlobal('fetch', routingFetch({ preview: () => jsonResponse({ error: 'invalid_request' }, 400) }));
+    await compose();
+    await waitFor(() => expect(screen.getByTestId('error-state')).toBeInTheDocument());
+    expect(document.querySelectorAll('img').length).toBe(0);
+  });
+
+  test('restart from reflection close leaves no face images behind', async () => {
+    vi.stubGlobal('fetch', routingFetch({}));
+    await compose();
+    await confirmFraming();
+    await revealAllAndContinue();
+    await completeFromPattern();
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Kendine bırakacağın soru' })).toBeInTheDocument());
+
+    await userEvent.click(screen.getByRole('button', { name: 'Yeniden başla' }));
+    await waitFor(() => expect(screen.getByTestId('question-form')).toBeInTheDocument());
+    expect(document.querySelectorAll('img').length).toBe(0);
+  });
+});
+
 describe('HomePage — pipeline outcomes render distinct, correct screens', () => {
   test('normal success renders the reading with no diagnostic badges', async () => {
     vi.stubGlobal('fetch', routingFetch({}));
