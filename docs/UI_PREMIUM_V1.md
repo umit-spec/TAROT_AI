@@ -903,3 +903,135 @@ panel read as calm status text, not an error banner.
 markdown renderer, or HTML-parsing code was introduced anywhere - every
 governed string still goes through plain JSX text interpolation, which is
 what the new script-fixture test exists to prove rather than assume.
+
+## 19. FAZ 7 — Reflection Close Experience (record)
+
+**Gerçek kart görselleri entegre edilmedi; asset/06-full-tarot-deck-v2
+branch'i bu fazda merge edilmedi. FAZ 7 yalnız oturumun kapanış ekranını
+düzenledi.**
+
+### 19.1 What changed
+
+One component, presentation-only, same two-prop contract it has always had:
+
+- **`ReflectionClose.tsx`** - full rewrite. Prop contract unchanged:
+  `{ reflectionPrompt: string; onRestart: () => void }` - no new prop was
+  added, and none of the explicitly forbidden ones (interpretation, cards,
+  provider, persona, confidence, safetyFlags, save/share/journal callbacks)
+  exist on this component. `aria-label="reflection-close"` →
+  `role="region"` + `aria-labelledby` (pointing at the real visible
+  heading, `useId`-generated) + `data-testid="reflection-close"`, mirroring
+  every prior screen migration. `aria-label="reflection-question"` →
+  `data-testid="reflection-question"` alone (the question paragraph carries
+  no accessible-name attribute of its own - it's read as part of the
+  region's flow, not announced as a landmark). One small addition allowed
+  by the brief: a quiet eyebrow line ("Okumanın sonu") above the heading.
+  Everything else - "Kendine bırakacağın soru" heading, "Yanıtlamak
+  zorunda değilsin. Bu soruyu yanında taşıman yeterli." support line,
+  "Yeniden başla" button text - is byte-for-byte the same copy as before
+  this phase. `reflectionPrompt` is still rendered as a single unwrapped
+  `{reflectionPrompt}` JSX expression - no trim, no punctuation, no
+  fallback string anywhere in the component. The question sits in a
+  gold-accented, violet-tinted panel (`border-l-2 border-gold/60
+  bg-violet-deep/10`) with `whitespace-pre-line` so governed newlines
+  render as line breaks instead of being collapsed. The restart control
+  stayed a neutral outlined button (`border border-border-strong`, no
+  fill, no gold), `min-h-[48px]` (above the 44px floor), full-width on
+  mobile and auto-width from `sm:` up - never framed as "oku tekrar" and
+  never styled as the primary gold CTA used elsewhere in the app.
+
+### 19.2 Content and contract rules - unchanged
+
+Exactly one question mark can ever appear on this screen, because the
+screen only ever renders one piece of governed text
+(`reflectionPrompt`) plus fixed copy that contains no `?` - verified by a
+test that scans the whole region's `textContent` for `?` occurrences and
+asserts exactly one, for both a normal prompt and content-only checks. No
+`uncertaintyNotice`, `provider`, `reflectionPromptSource`, `fallbackReason`,
+`confidence`, `safetyFlags`, or `persona` value can leak here because none
+of those are props on this component - the same "the prop doesn't exist,
+so it can't leak" pattern used for `symbolicMeaning` in FAZ 6. No
+save/share/journal/streak/badge/upsell control exists; the only
+interactive element on the whole screen is the single restart button
+(asserted via `getAllByRole('button')` returning exactly one element).
+
+### 19.3 Accessibility
+
+Heading receives focus on mount via the existing `useFocusOnMount` hook,
+consistent with every other screen transition; the heading is
+`tabIndex={-1}` with `focus-visible:outline-none` so it never shows the
+interactive-looking gold ring (FAZ 2.1 §14.1 fix, applied here too). The
+screen is a plain `role="region"`, not an `alert` or a live region - a
+governed reflection question is not an urgent system message, and no
+`aria-live` attribute exists on the question paragraph. Keyboard operation
+of the restart button was verified with both Enter and Space.
+
+### 19.4 Restart behaviour (no `page.tsx` change)
+
+`page.tsx`'s existing wiring - `onRestart={() => setState({ status:
+'compose' })}` - was read carefully rather than assumed correct. Because
+this resets `ViewState` to `{ status: 'compose' }` with no leftover
+`data`/`initial` field, React unmounts the entire prior component tree
+(question, framing, cards, pattern, reading, reflection all go away
+together); there was no bug to fix here, so `page.tsx` was **not**
+modified. A new regression test was added to `page-flow.test.tsx` instead,
+proving this behaviour rather than trusting it: after reaching reflection
+close with a distinctive question string and clicking "Yeniden başla", the
+test asserts the reflection region is gone, the original question text is
+gone, the reflection prompt text is gone, the pattern/detail regions are
+gone, and the compose textbox is back and empty.
+
+### 19.5 Plain-text safety and edge content
+
+`reflectionPrompt` still only ever reaches the DOM through JSX text
+interpolation - no `dangerouslySetInnerHTML`, no markdown parsing, no HTML
+parsing anywhere in the component. Verified in both the unit suite and a
+real Chromium browser: a literal `<script>alert("reflection")</script>`
+fixture renders as inert visible text with zero `<script>` elements in the
+document and no `alert()` side effect. Additional fixtures, all rendered
+verbatim with no crash and no client-authored fallback: an 800+ character
+prompt (renders in full, not truncated), a prompt containing `\n` newlines
+(preserved as line breaks via `whitespace-pre-line`), a single-character
+prompt (`"?"`), a prompt containing emoji, and an empty string prompt
+(renders as an empty panel - no substitute question text appears anywhere
+on the screen).
+
+### 19.6 Tests added
+
+`reflection-close.test.tsx` was fully rewritten (20 tests): every
+`getByLabelText` query migrated to `getByRole('region', ...)` /
+`getByTestId`, plus 6 new plain-text-safety/edge-case tests (script
+injection, 800+ char length, newlines, single character, emoji, empty
+prompt). `page-flow.test.tsx`'s six reflection-close integration tests had
+their `getByLabelText('reflection-close')` / `getByLabelText
+('reflection-question')` queries migrated to the same
+`role`+name/`data-testid` pattern - no assertion was loosened, only the
+query mechanism changed - plus one new regression test proving the
+restart-clears-all-state behaviour described in §19.4. Total: 402 (FAZ 6
+baseline) + 14 = **416/416 passing.**
+
+### 19.7 Viewport QA (Playwright, real browser, real routes)
+
+375×812, 390×844, 768×1024, 1440×900, driven through the real
+`/api/readings/preview` → `/api/readings` flow (mocked reading response
+only where a specific `reflectionPrompt` fixture needed to be forced - the
+happy-path run used the app's own mock provider unmodified): no horizontal
+overflow at any width, the heading correctly receives focus on arrival, no
+console errors, restart correctly returns to a fresh compose screen with
+no leftover state. A second QA pass forced five `reflectionPrompt`
+fixtures (script-injection, 800+ chars, newlines, emoji, empty) through
+the real reading response at 375×812 and 1440×900: all ten cells rendered
+the prompt byte-for-byte identical to what the mocked API returned, no
+`<script>` element was ever created, and no horizontal overflow occurred
+even with the unbroken long-word/long-sentence fixture.
+
+### 19.8 Not touched
+
+`CrisisNotice`, `ErrorNotice`, `ConsentModal`, `ConsentDeclined`,
+`useDialogFocus`, `QuestionForm`, `FramingReview`, `FramingLoading`,
+`LoadingMark`, `ShuffleReveal`, `CardReveal`, `CardArtworkPlaceholder`,
+`PatternArrival`, `ReadingResult`, `CardNarrationItem`, `DiagnosticBadge`,
+`DisclaimerFooter`, `src/app/page.tsx`, and every file under
+`src/app/api/**` / `src/server/**` are unchanged.
+`asset/06-full-tarot-deck-v2` was not merged into this branch and no real
+card artwork was integrated anywhere in this phase.

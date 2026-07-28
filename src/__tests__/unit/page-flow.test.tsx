@@ -564,7 +564,7 @@ describe('HomePage — reflection close is reachable from both the pattern and t
     await confirmFraming();
     await waitFor(() => expect(screen.getByRole('region', { name: 'Kartlarını kendi hızında aç' })).toBeInTheDocument());
     await userEvent.click(screen.getByRole('button', { name: 'Geçmiş kartını aç' }));
-    expect(screen.queryByLabelText('reflection-close')).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Kendine bırakacağın soru' })).not.toBeInTheDocument();
   });
 
   test('pattern -> primary CTA lands on the reflection close, without opening details', async () => {
@@ -574,8 +574,8 @@ describe('HomePage — reflection close is reachable from both the pattern and t
     await revealAllAndContinue();
     await completeFromPattern();
 
-    await waitFor(() => expect(screen.getByLabelText('reflection-close')).toBeInTheDocument());
-    expect(screen.getByLabelText('reflection-question').textContent).toBe(RESPONSE_REFLECTION_PROMPT);
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Kendine bırakacağın soru' })).toBeInTheDocument());
+    expect(screen.getByTestId('reflection-question').textContent).toBe(RESPONSE_REFLECTION_PROMPT);
     // Details were never required.
     expect(screen.queryByRole('region', { name: 'Kartların ayrıntılı okuması' })).not.toBeInTheDocument();
   });
@@ -587,8 +587,8 @@ describe('HomePage — reflection close is reachable from both the pattern and t
     await revealAllAndContinue();
     await completeFromDetails();
 
-    await waitFor(() => expect(screen.getByLabelText('reflection-close')).toBeInTheDocument());
-    expect(screen.getByLabelText('reflection-question').textContent).toBe(RESPONSE_REFLECTION_PROMPT);
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Kendine bırakacağın soru' })).toBeInTheDocument());
+    expect(screen.getByTestId('reflection-question').textContent).toBe(RESPONSE_REFLECTION_PROMPT);
   });
 
   test('reaching reflection makes no extra API call and never redraws', async () => {
@@ -598,7 +598,7 @@ describe('HomePage — reflection close is reachable from both the pattern and t
     await confirmFraming();
     await revealAllAndContinue();
     await completeFromPattern();
-    await waitFor(() => expect(screen.getByLabelText('reflection-close')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Kendine bırakacağın soru' })).toBeInTheDocument());
     // Only the preview + reading calls; the reflection close calls nothing.
     expect(fetchSpy).toHaveBeenCalledTimes(2);
   });
@@ -609,8 +609,8 @@ describe('HomePage — reflection close is reachable from both the pattern and t
     await confirmFraming();
     await revealAllAndContinue();
     await completeFromPattern();
-    await waitFor(() => expect(screen.getByLabelText('reflection-close')).toBeInTheDocument());
-    const text = screen.getByLabelText('reflection-close').textContent ?? '';
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Kendine bırakacağın soru' })).toBeInTheDocument());
+    const text = screen.getByRole('region', { name: 'Kendine bırakacağın soru' }).textContent ?? '';
     expect(text).not.toMatch(/provider|source|fallback|mock|confidence|safetyFlags/i);
   });
 
@@ -620,7 +620,29 @@ describe('HomePage — reflection close is reachable from both the pattern and t
     await confirmFraming();
     await revealAllAndContinue();
     await completeFromPattern();
-    await waitFor(() => expect(screen.getByLabelText('reflection-close')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Kendine bırakacağın soru' })).toBeInTheDocument());
+  });
+
+  test('restart from reflection close returns to a clean initial compose state (no leftover question/topic/cards/pattern/reflection)', async () => {
+    vi.stubGlobal('fetch', routingFetch({}));
+    await compose('gizli bir soru metni burada');
+    await confirmFraming();
+    await revealAllAndContinue();
+    await completeFromPattern();
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Kendine bırakacağın soru' })).toBeInTheDocument());
+
+    await userEvent.click(screen.getByRole('button', { name: 'Yeniden başla' }));
+
+    // Back at the initial compose screen: the question form is present and
+    // empty, and nothing from the previous session survives on screen.
+    await waitFor(() => expect(screen.queryByRole('region', { name: 'Kendine bırakacağın soru' })).not.toBeInTheDocument());
+    expect(screen.queryByText('gizli bir soru metni burada')).not.toBeInTheDocument();
+    expect(screen.queryByText(RESPONSE_REFLECTION_PROMPT)).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Üç kartın birlikte gösterdiği örüntü' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Kartların ayrıntılı okuması' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Kartlarını kendi hızında aç' })).not.toBeInTheDocument();
+    const questionInput = screen.getByRole('textbox');
+    expect(questionInput).toHaveValue('');
   });
 });
 
