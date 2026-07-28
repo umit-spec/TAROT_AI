@@ -36,7 +36,7 @@ async function compose(question = 'test question') {
 }
 
 async function confirmFraming() {
-  await waitFor(() => expect(screen.getByLabelText('framing-review')).toBeInTheDocument());
+  await waitFor(() => expect(screen.getByRole('region', { name: 'Seni doğru mu anladım?' })).toBeInTheDocument());
   await userEvent.click(screen.getByRole('button', { name: 'Evet, böyle devam et' }));
 }
 
@@ -158,7 +158,7 @@ describe('HomePage — framing review sits between the question and the draw', (
     vi.stubGlobal('fetch', fetchSpy);
     await compose();
 
-    await waitFor(() => expect(screen.getByLabelText('framing-review')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Seni doğru mu anladım?' })).toBeInTheDocument());
     expect(screen.getByText('Açık uçlu')).toBeInTheDocument();
     expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
     // Only the preview endpoint was hit so far - no draw.
@@ -170,7 +170,7 @@ describe('HomePage — framing review sits between the question and the draw', (
     vi.stubGlobal('fetch', routingFetch({}));
     await compose('my careful question');
     // Edit path: back to the form with the text preserved.
-    await waitFor(() => expect(screen.getByLabelText('framing-review')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Seni doğru mu anladım?' })).toBeInTheDocument());
     await userEvent.click(screen.getByRole('button', { name: 'Sorumu düzenle' }));
     expect((screen.getByLabelText('Sorunuz') as HTMLTextAreaElement).value).toBe('my careful question');
 
@@ -180,6 +180,76 @@ describe('HomePage — framing review sits between the question and the draw', (
     await revealAllAndContinue();
     await seePatternDetails();
     await waitFor(() => expect(screen.getByLabelText('reading-result')).toBeInTheDocument());
+  });
+});
+
+describe('HomePage — the preview loading surface reflects real request state, not fake progress', () => {
+  test('QuestionForm stays visible and busy, with a truthful status, while the preview request is in flight', async () => {
+    let resolvePreview!: (value: Response) => void;
+    const pending = new Promise<Response>((resolve) => {
+      resolvePreview = resolve;
+    });
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: RequestInfo | URL) => {
+        if (String(url).includes('/preview')) return pending;
+        return jsonResponse(baseReadingResolved);
+      })
+    );
+
+    render(<HomePage />);
+    await userEvent.click(screen.getByRole('checkbox'));
+    await userEvent.click(screen.getByRole('button', { name: 'Devam Et' }));
+    await userEvent.type(screen.getByLabelText('Sorunuz'), 'hâlâ bekleyen bir soru');
+    await userEvent.click(screen.getByRole('button', { name: 'Sorumu netleştir' }));
+
+    // Still mid-flight: the form is not replaced by the loading surface, it
+    // stays visible and marked busy/disabled alongside it (docs/UI_PREMIUM_V1.md FAZ 4).
+    expect(screen.getByLabelText('question-form')).toBeInTheDocument();
+    expect(screen.getByLabelText('question-form')).toHaveAttribute('aria-busy', 'true');
+    expect(screen.getByLabelText('Sorunuz')).toBeDisabled();
+
+    const status = screen.getByTestId('preview-loading');
+    expect(status).toHaveAttribute('role', 'status');
+    expect(status).toHaveAttribute('aria-live', 'polite');
+    expect(status).toHaveAttribute('aria-atomic', 'true');
+    expect(status).toHaveTextContent('Sorun çerçeveleniyor...');
+    expect(screen.queryByRole('region', { name: 'Seni doğru mu anladım?' })).not.toBeInTheDocument();
+
+    // Resolving the real request - not a timer - is what moves the state on.
+    resolvePreview(jsonResponse(previewOk));
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Seni doğru mu anladım?' })).toBeInTheDocument());
+    expect(screen.queryByTestId('preview-loading')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('question-form')).not.toBeInTheDocument();
+  });
+
+  test('while the reading request is in flight, ShuffleReveal shows a truthful busy status and no card data', async () => {
+    let resolveReading!: (value: Response) => void;
+    const pending = new Promise<Response>((resolve) => {
+      resolveReading = resolve;
+    });
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: RequestInfo | URL) => {
+        if (String(url).includes('/preview')) return jsonResponse(previewOk);
+        return pending;
+      })
+    );
+
+    await compose();
+    await confirmFraming();
+
+    const status = screen.getByTestId('shuffle-loading');
+    expect(status).toHaveAttribute('role', 'status');
+    expect(status).toHaveAttribute('aria-live', 'polite');
+    expect(status).toHaveAttribute('aria-atomic', 'true');
+    expect(status).toHaveAttribute('aria-busy', 'true');
+    expect(status).toHaveTextContent('Kartlar karılıyor...');
+    expect(screen.queryByLabelText('card-reveal')).not.toBeInTheDocument();
+
+    resolveReading(jsonResponse(baseReadingResolved));
+    await waitFor(() => expect(screen.getByLabelText('card-reveal')).toBeInTheDocument());
+    expect(screen.queryByTestId('shuffle-loading')).not.toBeInTheDocument();
   });
 });
 
@@ -404,7 +474,7 @@ describe('HomePage — pipeline outcomes render distinct, correct screens', () =
     await compose('crisis-triggering question');
 
     await waitFor(() => expect(screen.getByLabelText('crisis-resources')).toBeInTheDocument());
-    expect(screen.queryByLabelText('framing-review')).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Seni doğru mu anladım?' })).not.toBeInTheDocument();
     expect(screen.queryByLabelText('reading-result')).not.toBeInTheDocument();
     expect(screen.queryByLabelText('pattern-arrival')).not.toBeInTheDocument();
     expect(screen.queryByLabelText('reflection-close')).not.toBeInTheDocument();
@@ -432,7 +502,7 @@ describe('HomePage — pipeline outcomes render distinct, correct screens', () =
     await compose();
 
     await waitFor(() => expect(screen.getByLabelText('error-state')).toBeInTheDocument());
-    expect(screen.queryByLabelText('framing-review')).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Seni doğru mu anladım?' })).not.toBeInTheDocument();
   });
 
   test('network failure renders ErrorNotice with retry back to the question form', async () => {
@@ -459,7 +529,7 @@ describe('HomePage — focus management across transitions (a11y)', () => {
   test('edit returns focus to the question textarea', async () => {
     vi.stubGlobal('fetch', routingFetch({}));
     await compose('devam eden sorum');
-    await waitFor(() => expect(screen.getByLabelText('framing-review')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole('region', { name: 'Seni doğru mu anladım?' })).toBeInTheDocument());
     await userEvent.click(screen.getByRole('button', { name: 'Sorumu düzenle' }));
     await waitFor(() => expect(screen.getByLabelText('Sorunuz')).toHaveFocus());
   });

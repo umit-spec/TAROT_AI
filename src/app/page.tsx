@@ -14,6 +14,7 @@ import { CrisisNotice } from '../components/CrisisNotice';
 import { ErrorNotice } from '../components/ErrorNotice';
 import { AppShell } from '../components/AppShell';
 import { ConsentDeclined } from '../components/ConsentDeclined';
+import { FramingLoading } from '../components/FramingLoading';
 
 type TopicHint = 'relationship' | 'career' | 'self';
 type Pending = { question: string; topicHint?: TopicHint };
@@ -129,11 +130,7 @@ export default function HomePage() {
         />
       )}
 
-      {state.status === 'previewing' && (
-        <p role="status" aria-label="preview-loading" className="mt-4 text-sm text-ink-muted">
-          Sorun çerçeveleniyor...
-        </p>
-      )}
+      {state.status === 'previewing' && <FramingLoading reducedMotion={reducedMotion} />}
 
       {state.status === 'framing' && (
         <FramingReview

@@ -87,7 +87,7 @@ export function QuestionForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} aria-label="question-form">
+    <form onSubmit={handleSubmit} aria-label="question-form" aria-busy={disabled}>
       <div className="rounded-[28px] border border-border-subtle bg-surface-raised/60 p-6 shadow-[0_24px_60px_-32px_rgba(0,0,0,0.6)] sm:p-8">
         {/* A. Screen entry - non-interactive, only receives programmatic
             focus-on-mount, so it must never show the interactive

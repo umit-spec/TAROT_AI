@@ -100,3 +100,31 @@ body {
     animation: none;
   }
 }
+
+/* LoadingMark (FramingLoading + ShuffleReveal) — a slow, staggered dot
+   pulse, 1100ms per dot. The component itself already gates this class on
+   its `reducedMotion` prop (so unit tests can assert it without a real
+   matchMedia); this @media rule is defense-in-depth for any caller that
+   forgets to pass the prop through. */
+@keyframes loading-mark-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.loading-mark__dot {
+  animation: loading-mark-pulse 1100ms ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-mark__dot {
+    animation: none;
+    opacity: 0.7;
+  }
+}

@@ -561,3 +561,116 @@ distinction this phase needed. `ConsentModal`, `ConsentDeclined`,
 fix from FAZ 2.1 §14.1 still applies only to `ConsentModal` and (as of this
 phase) `QuestionForm`; the other six screens remain open follow-up items
 for whichever phase next touches each file.
+
+## 16. FAZ 4 — Framing Review & Loading States (record)
+
+### 16.1 What changed
+
+Three surfaces, all presentation-only on top of the unchanged
+`compose → previewing → framing → reading → revealing` flow:
+
+- **`src/components/FramingLoading.tsx`** (new) - replaces the bare
+  `<p role="status" aria-label="preview-loading">Sorun çerçeveleniyor...</p>`
+  that used to sit under `QuestionForm` during `previewing`. Same visible
+  copy, same position (directly under the still-visible, now
+  `aria-busy="true"` form), now `role="status"` +
+  `aria-live="polite"` + `aria-atomic="true"` + `aria-busy="true"` +
+  `data-testid="preview-loading"` (the old `aria-label="preview-loading"`
+  was a test-hook string, not a real accessible name - a screen reader has
+  no use for the English word "preview" spoken aloud).
+- **`src/components/ShuffleReveal.tsx`** - same `{ isLoading, reducedMotion }`
+  contract, still returns `null` when not loading, still has no `cards` prop
+  and cannot reference card data. Rebuilt as a calm centered panel (eyebrow
+  "Okumaya hazırlanıyor", the unchanged "Kartlar karılıyor..." status, and
+  new supporting copy). `aria-label="shuffle-loading"` (test-hook) replaced
+  by `data-testid="shuffle-loading"` + the same live-region attributes as
+  `FramingLoading`. The outer container's `transition-opacity duration-shuffle`
+  class pair - the exact thing the two pre-existing reduced-motion tests
+  assert on - was left byte-for-byte in place; only the test's *query*
+  changed (`getByLabelText` → `getByTestId`), not the assertion.
+- **`src/components/FramingReview.tsx`** - full presentational rewrite.
+  `aria-label="framing-review"` replaced by `role="region"` +
+  `aria-labelledby={headingId}` (heading text "Seni doğru mu anladım?" is
+  now the actual accessible name) + `data-testid="framing-review"` for the
+  test-hook role, mirroring the ConsentModal precedent (FAZ 2.1 §14.2). The
+  heading keeps `tabIndex={-1}` + focus-on-mount + `focus-visible:outline-none`
+  (FAZ 2.1 §14.1's fix, applied here from the start). `dl`/`dt`/`dd`
+  structure kept exactly (topic label as a small pill inside `dd`,
+  reflectiveFocus as a larger gold-accented panel inside `dd`) - no div-soup
+  replacement. Confirm/Edit stayed in the same DOM order they already had
+  (Confirm first) with no `flex-*-reverse`/`order` trick, so Tab order and
+  visual order agree on every breakpoint (the exact bug class fixed for
+  ConsentModal in FAZ 2.1 §14.3, avoided here from the start instead of
+  needing a follow-up patch).
+- **`src/components/LoadingMark.tsx`** (new) - the one small shared
+  primitive the phase's component-boundary section explicitly allowed
+  ("genuinely used by both loading surfaces"): three dots, `aria-hidden`,
+  gated on a required `reducedMotion: boolean` prop (not a bare CSS
+  `@media` query) specifically so unit tests can assert the reduced-motion
+  behavior without a real `matchMedia` - jsdom's `matchMedia` is stubbed to
+  "no match" in `src/__tests__/setup.ts`, so a CSS-only approach would be
+  untestable here, and the two loading surfaces already receive
+  `reducedMotion` as a prop from `page.tsx`'s existing `matchMedia`
+  listener. `globals.css` still carries a `@media (prefers-reduced-motion)`
+  rule for the same class as defense-in-depth for any future caller that
+  forgets to pass the prop.
+- **`src/app/page.tsx`** - two lines: the `FramingLoading` import, and
+  swapping the bare paragraph for `<FramingLoading reducedMotion={reducedMotion} />`.
+  No state, handler, endpoint, or branching logic touched.
+- **`src/components/QuestionForm.tsx`** - one attribute:
+  `aria-busy={disabled}` on the `<form>`, the one change this phase's file
+  boundary explicitly pre-authorized.
+
+### 16.2 Flow and payload contracts - unchanged
+
+`handleCompose`/`handleConfirm`, the `/api/readings/preview` and
+`/api/readings` calls, the crisis/error branches, and "Sorumu düzenle"'s
+edit-return (prior question/topic preserved) are byte-for-byte the same
+code - verified by two new integration tests that hold a controlled,
+unresolved fetch Promise open and assert the *live* mid-flight DOM (not a
+timer), then resolve it and assert the transition happens with no
+artificial delay (§16.3).
+
+### 16.3 Tests added
+
+- `ShuffleReveal`: live-region attributes (`role`, `aria-live`,
+  `aria-atomic`, `aria-busy`) + exact copy; no card identity/name/count in
+  its text (it cannot have any - no `cards` prop exists); reduced-motion
+  drops the `.loading-mark__dot` class entirely (checked via
+  `querySelectorAll`, not just a substring match).
+- `FramingLoading`: the same three assertions (live-region attributes +
+  copy, no fabricated progress language, reduced-motion class drop).
+- `FramingReview`: DOM/Tab order Confirm-before-Edit; `disabled` makes both
+  buttons inert; both keep ≥44px targets (Confirm's intentional 52px
+  height distinguished from Edit's 44px, not conflated into one assertion);
+  a 180+ character stress string renders inside a `break-words` surface;
+  heading is `tabIndex={-1}` with `focus-visible:outline-none`.
+- `page-flow.test.tsx`: while the preview request is genuinely in flight
+  (a held-open Promise, not a timer), `QuestionForm` stays mounted,
+  `aria-busy="true"`, textarea disabled, and `FramingLoading`'s live-region
+  attributes and copy are all present, with no framing region yet;
+  resolving the Promise (not waiting out a delay) is what moves the state
+  on. A parallel test does the same for the reading/`ShuffleReveal` stage.
+- Total: 344 (FAZ 3 baseline) + 13 = **357/357 passing.**
+
+### 16.4 Viewport QA (Playwright, real browser, real routes)
+
+375×812, 390×844, 768×1024, 1440×900 × five states: (A) preview loading
+with the `/api/readings/preview` route delayed 3s via Playwright route
+interception; (B) a normal framing response; (C) a stress framing response
+(topic label long enough to wrap, reflectiveFocus over 180 characters); (D)
+reading loading with `/api/readings` delayed 3s; (E) reading loading with
+`page.emulateMedia({ reducedMotion: 'reduce' })`, verified by asserting
+`.loading-mark__dot` count is 0 in the live DOM, not just eyeballing a
+screenshot. All 20 cells: no horizontal overflow, no new console errors,
+long text wraps inside its bordered panel without escaping, both loading
+surfaces show the calm dot mark with no card shape/silhouette/percentage/
+countdown anywhere.
+
+### 16.5 Not touched
+
+`CardReveal`, `PatternArrival`, `ReadingResult`, `ReflectionClose`,
+`CrisisNotice`, `ErrorNotice`, `ConsentModal`, `ConsentDeclined`,
+`useDialogFocus`, and every file under `src/app/api/**` / `src/server/**`
+are unchanged. No card artwork or card placeholder was introduced - FAZ 5
+is still the first phase to touch card-shaped surfaces.

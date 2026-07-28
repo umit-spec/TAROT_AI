@@ -11,6 +11,7 @@ import { CardNarrationItem } from '../../components/CardNarrationItem';
 import { ErrorNotice } from '../../components/ErrorNotice';
 import { DisclaimerFooter } from '../../components/DisclaimerFooter';
 import { ShuffleReveal } from '../../components/ShuffleReveal';
+import { FramingLoading } from '../../components/FramingLoading';
 import { CONSENT_MODAL_COPY, RESULT_DISCLAIMER_COPY } from '../../lib/constitution-copy';
 
 describe('ConsentModal — exact Ethical Constitution copy', () => {
@@ -178,19 +179,67 @@ describe('DiagnosticBadge — enum-only, no free-string copy drift', () => {
 describe('ShuffleReveal — prefers-reduced-motion', () => {
   test('reducedMotion=true drops the transition class (instant reveal)', () => {
     render(<ShuffleReveal isLoading={true} reducedMotion={true} />);
-    const el = screen.getByLabelText('shuffle-loading');
+    const el = screen.getByTestId('shuffle-loading');
     expect(el.className).not.toMatch(/transition-opacity/);
   });
 
   test('reducedMotion=false applies the shuffle transition class', () => {
     render(<ShuffleReveal isLoading={true} reducedMotion={false} />);
-    const el = screen.getByLabelText('shuffle-loading');
+    const el = screen.getByTestId('shuffle-loading');
     expect(el.className).toMatch(/duration-shuffle/);
   });
 
   test('renders nothing when not loading', () => {
     const { container } = render(<ShuffleReveal isLoading={false} reducedMotion={false} />);
     expect(container).toBeEmptyDOMElement();
+  });
+});
+
+describe('ShuffleReveal — live-region semantics and truthful loading copy', () => {
+  test('is a polite, atomic, busy status region with the exact loading copy', () => {
+    render(<ShuffleReveal isLoading={true} reducedMotion={false} />);
+    const status = screen.getByRole('status');
+    expect(status).toBe(screen.getByTestId('shuffle-loading'));
+    expect(status).toHaveAttribute('aria-live', 'polite');
+    expect(status).toHaveAttribute('aria-atomic', 'true');
+    expect(status).toHaveAttribute('aria-busy', 'true');
+    expect(status).toHaveTextContent('Kartlar karılıyor...');
+  });
+
+  test('carries no card identity, name, or count - it cannot, it has no cards prop', () => {
+    render(<ShuffleReveal isLoading={true} reducedMotion={false} />);
+    const status = screen.getByTestId('shuffle-loading');
+    expect(status.textContent ?? '').not.toMatch(/deli|büyücü|00-fool|01-magician|%|kalan süre/i);
+  });
+
+  test('the reduced-motion dot mark drops its animation class', () => {
+    const { container: reduced } = render(<ShuffleReveal isLoading={true} reducedMotion={true} />);
+    expect(reduced.querySelector('.loading-mark__dot')).not.toBeInTheDocument();
+    const { container: full } = render(<ShuffleReveal isLoading={true} reducedMotion={false} />);
+    expect(full.querySelectorAll('.loading-mark__dot').length).toBe(3);
+  });
+});
+
+describe('FramingLoading — the preview-stage counterpart, same live-region contract', () => {
+  test('is a polite, atomic, busy status region with the exact preview copy', () => {
+    render(<FramingLoading reducedMotion={false} />);
+    const status = screen.getByRole('status');
+    expect(status).toBe(screen.getByTestId('preview-loading'));
+    expect(status).toHaveAttribute('aria-live', 'polite');
+    expect(status).toHaveAttribute('aria-atomic', 'true');
+    expect(status).toHaveAttribute('aria-busy', 'true');
+    expect(status).toHaveTextContent('Sorun çerçeveleniyor...');
+  });
+
+  test('uses no percentage, countdown, or fabricated progress language', () => {
+    render(<FramingLoading reducedMotion={false} />);
+    const status = screen.getByTestId('preview-loading');
+    expect(status.textContent ?? '').not.toMatch(/%|kalan süre|saniye|kader|evren/i);
+  });
+
+  test('reduced motion drops the dot mark animation class', () => {
+    const { container } = render(<FramingLoading reducedMotion={true} />);
+    expect(container.querySelector('.loading-mark__dot')).not.toBeInTheDocument();
   });
 });
 
@@ -362,8 +411,51 @@ describe('FramingReview — shows only topic + reflective angle, never internals
     // FramingReviewProps exposes only framing/onConfirm/onEdit/disabled - there
     // is no slot through which an internal field could reach the screen.
     render(<FramingReview framing={framing} onConfirm={vi.fn()} onEdit={vi.fn()} />);
-    const body = screen.getByLabelText('framing-review').textContent ?? '';
+    const body = screen.getByRole('region', { name: 'Seni doğru mu anladım?' }).textContent ?? '';
     expect(body).not.toMatch(/persona|confidence|safetyFlags|reflection-seeking|decision-seeking/i);
+  });
+
+  test('DOM/Tab order is Confirm before Edit, matching the visual order (no reversal trick)', async () => {
+    render(<FramingReview framing={framing} onConfirm={vi.fn()} onEdit={vi.fn()} />);
+    const confirm = screen.getByRole('button', { name: 'Evet, böyle devam et' });
+    const edit = screen.getByRole('button', { name: 'Sorumu düzenle' });
+    confirm.focus();
+    await userEvent.tab();
+    expect(edit).toHaveFocus();
+  });
+
+  test('disabled prop makes both Confirm and Edit inert', () => {
+    render(<FramingReview framing={framing} onConfirm={vi.fn()} onEdit={vi.fn()} disabled />);
+    expect(screen.getByRole('button', { name: 'Evet, böyle devam et' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Sorumu düzenle' })).toBeDisabled();
+  });
+
+  test('both CTAs keep at least a 44px minimum touch target (Confirm is taller by design, 52px)', () => {
+    render(<FramingReview framing={framing} onConfirm={vi.fn()} onEdit={vi.fn()} />);
+    const confirm = screen.getByRole('button', { name: 'Evet, böyle devam et' });
+    const edit = screen.getByRole('button', { name: 'Sorumu düzenle' });
+    expect(confirm.className).toMatch(/min-h-\[52px\]/);
+    expect(confirm.className).toMatch(/min-w-\[44px\]/);
+    expect(edit.className).toMatch(/min-h-\[44px\]/);
+    expect(edit.className).toMatch(/min-w-\[44px\]/);
+  });
+
+  test('a long reflectiveFocus renders inside a wrapping, non-overflowing surface', () => {
+    const longFraming = {
+      topicLabel: 'Kariyer',
+      reflectiveFocus:
+        'Bu uzun yansıtma odağı, satır kaydırmayı zorlayacak kadar uzun Türkçe kelimeler ve noktalama içeren, en az yüz seksen karakter uzunluğunda, taşma üretmemesi gereken bir örnek cümledir; devamı da buraya eklenir.',
+    };
+    render(<FramingReview framing={longFraming} onConfirm={vi.fn()} onEdit={vi.fn()} />);
+    const dd = screen.getByText(longFraming.reflectiveFocus);
+    expect(dd.className).toMatch(/break-words/);
+  });
+
+  test('the region heading is tabIndex=-1 and never shows the interactive focus-visible ring', () => {
+    render(<FramingReview framing={framing} onConfirm={vi.fn()} onEdit={vi.fn()} />);
+    const heading = screen.getByRole('heading', { name: 'Seni doğru mu anladım?' });
+    expect(heading).toHaveAttribute('tabindex', '-1');
+    expect(heading.className).toMatch(/focus-visible:outline-none/);
   });
 });
 
