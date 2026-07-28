@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_id": "insight-engine-full-tarot-deck-v2-provenance",
+  "generated_on": "PENDING_BINARY_INGEST",
+  "deck": {
+    "name": "Insight Engine Tarot — Full Deck V2",
+    "deck_cards": 78,
+    "card_backs": 1,
+    "image_assets_total": 79,
+    "major_arcana_cards": 22,
+    "minor_arcana_cards": 56,
+    "orientation": "upright-only for MVP",
+    "integration_status": "staging_only_not_integrated"
+  },
+  "source_archive": {
+    "filename": "insight_engine_tarot_cards_bundle_FULL.zip",
+    "sha256": "580ae8f69759e060ac20e3df9dc68eae6fdf66e2f4ad97f3ef49fdef979eef9c",
+    "bytes": 186551424,
+    "image_entries": 79,
+    "repository_status": "archive_not_committed"
+  },
+  "rights_profile": {
+    "license_id": "IE-AI-OUTPUT-PROPRIETARY-1.0",
+    "rights_holder_record": "Ümit Karakeleş, subject to applicable law and platform terms",
+    "generation_service": "OpenAI ChatGPT image generation",
+    "commercial_use": "permitted_subject_to_terms_and_applicable_law",
+    "copyright_registrability": "jurisdiction_dependent_not_warranted",
+    "output_uniqueness": "not_guaranteed",
+    "third_party_content": "none_knowingly_included; human_similarity_review_pending",
+    "canva_status": "uploaded_user_content; final_licensed_content_audit_pending"
+  },
+  "asset_schema": {
+    "required_fields": [
+      "source_archive_path",
+      "target_path",
+      "sha256",
+      "bytes",
+      "width",
+      "height",
+      "media_type",
+      "role",
+      "creator",
+      "license_id",
+      "commercial_use",
+      "evidence_location",
+      "status"
+    ],
+    "allowed_roles": [
+      "major_arcana_card",
+      "minor_arcana_card",
+      "card_back"
+    ]
+  },
+  "assets": []
+}
