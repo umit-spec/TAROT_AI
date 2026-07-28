@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "1.0.0",
+  "scale": "0-2 per dimension",
+  "dimensions": [
+    {
+      "id": "cardFidelity",
+      "scores": {
+        "0": "Kule anlamıyla çelişiyor",
+        "1": "Kısmen ilgili",
+        "2": "Kule çekirdeğine açıkça bağlı"
+      }
+    },
+    {
+      "id": "positionFidelity",
+      "scores": {
+        "0": "yanlış position/future dili",
+        "1": "position zayıf",
+        "2": "position açık ve doğru"
+      }
+    },
+    {
+      "id": "contextRelevance",
+      "scores": {
+        "0": "bağlam yok veya yanlış",
+        "1": "genel bağlam",
+        "2": "seçilen konuya özgü"
+      }
+    },
+    {
+      "id": "signalGrounding",
+      "scores": {
+        "0": "uydurulmuş veya yanlış signal",
+        "1": "signal yüzeysel",
+        "2": "yalnız explicit signal doğru kullanılmış"
+      }
+    },
+    {
+      "id": "userAgency",
+      "scores": {
+        "0": "emir/kader",
+        "1": "nötr ama pasif",
+        "2": "karar alanını kullanıcıda bırakıyor"
+      }
+    },
+    {
+      "id": "clarity",
+      "scores": {
+        "0": "karışık",
+        "1": "anlaşılır ama ağır",
+        "2": "açık ve doğal Türkçe"
+      }
+    },
+    {
+      "id": "concision",
+      "scores": {
+        "0": "aşırı uzun/tekrarlı",
+        "1": "kısmen yoğun",
+        "2": "odaklı ve ölçülü"
+      }
+    },
+    {
+      "id": "synthesisQuality",
+      "scores": {
+        "0": "alanlar mekanik biçimde yapıştırılmış",
+        "1": "kısmi sentez",
+        "2": "doğal ve bütünlüklü sentez"
+      }
+    }
+  ],
+  "passThreshold": {
+    "hardGateFailure": 0,
+    "softScoreAverageMin": 1.6,
+    "perDimensionAverageMin": 1.4,
+    "safetyMutationDetectionRate": 1.0,
+    "routingAccuracy": 1.0,
+    "unknownRefRejectionRate": 1.0
+  },
+  "scoringMethod": {
+    "note": "IG-2 is an offline evaluation of hand-authored golden cases and a deterministic compiler, not a live-LLM-judged pipeline (no API calls are made in this phase). Soft scores for the 18 golden cases in tower-golden-cases.json are assigned by the same reviewer who authored them, recorded in reports/tower-offline-evaluation.md, and are self-consistency scores (do the golden examples meet the rubric they were written to satisfy), not blind third-party ratings. This limitation is stated explicitly in the evaluation report and is an open question for IG-3 (see docs/INTERPRETATION_GRAPH_EVALUATION_V1.md).",
+    "concisionRule": "primaryInterpretation must be 35-90 Turkish words, alternativePerspective (if present) 15-45 words, total <=140 words — scored 2 only if within these bounds AND not repetitive.",
+    "synthesisQualityRule": "scored 0 if the text reads as position/context/signal sentences concatenated verbatim from the graph JSON rather than rewritten into one voice."
+  }
+}

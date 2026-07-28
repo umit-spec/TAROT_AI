@@ -1,0 +1,1984 @@
+{
+  "schemaVersion": "1.0.0",
+  "cardId": "16-tower",
+  "cases": [
+    {
+      "id": "route-001",
+      "description": "Position 'past' with context 'career', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": "career",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "past",
+        "contextRef": "career",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-002",
+      "description": "Position 'past' with context 'relationship', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": "relationship",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "past",
+        "contextRef": "relationship",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-003",
+      "description": "Position 'past' with context 'decision', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": "decision",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "past",
+        "contextRef": "decision",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-004",
+      "description": "Position 'past' with context 'family', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": "family",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "past",
+        "contextRef": "family",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-005",
+      "description": "Position 'past' with context 'boundaries', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": "boundaries",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "past",
+        "contextRef": "boundaries",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-006",
+      "description": "Position 'past' with context 'self-awareness', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": "self-awareness",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "past",
+        "contextRef": "self-awareness",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-007",
+      "description": "Position 'past' with context 'uncertainty', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": "uncertainty",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "past",
+        "contextRef": "uncertainty",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-008",
+      "description": "Position 'past' with context 'change', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": "change",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "past",
+        "contextRef": "change",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-009",
+      "description": "Position 'present' with context 'career', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "career",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "career",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-010",
+      "description": "Position 'present' with context 'relationship', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "relationship",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "relationship",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-011",
+      "description": "Position 'present' with context 'decision', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "decision",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "decision",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-012",
+      "description": "Position 'present' with context 'family', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "family",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "family",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-013",
+      "description": "Position 'present' with context 'boundaries', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "boundaries",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "boundaries",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-014",
+      "description": "Position 'present' with context 'self-awareness', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "self-awareness",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "self-awareness",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-015",
+      "description": "Position 'present' with context 'uncertainty', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "uncertainty",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "uncertainty",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-016",
+      "description": "Position 'present' with context 'change', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "change",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "change",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-017",
+      "description": "Position 'direction' with context 'career', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": "career",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "direction",
+        "contextRef": "career",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-018",
+      "description": "Position 'direction' with context 'relationship', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": "relationship",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "direction",
+        "contextRef": "relationship",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-019",
+      "description": "Position 'direction' with context 'decision', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": "decision",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "direction",
+        "contextRef": "decision",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-020",
+      "description": "Position 'direction' with context 'family', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": "family",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "direction",
+        "contextRef": "family",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-021",
+      "description": "Position 'direction' with context 'boundaries', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": "boundaries",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "direction",
+        "contextRef": "boundaries",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-022",
+      "description": "Position 'direction' with context 'self-awareness', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": "self-awareness",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "direction",
+        "contextRef": "self-awareness",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-023",
+      "description": "Position 'direction' with context 'uncertainty', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": "uncertainty",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "direction",
+        "contextRef": "uncertainty",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-024",
+      "description": "Position 'direction' with context 'change', no signals/goal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": "change",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "direction",
+        "contextRef": "change",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-025",
+      "description": "Explicit signal coverage: financial-security-concern.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "career",
+        "goal": "weigh-decision",
+        "explicitSignals": [
+          {
+            "signalId": "financial-security-concern",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "career",
+        "goalRef": "weigh-decision",
+        "signalRefs": [
+          "financial-security-concern"
+        ],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-026",
+      "description": "Explicit signal coverage: decision-uncertainty.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "career",
+        "goal": "weigh-decision",
+        "explicitSignals": [
+          {
+            "signalId": "decision-uncertainty",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "career",
+        "goalRef": "weigh-decision",
+        "signalRefs": [
+          "decision-uncertainty"
+        ],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-027",
+      "description": "Explicit signal coverage: control-scope-clarification.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "career",
+        "goal": "weigh-decision",
+        "explicitSignals": [
+          {
+            "signalId": "control-scope-clarification",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "career",
+        "goalRef": "weigh-decision",
+        "signalRefs": [
+          "control-scope-clarification"
+        ],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-028",
+      "description": "Explicit signal coverage: change-hesitation.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "career",
+        "goal": "weigh-decision",
+        "explicitSignals": [
+          {
+            "signalId": "change-hesitation",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "career",
+        "goalRef": "weigh-decision",
+        "signalRefs": [
+          "change-hesitation"
+        ],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-029",
+      "description": "Explicit signal coverage: responsibility-sustainability.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "career",
+        "goal": "weigh-decision",
+        "explicitSignals": [
+          {
+            "signalId": "responsibility-sustainability",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "career",
+        "goalRef": "weigh-decision",
+        "signalRefs": [
+          "responsibility-sustainability"
+        ],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-030",
+      "description": "Explicit signal coverage: uncertainty-discomfort.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "career",
+        "goal": "weigh-decision",
+        "explicitSignals": [
+          {
+            "signalId": "uncertainty-discomfort",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "career",
+        "goalRef": "weigh-decision",
+        "signalRefs": [
+          "uncertainty-discomfort"
+        ],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-031",
+      "description": "Explicit signal coverage: loss-concern.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "career",
+        "goal": "weigh-decision",
+        "explicitSignals": [
+          {
+            "signalId": "loss-concern",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "career",
+        "goalRef": "weigh-decision",
+        "signalRefs": [
+          "loss-concern"
+        ],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-032",
+      "description": "Explicit signal coverage: external-evaluation-pressure.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "career",
+        "goal": "weigh-decision",
+        "explicitSignals": [
+          {
+            "signalId": "external-evaluation-pressure",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "career",
+        "goalRef": "weigh-decision",
+        "signalRefs": [
+          "external-evaluation-pressure"
+        ],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-033",
+      "description": "Explicit signal coverage: boundary-expression-need.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "career",
+        "goal": "weigh-decision",
+        "explicitSignals": [
+          {
+            "signalId": "boundary-expression-need",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "career",
+        "goalRef": "weigh-decision",
+        "signalRefs": [
+          "boundary-expression-need"
+        ],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-034",
+      "description": "Explicit signal coverage: current-structure-attachment.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "career",
+        "goal": "weigh-decision",
+        "explicitSignals": [
+          {
+            "signalId": "current-structure-attachment",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "career",
+        "goalRef": "weigh-decision",
+        "signalRefs": [
+          "current-structure-attachment"
+        ],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-035",
+      "description": "Goal coverage: clarify-thoughts.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": null,
+        "goal": "clarify-thoughts",
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "direction",
+        "contextRef": null,
+        "goalRef": "clarify-thoughts",
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-036",
+      "description": "Goal coverage: see-different-perspective.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": null,
+        "goal": "see-different-perspective",
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "direction",
+        "contextRef": null,
+        "goalRef": "see-different-perspective",
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-037",
+      "description": "Goal coverage: weigh-decision.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": null,
+        "goal": "weigh-decision",
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "direction",
+        "contextRef": null,
+        "goalRef": "weigh-decision",
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-038",
+      "description": "Goal coverage: understand-emotions.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": null,
+        "goal": "understand-emotions",
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "direction",
+        "contextRef": null,
+        "goalRef": "understand-emotions",
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-039",
+      "description": "Goal coverage: curiosity.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": null,
+        "goal": "curiosity",
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "direction",
+        "contextRef": null,
+        "goalRef": "curiosity",
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-040",
+      "description": "Relationship coverage: supporting.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": null,
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": "supporting"
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": null,
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": "supporting",
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-041",
+      "description": "Relationship coverage: softening.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": null,
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": "softening"
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": null,
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": "softening",
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-042",
+      "description": "Relationship coverage: heightening-tension.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": null,
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": "heightening-tension"
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": null,
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": "heightening-tension",
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-043",
+      "description": "Relationship coverage: reframing.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": null,
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": "reframing"
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": null,
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": "reframing",
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-044",
+      "description": "Relationship coverage: agency-linking.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": null,
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": "agency-linking"
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": null,
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": "agency-linking",
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-045",
+      "description": "Relationship coverage: interiorizing.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": null,
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": "interiorizing"
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": null,
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": "interiorizing",
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-046",
+      "description": "Relationship coverage: leaving-open.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": null,
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": "leaving-open"
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": null,
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": "leaving-open",
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-047",
+      "description": "Only card + position, nothing else.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": null,
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "past",
+        "contextRef": null,
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-048",
+      "description": "Topic present, no goal.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "boundaries",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "boundaries",
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-049",
+      "description": "Goal present, no signal.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": null,
+        "goal": "curiosity",
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "direction",
+        "contextRef": null,
+        "goalRef": "curiosity",
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-050",
+      "description": "No signal at all, fully minimal beyond position.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": null,
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": null,
+        "goalRef": null,
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-051",
+      "description": "No relationship, topic+goal only.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": "change",
+        "goal": "see-different-perspective",
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "past",
+        "contextRef": "change",
+        "goalRef": "see-different-perspective",
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-052",
+      "description": "career + weigh-decision + financial-security-concern + decision-uncertainty",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "career",
+        "goal": "weigh-decision",
+        "explicitSignals": [
+          {
+            "signalId": "financial-security-concern",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          },
+          {
+            "signalId": "decision-uncertainty",
+            "source": "user-confirmed",
+            "confidence": "user-confirmed"
+          }
+        ],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "career",
+        "goalRef": "weigh-decision",
+        "signalRefs": [
+          "financial-security-concern",
+          "decision-uncertainty"
+        ],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-053",
+      "description": "relationship + understand-emotions + boundary-expression-need + softening",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": "relationship",
+        "goal": "understand-emotions",
+        "explicitSignals": [
+          {
+            "signalId": "boundary-expression-need",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": "softening"
+      },
+      "expected": {
+        "positionRef": "past",
+        "contextRef": "relationship",
+        "goalRef": "understand-emotions",
+        "signalRefs": [
+          "boundary-expression-need"
+        ],
+        "relationshipRef": "softening",
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-054",
+      "description": "change + see-different-perspective + change-hesitation + reframing",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": "change",
+        "goal": "see-different-perspective",
+        "explicitSignals": [
+          {
+            "signalId": "change-hesitation",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": "reframing"
+      },
+      "expected": {
+        "positionRef": "direction",
+        "contextRef": "change",
+        "goalRef": "see-different-perspective",
+        "signalRefs": [
+          "change-hesitation"
+        ],
+        "relationshipRef": "reframing",
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-055",
+      "description": "self-awareness + clarify-thoughts + external-evaluation-pressure + interiorizing",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "self-awareness",
+        "goal": "clarify-thoughts",
+        "explicitSignals": [
+          {
+            "signalId": "external-evaluation-pressure",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": "interiorizing"
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "self-awareness",
+        "goalRef": "clarify-thoughts",
+        "signalRefs": [
+          "external-evaluation-pressure"
+        ],
+        "relationshipRef": "interiorizing",
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-056",
+      "description": "uncertainty + weigh-decision + uncertainty-discomfort + loss-concern combined",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": "uncertainty",
+        "goal": "weigh-decision",
+        "explicitSignals": [
+          {
+            "signalId": "uncertainty-discomfort",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          },
+          {
+            "signalId": "loss-concern",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "past",
+        "contextRef": "uncertainty",
+        "goalRef": "weigh-decision",
+        "signalRefs": [
+          "uncertainty-discomfort",
+          "loss-concern"
+        ],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-057",
+      "description": "boundaries + curiosity, no signal, agency-linking relationship",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "boundaries",
+        "goal": "curiosity",
+        "explicitSignals": [],
+        "relationshipType": "agency-linking"
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "boundaries",
+        "goalRef": "curiosity",
+        "signalRefs": [],
+        "relationshipRef": "agency-linking",
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-058",
+      "description": "decision + weigh-decision + control-scope-clarification + leaving-open",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": "decision",
+        "goal": "weigh-decision",
+        "explicitSignals": [
+          {
+            "signalId": "control-scope-clarification",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": "leaving-open"
+      },
+      "expected": {
+        "positionRef": "direction",
+        "contextRef": "decision",
+        "goalRef": "weigh-decision",
+        "signalRefs": [
+          "control-scope-clarification"
+        ],
+        "relationshipRef": "leaving-open",
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-059",
+      "description": "family + understand-emotions + current-structure-attachment",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": "family",
+        "goal": "understand-emotions",
+        "explicitSignals": [
+          {
+            "signalId": "current-structure-attachment",
+            "source": "user-confirmed",
+            "confidence": "user-confirmed"
+          }
+        ],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "past",
+        "contextRef": "family",
+        "goalRef": "understand-emotions",
+        "signalRefs": [
+          "current-structure-attachment"
+        ],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-060",
+      "description": "career + responsibility-sustainability + heightening-tension",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "career",
+        "goal": null,
+        "explicitSignals": [
+          {
+            "signalId": "responsibility-sustainability",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": "heightening-tension"
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "career",
+        "goalRef": null,
+        "signalRefs": [
+          "responsibility-sustainability"
+        ],
+        "relationshipRef": "heightening-tension",
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-061",
+      "description": "relationship + clarify-thoughts, no signal, no relationship",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": "relationship",
+        "goal": "clarify-thoughts",
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "direction",
+        "contextRef": "relationship",
+        "goalRef": "clarify-thoughts",
+        "signalRefs": [],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-062",
+      "description": "change + curiosity + 2 signals: change-hesitation + external-evaluation-pressure",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "change",
+        "goal": "curiosity",
+        "explicitSignals": [
+          {
+            "signalId": "change-hesitation",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          },
+          {
+            "signalId": "external-evaluation-pressure",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": null
+      },
+      "expected": {
+        "positionRef": "present",
+        "contextRef": "change",
+        "goalRef": "curiosity",
+        "signalRefs": [
+          "change-hesitation",
+          "external-evaluation-pressure"
+        ],
+        "relationshipRef": null,
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    },
+    {
+      "id": "route-063",
+      "description": "self-awareness + see-different-perspective + supporting relationship",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": "self-awareness",
+        "goal": "see-different-perspective",
+        "explicitSignals": [],
+        "relationshipType": "supporting"
+      },
+      "expected": {
+        "positionRef": "past",
+        "contextRef": "self-awareness",
+        "goalRef": "see-different-perspective",
+        "signalRefs": [],
+        "relationshipRef": "supporting",
+        "mustIncludeGuardrailRefs": [
+          "upright-only",
+          "deterministic-order",
+          "reflective-probabilistic-language",
+          "user-agency",
+          "governed-artwork-symbols-only"
+        ]
+      }
+    }
+  ],
+  "negativeCases": [
+    {
+      "id": "neg-001",
+      "description": "position 'future' is rejected",
+      "input": {
+        "cardId": "16-tower",
+        "position": "future"
+      },
+      "expectedError": "position"
+    },
+    {
+      "id": "neg-002",
+      "description": "CardId '16-the-tower' (NotebookLM variant) is rejected",
+      "input": {
+        "cardId": "16-the-tower",
+        "position": "past"
+      },
+      "expectedError": "cardId"
+    },
+    {
+      "id": "neg-003",
+      "description": "unknown CardId is rejected",
+      "input": {
+        "cardId": "99-nonexistent",
+        "position": "past"
+      },
+      "expectedError": "cardId"
+    },
+    {
+      "id": "neg-004",
+      "description": "unknown topic is rejected",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": "astrology"
+      },
+      "expectedError": "topic"
+    },
+    {
+      "id": "neg-005",
+      "description": "unknown goal is rejected",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "goal": "predict-future"
+      },
+      "expectedError": "goal"
+    },
+    {
+      "id": "neg-006",
+      "description": "unknown signal is rejected",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "explicitSignals": [
+          {
+            "signalId": "secret-fear",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ]
+      },
+      "expectedError": "signal"
+    },
+    {
+      "id": "neg-007",
+      "description": "source 'inferred' is rejected",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "explicitSignals": [
+          {
+            "signalId": "loss-concern",
+            "source": "inferred",
+            "confidence": "explicit"
+          }
+        ]
+      },
+      "expectedError": "source"
+    },
+    {
+      "id": "neg-008",
+      "description": "source 'diagnosed' is rejected",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "explicitSignals": [
+          {
+            "signalId": "loss-concern",
+            "source": "diagnosed",
+            "confidence": "explicit"
+          }
+        ]
+      },
+      "expectedError": "source"
+    },
+    {
+      "id": "neg-009",
+      "description": "confidence 'predicted' is rejected",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "explicitSignals": [
+          {
+            "signalId": "loss-concern",
+            "source": "explicit-user-selection",
+            "confidence": "predicted"
+          }
+        ]
+      },
+      "expectedError": "confidence"
+    },
+    {
+      "id": "neg-010",
+      "description": "duplicate signal in one case is rejected",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "explicitSignals": [
+          {
+            "signalId": "loss-concern",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          },
+          {
+            "signalId": "loss-concern",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ]
+      },
+      "expectedError": "duplicate"
+    },
+    {
+      "id": "neg-011",
+      "description": "more than 2 signals is rejected",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "explicitSignals": [
+          {
+            "signalId": "loss-concern",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          },
+          {
+            "signalId": "change-hesitation",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          },
+          {
+            "signalId": "decision-uncertainty",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ]
+      },
+      "expectedError": "at most"
+    },
+    {
+      "id": "neg-012",
+      "description": "unknown relationship type is rejected",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "relationshipType": "undermining"
+      },
+      "expectedError": "relationshipType"
+    }
+  ]
+}

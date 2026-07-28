@@ -1,0 +1,660 @@
+{
+  "schemaVersion": "1.0.0",
+  "cardId": "16-tower",
+  "cases": [
+    {
+      "id": "golden-001",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": "career",
+        "goal": "weigh-decision",
+        "explicitSignals": [
+          {
+            "signalId": "financial-security-concern",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": null
+      },
+      "contextPacketRef": "compiled-from-input:golden-001",
+      "output": {
+        "primaryInterpretation": "Kule burada geçmişte yaşanan ani bir farkındalık anına işaret edebilir; o dönem kariyerinizde güvenilir sandığınız bir düzenin aslında sorgulanabilir olduğunu görmüş olabilirsiniz. Maddi güvence arayışınız bu bakış açısını şekillendirmiş olabilir: o dönemki sarsıntı, bugün bir kararı tartarken hangi varsayımlara güvendiğinizi yeniden düşünmenize zemin hazırlamış olabilir.",
+        "alternativePerspective": "Bazen geçmişteki bir kırılma, o an kayıp gibi hissettirse de, bugün daha net bir zemin kurmanın başlangıcı olarak da okunabilir.",
+        "reflectionQuestion": "O dönem hangi yapının sandığınızdan daha kırılgan olduğunu fark ettiniz mi?"
+      },
+      "expectedQualities": [
+        "single primary hypothesis",
+        "at most one alternative perspective",
+        "exactly one reflection question",
+        "probabilistic, non-certain language",
+        "user retains decision agency",
+        "only uses meaning fragments present in the compiled context packet"
+      ],
+      "forbiddenClaims": [
+        "future certainty",
+        "direct command",
+        "medical or psychological diagnosis",
+        "third-party mind reading",
+        "professional (medical/legal/financial) outcome prediction",
+        "magical causality"
+      ]
+    },
+    {
+      "id": "golden-002",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": "relationship",
+        "goal": "understand-emotions",
+        "explicitSignals": [
+          {
+            "signalId": "boundary-expression-need",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": null
+      },
+      "contextPacketRef": "compiled-from-input:golden-002",
+      "output": {
+        "primaryInterpretation": "Bu kart, geçmişte ilişkinizde beklenti veya iletişim biçimlerinin sınandığı bir anı yansıtıyor olabilir. Bir sınırı daha açık ifade etme ihtiyacınız, o dönemki sarsıntıyla bağlantılı görünebilir; belki de neyin sessizce zorlandığını ancak geriye dönüp baktığınızda fark ettiniz. Bu, bugünkü duygularınızı adlandırmak için bir başlangıç noktası sunabilir.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "O dönemden bugüne, hangi sınırın daha açık ifade edilmesi gerektiğini anladınız mı?"
+      },
+      "expectedQualities": [
+        "single primary hypothesis",
+        "at most one alternative perspective",
+        "exactly one reflection question",
+        "probabilistic, non-certain language",
+        "user retains decision agency",
+        "only uses meaning fragments present in the compiled context packet"
+      ],
+      "forbiddenClaims": [
+        "future certainty",
+        "direct command",
+        "medical or psychological diagnosis",
+        "third-party mind reading",
+        "professional (medical/legal/financial) outcome prediction",
+        "magical causality"
+      ]
+    },
+    {
+      "id": "golden-003",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": "family",
+        "goal": "clarify-thoughts",
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "contextPacketRef": "compiled-from-input:golden-003",
+      "output": {
+        "primaryInterpretation": "Kule, geçmişte aile içindeki beklenti, rol veya iletişim biçimlerinden birinin sandığınızdan daha kırılgan olduğunu gösteren bir anı işaret edebilir. Bu farkındalık o dönem rahatsız edici gelmiş olsa da, bugün düşüncelerinizi netleştirmek için geriye bakabileceğiniz bir referans noktası sunuyor olabilir; hangi beklentinin hâlâ geçerli olduğunu görmenize yardımcı olabilir.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "O dönem aile içinde hangi beklentinin değiştiğini fark ettiniz?"
+      },
+      "expectedQualities": [
+        "single primary hypothesis",
+        "at most one alternative perspective",
+        "exactly one reflection question",
+        "probabilistic, non-certain language",
+        "user retains decision agency",
+        "only uses meaning fragments present in the compiled context packet"
+      ],
+      "forbiddenClaims": [
+        "future certainty",
+        "direct command",
+        "medical or psychological diagnosis",
+        "third-party mind reading",
+        "professional (medical/legal/financial) outcome prediction",
+        "magical causality"
+      ]
+    },
+    {
+      "id": "golden-004",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": "self-awareness",
+        "goal": "see-different-perspective",
+        "explicitSignals": [
+          {
+            "signalId": "external-evaluation-pressure",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": null
+      },
+      "contextPacketRef": "compiled-from-input:golden-004",
+      "output": {
+        "primaryInterpretation": "Bu kart, geçmişte başkalarının değerlendirmesine dayandırdığınız bir öz-anlatının sarsıldığı bir anı yansıtabilir. O dönem bu, kayıp gibi hissettirmiş olabilir; ama bugün farklı bir açıdan bakıldığında, dışsal onayın tek ölçüt olmadığını görmenin başlangıcı olarak da okunabilir. Bu iki okuma birbirini dışlamaz, aynı anın farklı yüzleri olabilir.",
+        "alternativePerspective": "Bazı kullanıcılar için bu anı, kendilerini başkalarının gözünden değil kendi ölçütleriyle tanımlamaya başladıkları bir dönüm noktası olarak hatırlamak da mümkündür.",
+        "reflectionQuestion": "O dönem başkalarının değerlendirmesi dışında neyi fark ettiniz?"
+      },
+      "expectedQualities": [
+        "single primary hypothesis",
+        "at most one alternative perspective",
+        "exactly one reflection question",
+        "probabilistic, non-certain language",
+        "user retains decision agency",
+        "only uses meaning fragments present in the compiled context packet"
+      ],
+      "forbiddenClaims": [
+        "future certainty",
+        "direct command",
+        "medical or psychological diagnosis",
+        "third-party mind reading",
+        "professional (medical/legal/financial) outcome prediction",
+        "magical causality"
+      ]
+    },
+    {
+      "id": "golden-005",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": "uncertainty",
+        "goal": "curiosity",
+        "explicitSignals": [],
+        "relationshipType": "softening"
+      },
+      "contextPacketRef": "compiled-from-input:golden-005",
+      "output": {
+        "primaryInterpretation": "Kule geçmişte yaşanmış ani bir farkındalık anını işaret ederken, komşu kartın getirdiği yumuşatıcı ton bu anın yalnızca sarsıcı değil, aynı zamanda dengelenebilir bir yönü olduğunu da hatırlatabilir. Meraklı bir bakışla geriye dönüldüğünde, o dönemki belirsizliğin bugün nasıl bir iz bıraktığını keşfetmek ilginç bir alan olabilir.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "O dönemki belirsizlik bugün size nasıl bir iz bırakmış olabilir?"
+      },
+      "expectedQualities": [
+        "single primary hypothesis",
+        "at most one alternative perspective",
+        "exactly one reflection question",
+        "probabilistic, non-certain language",
+        "user retains decision agency",
+        "only uses meaning fragments present in the compiled context packet"
+      ],
+      "forbiddenClaims": [
+        "future certainty",
+        "direct command",
+        "medical or psychological diagnosis",
+        "third-party mind reading",
+        "professional (medical/legal/financial) outcome prediction",
+        "magical causality"
+      ]
+    },
+    {
+      "id": "golden-006",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": null,
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "contextPacketRef": "compiled-from-input:golden-006",
+      "output": {
+        "primaryInterpretation": "Kule, geçmişte güvenilir sanılan bir yapının ya da varsayımın aslında sorgulanabilir olduğunu gösteren ani bir farkındalık anını sembolize edebilir. Bu, o dönem rahatsız edici gelmiş olsa da, bugünkü bakış açınızı şekillendirmiş bir öğrenmeyi de içinde taşıyor olabilir; geçmişe dönüp bakmak bu öğrenmeyi daha net görmenize yardımcı olabilir.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "O deneyimden bugüne taşıdığınız bir öğrenme var mı?"
+      },
+      "expectedQualities": [
+        "single primary hypothesis",
+        "at most one alternative perspective",
+        "exactly one reflection question",
+        "probabilistic, non-certain language",
+        "user retains decision agency",
+        "only uses meaning fragments present in the compiled context packet"
+      ],
+      "forbiddenClaims": [
+        "future certainty",
+        "direct command",
+        "medical or psychological diagnosis",
+        "third-party mind reading",
+        "professional (medical/legal/financial) outcome prediction",
+        "magical causality"
+      ]
+    },
+    {
+      "id": "golden-007",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "career",
+        "goal": "weigh-decision",
+        "explicitSignals": [
+          {
+            "signalId": "responsibility-sustainability",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": null
+      },
+      "contextPacketRef": "compiled-from-input:golden-007",
+      "output": {
+        "primaryInterpretation": "Kule burada işinizin biteceğini söylemez. Daha çok mevcut çalışma düzeninizin hangi varsayımlara dayandığını ve bu varsayımların sizin için hâlâ sürdürülebilir olup olmadığını incelemek için bir mercek sunabilir. Sorumluluklarınızın kapasitenizle uyumu önemliyken, kararınızı yalnız alışılmış düzene bağlı kalmak üzerinden değerlendirmemek de başka bir bakış açısı açabilir.",
+        "alternativePerspective": "Bazı durumlarda bu, sorumlulukların yeniden dağıtılması gibi küçük bir ayarlamayla da ele alınabilir; her zaman büyük bir kopuş gerekmeyebilir.",
+        "reflectionQuestion": "Mevcut çalışma düzeninizde güvence sağlayan unsurlarla sizi sınırlayan unsurları nasıl ayırıyorsunuz?"
+      },
+      "expectedQualities": [
+        "single primary hypothesis",
+        "at most one alternative perspective",
+        "exactly one reflection question",
+        "probabilistic, non-certain language",
+        "user retains decision agency",
+        "only uses meaning fragments present in the compiled context packet"
+      ],
+      "forbiddenClaims": [
+        "future certainty",
+        "direct command",
+        "medical or psychological diagnosis",
+        "third-party mind reading",
+        "professional (medical/legal/financial) outcome prediction",
+        "magical causality"
+      ]
+    },
+    {
+      "id": "golden-008",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "boundaries",
+        "goal": "understand-emotions",
+        "explicitSignals": [
+          {
+            "signalId": "boundary-expression-need",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": null
+      },
+      "contextPacketRef": "compiled-from-input:golden-008",
+      "output": {
+        "primaryInterpretation": "Bu kart, şu anda bir sınırın daha açık ifade edilmesiyle gelebilecek dengeyi yansıtıyor olabilir. Sessizce zorlanan bir sınırın artık görünür hale gelmesi, önce rahatsız edici bir duygu uyandırabilir; ama bu duyguyu adlandırmak, neyin sizin için önemli olduğunu daha net görmenizi sağlayabilir.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "Bu durumda hangi sınırın daha açık ifade edilmesi size denge sağlayabilir?"
+      },
+      "expectedQualities": [
+        "single primary hypothesis",
+        "at most one alternative perspective",
+        "exactly one reflection question",
+        "probabilistic, non-certain language",
+        "user retains decision agency",
+        "only uses meaning fragments present in the compiled context packet"
+      ],
+      "forbiddenClaims": [
+        "future certainty",
+        "direct command",
+        "medical or psychological diagnosis",
+        "third-party mind reading",
+        "professional (medical/legal/financial) outcome prediction",
+        "magical causality"
+      ]
+    },
+    {
+      "id": "golden-009",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "decision",
+        "goal": "weigh-decision",
+        "explicitSignals": [
+          {
+            "signalId": "decision-uncertainty",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": "heightening-tension"
+      },
+      "contextPacketRef": "compiled-from-input:golden-009",
+      "output": {
+        "primaryInterpretation": "Kule, bir kararın dayandığı varsayımların şu anda yeniden gözden geçirilmesi gerektiğini düşündürebilir. Komşu kartla birlikte bu gerilim daha belirgin hissedilebilir; bu, kararın yanlış olduğu anlamına gelmez, yalnızca temelinin daha dikkatli incelenmeye değer olduğu anlamına gelebilir. Kusursuz değil, sağlam bir temel aramak burada daha önemli görünüyor.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "Bu kararı sağlam kılan nedir sizce?"
+      },
+      "expectedQualities": [
+        "single primary hypothesis",
+        "at most one alternative perspective",
+        "exactly one reflection question",
+        "probabilistic, non-certain language",
+        "user retains decision agency",
+        "only uses meaning fragments present in the compiled context packet"
+      ],
+      "forbiddenClaims": [
+        "future certainty",
+        "direct command",
+        "medical or psychological diagnosis",
+        "third-party mind reading",
+        "professional (medical/legal/financial) outcome prediction",
+        "magical causality"
+      ]
+    },
+    {
+      "id": "golden-010",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "change",
+        "goal": "see-different-perspective",
+        "explicitSignals": [
+          {
+            "signalId": "change-hesitation",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": "reframing"
+      },
+      "contextPacketRef": "compiled-from-input:golden-010",
+      "output": {
+        "primaryInterpretation": "Bu kart, şu anda gündemdeki bir değişim ihtimalinin yalnızca kayıp olarak değil, aynı zamanda seçenekleri yeniden değerlendirmeye alan açan bir an olarak da görülebileceğini önerir. Komşu kart bu yeniden çerçevelemeyi güçlendiriyor: aynı durumun farklı bir açıdan okunması, önceki yorumun yanlış olduğu anlamına gelmez, yalnızca tamamlayıcı bir bakış sunar.",
+        "alternativePerspective": "Değişimi yalnızca tehdit olarak görmek yerine, hangi yeni seçeneklerin şimdi görünür hale geldiğine de bakılabilir.",
+        "reflectionQuestion": "Bu değişimi yalnızca kayıp olarak değerlendirmeseydiniz, hangi seçenekleri daha açık inceleyebilirdiniz?"
+      },
+      "expectedQualities": [
+        "single primary hypothesis",
+        "at most one alternative perspective",
+        "exactly one reflection question",
+        "probabilistic, non-certain language",
+        "user retains decision agency",
+        "only uses meaning fragments present in the compiled context packet"
+      ],
+      "forbiddenClaims": [
+        "future certainty",
+        "direct command",
+        "medical or psychological diagnosis",
+        "third-party mind reading",
+        "professional (medical/legal/financial) outcome prediction",
+        "magical causality"
+      ]
+    },
+    {
+      "id": "golden-011",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "self-awareness",
+        "goal": "clarify-thoughts",
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "contextPacketRef": "compiled-from-input:golden-011",
+      "output": {
+        "primaryInterpretation": "Kule, şu anda kendinizle ilgili bir anlatının ya da beklentinin yeniden değerlendirilebileceğini düşündürebilir. Daha önce fark edilmeyen bir gerilim şimdi daha görünür hale gelmiş olabilir; bu netlik ilk anda ağır hissettirse de, düşüncelerinizi daha açık görmenize zemin hazırlayabilir.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "Kendinizle ilgili hangi anlatı veya beklentiyi yeniden değerlendirmek istersiniz?"
+      },
+      "expectedQualities": [
+        "single primary hypothesis",
+        "at most one alternative perspective",
+        "exactly one reflection question",
+        "probabilistic, non-certain language",
+        "user retains decision agency",
+        "only uses meaning fragments present in the compiled context packet"
+      ],
+      "forbiddenClaims": [
+        "future certainty",
+        "direct command",
+        "medical or psychological diagnosis",
+        "third-party mind reading",
+        "professional (medical/legal/financial) outcome prediction",
+        "magical causality"
+      ]
+    },
+    {
+      "id": "golden-012",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "uncertainty",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "contextPacketRef": "compiled-from-input:golden-012",
+      "output": {
+        "primaryInterpretation": "Bu kart, mevcut düzende sürdürülebilirliği sorgulanabilecek bir unsurun şu anda görünür olabileceğini yansıtır. Belirsizlik içinde kontrol alanında olanlarla henüz açık kalan unsurları ayırt etmek, durumu daha net görmenin bir yolu olabilir; bu netlik hemen gelmese de, aramaya değer bir yön sunabilir.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "Bu durumda hangi unsurlar kontrolünüzde, hangileri henüz açık görünüyor?"
+      },
+      "expectedQualities": [
+        "single primary hypothesis",
+        "at most one alternative perspective",
+        "exactly one reflection question",
+        "probabilistic, non-certain language",
+        "user retains decision agency",
+        "only uses meaning fragments present in the compiled context packet"
+      ],
+      "forbiddenClaims": [
+        "future certainty",
+        "direct command",
+        "medical or psychological diagnosis",
+        "third-party mind reading",
+        "professional (medical/legal/financial) outcome prediction",
+        "magical causality"
+      ]
+    },
+    {
+      "id": "golden-013",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": "career",
+        "goal": "weigh-decision",
+        "explicitSignals": [
+          {
+            "signalId": "current-structure-attachment",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": null
+      },
+      "contextPacketRef": "compiled-from-input:golden-013",
+      "output": {
+        "primaryInterpretation": "Kule, mevcut çalışma düzeninizdeki varsayımlardan hangilerinin daha esnek bir yaklaşıma açılabileceğini değerlendirmeye davet edebilir. Tanıdık ama artık eskisi kadar uymayan bir düzene bağlılık, bu değerlendirmeyi zorlaştırabilir; yine de bu, yönün kesin bir sonuç değil, yalnızca bir düşünme merceği olduğu anlamına gelir.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "Mevcut çalışma düzeninizde hangi varsayımları yeniden değerlendirmek size daha fazla netlik sağlayabilir?"
+      },
+      "expectedQualities": [
+        "single primary hypothesis",
+        "at most one alternative perspective",
+        "exactly one reflection question",
+        "probabilistic, non-certain language",
+        "user retains decision agency",
+        "only uses meaning fragments present in the compiled context packet"
+      ],
+      "forbiddenClaims": [
+        "future certainty",
+        "direct command",
+        "medical or psychological diagnosis",
+        "third-party mind reading",
+        "professional (medical/legal/financial) outcome prediction",
+        "magical causality"
+      ]
+    },
+    {
+      "id": "golden-014",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": "relationship",
+        "goal": "curiosity",
+        "explicitSignals": [],
+        "relationshipType": "leaving-open"
+      },
+      "contextPacketRef": "compiled-from-input:golden-014",
+      "output": {
+        "primaryInterpretation": "Bu kart, ilişkinizdeki beklenti ve iletişim biçimlerinin hangi alanlarda daha açık değerlendirilebileceğini merakla incelemeye davet edebilir. Komşu kart bu sorunun şimdilik açık kalabileceğine dikkat çekiyor; bu, bir çıkış yolu olmadığı anlamına gelmez, yalnızca henüz netleşmediği anlamına gelir.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "Bu ilişkide hangi beklentilerin veya iletişim biçimlerinin daha açık değerlendirilmesi size yardımcı olabilir?"
+      },
+      "expectedQualities": [
+        "single primary hypothesis",
+        "at most one alternative perspective",
+        "exactly one reflection question",
+        "probabilistic, non-certain language",
+        "user retains decision agency",
+        "only uses meaning fragments present in the compiled context packet"
+      ],
+      "forbiddenClaims": [
+        "future certainty",
+        "direct command",
+        "medical or psychological diagnosis",
+        "third-party mind reading",
+        "professional (medical/legal/financial) outcome prediction",
+        "magical causality"
+      ]
+    },
+    {
+      "id": "golden-015",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": "boundaries",
+        "goal": "weigh-decision",
+        "explicitSignals": [
+          {
+            "signalId": "control-scope-clarification",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": null
+      },
+      "contextPacketRef": "compiled-from-input:golden-015",
+      "output": {
+        "primaryInterpretation": "Kule, bir sınırın daha açık ifade edilmesinin hangi alanlarda değerlendirilebileceğini düşündürebilir. Kontrol alanında olanlarla olmayanları ayırt etmek burada yardımcı bir mercek sunar; bu, hangi sınırın nasıl ifade edileceğine dair kesin bir talimat değil, yalnızca değerlendirilebilecek bir yöndür.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "Bu durumda kontrolünüzde olanlarla olmayanları nasıl ayırıyorsunuz?"
+      },
+      "expectedQualities": [
+        "single primary hypothesis",
+        "at most one alternative perspective",
+        "exactly one reflection question",
+        "probabilistic, non-certain language",
+        "user retains decision agency",
+        "only uses meaning fragments present in the compiled context packet"
+      ],
+      "forbiddenClaims": [
+        "future certainty",
+        "direct command",
+        "medical or psychological diagnosis",
+        "third-party mind reading",
+        "professional (medical/legal/financial) outcome prediction",
+        "magical causality"
+      ]
+    },
+    {
+      "id": "golden-016",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": "change",
+        "goal": "see-different-perspective",
+        "explicitSignals": [],
+        "relationshipType": "agency-linking"
+      },
+      "contextPacketRef": "compiled-from-input:golden-016",
+      "output": {
+        "primaryInterpretation": "Bu kart, gündeminizdeki değişim ihtimalinin hangi seçenekleri yeniden değerlendirmenize alan açtığını düşünmeye davet edebilir. Komşu kart, bu ışıkta hangi seçeneklerin sizin elinizde olduğunu görmeyi önerir; bu bir talimat değil, yalnızca eylemliliğinizi hatırlatan bir bakış açısıdır.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "Gündeminizdeki değişim ihtimali, hangi seçenekleri yeniden değerlendirmenize alan açıyor?"
+      },
+      "expectedQualities": [
+        "single primary hypothesis",
+        "at most one alternative perspective",
+        "exactly one reflection question",
+        "probabilistic, non-certain language",
+        "user retains decision agency",
+        "only uses meaning fragments present in the compiled context packet"
+      ],
+      "forbiddenClaims": [
+        "future certainty",
+        "direct command",
+        "medical or psychological diagnosis",
+        "third-party mind reading",
+        "professional (medical/legal/financial) outcome prediction",
+        "magical causality"
+      ]
+    },
+    {
+      "id": "golden-017",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": "uncertainty",
+        "goal": "clarify-thoughts",
+        "explicitSignals": [
+          {
+            "signalId": "uncertainty-discomfort",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": null
+      },
+      "contextPacketRef": "compiled-from-input:golden-017",
+      "output": {
+        "primaryInterpretation": "Kule, netliğin bazen beklenmedik bir andan sonra geldiğini gösterebilir; bu, belirsizliğin ne zaman biteceğine dair bir tahmin değildir. Daha esnek ya da doğrulanabilir bir yaklaşımın hangi alanlarda değerlendirilebileceğini düşünmek, düşüncelerinizi netleştirmek için bir başlangıç noktası sunabilir.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "Belirsizlikte en çok neyi kontrol etmek istiyorsunuz?"
+      },
+      "expectedQualities": [
+        "single primary hypothesis",
+        "at most one alternative perspective",
+        "exactly one reflection question",
+        "probabilistic, non-certain language",
+        "user retains decision agency",
+        "only uses meaning fragments present in the compiled context packet"
+      ],
+      "forbiddenClaims": [
+        "future certainty",
+        "direct command",
+        "medical or psychological diagnosis",
+        "third-party mind reading",
+        "professional (medical/legal/financial) outcome prediction",
+        "magical causality"
+      ]
+    },
+    {
+      "id": "golden-018",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": null,
+        "goal": "curiosity",
+        "explicitSignals": [],
+        "relationshipType": null
+      },
+      "contextPacketRef": "compiled-from-input:golden-018",
+      "output": {
+        "primaryInterpretation": "Kule, daha esnek ya da doğrulanabilir bir yaklaşımın hangi alanlarda değerlendirilebileceğini merakla keşfetmeye davet edebilir. Bu, kesin bir sonuca varmaktan çok, yeni bilgiler karşısında bir planı yeniden gözden geçirmenin bir seçenek olarak var olduğunu hatırlatan bir bakış açısıdır.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "Şu an sahip olduğunuz seçeneklerden hangisini daha yakından incelemek isterdiniz?"
+      },
+      "expectedQualities": [
+        "single primary hypothesis",
+        "at most one alternative perspective",
+        "exactly one reflection question",
+        "probabilistic, non-certain language",
+        "user retains decision agency",
+        "only uses meaning fragments present in the compiled context packet"
+      ],
+      "forbiddenClaims": [
+        "future certainty",
+        "direct command",
+        "medical or psychological diagnosis",
+        "third-party mind reading",
+        "professional (medical/legal/financial) outcome prediction",
+        "magical causality"
+      ]
+    }
+  ]
+}
