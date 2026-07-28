@@ -13,7 +13,7 @@ This directory is the governance landing zone for the 78-card deck plus one card
 
 ## Intended binary path
 
-Place the canonical PNG files exactly under:
+The governed intake tool writes the canonical PNG files under:
 
 ```text
 assets/tarot-cards-v2/images/Major_Arcana/...
@@ -24,21 +24,45 @@ Do not rename files during intake. A later registry/export phase may introduce n
 
 ## Required intake sequence
 
-1. Verify the supplied archive SHA-256 equals:
+First validate without writing:
 
-   `580ae8f69759e060ac20e3df9dc68eae6fdf66e2f4ad97f3ef49fdef979eef9c`
+```bash
+python tools/assets/intake_full_tarot_deck_v2.py /path/to/insight_engine_tarot_cards_bundle_FULL.zip
+```
 
-2. Confirm the archive contains:
+The supplied archive must match:
 
-   - 78 card faces;
-   - 1 card back;
-   - 79 PNG files total.
+`580ae8f69759e060ac20e3df9dc68eae6fdf66e2f4ad97f3ef49fdef979eef9c`
 
-3. Generate `assets/tarot-cards-v2/provenance-manifest.json` from the actual binaries using `provenance-manifest.template.json`.
-4. Record each target path, SHA-256, byte size, width and height.
-5. Record the binary commit SHA in the provenance declaration.
-6. Close the binary-ingest items in `docs/ASSET_LICENSING_DEBT_LOG_FULL_DECK_V2.md`.
-7. Do not connect the images to the UI until explicit FAZ 9 approval.
+Then stage the verified files and generate the per-file provenance manifest:
+
+```bash
+python tools/assets/intake_full_tarot_deck_v2.py \
+  /path/to/insight_engine_tarot_cards_bundle_FULL.zip \
+  --extract
+```
+
+The tool verifies:
+
+- archive SHA-256;
+- safe ZIP paths/no path traversal;
+- 78 card faces + 1 card back;
+- exactly 79 PNG files;
+- 23 Major/Card-Back files and 56 Minor Arcana files;
+- expected source dimensions;
+- the four recorded 512×768 King files;
+- per-file SHA-256, byte size and dimensions.
+
+It writes:
+
+`assets/tarot-cards-v2/provenance-manifest.json`
+
+After intake:
+
+1. Review the generated per-file manifest.
+2. Record the binary commit SHA in the provenance declaration.
+3. Close the remaining binary-ingest items in `docs/ASSET_LICENSING_DEBT_LOG_FULL_DECK_V2.md`.
+4. Do not connect the images to the UI until explicit FAZ 9 approval.
 
 ## Source versus production derivatives
 
@@ -48,6 +72,8 @@ The PNG files are canonical sources. Production WebP/AVIF files must be stored s
 
 The image assets are not automatically licensed under the repository’s source-code licence. See:
 
+- `assets/tarot-cards-v2/ASSET_LICENSE.txt`
 - `docs/ASSET_LICENSE_MANIFEST.md`
 - `docs/ASSET_LICENSING_DEBT_LOG_FULL_DECK_V2.md`
 - `docs/evidence/FULL_DECK_V2_PROVENANCE_DECLARATION.md`
+- `docs/evidence/FULL_DECK_V2_PLATFORM_TERMS_REVIEW.md`
