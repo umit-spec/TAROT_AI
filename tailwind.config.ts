@@ -1,26 +1,70 @@
 import type { Config } from 'tailwindcss';
 
-// Sprint 4 UI Design Contract §6: structure and naming only, not a
-// production visual identity. Every color below is a neutral/grayscale
-// placeholder pending an actual Canva/Figma design lock - deliberately
-// inert so nobody mistakes these for approved brand colors.
+// docs/UI_PREMIUM_V1.md §3: premium token values, sourced from CSS custom
+// properties in globals.css (single source of truth). Semantic names below
+// that already existed under the Sprint 4 grayscale placeholder
+// (surface.base/raised, ink.primary/muted, accent, diagnostic.*, crisis.*)
+// keep their exact names so every existing component inherits the new
+// palette with zero markup changes. New names (background, surface-raised,
+// foreground, accent-gold, accent-violet, border-subtle/strong, focus) are
+// additive, for the new shell primitives only.
 const config: Config = {
   content: ['./src/**/*.{ts,tsx}'],
   theme: {
     extend: {
       fontFamily: {
-        heading: ['"Playfair Display"', 'serif'], // docs/MVP_PLAN_REVISED.md Aşama 3, already locked
-        body: ['Inter', 'sans-serif'], // Aşama 3, already locked
+        // Values come from next/font's generated CSS variables (src/app/layout.tsx),
+        // which self-host Playfair Display / Inter at build time.
+        heading: ['var(--font-heading)', '"Playfair Display"', 'serif'],
+        body: ['var(--font-body)', 'Inter', 'sans-serif'],
       },
       colors: {
-        surface: { base: '#fafafa', raised: '#ffffff' },
-        ink: { primary: '#1a1a1a', muted: '#6b6b6b' },
-        accent: { DEFAULT: '#4a4a4a' },
-        diagnostic: { subtle: '#e8e8e8', subtleText: '#555555' },
-        crisis: { surface: '#fff5f5', accent: '#8b3a3a' },
+        // Existing semantic names — values updated to the premium palette.
+        surface: {
+          base: 'var(--color-background)',
+          raised: 'var(--color-surface-raised)',
+        },
+        ink: {
+          primary: 'var(--color-foreground)',
+          muted: 'var(--color-foreground-muted)',
+        },
+        accent: { DEFAULT: 'var(--color-accent-gold)' },
+        diagnostic: {
+          subtle: 'var(--color-surface-interactive)',
+          subtleText: 'var(--color-foreground-secondary)',
+        },
+        crisis: {
+          surface: 'var(--color-crisis-surface)',
+          accent: 'var(--color-crisis-accent)',
+        },
+
+        // New additive tokens for AppShell / future premium primitives.
+        background: {
+          DEFAULT: 'var(--color-background)',
+          elevated: 'var(--color-background-elevated)',
+        },
+        'surface-interactive': 'var(--color-surface-interactive)',
+        foreground: {
+          DEFAULT: 'var(--color-foreground)',
+          secondary: 'var(--color-foreground-secondary)',
+          muted: 'var(--color-foreground-muted)',
+        },
+        gold: {
+          DEFAULT: 'var(--color-accent-gold)',
+          soft: 'var(--color-accent-gold-soft)',
+        },
+        violet: {
+          DEFAULT: 'var(--color-accent-violet)',
+          deep: 'var(--color-accent-violet-deep)',
+        },
+        border: {
+          subtle: 'var(--color-border-subtle)',
+          strong: 'var(--color-border-strong)',
+        },
+        focus: 'var(--color-focus)',
       },
       transitionDuration: {
-        shuffle: '280ms', // Aşama 3: animation principle "<300ms"
+        shuffle: '280ms',
         reveal: '200ms',
       },
     },

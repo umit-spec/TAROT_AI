@@ -12,6 +12,7 @@ import { ReadingResult } from '../components/ReadingResult';
 import { ReflectionClose } from '../components/ReflectionClose';
 import { CrisisNotice } from '../components/CrisisNotice';
 import { ErrorNotice } from '../components/ErrorNotice';
+import { AppShell } from '../components/AppShell';
 
 type TopicHint = 'relationship' | 'career' | 'self';
 type Pending = { question: string; topicHint?: TopicHint };
@@ -104,9 +105,7 @@ export default function HomePage() {
   }
 
   return (
-    <main className="mx-auto max-w-2xl p-4 font-body text-ink-primary">
-      <h1 className="font-heading text-2xl">Tarot AI</h1>
-
+    <AppShell>
       {state.status === 'consent' && (
         <ConsentModal
           onAccept={() => setState({ status: 'compose' })}
@@ -185,6 +184,6 @@ export default function HomePage() {
           onRestart={() => setState({ status: 'compose' })}
         />
       )}
-    </main>
+    </AppShell>
   );
 }

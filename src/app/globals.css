@@ -1,3 +1,79 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*
+ * Premium design tokens — single source of truth (docs/UI_PREMIUM_V1.md §3).
+ * tailwind.config.ts reads every color below via var(--...); components
+ * never hard-code a hex value.
+ */
+:root {
+  --color-background: #07060b;
+  --color-background-elevated: #0d0a13;
+  --color-surface: #13101b;
+  --color-surface-raised: #191422;
+  --color-surface-interactive: #211a2c;
+
+  --color-foreground: #f5f0e7;
+  --color-foreground-secondary: #b8afbf;
+  --color-foreground-muted: #938ca6;
+
+  --color-accent-gold: #d0a45c;
+  --color-accent-gold-soft: #e4c483;
+  --color-accent-violet: #7650a3;
+  --color-accent-violet-deep: #4e2b71;
+
+  --color-border-subtle: rgba(208, 164, 92, 0.18);
+  --color-border-strong: rgba(228, 196, 131, 0.42);
+  --color-focus: rgba(228, 196, 131, 0.75);
+
+  --color-crisis-surface: #2a1416;
+  --color-crisis-accent: #f3a9a9;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
+::selection {
+  background-color: var(--color-accent-violet-deep);
+  color: var(--color-foreground);
+}
+
+/* Visible on every interactive element, including inside AppShell; never
+   removed — a11y focus must survive the visual pass (docs/UI_PREMIUM_V1.md §11). */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* AmbientBackground — slow, low-opacity drift only; disabled entirely under
+   reduced-motion (docs/UI_PREMIUM_V1.md §11). No new element ever animates
+   besides this single decorative, aria-hidden layer. */
+@keyframes ambient-drift {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    opacity: 0.75;
+    transform: translate3d(0, -1.5%, 0) scale(1.03);
+  }
+}
+
+.ambient-background__glow {
+  animation: ambient-drift 24s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-background__glow {
+    animation: none;
+  }
+}
