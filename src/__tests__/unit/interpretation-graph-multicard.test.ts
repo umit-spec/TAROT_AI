@@ -212,43 +212,51 @@ describe('IG-3B — committed Magician fixture coverage', () => {
     );
   });
 
-  test.each(routingFixture.cases)('$id composes with the committed expected refs', (fixture: any) => {
-    const bundle = compose(fixture.input);
-    expect(bundle.cardId).toBe('01-magician');
-    if ('position' in fixture.expected) expect(bundle.contextRefs.position).toBe(fixture.expected.position);
-    if ('topic' in fixture.expected) expect(bundle.contextRefs.topic).toBe(fixture.expected.topic);
-    if ('goal' in fixture.expected) expect(bundle.contextRefs.goal).toBe(fixture.expected.goal);
-    if ('signals' in fixture.expected) expect(bundle.contextRefs.signals).toEqual(fixture.expected.signals);
-    if ('relationship' in fixture.expected) expect(bundle.contextRefs.relationship).toBe(fixture.expected.relationship);
-  });
-
-  test.each(routingFixture.negativeCases)('$id is rejected with its stable error code', (fixture: any) => {
-    expect(composeFailure(fixture.input)).toContain(fixture.expected.errorCode);
-  });
-
-  test.each(goldenFixture.cases)('$id validates against the real output contract', (fixture: any) => {
-    const bundle = compose(fixture.input);
-    expect(fixture.output.usedContextRefs).toEqual({
-      cardId: bundle.cardId,
-      position: bundle.contextRefs.position,
-      topic: bundle.contextRefs.topic,
-      goal: bundle.contextRefs.goal,
-      signals: bundle.contextRefs.signals,
-      relationship: bundle.contextRefs.relationship,
+  for (const fixture of routingFixture.cases as any[]) {
+    test(`${fixture.id} composes with the committed expected refs`, () => {
+      const bundle = compose(fixture.input);
+      expect(bundle.cardId).toBe('01-magician');
+      if ('position' in fixture.expected) expect(bundle.contextRefs.position).toBe(fixture.expected.position);
+      if ('topic' in fixture.expected) expect(bundle.contextRefs.topic).toBe(fixture.expected.topic);
+      if ('goal' in fixture.expected) expect(bundle.contextRefs.goal).toBe(fixture.expected.goal);
+      if ('signals' in fixture.expected) expect(bundle.contextRefs.signals).toEqual(fixture.expected.signals);
+      if ('relationship' in fixture.expected) expect(bundle.contextRefs.relationship).toBe(fixture.expected.relationship);
     });
-    expect(
-      validateOutput(
-        fixture.output,
-        fixture.output.usedContextRefs,
-        goldenFixture.presentationPreference
-      )
-    ).toMatch(/VALID/);
-  });
+  }
 
-  test.each(adversarialFixture.cases)('$id triggers the expected governed hard gate', (fixture: any) => {
-    const result = JSON.parse(
-      runPython('check_hard_gates_cli.py', [fixture.text, '--direction'])
-    );
-    expect(result).toContain(fixture.expectedGate);
-  });
+  for (const fixture of routingFixture.negativeCases as any[]) {
+    test(`${fixture.id} is rejected with its stable error code`, () => {
+      expect(composeFailure(fixture.input)).toContain(fixture.expected.errorCode);
+    });
+  }
+
+  for (const fixture of goldenFixture.cases as any[]) {
+    test(`${fixture.id} validates against the real output contract`, () => {
+      const bundle = compose(fixture.input);
+      expect(fixture.output.usedContextRefs).toEqual({
+        cardId: bundle.cardId,
+        position: bundle.contextRefs.position,
+        topic: bundle.contextRefs.topic,
+        goal: bundle.contextRefs.goal,
+        signals: bundle.contextRefs.signals,
+        relationship: bundle.contextRefs.relationship,
+      });
+      expect(
+        validateOutput(
+          fixture.output,
+          fixture.output.usedContextRefs,
+          goldenFixture.presentationPreference
+        )
+      ).toMatch(/VALID/);
+    });
+  }
+
+  for (const fixture of adversarialFixture.cases as any[]) {
+    test(`${fixture.id} triggers the expected governed hard gate`, () => {
+      const result = JSON.parse(
+        runPython('check_hard_gates_cli.py', [fixture.text, '--direction'])
+      );
+      expect(result).toContain(fixture.expectedGate);
+    });
+  }
 });
