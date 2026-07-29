@@ -1,16 +1,12 @@
 #!/usr/bin/env python3
-"""Bounded context-packet compiler for the Interpretation Graph (IG-2 §7).
+"""Bounded context-packet compiler for the Interpretation Graph.
 
-Pulls ONLY fields that already exist in the graph's JSON data — never
-invents a card meaning, never infers a signal the caller didn't supply,
-never lets an unknown reference through silently. Deterministic: the
-same input dict always produces byte-identical JSON output (stable key
-order, stable list order, no wall-clock/random data in the packet).
+Loads exactly one canonical card node selected by ``cardId`` and pulls only
+fields already present in governed graph data. It never invents card meaning,
+infers a signal the caller did not explicitly supply, or silently accepts an
+unknown reference. The same input and graph state produce byte-identical output.
 
-This module has no side effects on import and makes no network or
-runtime calls — it is offline-only, matching the graph's own
-provenance.runtimeEnabled = false contract. It is not imported by any
-file under src/app or src/server (see the isolation tests).
+This module is offline-only and is not imported by production runtime code.
 """
 from __future__ import annotations
 
@@ -20,11 +16,14 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 GRAPH_ROOT = REPO_ROOT / "data" / "interpretation-graph"
+CARD_NODES_ROOT = GRAPH_ROOT / "cards"
+CARD_CATALOG_ROOT = REPO_ROOT / "data" / "cards"
 
 VALID_POSITIONS = {"past", "present", "direction"}
 VALID_SOURCES = {"explicit-user-selection", "user-confirmed"}
 VALID_CONFIDENCE = {"explicit", "user-confirmed"}
 MAX_EXPLICIT_SIGNALS = 2
+DEFAULT_CARD_ID = "16-tower"
 
 
 class ContextCompilerError(Exception):
@@ -32,20 +31,45 @@ class ContextCompilerError(Exception):
 
 
 class CrisisShortCircuitError(ContextCompilerError):
-    """Raised immediately, before any graph lookup, when the input carries
-    a crisis flag. No context packet is ever produced for a crisis case
-    (IG-2 §7 rule 11 / §19)."""
+    """Raised before graph lookup when a crisis flag is present."""
 
 
 def _load_json(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def load_graph() -> dict:
-    """Loads the full graph bundle once. Callers may cache and reuse this
-    across many compile_context_packet() calls (the evaluator does)."""
+def _canonical_card_ids() -> set[str]:
+    return {path.stem for path in CARD_CATALOG_ROOT.glob("*.json")}
+
+
+def load_graph(card_id: str = DEFAULT_CARD_ID) -> dict:
+    """Load ontology data and exactly one canonical offline card node.
+
+    ``DEFAULT_CARD_ID`` preserves the IG-2/IG-3 Tower evaluation API for callers
+    that intentionally omit a card id. New multi-card callers must pass the
+    requested canonical id explicitly.
+    """
+    if not isinstance(card_id, str) or card_id not in _canonical_card_ids():
+        raise ContextCompilerError(f"unknown or mismatched cardId: {card_id!r}")
+
+    card_path = CARD_NODES_ROOT / f"{card_id}.json"
+    if not card_path.exists():
+        raise ContextCompilerError(
+            f"unknown or mismatched cardId: {card_id!r} — no interpretation node"
+        )
+
+    card = _load_json(card_path)
+    if card.get("id") != card_id:
+        raise ContextCompilerError(
+            f"unknown or mismatched cardId: {card_id!r} — node id is {card.get('id')!r}"
+        )
+    if card.get("provenance", {}).get("runtimeEnabled") is not False:
+        raise ContextCompilerError(
+            f"context card {card_id!r} must have provenance.runtimeEnabled=false"
+        )
+
     return {
-        "card": _load_json(GRAPH_ROOT / "cards" / "16-tower.json"),
+        "card": card,
         "userSignals": _load_json(GRAPH_ROOT / "ontology" / "user-signals.json"),
         "userGoals": _load_json(GRAPH_ROOT / "ontology" / "user-goals.json"),
         "relationshipTypes": _load_json(GRAPH_ROOT / "ontology" / "relationship-types.json"),
@@ -59,10 +83,10 @@ def compile_context_packet(raw_input: dict, graph: dict | None = None) -> dict:
             "crisisFlag=true — no context packet may be produced for a crisis case"
         )
 
-    graph = graph or load_graph()
+    card_id = raw_input.get("cardId")
+    graph = graph or load_graph(card_id)
     card = graph["card"]
 
-    card_id = raw_input.get("cardId")
     if card_id != card["id"]:
         raise ContextCompilerError(f"unknown or mismatched cardId: {card_id!r}")
 
@@ -92,10 +116,12 @@ def compile_context_packet(raw_input: dict, graph: dict | None = None) -> dict:
         raise ContextCompilerError(
             f"at most {MAX_EXPLICIT_SIGNALS} explicit signals allowed, got {len(explicit_signals)}"
         )
+
     seen_signal_ids: set[str] = set()
     signal_lenses: list[dict] = []
     known_signal_ids = {s["id"] for s in graph["userSignals"]["signals"]}
     lenses_by_id = card["reflectionLayer"]["userSignalLenses"]
+
     for sig in explicit_signals:
         signal_id = sig.get("signalId")
         source = sig.get("source")
@@ -108,23 +134,31 @@ def compile_context_packet(raw_input: dict, graph: dict | None = None) -> dict:
             raise ContextCompilerError(f"invalid signal source: {source!r}")
         if confidence not in VALID_CONFIDENCE:
             raise ContextCompilerError(f"invalid signal confidence: {confidence!r}")
+
         seen_signal_ids.add(signal_id)
         lens = lenses_by_id.get(signal_id)
-        if lens is not None:
-            signal_lenses.append(
-                {
-                    "signalRef": signal_id,
-                    "focus": lens["focus"],
-                    "safeInterpretation": lens["safeInterpretation"],
-                    "reflectionQuestion": lens["reflectionQuestion"],
-                }
+        if lens is None:
+            raise ContextCompilerError(
+                f"signal {signal_id!r} has no lens for card {card_id!r}"
             )
+        signal_lenses.append(
+            {
+                "signalRef": signal_id,
+                "focus": lens["focus"],
+                "safeInterpretation": lens["safeInterpretation"],
+                "reflectionQuestion": lens["reflectionQuestion"],
+            }
+        )
 
     relationship_type = raw_input.get("relationshipType")
     relationship_lens = None
     if relationship_type is not None:
         rel_entry = next(
-            (r for r in graph["relationshipTypes"]["relationshipTypes"] if r["id"] == relationship_type),
+            (
+                r
+                for r in graph["relationshipTypes"]["relationshipTypes"]
+                if r["id"] == relationship_type
+            ),
             None,
         )
         if rel_entry is None:
@@ -159,26 +193,34 @@ def compile_context_packet(raw_input: dict, graph: dict | None = None) -> dict:
     )
 
     goal_lens = (
-        {"goal": goal, "displayName": goal_entry["displayName"], "description": goal_entry["description"]}
+        {
+            "goal": goal,
+            "displayName": goal_entry["displayName"],
+            "description": goal_entry["description"],
+        }
         if goal_entry is not None
         else None
     )
 
-    closing_question_candidates: list[str] = list(position_lens_source["reflectionQuestions"])
+    closing_question_candidates: list[str] = list(
+        position_lens_source["reflectionQuestions"]
+    )
     if context_entry is not None:
         closing_question_candidates.append(context_entry["followUpQuestion"])
     for lens in signal_lenses:
         closing_question_candidates.append(lens["reflectionQuestion"])
-    for q in card["reflectionLayer"]["adaptiveQuestionRefs"]:
-        trigger = q["trigger"]
+    for question in card["reflectionLayer"]["adaptiveQuestionRefs"]:
+        trigger = question["trigger"]
         matches_topic = topic is not None and topic in trigger["topics"]
         matches_goal = goal is not None and goal in trigger["goals"]
         matches_signal = bool(seen_signal_ids & set(trigger["explicitSignalRefs"]))
-        no_trigger_at_all = not trigger["topics"] and not trigger["goals"] and not trigger["explicitSignalRefs"]
-        if matches_topic or matches_goal or matches_signal or no_trigger_at_all:
-            closing_question_candidates.append(q["question"])
-
-    applicable_guardrails = list(card["safetyRefs"])
+        no_trigger = (
+            not trigger["topics"]
+            and not trigger["goals"]
+            and not trigger["explicitSignalRefs"]
+        )
+        if matches_topic or matches_goal or matches_signal or no_trigger:
+            closing_question_candidates.append(question["question"])
 
     packet = {
         "schemaVersion": "1.0.0",
@@ -192,7 +234,7 @@ def compile_context_packet(raw_input: dict, graph: dict | None = None) -> dict:
         "goalLens": goal_lens,
         "signalLenses": signal_lenses,
         "relationshipLens": relationship_lens,
-        "applicableGuardrails": applicable_guardrails,
+        "applicableGuardrails": list(card["safetyRefs"]),
         "closingQuestionCandidates": closing_question_candidates,
         "provenance": {"runtimeEnabled": False, "offlineEvaluationOnly": True},
     }

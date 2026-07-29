@@ -1,0 +1,236 @@
+{
+  "schemaVersion": "1.0.0",
+  "cardId": "01-magician",
+  "note": "Human-authored synthetic offline contract references; not independent quality ratings and not live-model outputs.",
+  "presentationPreference": "concise",
+  "cases": [
+    {
+      "id": "mag-golden-001",
+      "input": {
+        "cardId": "01-magician",
+        "position": "past",
+        "topic": "career",
+        "goal": "clarify-thoughts",
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Geçmiş deneyimlerimin bugünkü kariyer değerlendirmesindeki rolünü anlamak istiyorum.",
+        "presentationPreference": "concise"
+      },
+      "output": {
+        "primaryInterpretation": "Geçmiş konumundaki Büyücü, daha önce edindiğiniz bilgi veya çalışma biçimlerinden hangilerinin bugünkü kariyer değerlendirmesinde hâlâ ilgili olabileceğini incelemeye alan açabilir. Buradaki amaç geçmişi başarı ya da başarısızlık olarak sınıflandırmak değil, mevcut koşullarla uyumlu deneyimleri daha açık görmektir.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "Geçmiş deneyimlerinizden hangisi bugünkü kariyer değerlendirmesinde daha ilgili görünüyor?",
+        "usedContextRefs": { "cardId": "01-magician", "position": "past", "topic": "career", "goal": "clarify-thoughts", "signals": [], "relationship": null }
+      }
+    },
+    {
+      "id": "mag-golden-002",
+      "input": {
+        "cardId": "01-magician",
+        "position": "present",
+        "topic": "relationship",
+        "goal": "understand-emotions",
+        "explicitSignals": [],
+        "relationshipType": "softening",
+        "userQuestion": "Bu ilişkide iletişimimi ve duygularımı daha açık değerlendirmek istiyorum.",
+        "presentationPreference": "concise"
+      },
+      "output": {
+        "primaryInterpretation": "Şimdi konumundaki Büyücü, bu ilişkide niyetiniz, ifade biçiminiz ve duygusal tepkiniz arasındaki bağlantıyı değerlendirmeyi düşündürebilir. Kart karşı tarafın ne hissettiğini söylemez; yalnız sizin açıkça ifade edebileceğiniz beklentilerle henüz belirsiz kalan unsurları ayırmanız için bir düşünme alanı sunar.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "Bu ilişkide hangi beklenti veya ifade biçimini daha açık değerlendirmek istersiniz?",
+        "usedContextRefs": { "cardId": "01-magician", "position": "present", "topic": "relationship", "goal": "understand-emotions", "signals": [], "relationship": "softening" }
+      }
+    },
+    {
+      "id": "mag-golden-003",
+      "input": {
+        "cardId": "01-magician",
+        "position": "direction",
+        "topic": "decision",
+        "goal": "weigh-decision",
+        "explicitSignals": [{ "signalId": "decision-uncertainty", "source": "explicit-user-selection", "confidence": "explicit" }],
+        "relationshipType": "reframing",
+        "userQuestion": "İki seçeneği hangi ölçütlerle karşılaştıracağımı netleştirmek istiyorum.",
+        "presentationPreference": "concise"
+      },
+      "output": {
+        "primaryInterpretation": "Yön konumundaki Büyücü, bir seçeneğin gelecekte ne getireceğini öngörmek yerine, kararın dayandığı bilgi, ölçüt ve pratik koşulları birlikte incelemeyi öneren bir mercek sunabilir. Açık kalan verileri görünür kılmak, seçenekleri kesin hüküm vermeden daha tutarlı biçimde karşılaştırmanıza yardımcı olabilir.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "Bu karar öncesinde hangi bilginin doğrulanması size daha fazla netlik sağlayabilir?",
+        "usedContextRefs": { "cardId": "01-magician", "position": "direction", "topic": "decision", "goal": "weigh-decision", "signals": ["decision-uncertainty"], "relationship": "reframing" }
+      }
+    },
+    {
+      "id": "mag-golden-004",
+      "input": {
+        "cardId": "01-magician",
+        "position": "present",
+        "topic": "family",
+        "goal": "clarify-thoughts",
+        "explicitSignals": [{ "signalId": "control-scope-clarification", "source": "explicit-user-selection", "confidence": "explicit" }],
+        "relationshipType": null,
+        "userQuestion": "Aile içindeki kendi etki alanımı daha açık görmek istiyorum.",
+        "presentationPreference": "concise"
+      },
+      "output": {
+        "primaryInterpretation": "Şimdi konumundaki Büyücü, aile içindeki rol, beklenti ve iletişim biçimlerini kendi etki alanınız açısından değerlendirmeye alan açabilir. Bu mercek belirli bir aile üyesine niyet yüklemez; hangi konuların sizin açıklayabileceğiniz, hangilerinin ise başkalarının karar alanında kaldığını ayırmayı destekleyebilir.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "Aile içindeki hangi konu kendi etki alanınızı daha açık tanımlamanızı gerektiriyor?",
+        "usedContextRefs": { "cardId": "01-magician", "position": "present", "topic": "family", "goal": "clarify-thoughts", "signals": ["control-scope-clarification"], "relationship": null }
+      }
+    },
+    {
+      "id": "mag-golden-005",
+      "input": {
+        "cardId": "01-magician",
+        "position": "direction",
+        "topic": "boundaries",
+        "goal": "see-different-perspective",
+        "explicitSignals": [{ "signalId": "boundary-expression-need", "source": "explicit-user-selection", "confidence": "explicit" }],
+        "relationshipType": "supporting",
+        "userQuestion": "Sınırlarımı ifade etme biçimime farklı bir açıdan bakmak istiyorum.",
+        "presentationPreference": "concise"
+      },
+      "output": {
+        "primaryInterpretation": "Yön konumundaki Büyücü, kişisel sınırların gelecekte nasıl sonuç vereceğini söylemeden, ihtiyaçlarınızla kullandığınız ifade biçimi arasındaki uyumu incelemeyi düşündürebilir. Buradaki odak sertlik ya da geri çekilme değil, hangi açıklık düzeyinin mevcut ilişki ve koşullarda daha anlaşılır göründüğünü değerlendirmektir.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "İhtiyaçlarınızı ve sınırlarınızı hangi ifadeyle daha açık anlatabileceğinizi düşünüyorsunuz?",
+        "usedContextRefs": { "cardId": "01-magician", "position": "direction", "topic": "boundaries", "goal": "see-different-perspective", "signals": ["boundary-expression-need"], "relationship": "supporting" }
+      }
+    },
+    {
+      "id": "mag-golden-006",
+      "input": {
+        "cardId": "01-magician",
+        "position": "past",
+        "topic": "self-awareness",
+        "goal": "curiosity",
+        "explicitSignals": [],
+        "relationshipType": "interiorizing",
+        "userQuestion": "Geçmişteki yaklaşımımın bugünkü bakışıma etkisini merak ediyorum.",
+        "presentationPreference": "concise"
+      },
+      "output": {
+        "primaryInterpretation": "Geçmiş konumundaki Büyücü, daha önce kullandığınız bir düşünme veya öğrenme biçiminin bugünkü öz değerlendirmeye olası katkısını incelemeye davet edebilir. Kart gizli bir yetenek bulunduğunu iddia etmez; yalnız geçmiş deneyimleriniz içinde bugün yeniden anlamlı olabilecek yaklaşım ve ölçütleri fark etmeye alan açar.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "Geçmişteki hangi yaklaşımın bugünkü bakışınızla bağlantılı olabileceğini düşünüyorsunuz?",
+        "usedContextRefs": { "cardId": "01-magician", "position": "past", "topic": "self-awareness", "goal": "curiosity", "signals": [], "relationship": "interiorizing" }
+      }
+    },
+    {
+      "id": "mag-golden-007",
+      "input": {
+        "cardId": "01-magician",
+        "position": "present",
+        "topic": "uncertainty",
+        "goal": "clarify-thoughts",
+        "explicitSignals": [{ "signalId": "uncertainty-discomfort", "source": "explicit-user-selection", "confidence": "explicit" }],
+        "relationshipType": null,
+        "userQuestion": "Belirsiz olanlarla bildiklerimi ayırmak istiyorum.",
+        "presentationPreference": "concise"
+      },
+      "output": {
+        "primaryInterpretation": "Şimdi konumundaki Büyücü, belirsizlik içeren bu durumda doğrulanmış bilgilerle henüz açık kalan noktaları ayırmaya dikkat çekebilir. Bütün araçların hazır olduğunu varsaymak yerine, mevcut verilerin sınırlarını ve hangi bilginin ek incelemeye ihtiyaç duyduğunu belirlemek değerlendirmeyi daha anlaşılır hale getirebilir.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "Bu durumda hangi bilgiler doğrulanmış, hangileri henüz açık görünüyor?",
+        "usedContextRefs": { "cardId": "01-magician", "position": "present", "topic": "uncertainty", "goal": "clarify-thoughts", "signals": ["uncertainty-discomfort"], "relationship": null }
+      }
+    },
+    {
+      "id": "mag-golden-008",
+      "input": {
+        "cardId": "01-magician",
+        "position": "direction",
+        "topic": "change",
+        "goal": "see-different-perspective",
+        "explicitSignals": [{ "signalId": "change-hesitation", "source": "explicit-user-selection", "confidence": "explicit" }],
+        "relationshipType": "leaving-open",
+        "userQuestion": "Değişen koşullardaki seçenekleri daha geniş değerlendirmek istiyorum.",
+        "presentationPreference": "concise"
+      },
+      "output": {
+        "primaryInterpretation": "Yön konumundaki Büyücü, değişimin gerçekleşeceğini veya belirli bir sonuca varacağını ileri sürmeden, mevcut kaynaklarla alternatiflerin uyumunu incelemeye alan açabilir. Farklı seçenekleri güvenlik, kapasite ve sürdürülebilirlik ölçütleriyle karşılaştırmak, tek bir sonuca zorlanmadan daha geniş bir değerlendirme yapmanızı destekleyebilir.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "Değişen koşullarda hangi ölçütleri seçenekleri karşılaştırmak için kullanmak istersiniz?",
+        "usedContextRefs": { "cardId": "01-magician", "position": "direction", "topic": "change", "goal": "see-different-perspective", "signals": ["change-hesitation"], "relationship": "leaving-open" }
+      }
+    },
+    {
+      "id": "mag-golden-009",
+      "input": {
+        "cardId": "01-magician",
+        "position": "present",
+        "topic": "career",
+        "goal": "weigh-decision",
+        "explicitSignals": [{ "signalId": "financial-security-concern", "source": "explicit-user-selection", "confidence": "explicit" }],
+        "relationshipType": "agency-linking",
+        "userQuestion": "Kariyer seçeneğini maddi koşullarla birlikte tartmak istiyorum.",
+        "presentationPreference": "concise"
+      },
+      "output": {
+        "primaryInterpretation": "Şimdi konumundaki Büyücü, kariyer ve maddi güvence değerlendirmesinde mevcut bilgi, beceri, kapasite ve sınırları birlikte ele almayı düşündürebilir. Kart belirli bir gelir sonucu vaat etmez; hangi kaynakların gerçekten kullanılabilir olduğunu ve hangi varsayımların ek veriye ihtiyaç duyduğunu ayırmanız için bir mercek sunar.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "Kariyer seçeneğini değerlendirirken hangi maddi veri veya sınır daha belirleyici görünüyor?",
+        "usedContextRefs": { "cardId": "01-magician", "position": "present", "topic": "career", "goal": "weigh-decision", "signals": ["financial-security-concern"], "relationship": "agency-linking" }
+      }
+    },
+    {
+      "id": "mag-golden-010",
+      "input": {
+        "cardId": "01-magician",
+        "position": "past",
+        "topic": "relationship",
+        "goal": "understand-emotions",
+        "explicitSignals": [{ "signalId": "loss-concern", "source": "explicit-user-selection", "confidence": "explicit" }],
+        "relationshipType": "softening",
+        "userQuestion": "Geçmiş ilişki deneyimlerimden kalan öğrenmeleri değerlendirmek istiyorum.",
+        "presentationPreference": "concise"
+      },
+      "output": {
+        "primaryInterpretation": "Geçmiş konumundaki Büyücü, önceki bir ilişki deneyiminde kullandığınız iletişim veya değerlendirme biçiminin bugünkü bakışınıza olası etkisini incelemeye alan açabilir. Kart bir kayıp yaşandığını varsaymaz; değişen koşullar karşısında hangi deneyim ve öğrenmelerin sizinle kaldığını tarafsızca değerlendirmenizi destekleyebilir.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "Geçmiş ilişki deneyimlerinizden hangi öğrenme bugün hâlâ ilgili görünüyor?",
+        "usedContextRefs": { "cardId": "01-magician", "position": "past", "topic": "relationship", "goal": "understand-emotions", "signals": ["loss-concern"], "relationship": "softening" }
+      }
+    },
+    {
+      "id": "mag-golden-011",
+      "input": {
+        "cardId": "01-magician",
+        "position": "present",
+        "topic": "self-awareness",
+        "goal": "curiosity",
+        "explicitSignals": [{ "signalId": "external-evaluation-pressure", "source": "explicit-user-selection", "confidence": "explicit" }],
+        "relationshipType": "reframing",
+        "userQuestion": "Kendi ölçütlerimle başkalarının değerlendirmelerini ayırmayı merak ediyorum.",
+        "presentationPreference": "concise"
+      },
+      "output": {
+        "primaryInterpretation": "Şimdi konumundaki Büyücü, başkalarının değerlendirmeleriyle kendi ölçütleriniz arasındaki ilişkiyi daha açık görmenizi sağlayabilecek bir düşünme alanı sunabilir. Kart baskı altında olduğunuzu veya gizli bir potansiyel taşıdığınızı iddia etmez; hangi ölçütlerin size ait olduğunu ayırt etmeyi destekler.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "Kendi ölçütlerinizle dışsal değerlendirmeleri nasıl ayırdığınızı düşünüyorsunuz?",
+        "usedContextRefs": { "cardId": "01-magician", "position": "present", "topic": "self-awareness", "goal": "curiosity", "signals": ["external-evaluation-pressure"], "relationship": "reframing" }
+      }
+    },
+    {
+      "id": "mag-golden-012",
+      "input": {
+        "cardId": "01-magician",
+        "position": "direction",
+        "topic": "family",
+        "goal": "weigh-decision",
+        "explicitSignals": [{ "signalId": "responsibility-sustainability", "source": "explicit-user-selection", "confidence": "explicit" }],
+        "relationshipType": "heightening-tension",
+        "userQuestion": "Aile içindeki sorumlulukların sürdürülebilirliğini değerlendirmek istiyorum.",
+        "presentationPreference": "concise"
+      },
+      "output": {
+        "primaryInterpretation": "Yön konumundaki Büyücü, aile içindeki sorumlulukların gelecekte nasıl sonuçlanacağını söylemeden, mevcut kapasite, kaynak ve beklentilerle uyumunu tarafsızca değerlendirmeye alan açabilir. Bir sorumluluğun bırakılması gerektiğini varsaymak yerine, hangi düzenlemenin daha sürdürülebilir göründüğünü farklı ölçütlerle incelemeyi destekleyebilir.",
+        "alternativePerspective": null,
+        "reflectionQuestion": "Mevcut sorumluluklarınızın kapasite ve kaynaklarınızla uyumunu nasıl değerlendiriyorsunuz?",
+        "usedContextRefs": { "cardId": "01-magician", "position": "direction", "topic": "family", "goal": "weigh-decision", "signals": ["responsibility-sustainability"], "relationship": "heightening-tension" }
+      }
+    }
+  ]
+}

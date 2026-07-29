@@ -1,0 +1,509 @@
+{
+  "schemaVersion": "1.0.0",
+  "cardId": "01-magician",
+  "note": "Synthetic offline routing fixtures; no real user data.",
+  "cases": [
+    {
+      "id": "mag-routing-001",
+      "input": {
+        "cardId": "01-magician",
+        "position": "past",
+        "topic": "career",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "past", "topic": "career" }
+    },
+    {
+      "id": "mag-routing-002",
+      "input": {
+        "cardId": "01-magician",
+        "position": "past",
+        "topic": "relationship",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "past", "topic": "relationship" }
+    },
+    {
+      "id": "mag-routing-003",
+      "input": {
+        "cardId": "01-magician",
+        "position": "past",
+        "topic": "decision",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "past", "topic": "decision" }
+    },
+    {
+      "id": "mag-routing-004",
+      "input": {
+        "cardId": "01-magician",
+        "position": "past",
+        "topic": "family",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "past", "topic": "family" }
+    },
+    {
+      "id": "mag-routing-005",
+      "input": {
+        "cardId": "01-magician",
+        "position": "past",
+        "topic": "boundaries",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "past", "topic": "boundaries" }
+    },
+    {
+      "id": "mag-routing-006",
+      "input": {
+        "cardId": "01-magician",
+        "position": "past",
+        "topic": "self-awareness",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "past", "topic": "self-awareness" }
+    },
+    {
+      "id": "mag-routing-007",
+      "input": {
+        "cardId": "01-magician",
+        "position": "past",
+        "topic": "uncertainty",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "past", "topic": "uncertainty" }
+    },
+    {
+      "id": "mag-routing-008",
+      "input": {
+        "cardId": "01-magician",
+        "position": "past",
+        "topic": "change",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "past", "topic": "change" }
+    },
+    {
+      "id": "mag-routing-009",
+      "input": {
+        "cardId": "01-magician",
+        "position": "present",
+        "topic": "career",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "present", "topic": "career" }
+    },
+    {
+      "id": "mag-routing-010",
+      "input": {
+        "cardId": "01-magician",
+        "position": "present",
+        "topic": "relationship",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "present", "topic": "relationship" }
+    },
+    {
+      "id": "mag-routing-011",
+      "input": {
+        "cardId": "01-magician",
+        "position": "present",
+        "topic": "decision",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "present", "topic": "decision" }
+    },
+    {
+      "id": "mag-routing-012",
+      "input": {
+        "cardId": "01-magician",
+        "position": "present",
+        "topic": "family",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "present", "topic": "family" }
+    },
+    {
+      "id": "mag-routing-013",
+      "input": {
+        "cardId": "01-magician",
+        "position": "present",
+        "topic": "boundaries",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "present", "topic": "boundaries" }
+    },
+    {
+      "id": "mag-routing-014",
+      "input": {
+        "cardId": "01-magician",
+        "position": "present",
+        "topic": "self-awareness",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "present", "topic": "self-awareness" }
+    },
+    {
+      "id": "mag-routing-015",
+      "input": {
+        "cardId": "01-magician",
+        "position": "present",
+        "topic": "uncertainty",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "present", "topic": "uncertainty" }
+    },
+    {
+      "id": "mag-routing-016",
+      "input": {
+        "cardId": "01-magician",
+        "position": "present",
+        "topic": "change",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "present", "topic": "change" }
+    },
+    {
+      "id": "mag-routing-017",
+      "input": {
+        "cardId": "01-magician",
+        "position": "direction",
+        "topic": "career",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "direction", "topic": "career" }
+    },
+    {
+      "id": "mag-routing-018",
+      "input": {
+        "cardId": "01-magician",
+        "position": "direction",
+        "topic": "relationship",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "direction", "topic": "relationship" }
+    },
+    {
+      "id": "mag-routing-019",
+      "input": {
+        "cardId": "01-magician",
+        "position": "direction",
+        "topic": "decision",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "direction", "topic": "decision" }
+    },
+    {
+      "id": "mag-routing-020",
+      "input": {
+        "cardId": "01-magician",
+        "position": "direction",
+        "topic": "family",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "direction", "topic": "family" }
+    },
+    {
+      "id": "mag-routing-021",
+      "input": {
+        "cardId": "01-magician",
+        "position": "direction",
+        "topic": "boundaries",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "direction", "topic": "boundaries" }
+    },
+    {
+      "id": "mag-routing-022",
+      "input": {
+        "cardId": "01-magician",
+        "position": "direction",
+        "topic": "self-awareness",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "direction", "topic": "self-awareness" }
+    },
+    {
+      "id": "mag-routing-023",
+      "input": {
+        "cardId": "01-magician",
+        "position": "direction",
+        "topic": "uncertainty",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "direction", "topic": "uncertainty" }
+    },
+    {
+      "id": "mag-routing-024",
+      "input": {
+        "cardId": "01-magician",
+        "position": "direction",
+        "topic": "change",
+        "goal": null,
+        "explicitSignals": [],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "cardId": "01-magician", "position": "direction", "topic": "change" }
+    },
+    {
+      "id": "mag-routing-025",
+      "input": { "cardId": "01-magician", "position": "present", "topic": null, "goal": "clarify-thoughts", "explicitSignals": [], "relationshipType": null, "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "composed", "goal": "clarify-thoughts" }
+    },
+    {
+      "id": "mag-routing-026",
+      "input": { "cardId": "01-magician", "position": "present", "topic": null, "goal": "see-different-perspective", "explicitSignals": [], "relationshipType": null, "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "composed", "goal": "see-different-perspective" }
+    },
+    {
+      "id": "mag-routing-027",
+      "input": { "cardId": "01-magician", "position": "present", "topic": null, "goal": "weigh-decision", "explicitSignals": [], "relationshipType": null, "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "composed", "goal": "weigh-decision" }
+    },
+    {
+      "id": "mag-routing-028",
+      "input": { "cardId": "01-magician", "position": "present", "topic": null, "goal": "understand-emotions", "explicitSignals": [], "relationshipType": null, "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "composed", "goal": "understand-emotions" }
+    },
+    {
+      "id": "mag-routing-029",
+      "input": { "cardId": "01-magician", "position": "present", "topic": null, "goal": "curiosity", "explicitSignals": [], "relationshipType": null, "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "composed", "goal": "curiosity" }
+    },
+    {
+      "id": "mag-routing-030",
+      "input": { "cardId": "01-magician", "position": "present", "topic": null, "goal": null, "explicitSignals": [{ "signalId": "financial-security-concern", "source": "explicit-user-selection", "confidence": "explicit" }], "relationshipType": null, "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "composed", "signals": ["financial-security-concern"] }
+    },
+    {
+      "id": "mag-routing-031",
+      "input": { "cardId": "01-magician", "position": "present", "topic": null, "goal": null, "explicitSignals": [{ "signalId": "decision-uncertainty", "source": "explicit-user-selection", "confidence": "explicit" }], "relationshipType": null, "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "composed", "signals": ["decision-uncertainty"] }
+    },
+    {
+      "id": "mag-routing-032",
+      "input": { "cardId": "01-magician", "position": "present", "topic": null, "goal": null, "explicitSignals": [{ "signalId": "control-scope-clarification", "source": "explicit-user-selection", "confidence": "explicit" }], "relationshipType": null, "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "composed", "signals": ["control-scope-clarification"] }
+    },
+    {
+      "id": "mag-routing-033",
+      "input": { "cardId": "01-magician", "position": "present", "topic": null, "goal": null, "explicitSignals": [{ "signalId": "change-hesitation", "source": "explicit-user-selection", "confidence": "explicit" }], "relationshipType": null, "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "composed", "signals": ["change-hesitation"] }
+    },
+    {
+      "id": "mag-routing-034",
+      "input": { "cardId": "01-magician", "position": "present", "topic": null, "goal": null, "explicitSignals": [{ "signalId": "responsibility-sustainability", "source": "explicit-user-selection", "confidence": "explicit" }], "relationshipType": null, "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "composed", "signals": ["responsibility-sustainability"] }
+    },
+    {
+      "id": "mag-routing-035",
+      "input": { "cardId": "01-magician", "position": "present", "topic": null, "goal": null, "explicitSignals": [{ "signalId": "uncertainty-discomfort", "source": "explicit-user-selection", "confidence": "explicit" }], "relationshipType": null, "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "composed", "signals": ["uncertainty-discomfort"] }
+    },
+    {
+      "id": "mag-routing-036",
+      "input": { "cardId": "01-magician", "position": "present", "topic": null, "goal": null, "explicitSignals": [{ "signalId": "loss-concern", "source": "explicit-user-selection", "confidence": "explicit" }], "relationshipType": null, "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "composed", "signals": ["loss-concern"] }
+    },
+    {
+      "id": "mag-routing-037",
+      "input": { "cardId": "01-magician", "position": "present", "topic": null, "goal": null, "explicitSignals": [{ "signalId": "external-evaluation-pressure", "source": "explicit-user-selection", "confidence": "explicit" }], "relationshipType": null, "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "composed", "signals": ["external-evaluation-pressure"] }
+    },
+    {
+      "id": "mag-routing-038",
+      "input": { "cardId": "01-magician", "position": "present", "topic": null, "goal": null, "explicitSignals": [{ "signalId": "boundary-expression-need", "source": "explicit-user-selection", "confidence": "explicit" }], "relationshipType": null, "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "composed", "signals": ["boundary-expression-need"] }
+    },
+    {
+      "id": "mag-routing-039",
+      "input": { "cardId": "01-magician", "position": "present", "topic": null, "goal": null, "explicitSignals": [{ "signalId": "current-structure-attachment", "source": "explicit-user-selection", "confidence": "explicit" }], "relationshipType": null, "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "composed", "signals": ["current-structure-attachment"] }
+    },
+    {
+      "id": "mag-routing-040",
+      "input": { "cardId": "01-magician", "position": "present", "topic": null, "goal": null, "explicitSignals": [], "relationshipType": "supporting", "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "composed", "relationship": "supporting" }
+    },
+    {
+      "id": "mag-routing-041",
+      "input": { "cardId": "01-magician", "position": "present", "topic": null, "goal": null, "explicitSignals": [], "relationshipType": "softening", "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "composed", "relationship": "softening" }
+    },
+    {
+      "id": "mag-routing-042",
+      "input": { "cardId": "01-magician", "position": "present", "topic": null, "goal": null, "explicitSignals": [], "relationshipType": "heightening-tension", "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "composed", "relationship": "heightening-tension" }
+    },
+    {
+      "id": "mag-routing-043",
+      "input": { "cardId": "01-magician", "position": "present", "topic": null, "goal": null, "explicitSignals": [], "relationshipType": "reframing", "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "composed", "relationship": "reframing" }
+    },
+    {
+      "id": "mag-routing-044",
+      "input": { "cardId": "01-magician", "position": "present", "topic": null, "goal": null, "explicitSignals": [], "relationshipType": "agency-linking", "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "composed", "relationship": "agency-linking" }
+    },
+    {
+      "id": "mag-routing-045",
+      "input": { "cardId": "01-magician", "position": "present", "topic": null, "goal": null, "explicitSignals": [], "relationshipType": "interiorizing", "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "composed", "relationship": "interiorizing" }
+    },
+    {
+      "id": "mag-routing-046",
+      "input": { "cardId": "01-magician", "position": "present", "topic": null, "goal": null, "explicitSignals": [], "relationshipType": "leaving-open", "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "composed", "relationship": "leaving-open" }
+    },
+    {
+      "id": "mag-routing-047",
+      "input": { "cardId": "01-magician", "position": "present", "topic": null, "goal": null, "explicitSignals": [], "relationshipType": null, "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "composed", "signals": [], "topic": null, "goal": null, "relationship": null }
+    },
+    {
+      "id": "mag-routing-048",
+      "input": {
+        "cardId": "01-magician",
+        "position": "present",
+        "topic": null,
+        "goal": null,
+        "explicitSignals": [
+          { "signalId": "decision-uncertainty", "source": "explicit-user-selection", "confidence": "explicit" },
+          { "signalId": "control-scope-clarification", "source": "user-confirmed", "confidence": "user-confirmed" }
+        ],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "composed", "signals": ["decision-uncertainty", "control-scope-clarification"] }
+    }
+  ],
+  "negativeCases": [
+    {
+      "id": "mag-negative-001",
+      "input": { "cardId": "01-magician", "position": "future", "topic": null, "goal": null, "explicitSignals": [], "relationshipType": null, "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "rejected", "errorCode": "FUTURE_POSITION_FORBIDDEN" }
+    },
+    {
+      "id": "mag-negative-002",
+      "input": { "cardId": "01-magician", "position": "present", "topic": "astrology", "goal": null, "explicitSignals": [], "relationshipType": null, "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "rejected", "errorCode": "UNKNOWN_TOPIC" }
+    },
+    {
+      "id": "mag-negative-003",
+      "input": { "cardId": "99-unknown", "position": "present", "topic": null, "goal": null, "explicitSignals": [], "relationshipType": null, "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?", "presentationPreference": "concise" },
+      "expected": { "status": "rejected", "errorCode": "UNKNOWN_CARD_ID" }
+    },
+    {
+      "id": "mag-negative-004",
+      "input": {
+        "cardId": "01-magician",
+        "position": "present",
+        "topic": null,
+        "goal": null,
+        "explicitSignals": [
+          { "signalId": "loss-concern", "source": "explicit-user-selection", "confidence": "explicit" },
+          { "signalId": "loss-concern", "source": "explicit-user-selection", "confidence": "explicit" }
+        ],
+        "relationshipType": null,
+        "userQuestion": "Bu durumu daha açık değerlendirmek için nelere bakabilirim?",
+        "presentationPreference": "concise"
+      },
+      "expected": { "status": "rejected", "errorCode": "DUPLICATE_SIGNAL" }
+    }
+  ]
+}

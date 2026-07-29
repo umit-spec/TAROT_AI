@@ -1,0 +1,344 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "01-magician",
+  "displayName": "Büyücü",
+  "englishName": "The Magician",
+  "arcanaNumber": 1,
+  "arcana": "major",
+  "sourceLayer": {
+    "themes": [
+      "mevcut kaynakları fark etme",
+      "niyet ile uygulama arasındaki bağlantı",
+      "odak ve öncelik belirleme",
+      "bilgi, beceri ve pratik koşulları eşleştirme"
+    ],
+    "meaning": "Büyücü, bir fikir veya niyet ile onu uygulanabilir hale getirebilecek mevcut bilgi, beceri ve kaynaklar arasındaki ilişkiyi değerlendirmek için sembolik bir mercek sunar.",
+    "centralTension": "Bir fikri uygulamaya dönüştürme isteği ile mevcut kaynakların, sınırların ve eksik bilgilerin gerçekçi biçimde değerlendirilmesi arasındaki gerilim.",
+    "doesNotMean": [
+      "doğaüstü güç veya mucize",
+      "istenen sonucun kesinleşmesi",
+      "kullanıcının bütün kaynaklara zaten sahip olması",
+      "başarı, servet veya güç garantisi",
+      "hemen eyleme geçme zorunluluğu",
+      "başkasını yönlendirme veya manipüle etme yetkisi"
+    ],
+    "symbols": [
+      {
+        "id": "raised-wand-and-lowered-hand",
+        "label": "Yukarı kaldırılmış değnek ve aşağı yönelen açık el",
+        "meaning": "Görselde bir el değneği yukarı taşırken diğer el masa yönüne uzanır; fikir ile uygulama alanı arasındaki bağlantıyı çağrıştırır.",
+        "safeUse": "Niyet ile uygulanabilir koşulların nasıl eşleştiğini değerlendirmek için kullanmak.",
+        "risk": "Evrenin sonucu gerçekleştireceği veya kartın doğaüstü bir güç verdiği iddiası üretmek."
+      },
+      {
+        "id": "table-tools",
+        "label": "Masa üzerindeki farklı araçlar",
+        "meaning": "Görselde kupa, kılıç, disk ve dairesel bir araç yan yana bulunur; farklı kaynak ve çalışma biçimlerinin birlikte değerlendirilmesini çağrıştırır.",
+        "safeUse": "Bu durumda hangi bilgi, beceri veya aracın gerçekten ilgili olduğunu ayırt etmeye yönelik bir mercek olarak kullanmak.",
+        "risk": "Kullanıcının ihtiyaç duyduğu her şeye zaten sahip olduğunu veya sonucun hazır olduğunu varsaymak."
+      }
+    ]
+  },
+  "reflectionLayer": {
+    "positions": {
+      "past": {
+        "focus": "Geçmişte edinilmiş bilgi, deneyim veya yaklaşımın bugünkü değerlendirmeye olası katkısı.",
+        "safeInterpretations": [
+          "Geçmiş konumundaki Büyücü, daha önce edinilen bir bilgi veya yaklaşımın bugünkü değerlendirmede yeniden ilgili hale gelebileceğini düşündürebilir.",
+          "Bu kart, geçmişte kullanılan bir yöntemin bugünkü koşullarla ne ölçüde uyumlu olduğunu incelemek için bir mercek sunabilir."
+        ],
+        "reflectionQuestions": [
+          "Geçmişteki hangi deneyim veya yaklaşımın bu durumla ilgili olabileceğini düşünüyorsunuz?",
+          "Daha önce kullandığınız yöntemlerden hangileri bugünkü koşullarda hâlâ işlevsel görünüyor?"
+        ],
+        "prohibitedInferences": [
+          "Kullanıcının geçmişte başarılı ya da başarısız olduğu varsayılamaz.",
+          "Kullanıcının belirli bir beceriye kesin olarak sahip olduğu iddia edilemez."
+        ]
+      },
+      "present": {
+        "focus": "Mevcut durumda ilgili olabilecek bilgi, beceri, kaynak ve eksik unsurların birlikte değerlendirilmesi.",
+        "safeInterpretations": [
+          "Şimdi konumundaki Büyücü, mevcut bilgi ve araçlardan hangilerinin gerçekten ilgili olduğunu ayırt etmeye dikkat çekebilir.",
+          "Bu kart, niyet ile mevcut koşullar arasındaki uyumu ve henüz doğrulanması gereken unsurları birlikte incelemeyi düşündürebilir."
+        ],
+        "reflectionQuestions": [
+          "Mevcut durumda hangi bilgi, beceri veya kaynakların ilgili olabileceğini düşünüyorsunuz?",
+          "Bu değerlendirmede hangi unsurun henüz doğrulanmaya veya netleşmeye ihtiyacı var?"
+        ],
+        "prohibitedInferences": [
+          "Kullanıcının gerekli bütün araçlara sahip olduğu varsayılamaz.",
+          "Kullanıcının hemen bir eyleme geçmesi gerektiği söylenemez."
+        ]
+      },
+      "direction": {
+        "focus": "Niyet, mevcut kaynaklar, sınırlar ve doğrulanabilir seçenekler arasındaki ilişkinin değerlendirilmesi.",
+        "safeInterpretations": [
+          "Yön konumundaki Büyücü, niyet ile mevcut imkânların hangi noktalarda örtüştüğünü incelemek için bir mercek sunabilir.",
+          "Bu kart, seçenekler arasında değerlendirme yaparken eksik bilgi, kapasite ve sürdürülebilirlik ölçütlerini birlikte ele almayı düşündürebilir."
+        ],
+        "reflectionQuestions": [
+          "Seçenekleri değerlendirirken niyetiniz ile mevcut imkânlarınızın nasıl eşleştiğini düşünüyorsunuz?",
+          "Bir yaklaşımı değerlendirmeden önce hangi bilginin doğrulanması size daha fazla netlik sağlayabilir?"
+        ],
+        "prohibitedInferences": [
+          "Belirli bir seçeneğin gelecekte başarı getireceği iddia edilemez.",
+          "Kullanıcıya hangi adımı atması gerektiği söylenemez."
+        ]
+      }
+    },
+    "contexts": {
+      "career": {
+        "focus": "Çalışma hayatında bilgi, beceri, kapasite ve uygulanabilir seçeneklerin birlikte değerlendirilmesi.",
+        "followUpQuestion": "Kariyerinizle ilgili bu durumda hangi deneyim, beceri veya seçeneği daha yakından incelemek istersiniz?",
+        "avoid": "Belirli bir iş, terfi veya gelir sonucu hakkında kesin hüküm üretmek."
+      },
+      "relationship": {
+        "focus": "İletişimde niyet, ifade biçimi ve karşılıklı beklentilerin açıkça değerlendirilmesi.",
+        "followUpQuestion": "Bu ilişkide hangi beklenti veya iletişim biçimini daha açık değerlendirmek istersiniz?",
+        "avoid": "Karşı tarafın niyetini okumak veya ilişki hakkında doğrudan karar vermek."
+      },
+      "decision": {
+        "focus": "Bir kararın dayandığı bilgiler, ölçütler ve henüz açık kalan unsurların incelenmesi.",
+        "followUpQuestion": "Bu seçeneği değerlendirirken hangi ölçütler ve bilgiler sizin için daha önemli görünüyor?",
+        "avoid": "Hangi seçimin doğru olduğunu veya başarılı sonuç vereceğini söylemek."
+      },
+      "family": {
+        "focus": "Aile içindeki beklenti, rol, iletişim ve kişisel etki alanlarının değerlendirilmesi.",
+        "followUpQuestion": "Aile içindeki hangi beklenti, rol veya iletişim biçimini daha açık değerlendirmek istersiniz?",
+        "avoid": "Belirli bir aile üyesine niyet, suç veya kişilik etiketi yüklemek."
+      },
+      "boundaries": {
+        "focus": "İhtiyaçların, sınırların ve bunları ifade etme biçimlerinin değerlendirilmesi.",
+        "followUpQuestion": "Bu durumda ihtiyaçlarınızı ve sınırlarınızı nasıl ifade etmek istediğinizi düşünüyorsunuz?",
+        "avoid": "Bir sınır ihlalinin var olduğunu varsaymak veya kullanıcıya sert bir davranış emretmek."
+      },
+      "self-awareness": {
+        "focus": "Kişinin kendi bilgi, deneyim, ilgi ve değerlendirme ölçütlerini gözden geçirmesi.",
+        "followUpQuestion": "Bu duruma bakarken kendi yaklaşımınızla ilgili hangi gözlemler öne çıkıyor?",
+        "avoid": "Kullanıcıya üstünlük, yetersizlik veya sabit kişilik etiketi yüklemek."
+      },
+      "uncertainty": {
+        "focus": "Belirsizlik içinde doğrulanmış bilgiler, varsayımlar ve açık kalan noktaların ayırt edilmesi.",
+        "followUpQuestion": "Bu durumda doğrulanmış bilgilerle henüz açık kalan unsurları nasıl ayırıyorsunuz?",
+        "avoid": "Belirsizliğin ne zaman biteceğini veya sonucun ne olacağını söylemek."
+      },
+      "change": {
+        "focus": "Değişen koşullarda mevcut kaynakların, sınırların ve alternatiflerin yeniden değerlendirilmesi.",
+        "followUpQuestion": "Değişen koşulları değerlendirirken hangi yaklaşımın daha uygulanabilir veya sürdürülebilir göründüğünü düşünüyorsunuz?",
+        "avoid": "Değişimin zorunlu olduğunu veya eski düzenin terk edilmesi gerektiğini söylemek."
+      }
+    },
+    "userSignalLenses": {
+      "financial-security-concern": {
+        "signalRef": "financial-security-concern",
+        "focus": "Maddi konularda doğrulanmış veriler, mevcut kaynaklar ve sınırların değerlendirilmesi.",
+        "safeInterpretation": "Bu sinyal kullanıcı tarafından açıkça onaylandığında Büyücü, maddi değerlendirmede hangi bilgi ve kaynakların gerçekten kullanılabilir olduğunu incelemek için bir mercek sunabilir.",
+        "reflectionQuestion": "Maddi alandaki değerlendirmenizde hangi veriler, kaynaklar ve sınırlar öne çıkıyor?",
+        "prohibitedAssumptions": [
+          "Kullanıcının borçlu, yoksul veya mali açıdan güvende olduğu varsayılamaz.",
+          "Belirli bir yatırım, gelir veya kayıp sonucu hakkında tahmin üretilemez."
+        ]
+      },
+      "decision-uncertainty": {
+        "signalRef": "decision-uncertainty",
+        "focus": "Seçeneklerin, ölçütlerin ve eksik bilgilerin birlikte değerlendirilmesi.",
+        "safeInterpretation": "Bu sinyal kullanıcı tarafından açıkça onaylandığında Büyücü, seçeneklerin hangi verilere dayandığını ve hangi bilgilerin açık kaldığını incelemeye alan açabilir.",
+        "reflectionQuestion": "Bu kararda seçenekleri karşılaştırırken hangi ölçütleri kullanıyorsunuz?",
+        "prohibitedAssumptions": [
+          "Kullanıcının karar vermekten korktuğu varsayılamaz.",
+          "Hangi seçimin doğru olduğu söylenemez."
+        ]
+      },
+      "control-scope-clarification": {
+        "signalRef": "control-scope-clarification",
+        "focus": "Doğrudan etkilenebilen alanlarla dışsal etkenlerin ayırt edilmesi.",
+        "safeInterpretation": "Bu sinyal kullanıcı tarafından açıkça onaylandığında Büyücü, kişinin kendi değerlendirme ve etki alanını dışsal koşullardan ayırmasını destekleyen bir mercek sunabilir.",
+        "reflectionQuestion": "Bu durumda doğrudan etkileyebileceğiniz alanlarla dışsal etkenleri nasıl ayırıyorsunuz?",
+        "prohibitedAssumptions": [
+          "Kullanıcının kontrolcü olduğu varsayılamaz.",
+          "Dışsal koşulların tamamen kontrol edilebileceği iddia edilemez."
+        ]
+      },
+      "change-hesitation": {
+        "signalRef": "change-hesitation",
+        "focus": "Farklı seçeneklerin uygulanabilirlik, güvenlik ve sürdürülebilirlik ölçütleriyle değerlendirilmesi.",
+        "safeInterpretation": "Bu sinyal kullanıcı tarafından açıkça onaylandığında Büyücü, değişen koşullarda hangi seçeneğin mevcut imkânlarla daha uyumlu olduğunu incelemeye yardımcı olabilir.",
+        "reflectionQuestion": "Farklı seçenekleri değerlendirirken hangi güvenlik ve sürdürülebilirlik ölçütleri sizin için önemli?",
+        "prohibitedAssumptions": [
+          "Kullanıcının değişimden korktuğu veya değişime direndiği varsayılamaz.",
+          "Değişimin gerçekleşeceği veya olumlu sonuçlanacağı iddia edilemez."
+        ]
+      },
+      "responsibility-sustainability": {
+        "signalRef": "responsibility-sustainability",
+        "focus": "Mevcut sorumlulukların kapasite, kaynak ve sürdürülebilirlikle uyumunun değerlendirilmesi.",
+        "safeInterpretation": "Bu sinyal kullanıcı tarafından açıkça onaylandığında Büyücü, sorumluluklarla mevcut kapasite ve kaynaklar arasındaki uyumu incelemek için bir mercek sunabilir.",
+        "reflectionQuestion": "Mevcut sorumluluklarınızın kapasite ve kaynaklarınızla uyumunu nasıl değerlendiriyorsunuz?",
+        "prohibitedAssumptions": [
+          "Kullanıcının tükenmiş veya aşırı yük altında olduğu varsayılamaz.",
+          "Belirli bir sorumluluğun bırakılması gerektiği söylenemez."
+        ]
+      },
+      "uncertainty-discomfort": {
+        "signalRef": "uncertainty-discomfort",
+        "focus": "Netleşmemiş noktalarla doğrulanabilir verilerin birbirinden ayrılması.",
+        "safeInterpretation": "Bu sinyal kullanıcı tarafından açıkça onaylandığında Büyücü, belirsiz olanlarla şu anda doğrulanabilir olanları ayırarak değerlendirmeyi yapılandırmaya yardımcı olabilir.",
+        "reflectionQuestion": "Bu durumda hangi bilgiler doğrulanmış, hangileri henüz açık görünüyor?",
+        "prohibitedAssumptions": [
+          "Kullanıcının belirsizliğe tahammül edemediği varsayılamaz.",
+          "Belirsizliğin kısa sürede ortadan kalkacağı söylenemez."
+        ]
+      },
+      "loss-concern": {
+        "signalRef": "loss-concern",
+        "focus": "Değişken koşullar karşısında korunabilir bilgi, deneyim ve kaynakların değerlendirilmesi.",
+        "safeInterpretation": "Bu sinyal kullanıcı tarafından açıkça onaylandığında Büyücü, dışsal koşullardan bağımsız olarak hangi bilgi ve deneyimlerin kullanılabilir kaldığını incelemeye alan açabilir.",
+        "reflectionQuestion": "Değişken koşullar karşısında hangi bilgi, deneyim veya kaynakların kullanılabilir kaldığını düşünüyorsunuz?",
+        "prohibitedAssumptions": [
+          "Kullanıcının bir kayıp yaşayacağı veya kayıp yaşadığı varsayılamaz.",
+          "Kullanıcının korku ya da çaresizlik içinde olduğu iddia edilemez."
+        ]
+      },
+      "external-evaluation-pressure": {
+        "signalRef": "external-evaluation-pressure",
+        "focus": "Dışsal değerlendirmelerle kişinin kendi ölçütlerinin birlikte incelenmesi.",
+        "safeInterpretation": "Bu sinyal kullanıcı tarafından açıkça onaylandığında Büyücü, başkalarının değerlendirmeleri ile kişinin kendi ölçütlerini ayırt etmek için bir mercek sunabilir.",
+        "reflectionQuestion": "Başkalarının değerlendirmeleri ile kendi ölçütleriniz arasındaki ilişkiyi nasıl görüyorsunuz?",
+        "prohibitedAssumptions": [
+          "Kullanıcının baskı altında ezildiği varsayılamaz.",
+          "Kullanıcının başarısız görünmekten korktuğu iddia edilemez."
+        ]
+      },
+      "boundary-expression-need": {
+        "signalRef": "boundary-expression-need",
+        "focus": "İhtiyaçların, sınırların ve ifade biçimlerinin açıklık açısından değerlendirilmesi.",
+        "safeInterpretation": "Bu sinyal kullanıcı tarafından açıkça onaylandığında Büyücü, sınır ve beklentilerin hangi ifadelerle daha açık ele alınabileceğini değerlendirmeye yardımcı olabilir.",
+        "reflectionQuestion": "İhtiyaçlarınızı ve sınırlarınızı ifade ederken hangi yaklaşım sizin için daha açık görünüyor?",
+        "prohibitedAssumptions": [
+          "Kullanıcının sınır koyamadığı veya sınır ihlaline uğradığı varsayılamaz.",
+          "Kullanıcıya belirli bir kişiye karşı sert davranması söylenemez."
+        ]
+      },
+      "current-structure-attachment": {
+        "signalRef": "current-structure-attachment",
+        "focus": "Mevcut düzenin işlevselliği ile alternatiflerin uygulanabilirliğinin karşılaştırılması.",
+        "safeInterpretation": "Bu sinyal kullanıcı tarafından açıkça onaylandığında Büyücü, mevcut düzen ile yeni seçenekleri işlevsellik ve kaynak uyumu açısından karşılaştırmak için bir mercek sunabilir.",
+        "reflectionQuestion": "Mevcut düzen ile alternatifleri karşılaştırırken hangi işlevsellik ve kaynak ölçütleri öne çıkıyor?",
+        "prohibitedAssumptions": [
+          "Kullanıcının mevcut düzene saplanıp kaldığı varsayılamaz.",
+          "Mevcut düzenin terk edilmesi gerektiği söylenemez."
+        ]
+      }
+    },
+    "adaptiveQuestionRefs": [
+      {
+        "id": "magician-clarify-resources",
+        "question": "Bu durumda hangi bilgi veya kaynağın gerçekten ilgili olduğunu daha açık görmek istersiniz?",
+        "purpose": "clarify-thoughts hedefi için ilgili bilgi ve kaynakları ayırt etmeye yardımcı olan nötr soru.",
+        "trigger": {
+          "topics": [],
+          "goals": ["clarify-thoughts"],
+          "explicitSignalRefs": []
+        },
+        "collectsOneSignalOnly": true,
+        "optional": true
+      },
+      {
+        "id": "magician-perspective-options",
+        "question": "Bu duruma farklı bir açıdan baktığınızda hangi seçenek daha görünür hale geliyor?",
+        "purpose": "see-different-perspective hedefi için seçenekleri hüküm vermeden genişleten soru.",
+        "trigger": {
+          "topics": [],
+          "goals": ["see-different-perspective"],
+          "explicitSignalRefs": []
+        },
+        "collectsOneSignalOnly": true,
+        "optional": true
+      },
+      {
+        "id": "magician-weigh-criteria",
+        "question": "Seçenekleri karşılaştırırken hangi ölçütleri birlikte değerlendirmeniz daha anlamlı görünüyor?",
+        "purpose": "weigh-decision hedefi için karar ölçütlerini görünür kılan soru.",
+        "trigger": {
+          "topics": ["decision"],
+          "goals": ["weigh-decision"],
+          "explicitSignalRefs": ["decision-uncertainty"]
+        },
+        "collectsOneSignalOnly": true,
+        "optional": true
+      },
+      {
+        "id": "magician-emotion-intention",
+        "question": "Bu durumda duygusal tepkiniz ile niyetiniz arasında nasıl bir ilişki görüyorsunuz?",
+        "purpose": "understand-emotions hedefi için duygu ve niyet ilişkisini teşhis etmeden araştıran soru.",
+        "trigger": {
+          "topics": ["relationship", "self-awareness"],
+          "goals": ["understand-emotions"],
+          "explicitSignalRefs": []
+        },
+        "collectsOneSignalOnly": true,
+        "optional": true
+      },
+      {
+        "id": "magician-curiosity-symbol",
+        "question": "Karttaki hangi görsel unsur şu anda dikkatinizi daha çok çekiyor?",
+        "purpose": "curiosity hedefi için governed artwork üzerindeki görsel unsurlara baskısız dikkat yönelten soru.",
+        "trigger": {
+          "topics": [],
+          "goals": ["curiosity"],
+          "explicitSignalRefs": []
+        },
+        "collectsOneSignalOnly": true,
+        "optional": true
+      }
+    ],
+    "relationshipTypeRefs": [
+      "supporting",
+      "softening",
+      "heightening-tension",
+      "reframing",
+      "agency-linking",
+      "interiorizing",
+      "leaving-open"
+    ]
+  },
+  "safetyRefs": [
+    "upright-only",
+    "deterministic-order",
+    "reflective-probabilistic-language",
+    "non-causal-framing",
+    "user-agency",
+    "one-primary-hypothesis",
+    "one-closing-reflection-question",
+    "crisis-short-circuit",
+    "governed-artwork-symbols-only",
+    "future-certainty",
+    "professional-medical-legal-financial-conclusion",
+    "third-party-mind-reading",
+    "direct-life-command",
+    "diagnosis-or-personality-label",
+    "fabricated-symbol",
+    "dependency-encouragement",
+    "spiritual-certainty-or-magical-causality",
+    "moral-judgment",
+    "immutable-fate",
+    "binary-life-verdict",
+    "biological-event-prediction",
+    "hidden-user-profiling",
+    "unconfirmed-signal-inference"
+  ],
+  "provenance": {
+    "status": "pilot-reviewed",
+    "sourceNotesPath": "data/interpretation-graph/evidence/01-magician-source-notes.md",
+    "normalizationNotes": [
+      "NotebookLM tarafından önerilen '01-the-magician' kimliği kullanılmadı; repo kanonu '01-magician' korundu.",
+      "Manifestation/tezahür ve mistik nedensellik çağrıştıran ifadeler runtime-safe içerikten çıkarıldı.",
+      "Kullanıcının bütün kaynaklara sahip olduğu, eyleme geçmesi gerektiği veya belirli bir korku/tereddüt yaşadığı varsayımları nötrleştirildi.",
+      "Governed artwork üzerinde doğrulanan yukarı kaldırılmış değnek, aşağı yönelen el ve masa araçları dışında klasik deste sembolleri node'a alınmadı.",
+      "İçerik NotebookLM ham çıktısından normalize edildi; passage referansları repository içinde bağımsız kaynak doğrulaması olarak kabul edilmedi."
+    ],
+    "runtimeEnabled": false,
+    "reviewRequiredBeforeRuntime": true
+  }
+}
