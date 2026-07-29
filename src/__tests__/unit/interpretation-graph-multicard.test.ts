@@ -6,6 +6,7 @@ import { describe, expect, test } from 'vitest';
 
 const ROOT = process.cwd();
 const TOOLS = path.join(ROOT, 'tools/interpretation-graph');
+const EVALUATION = path.join(ROOT, 'data/interpretation-graph/evaluation');
 const PYTHON = 'python3';
 
 function runPython(script: string, args: string[] = []): string {
@@ -15,12 +16,46 @@ function runPython(script: string, args: string[] = []): string {
   });
 }
 
-function compose(input: Record<string, unknown>): any {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'ig3b-'));
+function writeTempJson(value: unknown, prefix = 'ig3b-'): { dir: string; file: string } {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), prefix));
   const file = path.join(dir, 'input.json');
-  fs.writeFileSync(file, JSON.stringify(input));
+  fs.writeFileSync(file, JSON.stringify(value));
+  return { dir, file };
+}
+
+function compose(input: Record<string, unknown>): any {
+  const { dir, file } = writeTempJson(input);
   try {
     return JSON.parse(runPython('compose_bounded_prompt.py', [file]));
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+}
+
+function composeFailure(input: Record<string, unknown>): string {
+  const { dir, file } = writeTempJson(input, 'ig3b-fail-');
+  try {
+    execFileSync(PYTHON, [path.join(TOOLS, 'compose_bounded_prompt.py'), file], {
+      cwd: ROOT,
+      encoding: 'utf-8',
+      stdio: 'pipe',
+    });
+    return '';
+  } catch (error: any) {
+    return String(error.stderr ?? '');
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+}
+
+function validateOutput(output: unknown, refs: unknown, preference: string): string {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'ig3b-output-'));
+  const outputFile = path.join(dir, 'output.json');
+  const refsFile = path.join(dir, 'refs.json');
+  fs.writeFileSync(outputFile, JSON.stringify(output));
+  fs.writeFileSync(refsFile, JSON.stringify(refs));
+  try {
+    return runPython('validate_interpretation_output.py', [outputFile, refsFile, preference]);
   } finally {
     fs.rmSync(dir, { recursive: true, force: true });
   }
@@ -66,6 +101,16 @@ function baseInput(cardId: string): Record<string, unknown> {
 
 const routingCases = cards.flatMap((cardId) =>
   positions.flatMap((position) => contexts.map((topic) => ({ cardId, position, topic })))
+);
+
+const routingFixture = JSON.parse(
+  fs.readFileSync(path.join(EVALUATION, 'magician-routing-cases.json'), 'utf-8')
+);
+const goldenFixture = JSON.parse(
+  fs.readFileSync(path.join(EVALUATION, 'magician-golden-cases.json'), 'utf-8')
+);
+const adversarialFixture = JSON.parse(
+  fs.readFileSync(path.join(EVALUATION, 'magician-adversarial-cases.json'), 'utf-8')
 );
 
 describe('IG-3B — multicard graph validation', () => {
@@ -150,5 +195,60 @@ describe('IG-3B — cross-card isolation and integrity', () => {
     expect(magician.userMessage.boundedContext.card.id).toBe('01-magician');
     expect(JSON.stringify(tower.userMessage.boundedContext)).not.toContain('Büyücü, bir fikir veya niyet');
     expect(JSON.stringify(magician.userMessage.boundedContext)).not.toContain('Kule, güvenilir veya değişmez');
+  });
+});
+
+describe('IG-3B — committed Magician fixture coverage', () => {
+  test('fixture counts and coverage meet the phase contract', () => {
+    expect(routingFixture.cases).toHaveLength(48);
+    expect(routingFixture.negativeCases).toHaveLength(4);
+    expect(goldenFixture.cases).toHaveLength(12);
+    expect(adversarialFixture.cases).toHaveLength(12);
+    expect(new Set(routingFixture.cases.map((item: any) => item.input.position))).toEqual(
+      new Set(['past', 'present', 'direction'])
+    );
+    expect(new Set(routingFixture.cases.map((item: any) => item.input.topic).filter(Boolean))).toEqual(
+      new Set(contexts)
+    );
+  });
+
+  test.each(routingFixture.cases)('$id composes with the committed expected refs', (fixture: any) => {
+    const bundle = compose(fixture.input);
+    expect(bundle.cardId).toBe('01-magician');
+    if ('position' in fixture.expected) expect(bundle.contextRefs.position).toBe(fixture.expected.position);
+    if ('topic' in fixture.expected) expect(bundle.contextRefs.topic).toBe(fixture.expected.topic);
+    if ('goal' in fixture.expected) expect(bundle.contextRefs.goal).toBe(fixture.expected.goal);
+    if ('signals' in fixture.expected) expect(bundle.contextRefs.signals).toEqual(fixture.expected.signals);
+    if ('relationship' in fixture.expected) expect(bundle.contextRefs.relationship).toBe(fixture.expected.relationship);
+  });
+
+  test.each(routingFixture.negativeCases)('$id is rejected with its stable error code', (fixture: any) => {
+    expect(composeFailure(fixture.input)).toContain(fixture.expected.errorCode);
+  });
+
+  test.each(goldenFixture.cases)('$id validates against the real output contract', (fixture: any) => {
+    const bundle = compose(fixture.input);
+    expect(fixture.output.usedContextRefs).toEqual({
+      cardId: bundle.cardId,
+      position: bundle.contextRefs.position,
+      topic: bundle.contextRefs.topic,
+      goal: bundle.contextRefs.goal,
+      signals: bundle.contextRefs.signals,
+      relationship: bundle.contextRefs.relationship,
+    });
+    expect(
+      validateOutput(
+        fixture.output,
+        fixture.output.usedContextRefs,
+        goldenFixture.presentationPreference
+      )
+    ).toMatch(/VALID/);
+  });
+
+  test.each(adversarialFixture.cases)('$id triggers the expected governed hard gate', (fixture: any) => {
+    const result = JSON.parse(
+      runPython('check_hard_gates_cli.py', [fixture.text, '--direction'])
+    );
+    expect(result).toContain(fixture.expectedGate);
   });
 });
