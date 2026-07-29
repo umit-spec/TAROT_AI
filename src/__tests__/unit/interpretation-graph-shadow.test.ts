@@ -167,7 +167,7 @@ describe('IG-4 — dry-run and deterministic simulation', () => {
   test('open live gate with no credential reports honest NOT_EXECUTED without failing the harness', () => {
     const out = tempDir('ig4-no-key-');
     try {
-      const env = { ...process.env, IG4_ALLOW_LIVE: '1' };
+      const env: NodeJS.ProcessEnv = { ...process.env, IG4_ALLOW_LIVE: '1' };
       delete env.ANTHROPIC_API_KEY;
       const summary = runJson(['--execute', '--output-dir', out], env);
       expect(summary.liveStatus).toBe('NOT_EXECUTED');
