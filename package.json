@@ -32,6 +32,8 @@
     "ig4:dry-run": "python3 tools/interpretation-graph/run_anthropic_shadow.py",
     "ig4:simulate": "python3 tools/interpretation-graph/run_anthropic_shadow.py --simulate",
     "ig4:live": "python3 tools/interpretation-graph/run_anthropic_shadow.py --execute",
+    "ig4:prepare-review": "python3 tools/interpretation-graph/prepare_shadow_review.py",
+    "ig4:score-review": "python3 tools/interpretation-graph/score_shadow_review.py",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\""
   },
