@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tarot-ai.internal/schema/interpretation-graph/prompt-composer/prompt-bundle.schema.json",
+  "title": "Interpretation Graph — Provider-Neutral Prompt Bundle",
+  "description": "A bounded, deterministic, trust-boundary-separated prompt bundle for a future LLM call. Not sent to any live model in this phase — provenance.liveModelValidated is fixed false. No production provider (src/server/reading-engine/providers/**) constructs or consumes this shape; it is a separate, offline pilot contract.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "templateVersion",
+    "cardId",
+    "position",
+    "systemPrompt",
+    "userMessage",
+    "outputContract",
+    "contextRefs",
+    "integrity",
+    "provenance"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "templateVersion": { "type": "string", "minLength": 1 },
+    "cardId": { "type": "string", "pattern": "^[0-9]{2}-[a-z-]+$" },
+    "position": { "type": "string", "enum": ["past", "present", "direction"] },
+    "systemPrompt": { "type": "string", "minLength": 1 },
+    "userMessage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task", "boundedContext", "untrustedUserQuestion"],
+      "properties": {
+        "task": { "type": "string", "minLength": 1 },
+        "boundedContext": { "$ref": "#/$defs/boundedContext" },
+        "untrustedUserQuestion": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["text", "treatAsInstructions"],
+          "properties": {
+            "text": { "type": "string" },
+            "treatAsInstructions": { "type": "boolean", "const": false }
+          }
+        }
+      }
+    },
+    "outputContract": { "$ref": "#/$defs/outputContractDescriptor" },
+    "contextRefs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["position", "topic", "goal", "signals", "relationship", "guardrails"],
+      "properties": {
+        "position": { "type": "string", "enum": ["past", "present", "direction"] },
+        "topic": { "type": ["string", "null"] },
+        "goal": { "type": ["string", "null"] },
+        "signals": { "type": "array", "items": { "type": "string" }, "maxItems": 2, "uniqueItems": true },
+        "relationship": { "type": ["string", "null"] },
+        "guardrails": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contextHash", "questionHash", "templateHash", "bundleHash"],
+      "properties": {
+        "contextHash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "questionHash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "templateHash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "bundleHash": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["runtimeEnabled", "offlineEvaluationOnly", "liveModelValidated"],
+      "properties": {
+        "runtimeEnabled": { "type": "boolean", "const": false },
+        "offlineEvaluationOnly": { "type": "boolean", "const": true },
+        "liveModelValidated": { "type": "boolean", "const": false }
+      }
+    }
+  },
+  "$defs": {
+    "boundedContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["card", "position", "context", "goal", "signals", "relationship", "safetyPolicy"],
+      "properties": {
+        "card": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "displayName", "coreMeaning"],
+          "properties": {
+            "id": { "type": "string" },
+            "displayName": { "type": "string" },
+            "coreMeaning": { "type": "string" }
+          }
+        },
+        "position": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["focus", "safeInterpretations", "prohibitedInferences"],
+          "properties": {
+            "focus": { "type": "string" },
+            "safeInterpretations": { "type": "array", "items": { "type": "string" }, "maxItems": 2 },
+            "prohibitedInferences": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "context": {
+          "anyOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["focus", "avoid"],
+              "properties": { "focus": { "type": "string" }, "avoid": { "type": "string" } }
+            }
+          ]
+        },
+        "goal": {
+          "anyOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["id", "description"],
+              "properties": { "id": { "type": "string" }, "description": { "type": "string" } }
+            }
+          ]
+        },
+        "signals": {
+          "type": "array",
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["signalRef", "focus", "safeInterpretation", "prohibitedAssumptions"],
+            "properties": {
+              "signalRef": { "type": "string" },
+              "focus": { "type": "string" },
+              "safeInterpretation": { "type": "string" },
+              "prohibitedAssumptions": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        },
+        "relationship": {
+          "anyOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["id", "definition", "sentenceTemplate", "avoidCertainty"],
+              "properties": {
+                "id": { "type": "string" },
+                "definition": { "type": "string" },
+                "sentenceTemplate": { "type": "string" },
+                "avoidCertainty": { "type": "string" }
+              }
+            }
+          ]
+        },
+        "safetyPolicy": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "rule", "severity"],
+            "properties": {
+              "id": { "type": "string" },
+              "rule": { "type": "string" },
+              "severity": { "type": "string", "const": "block" }
+            }
+          }
+        }
+      }
+    },
+    "outputContractDescriptor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requiredKeys", "wordLimits", "rules"],
+      "properties": {
+        "requiredKeys": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["primaryInterpretation", "alternativePerspective", "reflectionQuestion", "usedContextRefs"] }
+        },
+        "wordLimits": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["primaryInterpretationMinWords", "primaryInterpretationMaxWords", "alternativePerspectiveMinWords", "alternativePerspectiveMaxWords"],
+          "properties": {
+            "primaryInterpretationMinWords": { "type": "integer" },
+            "primaryInterpretationMaxWords": { "type": "integer" },
+            "alternativePerspectiveMinWords": { "type": "integer" },
+            "alternativePerspectiveMaxWords": { "type": "integer" }
+          }
+        },
+        "rules": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

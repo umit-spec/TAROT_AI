@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tarot-ai.internal/schema/interpretation-graph/prompt-composer/interpretation-output.schema.json",
+  "title": "Interpretation Graph — Structured Output Contract",
+  "description": "The only shape a model response may take under the bounded prompt composer pilot. No markdown, no code fence, no preface/postscript, no chain-of-thought field. usedContextRefs must exactly echo the compiled context packet's own refs — a model may narrate, never invent a new reference.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["primaryInterpretation", "alternativePerspective", "reflectionQuestion", "usedContextRefs"],
+  "properties": {
+    "primaryInterpretation": { "type": "string", "minLength": 1 },
+    "alternativePerspective": { "type": ["string", "null"] },
+    "reflectionQuestion": { "type": "string", "minLength": 1 },
+    "usedContextRefs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cardId", "position", "topic", "goal", "signals", "relationship"],
+      "properties": {
+        "cardId": { "type": "string" },
+        "position": { "type": "string", "enum": ["past", "present", "direction"] },
+        "topic": { "type": ["string", "null"] },
+        "goal": { "type": ["string", "null"] },
+        "signals": { "type": "array", "items": { "type": "string" } },
+        "relationship": { "type": ["string", "null"] }
+      }
+    }
+  },
+  "$comment": "Deliberately absent keys, enforced by additionalProperties:false: reasoning, analysis, thoughtProcess, rationaleChain, confidence, confidencePercent, spiritualAccuracy. No chain-of-thought field exists in this contract by construction, not just by instruction."
+}
