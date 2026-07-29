@@ -1,0 +1,114 @@
+name: IG-4 Anthropic Shadow Validation
+
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      execute_live:
+        description: Execute the controlled 22-call Anthropic shadow run
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      CI: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate graph and offline evaluators
+        run: |
+          python3 tools/interpretation-graph/validate_interpretation_graph.py
+          python3 tools/interpretation-graph/validate_multicard_graph.py
+          python3 tools/interpretation-graph/evaluate_tower_offline.py
+          python3 tools/interpretation-graph/evaluate_prompt_composer.py
+          python3 tools/interpretation-graph/evaluate_multicard_offline.py
+
+      - name: IG-4 dry-run and simulation
+        run: |
+          npm run ig4:dry-run -- --output-dir "$RUNNER_TEMP/ig4-dry"
+          npm run ig4:simulate -- --output-dir "$RUNNER_TEMP/ig4-sim"
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+  live-shadow:
+    needs: offline
+    if: github.event_name == 'workflow_dispatch' && inputs.execute_live == true
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      CI: true
+      IG4_ALLOW_LIVE: '1'
+      IG4_MODEL: claude-sonnet-4-6
+      IG4_BUDGET_USD: '1.00'
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Execute controlled Anthropic shadow run
+        run: |
+          mkdir -p "$RUNNER_TEMP/ig4-live"
+          python3 tools/interpretation-graph/run_anthropic_shadow.py \
+            --execute \
+            --output-dir "$RUNNER_TEMP/ig4-live"
+
+      - name: Upload shadow artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ig4-anthropic-shadow-${{ github.run_id }}
+          path: ${{ runner.temp }}/ig4-live/
+          if-no-files-found: error
+          retention-days: 14
