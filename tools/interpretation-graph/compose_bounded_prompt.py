@@ -1,21 +1,10 @@
 #!/usr/bin/env python3
-"""Deterministic, trust-boundary-separated prompt bundle composer
-(IG-3 §6-§14).
+"""Deterministic, trust-boundary-separated prompt bundle composer.
 
-Composer input reuses IG-2's compile_context_packet.py input shape
-exactly (cardId, position, topic, goal, explicitSignals,
-relationshipType) plus two new fields (userQuestion,
-presentationPreference) — the compiler itself is treated as the
-source of truth and is called directly, never re-implemented, so the
-bounded-context selection logic exists in exactly one place across
-IG-2 and IG-3.
-
-Trust boundary, concretely: this module NEVER string-interpolates the
-user's question into systemPrompt or boundedContext. The question
-lives in exactly one place — userMessage.untrustedUserQuestion.text —
-which is architecturally incapable of feeding back into contextRefs,
-since contextRefs is built entirely from the compiled context packet
-before the question is ever touched.
+The composer reuses ``compile_context_packet.py`` as the only bounded-context
+selection source. It supports any canonical offline Interpretation Graph card
+node and never interpolates the user's question into the system prompt or
+bounded context.
 """
 from __future__ import annotations
 
@@ -31,7 +20,7 @@ from lib.prompt_integrity import compute_bundle_hash, compute_context_hash, comp
 from lib.untrusted_input import UntrustedInputError, normalize_untrusted_question  # noqa: E402
 
 PROMPT_COMPOSER_ROOT = REPO_ROOT / "data" / "interpretation-graph" / "prompt-composer"
-TEMPLATE_PATH = PROMPT_COMPOSER_ROOT / "templates" / "tower-bounded-template.json"
+TEMPLATE_PATH = PROMPT_COMPOSER_ROOT / "templates" / "interpretation-bounded-template.json"
 
 VALID_PRESENTATION_PREFERENCES = {"concise", "balanced", "detailed"}
 WORD_LIMITS_BY_PREFERENCE = {
@@ -70,12 +59,14 @@ def _map_compiler_error(exc: ContextCompilerError) -> ComposerError:
         ("unknown topic", "UNKNOWN_TOPIC"),
         ("unknown goal", "UNKNOWN_GOAL"),
         ("unknown signal", "UNKNOWN_SIGNAL"),
+        ("has no lens for card", "UNKNOWN_SIGNAL"),
         ("invalid signal source", "UNCONFIRMED_SIGNAL"),
         ("invalid signal confidence", "UNCONFIRMED_SIGNAL"),
         ("duplicate signal", "DUPLICATE_SIGNAL"),
         ("at most", "TOO_MANY_SIGNALS"),
         ("unknown relationshipType", "UNKNOWN_RELATIONSHIP"),
         ("not in this card's relationshipTypeRefs", "UNKNOWN_RELATIONSHIP"),
+        ("runtimeEnabled=false", "CONTEXT_PACKET_INVALID"),
     ]
     for needle, code in mapping:
         if needle in msg:
@@ -83,7 +74,7 @@ def _map_compiler_error(exc: ContextCompilerError) -> ComposerError:
     return ComposerError("CONTEXT_PACKET_INVALID", msg)
 
 
-def _build_bounded_context(packet: dict, raw_input: dict, graph: dict) -> dict:
+def _build_bounded_context(packet: dict, graph: dict) -> dict:
     position_lens = packet["positionLens"]
     context = (
         {"focus": packet["contextLens"]["focus"], "avoid": packet["contextLens"]["avoid"]}
@@ -97,20 +88,22 @@ def _build_bounded_context(packet: dict, raw_input: dict, graph: dict) -> dict:
     )
     signals = [
         {
-            "signalRef": s["signalRef"],
-            "focus": s["focus"],
-            "safeInterpretation": s["safeInterpretation"],
-            "prohibitedAssumptions": next(
-                lens["prohibitedAssumptions"]
-                for lens in [graph["card"]["reflectionLayer"]["userSignalLenses"][s["signalRef"]]]
-            ),
+            "signalRef": signal["signalRef"],
+            "focus": signal["focus"],
+            "safeInterpretation": signal["safeInterpretation"],
+            "prohibitedAssumptions": graph["card"]["reflectionLayer"]["userSignalLenses"][signal["signalRef"]]["prohibitedAssumptions"],
         }
-        for s in packet["signalLenses"]
+        for signal in packet["signalLenses"]
     ]
+
     relationship = None
     if packet["relationshipLens"]:
         rel_id = packet["relationshipLens"]["id"]
-        rel_entry = next(r for r in graph["relationshipTypes"]["relationshipTypes"] if r["id"] == rel_id)
+        rel_entry = next(
+            relation
+            for relation in graph["relationshipTypes"]["relationshipTypes"]
+            if relation["id"] == rel_id
+        )
         relationship = {
             "id": rel_entry["id"],
             "definition": rel_entry["definition"],
@@ -118,11 +111,10 @@ def _build_bounded_context(packet: dict, raw_input: dict, graph: dict) -> dict:
             "avoidCertainty": rel_entry["avoidCertainty"],
         }
 
-    guardrails = graph["guardrails"]
     safety_policy = [
-        {"id": g["id"], "rule": g["rule"], "severity": g["severity"]}
+        {"id": guardrail["id"], "rule": guardrail["rule"], "severity": guardrail["severity"]}
         for bucket in ("must", "mustNot")
-        for g in guardrails[bucket]
+        for guardrail in graph["guardrails"][bucket]
     ]
 
     return {
@@ -142,7 +134,9 @@ def _build_bounded_context(packet: dict, raw_input: dict, graph: dict) -> dict:
 
 def _build_system_prompt(template: dict, position: str, safety_policy: list[dict]) -> str:
     sections = template["sections"]
-    safety_bullets = "\n".join(f"- {g['id']}: {g['rule']}" for g in safety_policy)
+    safety_bullets = "\n".join(
+        f"- {guardrail['id']}: {guardrail['rule']}" for guardrail in safety_policy
+    )
     parts = [
         sections["role"],
         sections["productBoundary"],
@@ -158,20 +152,31 @@ def _build_system_prompt(template: dict, position: str, safety_policy: list[dict
 
 def compose_bounded_prompt(raw_input: dict, graph: dict | None = None) -> dict:
     if raw_input.get("crisisFlag") is True:
-        raise ComposerError("CRISIS_SHORT_CIRCUIT", "crisisFlag=true — no prompt bundle may be composed")
+        raise ComposerError(
+            "CRISIS_SHORT_CIRCUIT",
+            "crisisFlag=true — no prompt bundle may be composed",
+        )
 
     presentation = raw_input.get("presentationPreference", "balanced")
     if presentation not in VALID_PRESENTATION_PREFERENCES:
-        raise ComposerError("INVALID_PRESENTATION_PREFERENCE", f"unknown presentationPreference: {presentation!r}")
+        raise ComposerError(
+            "INVALID_PRESENTATION_PREFERENCE",
+            f"unknown presentationPreference: {presentation!r}",
+        )
 
     try:
         normalized_question = normalize_untrusted_question(raw_input.get("userQuestion"))
     except UntrustedInputError as exc:
         raise ComposerError(exc.code, str(exc)) from exc
 
-    graph = graph or load_graph()
+    card_id = raw_input.get("cardId")
+    try:
+        graph = graph or load_graph(card_id)
+    except ContextCompilerError as exc:
+        raise _map_compiler_error(exc) from exc
+
     compiler_input = {
-        "cardId": raw_input.get("cardId"),
+        "cardId": card_id,
         "position": raw_input.get("position"),
         "topic": raw_input.get("topic"),
         "goal": raw_input.get("goal"),
@@ -185,16 +190,26 @@ def compose_bounded_prompt(raw_input: dict, graph: dict | None = None) -> dict:
     except ContextCompilerError as exc:
         raise _map_compiler_error(exc) from exc
 
-    bounded_context = _build_bounded_context(packet, raw_input, graph)
-
+    bounded_context = _build_bounded_context(packet, graph)
     template = _load_template()
-    system_prompt = _build_system_prompt(template, packet["positionLens"]["position"], bounded_context["safetyPolicy"])
-    task = template["taskDescriptionTemplate"].format(presentationPreference=presentation)
+    system_prompt = _build_system_prompt(
+        template,
+        packet["positionLens"]["position"],
+        bounded_context["safetyPolicy"],
+    )
+    task = template["taskDescriptionTemplate"].format(
+        presentationPreference=presentation
+    )
 
     min_words, max_words = WORD_LIMITS_BY_PREFERENCE[presentation]
     alt_min, alt_max = ALTERNATIVE_WORD_LIMITS
     output_contract = {
-        "requiredKeys": ["primaryInterpretation", "alternativePerspective", "reflectionQuestion", "usedContextRefs"],
+        "requiredKeys": [
+            "primaryInterpretation",
+            "alternativePerspective",
+            "reflectionQuestion",
+            "usedContextRefs",
+        ],
         "wordLimits": {
             "primaryInterpretationMinWords": min_words,
             "primaryInterpretationMaxWords": max_words,
@@ -208,7 +223,7 @@ def compose_bounded_prompt(raw_input: dict, graph: dict | None = None) -> dict:
         "position": packet["positionLens"]["position"],
         "topic": (packet["contextLens"] or {}).get("topic"),
         "goal": (packet["goalLens"] or {}).get("goal"),
-        "signals": [s["signalRef"] for s in packet["signalLenses"]],
+        "signals": [signal["signalRef"] for signal in packet["signalLenses"]],
         "relationship": (packet["relationshipLens"] or {}).get("id"),
         "guardrails": packet["applicableGuardrails"],
     }
@@ -226,7 +241,10 @@ def compose_bounded_prompt(raw_input: dict, graph: dict | None = None) -> dict:
         "userMessage": {
             "task": task,
             "boundedContext": bounded_context,
-            "untrustedUserQuestion": {"text": normalized_question.text, "treatAsInstructions": False},
+            "untrustedUserQuestion": {
+                "text": normalized_question.text,
+                "treatAsInstructions": False,
+            },
         },
         "outputContract": output_contract,
         "contextRefs": context_refs,
@@ -236,7 +254,11 @@ def compose_bounded_prompt(raw_input: dict, graph: dict | None = None) -> dict:
             "templateHash": template_hash,
             "bundleHash": "",
         },
-        "provenance": {"runtimeEnabled": False, "offlineEvaluationOnly": True, "liveModelValidated": False},
+        "provenance": {
+            "runtimeEnabled": False,
+            "offlineEvaluationOnly": True,
+            "liveModelValidated": False,
+        },
     }
     bundle["integrity"]["bundleHash"] = compute_bundle_hash(bundle)
     return bundle
