@@ -1,0 +1,56 @@
+name: IG-3B Multicard Validation
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CI: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate Interpretation Graph
+        run: |
+          python3 tools/interpretation-graph/validate_interpretation_graph.py
+          python3 tools/interpretation-graph/validate_multicard_graph.py
+
+      - name: Run offline evaluators
+        run: |
+          python3 tools/interpretation-graph/evaluate_tower_offline.py
+          python3 tools/interpretation-graph/evaluate_prompt_composer.py
+          python3 tools/interpretation-graph/evaluate_multicard_offline.py
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
