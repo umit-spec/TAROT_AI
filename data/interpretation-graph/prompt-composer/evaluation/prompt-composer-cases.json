@@ -1,0 +1,1892 @@
+{
+  "schemaVersion": "1.0.0",
+  "cardId": "16-tower",
+  "cases": [
+    {
+      "id": "composer-001",
+      "description": "Position coverage: past",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "past",
+          "topic": null,
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-002",
+      "description": "Position coverage: present",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-003",
+      "description": "Position coverage: direction",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "direction",
+          "topic": null,
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-004",
+      "description": "Context coverage: career",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "career",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": "career",
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-005",
+      "description": "Context coverage: relationship",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "relationship",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": "relationship",
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-006",
+      "description": "Context coverage: decision",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "decision",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": "decision",
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-007",
+      "description": "Context coverage: family",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "family",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": "family",
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-008",
+      "description": "Context coverage: boundaries",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "boundaries",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": "boundaries",
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-009",
+      "description": "Context coverage: self-awareness",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "self-awareness",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": "self-awareness",
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-010",
+      "description": "Context coverage: uncertainty",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "uncertainty",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": "uncertainty",
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-011",
+      "description": "Context coverage: change",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "change",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": "change",
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-012",
+      "description": "Goal coverage: clarify-thoughts",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "goal": "clarify-thoughts",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": "clarify-thoughts",
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-013",
+      "description": "Goal coverage: see-different-perspective",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "goal": "see-different-perspective",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": "see-different-perspective",
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-014",
+      "description": "Goal coverage: weigh-decision",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "goal": "weigh-decision",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": "weigh-decision",
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-015",
+      "description": "Goal coverage: understand-emotions",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "goal": "understand-emotions",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": "understand-emotions",
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-016",
+      "description": "Goal coverage: curiosity",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "goal": "curiosity",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": "curiosity",
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-017",
+      "description": "Signal coverage: financial-security-concern",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "explicitSignals": [
+          {
+            "signalId": "financial-security-concern",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [
+            "financial-security-concern"
+          ],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-018",
+      "description": "Signal coverage: decision-uncertainty",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "explicitSignals": [
+          {
+            "signalId": "decision-uncertainty",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [
+            "decision-uncertainty"
+          ],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-019",
+      "description": "Signal coverage: control-scope-clarification",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "explicitSignals": [
+          {
+            "signalId": "control-scope-clarification",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [
+            "control-scope-clarification"
+          ],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-020",
+      "description": "Signal coverage: change-hesitation",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "explicitSignals": [
+          {
+            "signalId": "change-hesitation",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [
+            "change-hesitation"
+          ],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-021",
+      "description": "Signal coverage: responsibility-sustainability",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "explicitSignals": [
+          {
+            "signalId": "responsibility-sustainability",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [
+            "responsibility-sustainability"
+          ],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-022",
+      "description": "Signal coverage: uncertainty-discomfort",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "explicitSignals": [
+          {
+            "signalId": "uncertainty-discomfort",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [
+            "uncertainty-discomfort"
+          ],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-023",
+      "description": "Signal coverage: loss-concern",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "explicitSignals": [
+          {
+            "signalId": "loss-concern",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [
+            "loss-concern"
+          ],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-024",
+      "description": "Signal coverage: external-evaluation-pressure",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "explicitSignals": [
+          {
+            "signalId": "external-evaluation-pressure",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [
+            "external-evaluation-pressure"
+          ],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-025",
+      "description": "Signal coverage: boundary-expression-need",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "explicitSignals": [
+          {
+            "signalId": "boundary-expression-need",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [
+            "boundary-expression-need"
+          ],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-026",
+      "description": "Signal coverage: current-structure-attachment",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "explicitSignals": [
+          {
+            "signalId": "current-structure-attachment",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [
+            "current-structure-attachment"
+          ],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-027",
+      "description": "Relationship coverage: supporting",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "relationshipType": "supporting",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [],
+          "relationship": "supporting"
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-028",
+      "description": "Relationship coverage: softening",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "relationshipType": "softening",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [],
+          "relationship": "softening"
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-029",
+      "description": "Relationship coverage: heightening-tension",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "relationshipType": "heightening-tension",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [],
+          "relationship": "heightening-tension"
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-030",
+      "description": "Relationship coverage: reframing",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "relationshipType": "reframing",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [],
+          "relationship": "reframing"
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-031",
+      "description": "Relationship coverage: agency-linking",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "relationshipType": "agency-linking",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [],
+          "relationship": "agency-linking"
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-032",
+      "description": "Relationship coverage: interiorizing",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "relationshipType": "interiorizing",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [],
+          "relationship": "interiorizing"
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-033",
+      "description": "Relationship coverage: leaving-open",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "relationshipType": "leaving-open",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [],
+          "relationship": "leaving-open"
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-034",
+      "description": "Presentation preference coverage: concise",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "career",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "concise"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": "career",
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "concise",
+        "maxOutputWords": 60
+      }
+    },
+    {
+      "id": "composer-035",
+      "description": "Presentation preference coverage: balanced",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "career",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": "career",
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-036",
+      "description": "Presentation preference coverage: detailed",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "career",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "detailed"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": "career",
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "detailed",
+        "maxOutputWords": 120
+      }
+    },
+    {
+      "id": "composer-037",
+      "description": "Minimal: only cardId+position+question.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "past",
+          "topic": null,
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-038",
+      "description": "Minimal: topic only, no goal/signal/relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "boundaries",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": "boundaries",
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-039",
+      "description": "Minimal: goal only.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "goal": "curiosity",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "direction",
+          "topic": null,
+          "goal": "curiosity",
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-040",
+      "description": "Two explicit signals combined.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "career",
+        "goal": "weigh-decision",
+        "explicitSignals": [
+          {
+            "signalId": "financial-security-concern",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          },
+          {
+            "signalId": "decision-uncertainty",
+            "source": "user-confirmed",
+            "confidence": "user-confirmed"
+          }
+        ],
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": "career",
+          "goal": "weigh-decision",
+          "signals": [
+            "financial-security-concern",
+            "decision-uncertainty"
+          ],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-041",
+      "description": "Two explicit signals, different pair, with relationship.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": "change",
+        "goal": "see-different-perspective",
+        "explicitSignals": [
+          {
+            "signalId": "change-hesitation",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          },
+          {
+            "signalId": "external-evaluation-pressure",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": "reframing",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "detailed"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "direction",
+          "topic": "change",
+          "goal": "see-different-perspective",
+          "signals": [
+            "change-hesitation",
+            "external-evaluation-pressure"
+          ],
+          "relationship": "reframing"
+        },
+        "presentationPreference": "detailed",
+        "maxOutputWords": 120
+      }
+    },
+    {
+      "id": "composer-042",
+      "description": "Two explicit signals, minimal else.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "explicitSignals": [
+          {
+            "signalId": "loss-concern",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          },
+          {
+            "signalId": "uncertainty-discomfort",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "concise"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "past",
+          "topic": null,
+          "goal": null,
+          "signals": [
+            "loss-concern",
+            "uncertainty-discomfort"
+          ],
+          "relationship": null
+        },
+        "presentationPreference": "concise",
+        "maxOutputWords": 60
+      }
+    },
+    {
+      "id": "composer-043",
+      "description": "Turkish punctuation in question (İ, ğ, ş, ö, ü, ç, ı).",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "userQuestion": "İşimi bırakmalı mıyım, yoksa sabretmeli miyim? Gerçekten şaşkınım…",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-044",
+      "description": "Turkish quotation marks and dashes in question.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "userQuestion": "“Doğru karar” nedir bilmiyorum — biraz yardım ister misiniz?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-045",
+      "description": "Emoji in an otherwise safe question.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "userQuestion": "Bu konuda kafam çok karışık 😕 ne düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-046",
+      "description": "Multiple emoji, safe question.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "userQuestion": "Geçmişte olan biteni 🤔 hâlâ anlamaya çalışıyorum 💭",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "past",
+          "topic": null,
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-047",
+      "description": "Turkish apostrophe (proper noun suffix).",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "userQuestion": "Ahmet'in dediklerini nasıl değerlendirmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-048",
+      "description": "English-style apostrophe contraction-like usage.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "userQuestion": "Kule'nin bana ne söylediğini merak ediyorum.",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-049",
+      "description": "Two-line question with newline.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "userQuestion": "Bir kararım var.\nNasıl yaklaşmalıyım?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-050",
+      "description": "Three-line question with newlines and a blank line.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "userQuestion": "İşimle ilgili bir durum var.\n\nUzun zamandır düşünüyorum.\nNe yapmalıyım?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-051",
+      "description": "Question near the 1000-character limit (990 chars).",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "userQuestion": "Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. Bu konuda uzun zamandır düşünüyorum. ",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-052",
+      "description": "Question at exactly 1000 characters.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "userQuestion": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": null,
+          "goal": null,
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-053",
+      "description": "Duplicate signal rejected.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "explicitSignals": [
+          {
+            "signalId": "loss-concern",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          },
+          {
+            "signalId": "loss-concern",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "rejected",
+        "errorCode": "DUPLICATE_SIGNAL"
+      }
+    },
+    {
+      "id": "composer-054",
+      "description": "Unknown cardId rejected.",
+      "input": {
+        "cardId": "99-nonexistent",
+        "position": "present",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "rejected",
+        "errorCode": "UNKNOWN_CARD_ID"
+      }
+    },
+    {
+      "id": "composer-055",
+      "description": "Unknown position rejected.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "sideways",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "rejected",
+        "errorCode": "UNKNOWN_POSITION"
+      }
+    },
+    {
+      "id": "composer-056",
+      "description": "Unknown topic rejected.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "astrology",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "rejected",
+        "errorCode": "UNKNOWN_TOPIC"
+      }
+    },
+    {
+      "id": "composer-057",
+      "description": "Unknown goal rejected.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "goal": "predict-future",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "rejected",
+        "errorCode": "UNKNOWN_GOAL"
+      }
+    },
+    {
+      "id": "composer-058",
+      "description": "Unknown signal rejected.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "explicitSignals": [
+          {
+            "signalId": "secret-fear",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "rejected",
+        "errorCode": "UNKNOWN_SIGNAL"
+      }
+    },
+    {
+      "id": "composer-059",
+      "description": "Unknown relationship rejected.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "relationshipType": "undermining",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "rejected",
+        "errorCode": "UNKNOWN_RELATIONSHIP"
+      }
+    },
+    {
+      "id": "composer-060",
+      "description": "Crisis flag short-circuits before any composition.",
+      "input": {
+        "crisisFlag": true,
+        "cardId": "16-tower",
+        "position": "present",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "rejected",
+        "errorCode": "CRISIS_SHORT_CIRCUIT"
+      }
+    },
+    {
+      "id": "composer-061",
+      "description": "Future position rejected.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "future",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "rejected",
+        "errorCode": "FUTURE_POSITION_FORBIDDEN"
+      }
+    },
+    {
+      "id": "composer-062",
+      "description": "Empty user question rejected.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "userQuestion": "",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "rejected",
+        "errorCode": "EMPTY_USER_QUESTION"
+      }
+    },
+    {
+      "id": "composer-063",
+      "description": "Whitespace-only user question rejected.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "userQuestion": "    \n\t  ",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "rejected",
+        "errorCode": "EMPTY_USER_QUESTION"
+      }
+    },
+    {
+      "id": "composer-064",
+      "description": "Over-length user question rejected (1001 chars).",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "userQuestion": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "rejected",
+        "errorCode": "USER_QUESTION_TOO_LONG"
+      }
+    },
+    {
+      "id": "composer-065",
+      "description": "Non-string user question rejected.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "userQuestion": 42,
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "rejected",
+        "errorCode": "INVALID_USER_QUESTION_TYPE"
+      }
+    },
+    {
+      "id": "composer-066",
+      "description": "Control character in question rejected.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "userQuestion": "soru\u0000metni",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "rejected",
+        "errorCode": "INVALID_CONTROL_CHARACTER"
+      }
+    },
+    {
+      "id": "composer-067",
+      "description": "Invalid presentation preference rejected.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "verbose"
+      },
+      "expected": {
+        "status": "rejected",
+        "errorCode": "INVALID_PRESENTATION_PREFERENCE"
+      }
+    },
+    {
+      "id": "composer-068",
+      "description": "More than 2 signals rejected.",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "explicitSignals": [
+          {
+            "signalId": "loss-concern",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          },
+          {
+            "signalId": "change-hesitation",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          },
+          {
+            "signalId": "decision-uncertainty",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "userQuestion": "Bu konuda nasıl düşünmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "rejected",
+        "errorCode": "TOO_MANY_SIGNALS"
+      }
+    },
+    {
+      "id": "composer-069",
+      "description": "Combined realistic scenario #1",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "career",
+        "goal": "weigh-decision",
+        "explicitSignals": [
+          {
+            "signalId": "financial-security-concern",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": "heightening-tension",
+        "userQuestion": "Bu işte kalmalı mıyım?",
+        "presentationPreference": "detailed"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": "career",
+          "goal": "weigh-decision",
+          "signals": [
+            "financial-security-concern"
+          ],
+          "relationship": "heightening-tension"
+        },
+        "presentationPreference": "detailed",
+        "maxOutputWords": 120
+      }
+    },
+    {
+      "id": "composer-070",
+      "description": "Combined realistic scenario #2",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": "relationship",
+        "goal": "understand-emotions",
+        "explicitSignals": [
+          {
+            "signalId": "boundary-expression-need",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "userQuestion": "Geçmişte yaşadığım bir şeyi anlamaya çalışıyorum.",
+        "presentationPreference": "concise"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "past",
+          "topic": "relationship",
+          "goal": "understand-emotions",
+          "signals": [
+            "boundary-expression-need"
+          ],
+          "relationship": null
+        },
+        "presentationPreference": "concise",
+        "maxOutputWords": 60
+      }
+    },
+    {
+      "id": "composer-071",
+      "description": "Combined realistic scenario #3",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": "change",
+        "goal": "see-different-perspective",
+        "relationshipType": "reframing",
+        "userQuestion": "Önümdeki değişimi nasıl görmeliyim?",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "direction",
+          "topic": "change",
+          "goal": "see-different-perspective",
+          "signals": [],
+          "relationship": "reframing"
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-072",
+      "description": "Combined realistic scenario #4",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "self-awareness",
+        "goal": "clarify-thoughts",
+        "explicitSignals": [
+          {
+            "signalId": "external-evaluation-pressure",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "userQuestion": "Kendimle ilgili net değilim.",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": "self-awareness",
+          "goal": "clarify-thoughts",
+          "signals": [
+            "external-evaluation-pressure"
+          ],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-073",
+      "description": "Combined realistic scenario #5",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": "uncertainty",
+        "goal": "weigh-decision",
+        "explicitSignals": [
+          {
+            "signalId": "uncertainty-discomfort",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          },
+          {
+            "signalId": "loss-concern",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "userQuestion": "Belirsizlikle nasıl başa çıkarım?",
+        "presentationPreference": "detailed"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "past",
+          "topic": "uncertainty",
+          "goal": "weigh-decision",
+          "signals": [
+            "uncertainty-discomfort",
+            "loss-concern"
+          ],
+          "relationship": null
+        },
+        "presentationPreference": "detailed",
+        "maxOutputWords": 120
+      }
+    },
+    {
+      "id": "composer-074",
+      "description": "Combined realistic scenario #6",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "boundaries",
+        "goal": "curiosity",
+        "relationshipType": "agency-linking",
+        "userQuestion": "Sınırlarımı merak ediyorum.",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": "boundaries",
+          "goal": "curiosity",
+          "signals": [],
+          "relationship": "agency-linking"
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-075",
+      "description": "Combined realistic scenario #7",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": "decision",
+        "goal": "weigh-decision",
+        "explicitSignals": [
+          {
+            "signalId": "control-scope-clarification",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": "leaving-open",
+        "userQuestion": "Bu kararda ne yapmalıyım?",
+        "presentationPreference": "concise"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "direction",
+          "topic": "decision",
+          "goal": "weigh-decision",
+          "signals": [
+            "control-scope-clarification"
+          ],
+          "relationship": "leaving-open"
+        },
+        "presentationPreference": "concise",
+        "maxOutputWords": 60
+      }
+    },
+    {
+      "id": "composer-076",
+      "description": "Combined realistic scenario #8",
+      "input": {
+        "cardId": "16-tower",
+        "position": "past",
+        "topic": "family",
+        "goal": "understand-emotions",
+        "explicitSignals": [
+          {
+            "signalId": "current-structure-attachment",
+            "source": "user-confirmed",
+            "confidence": "user-confirmed"
+          }
+        ],
+        "userQuestion": "Ailemle ilgili bir şeyi anlamaya çalışıyorum.",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "past",
+          "topic": "family",
+          "goal": "understand-emotions",
+          "signals": [
+            "current-structure-attachment"
+          ],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    },
+    {
+      "id": "composer-077",
+      "description": "Combined realistic scenario #9",
+      "input": {
+        "cardId": "16-tower",
+        "position": "present",
+        "topic": "career",
+        "explicitSignals": [
+          {
+            "signalId": "responsibility-sustainability",
+            "source": "explicit-user-selection",
+            "confidence": "explicit"
+          }
+        ],
+        "relationshipType": "heightening-tension",
+        "userQuestion": "İşimdeki sorumluluklarım çok fazla.",
+        "presentationPreference": "detailed"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "present",
+          "topic": "career",
+          "goal": null,
+          "signals": [
+            "responsibility-sustainability"
+          ],
+          "relationship": "heightening-tension"
+        },
+        "presentationPreference": "detailed",
+        "maxOutputWords": 120
+      }
+    },
+    {
+      "id": "composer-078",
+      "description": "Combined realistic scenario #10",
+      "input": {
+        "cardId": "16-tower",
+        "position": "direction",
+        "topic": "relationship",
+        "goal": "clarify-thoughts",
+        "userQuestion": "İlişkimle ilgili netleşmek istiyorum.",
+        "presentationPreference": "balanced"
+      },
+      "expected": {
+        "status": "composed",
+        "contextRefs": {
+          "position": "direction",
+          "topic": "relationship",
+          "goal": "clarify-thoughts",
+          "signals": [],
+          "relationship": null
+        },
+        "presentationPreference": "balanced",
+        "maxOutputWords": 90
+      }
+    }
+  ]
+}
