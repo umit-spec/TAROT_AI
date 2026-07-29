@@ -23,6 +23,9 @@ dist/
 data/evaluation/runs/**/raw/
 # blind-comparison scratch (contains narration text + unblind map) - local only
 data/evaluation/comparisons/
+# IG-4 shadow outputs are synthetic-only but may contain provider responses,
+# request IDs and blind-review mappings. They remain local/workflow artifacts.
+data/interpretation-graph/shadow-runs/
 
 # misc
 .DS_Store
