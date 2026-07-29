@@ -52,6 +52,8 @@ jobs:
         run: |
           npm run ig4:dry-run -- --output-dir "$RUNNER_TEMP/ig4-dry"
           npm run ig4:simulate -- --output-dir "$RUNNER_TEMP/ig4-sim"
+          python3 tools/interpretation-graph/prepare_shadow_review.py \
+            --run-dir "$RUNNER_TEMP/ig4-sim"
 
       - name: Typecheck
         run: npm run typecheck
@@ -103,6 +105,8 @@ jobs:
           python3 tools/interpretation-graph/run_anthropic_shadow.py \
             --execute \
             --output-dir "$RUNNER_TEMP/ig4-live"
+          python3 tools/interpretation-graph/prepare_shadow_review.py \
+            --run-dir "$RUNNER_TEMP/ig4-live"
 
       - name: Upload shadow artifacts
         if: always()
