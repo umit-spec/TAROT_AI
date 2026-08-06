@@ -11,6 +11,7 @@ import { CrisisResponseSchema, ReadingRequestSchema, ReadingResponseSchema } fro
 import { REQUEST_ID_HEADER, getOrCreateRequestId } from '../../../server/observability/request-id';
 import { logReading } from '../../../server/observability/log';
 import { readJsonBody } from '../../../server/http/read-json-body';
+import { redactIssues } from '../../../server/http/redact-issues';
 import { gateSnapshot } from '../../../server/observability/provider-gate';
 import {
   RateLimiter,
@@ -77,7 +78,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   if (!parsed.success) {
     logReading({ requestId, status: 400, latencyMs: performance.now() - start, outcome: 'invalid' });
     return withRequestId(
-      NextResponse.json({ error: 'invalid_request', details: parsed.error.issues }, { status: 400 }),
+      NextResponse.json({ error: 'invalid_request', details: redactIssues(parsed.error.issues) }, { status: 400 }),
       requestId,
     );
   }

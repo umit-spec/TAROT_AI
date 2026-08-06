@@ -69,3 +69,57 @@ documented, scoped risk for an undocumented, larger one (an EOL Next.js major).
 | Date | Reviewer | Result |
 |---|---|---|
 | 2026-07-22 | Validation Lead | Opened. Vitest chain fixed same-day. Next.js chain accepted, sharp flagged for Sprint 3 gate. |
+| 2026-08-06 | Claude Code (H5) | Re-run. 5 high findings — see SECURITY-DEBT-002. `sharp` blocking condition NOT yet triggered (no `next/image` usage in `src/`, verified by grep). No dependency change made: `DEPENDENCY_UPGRADE_AUTHORIZED=false`. |
+
+---
+
+## SECURITY-DEBT-002: `npm audit` re-run at H5
+
+**Opened:** 2026-08-06
+**Status:** Recorded, unresolved — no dependency change was authorized
+**Review date:** Next sprint start, and before any public-facing release
+
+### Findings (`npm audit`, 2026-08-06)
+
+| Package | Severity | Range | Runtime-reachable? |
+|---|---|---|---|
+| `next` | High | `9.3.4-canary.0 - 16.3.0-preview.10` | Umbrella advisory |
+| `postcss` | High | `<=8.5.22` | **No** — build-time CSS only |
+| `sharp` | High | `<0.35.0` | **Not today** — no `next/image` usage in `src/` |
+| `undici` | High | `7.0.0 - 7.28.0` | **YES — see below** |
+| `brace-expansion` | High | `<=1.1.17 \|\| 4.0.0 - 5.0.8` | No — tooling dependency |
+
+### `undici` is the one that changed the picture
+
+`undici` is the HTTP client behind Node's `fetch`. This application calls the
+Anthropic API through `fetch` (`src/server/reading-engine/providers/claude/http.ts`),
+so unlike `postcss` and `sharp` this is **on a live request path in production**,
+not build-only or dormant.
+
+That does not make it exploitable by itself — reachability is not
+exploitability, and the specific advisory has not been analysed against how
+this code calls `fetch` (fixed URL, no user-controlled host, no redirect
+following configured). But it is a materially different category from the
+previously accepted findings and should not be filed alongside them without
+that distinction being stated.
+
+### What was NOT done, and why
+
+`DEPENDENCY_UPGRADE_AUTHORIZED=false` for the H-phase work, so no upgrade,
+no `npm audit fix`, and no lockfile change was made. `fixAvailable: true` is
+reported for all five, but the previously recorded remediation for the
+`next` chain was a downgrade to `next@9.3.3`, which ADR-003 rejects.
+
+### Required human decision
+
+1. Re-run `npm audit` and check whether a forward fix (not a downgrade) now
+   exists for `next` and `undici`.
+2. Analyse the `undici` advisory against this repository's actual `fetch`
+   usage before any public-facing release.
+3. Decide whether `brace-expansion` and `postcss` remain accepted risks.
+
+### Review log
+
+| Date | Reviewer | Result |
+|---|---|---|
+| 2026-08-06 | Claude Code (H5) | Opened. Recorded, not remediated — dependency changes not authorized. `undici` flagged as runtime-reachable, distinct from the build-only findings in SECURITY-DEBT-001. |

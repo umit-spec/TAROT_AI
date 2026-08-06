@@ -8,6 +8,7 @@ import {
 } from '../../../../types/api';
 import { presentFraming } from '../../../../lib/framing-presenter';
 import { readJsonBody } from '../../../../server/http/read-json-body';
+import { redactIssues } from '../../../../server/http/redact-issues';
 import { REQUEST_ID_HEADER, getOrCreateRequestId } from '../../../../server/observability/request-id';
 import { logPreview } from '../../../../server/observability/log';
 import {
@@ -78,7 +79,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   if (!parsed.success) {
     logPreview({ requestId, status: 400, latencyMs: performance.now() - start, outcome: 'invalid' });
     return withRequestId(
-      NextResponse.json({ error: 'invalid_request', details: parsed.error.issues }, { status: 400 }),
+      NextResponse.json({ error: 'invalid_request', details: redactIssues(parsed.error.issues) }, { status: 400 }),
       requestId,
     );
   }

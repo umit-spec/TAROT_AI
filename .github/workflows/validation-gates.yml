@@ -9,16 +9,21 @@ on:
       - '.github/workflows/validation-gates.yml'
   workflow_dispatch:
 
+# H5: least privilege. This workflow only reads the checkout and reports a
+# check; it never writes to the repository.
+permissions:
+  contents: read
+
 jobs:
   # GATE 1: Schema Validation
   schema-validation:
     name: Schema Validation Gate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '18'
 
@@ -52,7 +57,7 @@ jobs:
     name: KPI Registry Gate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Verify KPI Registry exists
         run: test -f validation/kpi/KPI_REGISTRY.md
@@ -75,7 +80,7 @@ jobs:
     name: Red Team Playbook Gate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Verify Red Team Playbook exists
         run: test -f validation/agents/red_team/RED_TEAM_PLAYBOOK.md
@@ -94,7 +99,7 @@ jobs:
     name: Gatekeeper Logic Gate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Verify Gatekeeper Logic document exists
         run: test -f validation/agents/gatekeeper/GATEKEEPER_LOGIC.md
@@ -112,7 +117,7 @@ jobs:
     name: Protocol Versioning Gate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Check all protocols are versioned
         run: |
@@ -136,7 +141,7 @@ jobs:
     name: Documentation Gate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Check required documentation exists
         run: |
@@ -169,7 +174,7 @@ jobs:
     name: Clean State Gate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Check validation folder has no uncommitted changes
         run: |
@@ -186,7 +191,7 @@ jobs:
     name: Reproducibility Gate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Verify all protocols include replication instructions
         run: |
@@ -212,7 +217,7 @@ jobs:
     name: Validation Integrity Gate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Verify no opinions in validation documents
         run: |
@@ -246,7 +251,7 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Generate Validation Summary
         run: |
