@@ -1,4 +1,10 @@
 import { z } from 'zod';
+import {
+  MAX_QUESTION_CHARS,
+  MAX_SEED_CHARS,
+  QUESTION_TOO_LONG_MESSAGE,
+  SEED_TOO_LONG_MESSAGE,
+} from '../server/limits';
 import { DrawnCardSchema } from './reading';
 import { IntakeContextSchema } from './intake';
 import { KnowledgeResolutionMetaSchema, KnowledgeContextSchema, KnowledgeVersionSchema } from './knowledge';
@@ -13,8 +19,11 @@ import { InterpretationOutputSchema } from './interpretation';
  * client could set safetyFlags: [] to bypass the crisis gate).
  */
 export const ReadingRequestSchema = z.object({
-  seed: z.string().min(1),
-  question: z.string().default(''),
+  // Bounded from the central limits module (H1). `seed` is request hygiene;
+  // `question` is provider-cost control - see src/server/limits.ts for why
+  // these are two separate numbers, not one shared constant.
+  seed: z.string().min(1).max(MAX_SEED_CHARS, SEED_TOO_LONG_MESSAGE),
+  question: z.string().max(MAX_QUESTION_CHARS, QUESTION_TOO_LONG_MESSAGE).default(''),
   topicHint: z.enum(['relationship', 'career', 'self']).optional(),
 });
 export type ReadingRequest = z.infer<typeof ReadingRequestSchema>;
@@ -56,7 +65,10 @@ export type CrisisResponse = z.infer<typeof CrisisResponseSchema>;
  */
 export const PreviewRequestSchema = z
   .object({
-    question: z.string().default(''),
+    // Same central question limit as the reading route - the two endpoints
+    // must never disagree on what input is acceptable, or the preview becomes
+    // a way to probe with input the reading route would reject.
+    question: z.string().max(MAX_QUESTION_CHARS, QUESTION_TOO_LONG_MESSAGE).default(''),
     topicHint: z.enum(['relationship', 'career', 'self']).optional(),
   })
   .strict();

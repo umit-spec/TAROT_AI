@@ -21,6 +21,14 @@ export interface ReadingLogRecord {
   fallbackReason?: string;
   inputTokens?: number;
   outputTokens?: number;
+  // H4 spend/ops counters. All aggregate numbers - no user or model text.
+  // `estimatedCostUsd` is present ONLY when attributed pricing is configured
+  // (see spend-guard.ts); it is never a guessed figure.
+  dailyProviderCalls?: number;
+  dailyTotalTokens?: number;
+  estimatedCostUsd?: number;
+  providerConcurrencyActive?: number;
+  providerConcurrencyQueued?: number;
 }
 
 export interface ReadingLogInput {
@@ -36,6 +44,11 @@ export interface ReadingLogInput {
   fallbackReason?: string;
   inputTokens?: number;
   outputTokens?: number;
+  dailyProviderCalls?: number;
+  dailyTotalTokens?: number;
+  estimatedCostUsd?: number;
+  providerConcurrencyActive?: number;
+  providerConcurrencyQueued?: number;
 }
 
 /** Pure builder - no I/O, so it can be unit-tested for redaction. */
@@ -54,6 +67,15 @@ export function buildReadingLogRecord(input: ReadingLogInput): ReadingLogRecord 
     ...(input.fallbackReason ? { fallbackReason: input.fallbackReason } : {}),
     ...(input.inputTokens !== undefined ? { inputTokens: input.inputTokens } : {}),
     ...(input.outputTokens !== undefined ? { outputTokens: input.outputTokens } : {}),
+    ...(input.dailyProviderCalls !== undefined ? { dailyProviderCalls: input.dailyProviderCalls } : {}),
+    ...(input.dailyTotalTokens !== undefined ? { dailyTotalTokens: input.dailyTotalTokens } : {}),
+    ...(input.estimatedCostUsd !== undefined ? { estimatedCostUsd: input.estimatedCostUsd } : {}),
+    ...(input.providerConcurrencyActive !== undefined
+      ? { providerConcurrencyActive: input.providerConcurrencyActive }
+      : {}),
+    ...(input.providerConcurrencyQueued !== undefined
+      ? { providerConcurrencyQueued: input.providerConcurrencyQueued }
+      : {}),
   };
 }
 

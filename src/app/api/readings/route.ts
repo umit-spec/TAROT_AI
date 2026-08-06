@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { classifyIntake, isCrisisFlag } from '../../../server/intake';
-import { CRISIS_MESSAGE, CRISIS_RESOURCES } from '../../../server/intake/crisis-resources';
+import { CRISIS_MESSAGE, resourcesForSubtypes } from '../../../server/intake/crisis-resources';
 import {
   ClaudeProvider,
   DECK_ALGORITHM_VERSION,
@@ -10,6 +10,9 @@ import {
 import { CrisisResponseSchema, ReadingRequestSchema, ReadingResponseSchema } from '../../../types/api';
 import { REQUEST_ID_HEADER, getOrCreateRequestId } from '../../../server/observability/request-id';
 import { logReading } from '../../../server/observability/log';
+import { readJsonBody } from '../../../server/http/read-json-body';
+import { redactIssues } from '../../../server/http/redact-issues';
+import { gateSnapshot } from '../../../server/observability/provider-gate';
 import {
   RateLimiter,
   clientKey,
@@ -53,19 +56,29 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
   }
 
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    logReading({ requestId, status: 400, latencyMs: performance.now() - start, outcome: 'invalid' });
-    return withRequestId(NextResponse.json({ error: 'invalid_json_body' }, { status: 400 }), requestId);
+  // H4: byte ceiling enforced WHILE streaming, before parsing and before the
+  // schema - otherwise an oversized payload is fully buffered before H1's
+  // question limit ever gets to reject it.
+  const bodyResult = await readJsonBody(request);
+  if (!bodyResult.ok) {
+    const tooLarge = bodyResult.error === 'body_too_large';
+    logReading({
+      requestId,
+      status: tooLarge ? 413 : 400,
+      latencyMs: performance.now() - start,
+      outcome: 'invalid',
+    });
+    return withRequestId(
+      NextResponse.json({ error: bodyResult.error }, { status: tooLarge ? 413 : 400 }),
+      requestId,
+    );
   }
 
-  const parsed = ReadingRequestSchema.safeParse(body);
+  const parsed = ReadingRequestSchema.safeParse(bodyResult.value);
   if (!parsed.success) {
     logReading({ requestId, status: 400, latencyMs: performance.now() - start, outcome: 'invalid' });
     return withRequestId(
-      NextResponse.json({ error: 'invalid_request', details: parsed.error.issues }, { status: 400 }),
+      NextResponse.json({ error: 'invalid_request', details: redactIssues(parsed.error.issues) }, { status: 400 }),
       requestId,
     );
   }
@@ -79,10 +92,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   if (intake.safetyFlags.some(isCrisisFlag)) {
     // No draw, no provider call, no tarot reading - docs/02-ETHICAL_CONSTITUTION.md
     // Response Flow: PAUSE, acknowledge, resources, nothing else.
+    // H2: resources selected by detected subtype, not one uniform list.
+    // Falls back to the always-applicable emergency line, so the screen can
+    // never render without a way to get help.
     const crisisResponse = CrisisResponseSchema.parse({
       status: 'crisis',
       message: CRISIS_MESSAGE,
-      resources: CRISIS_RESOURCES,
+      resources: resourcesForSubtypes(intake.safetyFlags.filter(isCrisisFlag)),
     });
     // Crisis text is NOT logged (D4) - only that a crisis short-circuit occurred.
     logReading({
@@ -122,6 +138,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     },
   });
 
+  const spend = gateSnapshot();
   // Structured, redacted log: derived signals only, never question text (D4/D5).
   logReading({
     requestId,
@@ -136,6 +153,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     fallbackReason,
     inputTokens: usage?.inputTokens,
     outputTokens: usage?.outputTokens,
+    // H4 aggregate spend/ops counters. Process-local (see spend-guard.ts).
+    dailyProviderCalls: spend.calls,
+    dailyTotalTokens: spend.totalTokens,
+    estimatedCostUsd: spend.estimatedCostUsd,
+    providerConcurrencyActive: spend.concurrency.active,
+    providerConcurrencyQueued: spend.concurrency.queued,
   });
 
   return withRequestId(NextResponse.json(response, { status: 200 }), requestId);

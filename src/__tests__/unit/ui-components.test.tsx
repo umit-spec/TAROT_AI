@@ -188,19 +188,63 @@ describe('CrisisNotice — cannot structurally carry tarot content', () => {
     ];
     render(<CrisisNotice message="x" resources={resources} />);
     const items = screen.getAllByRole('listitem');
-    expect(items.map((li) => li.textContent)).toEqual(['İlk Hat111', 'İkinci Hat222', 'Üçüncü Hat333']);
+    // Contacts are dialable, so each carries a visually-hidden " numarasını
+    // ara" suffix for screen readers. Order, labels, and the contact digits
+    // themselves are still exact and unmodified.
+    expect(items.map((li) => li.textContent)).toEqual([
+      'İlk Hat111 numarasını ara',
+      'İkinci Hat222 numarasını ara',
+      'Üçüncü Hat333 numarasını ara',
+    ]);
   });
 
-  test('resource items are plain list items, not buttons or links', () => {
+  test('resource items are list items and never buttons', () => {
     render(<CrisisNotice message="x" resources={[{ label: 'Hat', contact: '112' }]} />);
     expect(screen.queryByRole('button')).not.toBeInTheDocument();
-    expect(screen.queryByRole('link')).not.toBeInTheDocument();
     expect(screen.getAllByRole('listitem')).toHaveLength(1);
   });
 
-  test('contact is not auto-linked into an <a href>', () => {
+  /**
+   * H1 CONTRACT CHANGE. Previously NO resource contact could become an <a>
+   * at all, and "zero <a> elements" was the proof that a hostile contact
+   * string could never be auto-linked (docs/UI_PREMIUM_V1.md §20.4).
+   *
+   * A person in immediate danger should be able to tap 112 rather than
+   * memorize it, so a dialable contact now renders as a tel: link. The
+   * security guarantee is UNCHANGED and is now proved directly instead of by
+   * proxy: linking is opt-in on a digits-only pattern, so a javascript:,
+   * markup, or free-text contact still produces no anchor at all. The tests
+   * below assert both halves.
+   */
+  test('a dialable contact becomes a tel: link with an accessible name', () => {
     render(<CrisisNotice message="x" resources={[{ label: 'Hat', contact: '112' }]} />);
-    expect(document.querySelector('a')).not.toBeInTheDocument();
+    const link = screen.getByRole('link', { name: /112/ });
+    expect(link).toHaveAttribute('href', 'tel:112');
+  });
+
+  test('a non-dialable contact is NEVER linked', () => {
+    const hostile = [
+      { label: 'A', contact: 'javascript:alert(1)' },
+      { label: 'B', contact: '<a href="javascript:alert(1)">tıkla</a>' },
+      { label: 'C', contact: 'https://example.com' },
+      { label: 'D', contact: 'destek@example.com' },
+      { label: 'E', contact: 'tel:112' },
+    ];
+    render(<CrisisNotice message="x" resources={hostile} />);
+    // Not one anchor is created for any of these - the digits-only guard
+    // rejects every one, so there is no path from a hostile contact string
+    // to an href.
+    expect(document.querySelectorAll('a')).toHaveLength(0);
+    expect(screen.queryByRole('link')).not.toBeInTheDocument();
+  });
+
+  test('a linked contact cannot smuggle a non-tel scheme into href', () => {
+    render(<CrisisNotice message="x" resources={[{ label: 'Hat', contact: '+90 212 000 00 00' }]} />);
+    const anchors = Array.from(document.querySelectorAll('a'));
+    expect(anchors).toHaveLength(1);
+    // Whitespace stripped, scheme is exactly tel:, nothing else.
+    expect(anchors[0].getAttribute('href')).toBe('tel:+902120000000');
+    expect(anchors[0].getAttribute('href')!.startsWith('tel:')).toBe(true);
   });
 
   test('no technical aria-label="crisis-resources" test-hook string remains', () => {

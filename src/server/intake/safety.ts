@@ -1,9 +1,5 @@
-import {
-  ABSOLUTE_ADVICE_KEYWORDS,
-  countMatches,
-  CRISIS_KEYWORDS,
-  PROMPT_INJECTION_PATTERNS,
-} from './keywords';
+import { ABSOLUTE_ADVICE_KEYWORDS, countMatches, PROMPT_INJECTION_PATTERNS } from './keywords';
+import { assessCrisis, type CrisisLevel } from './crisis-classifier';
 
 export const MIN_MEANINGFUL_INPUT_LENGTH = 3;
 
@@ -21,8 +17,14 @@ export function computeSafetyFlags(
 ): string[] {
   const flags: string[] = [];
 
-  for (const [flag, keywords] of Object.entries(CRISIS_KEYWORDS)) {
-    if (countMatches(normalizedText, keywords) > 0) flags.push(flag);
+  // H2: token-based, Turkish-aware, three-level assessment. See
+  // ./crisis-classifier.ts. Only the CRISIS level produces crisis_* flags;
+  // the EMOTIONAL_SUPPORT level is surfaced separately (below) because it
+  // must NOT withhold the reading.
+  const assessment = assessCrisis(normalizedText);
+  flags.push(...assessment.categories);
+  if (assessment.level === 'emotional_support') {
+    flags.push('emotional_support_indicated');
   }
 
   for (const [flag, keywords] of Object.entries(ABSOLUTE_ADVICE_KEYWORDS)) {
@@ -54,3 +56,18 @@ export function computeSafetyFlags(
 export function isCrisisFlag(flag: string): boolean {
   return flag.startsWith('crisis_');
 }
+
+/**
+ * H2 middle level. Distress that warrants an acknowledging opening but must
+ * NOT withhold the reading - deliberately a different predicate from
+ * `isCrisisFlag`, so no caller can accidentally treat support as a crisis or
+ * a crisis as mere support.
+ */
+export const EMOTIONAL_SUPPORT_FLAG = 'emotional_support_indicated';
+
+export function isEmotionalSupportFlag(flag: string): boolean {
+  return flag === EMOTIONAL_SUPPORT_FLAG;
+}
+
+/** Re-exported so callers get the level without importing the classifier. */
+export type { CrisisLevel };

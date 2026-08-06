@@ -104,7 +104,20 @@ export const RubricScoreSchema = z
   });
 export type RubricScore = z.infer<typeof RubricScoreSchema>;
 
-export const FallbackReasonSchema = z.enum(['red-line-rejected', 'schema-invalid', 'provider-error']);
+/**
+ * H4 adds three reasons that are NOT provider failures — the provider was
+ * never called. Keeping them distinct from 'provider-error' matters: an
+ * operator seeing a spike needs to tell "the model is broken" apart from "we
+ * hit our own ceiling" and "we are shedding load", which have different fixes.
+ */
+export const FallbackReasonSchema = z.enum([
+  'red-line-rejected',
+  'schema-invalid',
+  'provider-error',
+  'provider-disabled',
+  'spend-cap-reached',
+  'provider-busy',
+]);
 export type FallbackReason = z.infer<typeof FallbackReasonSchema>;
 
 export const TokenUsageSchema = z.object({
