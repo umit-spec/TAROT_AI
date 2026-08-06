@@ -102,6 +102,12 @@ export const CRISIS_KEYWORDS = {
     'kendime zarar',
     'kendine zarar',
     'canıma kıy',
+    // Self-directed, so it belongs here and not in the violence category -
+    // "kendimi öldürmek" was previously only reachable via
+    // 'öldürmek istiyorum', which classified a suicide disclosure as violence
+    // toward another person and would have routed the wrong resources.
+    'kendimi öldür',
+    'kendimi yok et',
     'hayatıma son ver',
     'yaşamıma son ver',
     'hayatımı bitir',
@@ -157,7 +163,15 @@ export const CRISIS_KEYWORDS = {
     // here bound to an object that makes the coercion explicit.
     'zorla dokun',
     'zorla ilişki',
+    // Passive and past forms spelled out: Turkish passive -ıl- is a
+    // DERIVATIONAL infix, so it is deliberately absent from the inflectional
+    // suffix whitelist in turkish-text.ts and "yapıldı" is not reachable from
+    // the stem "yap". Listing the real forms is safer than widening that
+    // whitelist, which would re-open the 'zorla'/"zorlanıyorum" defect.
     'zorla bir şey yap',
+    'zorla bir şey yapıldı',
+    'zorla bir şey yaptılar',
+    'zorla bir şey yaptı',
     'zorla soy',
     // Partner / domestic violence disclosures. 'bana vuruyor' is NOT listed
     // bare - it matched "Güneş bana vuruyor" in red-teaming - so the
@@ -179,6 +193,67 @@ export const CRISIS_KEYWORDS = {
     'evde şiddet var',
   ],
 } as const;
+
+/**
+ * H2 EMOTIONAL_SUPPORT level. Genuine distress that is NOT a crisis
+ * disclosure. Matching these does not withhold the reading; it changes how the
+ * reading opens, so the product acknowledges what the person said instead of
+ * answering a distressed message in a neutral register.
+ *
+ * The bar for entry is deliberately different from CRISIS_KEYWORDS: these may
+ * be ordinary words, because the cost of a false positive here is a slightly
+ * gentler opening, not a crisis screen.
+ */
+/**
+ * STRONG distress: one of these alone is enough to warrant an acknowledging
+ * opening. Each states exhaustion, hopelessness, or collapse outright, so
+ * treating a single occurrence as meaningful does not over-fire.
+ */
+export const STRONG_DISTRESS_KEYWORDS = [
+  'çok üzgünüm', 'çok kötüyüm', 'berbat hissediyorum',
+  'ağlıyorum', 'içim daralıyor',
+  'dayanamıyorum', 'dayanacak gücüm yok', 'tükendim',
+  'yıkıldım', 'mahvoldum', 'çaresizim', 'umutsuzum', 'boğuluyorum',
+  'çok yalnızım', 'kimsem yok', 'kimse anlamıyor',
+  'değersiz hissediyorum', 'işe yaramaz hissediyorum',
+  'çok acı veriyor', 'kaybolmuş hissediyorum',
+  'panik içindeyim', 'yalnız hissediyorum',
+] as const;
+
+/**
+ * MILD distress: ordinary in isolation ("Biraz endişeliyim yeni iş
+ * hakkında"), meaningful in combination. TWO are required before the level
+ * changes, so a single ordinary worry stays an ordinary question.
+ */
+export const MILD_DISTRESS_KEYWORDS = [
+  'kötü hissediyorum', 'ağlamaktan', 'bittim',
+  'panik', 'kaygılıyım', 'endişeliyim', 'korkuyorum', 'tedirginim',
+  'kafam karışık', 'kafam çok karışık', 'ne yapacağımı bilmiyorum',
+  'içim sıkışıyor', 'uyuyamıyorum', 'suçlu hissediyorum',
+  'çok zor geliyor', 'üst üste geldi',
+] as const;
+
+/** Union, kept for callers that only need "is there any distress signal". */
+export const EMOTIONAL_SUPPORT_KEYWORDS = [
+  ...STRONG_DISTRESS_KEYWORDS,
+  ...MILD_DISTRESS_KEYWORDS,
+] as const;
+
+/**
+ * Phrases that must be matched EXACTLY, with typo tolerance switched off.
+ *
+ * Fuzzy matching trades a false negative for a false positive. That trade is
+ * only acceptable on long, distinctive phrases. Anything short, common, or one
+ * edit away from an ordinary Turkish word is listed here so it can never be
+ * reached by an approximate match.
+ */
+export const FUZZY_EXEMPT_PHRASES: readonly string[] = [
+  'zorla dokun', 'zorla ilişki', 'zorla soy', 'zorla bir şey yap',
+  'ilaç içip', 'aşırı doz ilaç', 'aşırı dozda ilaç',
+  'kanama var', 'bayılıyorum', 'felç geçir',
+  'beni dövdü', 'beni dövüyor', 'evde şiddet var',
+  'ölmek istiyorum', 'ölsem daha iyi', 'hiç uyanmasam', 'uyanmasam daha iyi',
+];
 
 /**
  * Category 1/2 absolute-advice requests (docs/02-ETHICAL_CONSTITUTION.md) -

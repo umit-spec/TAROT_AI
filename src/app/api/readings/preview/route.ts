@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { classifyIntake, isCrisisFlag } from '../../../../server/intake';
-import { CRISIS_MESSAGE, CRISIS_RESOURCES } from '../../../../server/intake/crisis-resources';
+import { CRISIS_MESSAGE, resourcesForSubtypes } from '../../../../server/intake/crisis-resources';
 import {
   CrisisResponseSchema,
   FramingPreviewResponseSchema,
@@ -83,7 +83,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const crisisResponse = CrisisResponseSchema.parse({
       status: 'crisis',
       message: CRISIS_MESSAGE,
-      resources: CRISIS_RESOURCES,
+      // Same subtype-aware selection as /api/readings - the two endpoints
+      // must never show different resources for the same disclosure.
+      resources: resourcesForSubtypes(intake.safetyFlags.filter(isCrisisFlag)),
     });
     logPreview({
       requestId,
