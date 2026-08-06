@@ -5,6 +5,12 @@ import {
   RawInterpretationOutput,
 } from '../../types/interpretation';
 import { REFLECTION_PROMPT_FALLBACK } from './providers/shared';
+import {
+  FIELD_POLICIES,
+  governField,
+  type GovernedField,
+  type SafetyCategory,
+} from './safety-policy';
 
 /**
  * docs/02-ETHICAL_CONSTITUTION.md forbidden output patterns, by category.
@@ -148,4 +154,113 @@ export function resolveReflectionPrompt(raw: RawInterpretationOutput): {
  */
 export function finalizeReflectionPrompt(raw: RawInterpretationOutput): InterpretationOutput {
   return { ...raw, reflectionPrompt: resolveReflectionPrompt(raw).reflectionPrompt };
+}
+
+/* ------------------------------------------------------------------ *
+ * H3: field-level governance
+ * ------------------------------------------------------------------ */
+
+/** Categorical record of one field being replaced. Carries no text. */
+export interface FieldFallbackRecord {
+  field: string;
+  /** Which card index, when the field belongs to a card narration. */
+  cardIndex?: number;
+  categories: SafetyCategory[];
+  structural?: 'too_short' | 'too_long';
+}
+
+export interface GovernedInterpretation {
+  output: InterpretationOutput;
+  fieldFallbacks: FieldFallbackRecord[];
+}
+
+function applyField(
+  field: GovernedField,
+  value: string | undefined,
+  records: FieldFallbackRecord[],
+  cardIndex?: number
+): string {
+  const outcome = governField(field, value);
+  if (outcome.source === 'fallback') {
+    records.push({
+      field,
+      ...(cardIndex === undefined ? {} : { cardIndex }),
+      categories: outcome.violations.map((v) => v.category),
+      ...(outcome.structural ? { structural: outcome.structural } : {}),
+    });
+  }
+  return outcome.value;
+}
+
+/**
+ * VALIDATE -> REJECT -> FALLBACK across every governed field (H3).
+ *
+ * A field that violates the safety policy is REPLACED WHOLE by its governed
+ * fallback. It is never edited into compliance: repairing model text would
+ * hide that the model produced something unsafe, and would ship a sentence no
+ * human wrote or reviewed.
+ *
+ * Degradation is per-field on purpose. Before H3 a single bad phrase anywhere
+ * threw, discarding an entire otherwise-good reading; now one unsafe sentence
+ * costs one governed sentence. `validateInterpretation` still runs afterwards
+ * as a whole-output backstop.
+ *
+ * The returned records are categorical only — safe to log, and asserted by
+ * test to contain no user or model text.
+ */
+export function governInterpretation(raw: RawInterpretationOutput): GovernedInterpretation {
+  const fieldFallbacks: FieldFallbackRecord[] = [];
+
+  const opening = applyField('opening', raw.opening, fieldFallbacks);
+  const practicalReflection = applyField('practicalReflection', raw.practicalReflection, fieldFallbacks);
+  const uncertaintyNotice = applyField('uncertaintyNotice', raw.uncertaintyNotice, fieldFallbacks);
+  const reflectionPrompt = applyField(
+    'reflectionPrompt',
+    resolveReflectionPrompt(raw).reflectionPrompt,
+    fieldFallbacks
+  );
+
+  const cards = raw.cards.map((card, i) => ({
+    ...card,
+    symbolicMeaning: applyField('symbolicMeaning', card.symbolicMeaning, fieldFallbacks, i),
+    relevanceToQuestion: applyField('relevanceToQuestion', card.relevanceToQuestion, fieldFallbacks, i),
+    reflection: applyField('reflection', card.reflection, fieldFallbacks, i),
+  }));
+
+  // A pattern that fails is DROPPED rather than replaced: patterns are a list
+  // of observations, and substituting a generic sentence for a specific one
+  // would invent an observation nobody made.
+  const patterns = raw.patterns.filter((p) => {
+    const outcome = governField('patterns', p);
+    if (outcome.source === 'fallback') {
+      fieldFallbacks.push({
+        field: 'patterns',
+        categories: outcome.violations.map((v) => v.category),
+        ...(outcome.structural ? { structural: outcome.structural } : {}),
+      });
+      return false;
+    }
+    return true;
+  });
+
+  return {
+    output: {
+      ...raw,
+      opening,
+      cards,
+      // An empty `patterns` is only backfilled when entries were actually
+      // DROPPED. A reading that legitimately found no pattern must stay
+      // empty — backfilling it would fabricate an observation nobody made,
+      // which is the exact failure mode "reject, never repair" exists to
+      // prevent.
+      patterns:
+        patterns.length === 0 && raw.patterns.length > 0
+          ? [FIELD_POLICIES.patterns.fallback]
+          : patterns,
+      practicalReflection,
+      uncertaintyNotice,
+      reflectionPrompt,
+    },
+    fieldFallbacks,
+  };
 }
