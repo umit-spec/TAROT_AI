@@ -22,6 +22,9 @@ const OPENING_BY_PERSONA: Record<Persona, string> = {
  */
 export class MockProvider implements InterpretationProvider {
   readonly name = 'mock';
+  // H4: no network call, no cost. Explicitly free so the deterministic
+  // fallback stays available even when the spend gate is closed.
+  readonly isFree = true;
   // No prompt concept at all (no LLM call) - explicit undefined, not just
   // omitted, so callers can rely on the property existing on this class.
   readonly promptVersion: string | undefined = undefined;

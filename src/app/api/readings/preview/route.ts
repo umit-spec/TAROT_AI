@@ -7,6 +7,7 @@ import {
   PreviewRequestSchema,
 } from '../../../../types/api';
 import { presentFraming } from '../../../../lib/framing-presenter';
+import { readJsonBody } from '../../../../server/http/read-json-body';
 import { REQUEST_ID_HEADER, getOrCreateRequestId } from '../../../../server/observability/request-id';
 import { logPreview } from '../../../../server/observability/log';
 import {
@@ -55,16 +56,25 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
   }
 
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    logPreview({ requestId, status: 400, latencyMs: performance.now() - start, outcome: 'invalid' });
-    return withRequestId(NextResponse.json({ error: 'invalid_json_body' }, { status: 400 }), requestId);
+  // H4: same streaming byte ceiling as /api/readings - the preview must not
+  // be a cheaper way to push an oversized body at the server.
+  const bodyResult = await readJsonBody(request);
+  if (!bodyResult.ok) {
+    const tooLarge = bodyResult.error === 'body_too_large';
+    logPreview({
+      requestId,
+      status: tooLarge ? 413 : 400,
+      latencyMs: performance.now() - start,
+      outcome: 'invalid',
+    });
+    return withRequestId(
+      NextResponse.json({ error: bodyResult.error }, { status: tooLarge ? 413 : 400 }),
+      requestId,
+    );
   }
 
   // STRICT: unknown keys (a smuggled persona/safetyFlags/seed) are rejected.
-  const parsed = PreviewRequestSchema.safeParse(body);
+  const parsed = PreviewRequestSchema.safeParse(bodyResult.value);
   if (!parsed.success) {
     logPreview({ requestId, status: 400, latencyMs: performance.now() - start, outcome: 'invalid' });
     return withRequestId(

@@ -12,6 +12,7 @@ import { drawCards } from './deck';
 import { buildInterpretations } from './deterministic';
 import { InterpretationProvider } from './providers/types';
 import { MockProvider } from './providers/mock';
+import { ProviderGateError, runGuardedProviderCall } from '../observability/provider-gate';
 import { findPatterns } from './synthesis';
 import {
   ReadingValidationError,
@@ -29,6 +30,10 @@ import {
  * real provider/network error are different problems with different fixes.
  */
 function classifyFallbackReason(err: unknown): FallbackReason {
+  // H4: a gate block is NOT a provider failure - the provider was never
+  // called. Keeping these distinct lets an operator tell "the model broke"
+  // apart from "we hit our own ceiling" and "we are shedding load".
+  if (err instanceof ProviderGateError) return err.reason;
   if (err instanceof ReadingValidationError) return 'red-line-rejected';
   if (err instanceof ZodError) return 'schema-invalid';
   return 'provider-error';
@@ -85,7 +90,15 @@ async function runProvider(
   knowledge: KnowledgeContext,
   questionText: string
 ): Promise<{ output: InterpretationOutput; reflectionPromptSource: 'provider' | 'fallback' }> {
-  const raw = await provider.generate({ reading, intake, knowledge, questionText });
+  // H4: every provider call passes the gate (kill switch, daily spend
+  // ceiling, concurrency bound) UNLESS the provider declares itself free.
+  // Default-gated is the fail-safe direction - see providers/types.ts.
+  const raw = provider.isFree
+    ? await provider.generate({ reading, intake, knowledge, questionText })
+    : await runGuardedProviderCall(
+        () => provider.generate({ reading, intake, knowledge, questionText }),
+        () => provider.getLastUsage?.()
+      );
   // Union, not overwrite: a provider could someday add its own flags
   // (e.g. detecting tone issues) on top of what Intake already found.
   const safetyFlags = Array.from(new Set([...raw.safetyFlags, ...intake.safetyFlags]));

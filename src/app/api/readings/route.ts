@@ -10,6 +10,8 @@ import {
 import { CrisisResponseSchema, ReadingRequestSchema, ReadingResponseSchema } from '../../../types/api';
 import { REQUEST_ID_HEADER, getOrCreateRequestId } from '../../../server/observability/request-id';
 import { logReading } from '../../../server/observability/log';
+import { readJsonBody } from '../../../server/http/read-json-body';
+import { gateSnapshot } from '../../../server/observability/provider-gate';
 import {
   RateLimiter,
   clientKey,
@@ -53,15 +55,25 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
   }
 
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    logReading({ requestId, status: 400, latencyMs: performance.now() - start, outcome: 'invalid' });
-    return withRequestId(NextResponse.json({ error: 'invalid_json_body' }, { status: 400 }), requestId);
+  // H4: byte ceiling enforced WHILE streaming, before parsing and before the
+  // schema - otherwise an oversized payload is fully buffered before H1's
+  // question limit ever gets to reject it.
+  const bodyResult = await readJsonBody(request);
+  if (!bodyResult.ok) {
+    const tooLarge = bodyResult.error === 'body_too_large';
+    logReading({
+      requestId,
+      status: tooLarge ? 413 : 400,
+      latencyMs: performance.now() - start,
+      outcome: 'invalid',
+    });
+    return withRequestId(
+      NextResponse.json({ error: bodyResult.error }, { status: tooLarge ? 413 : 400 }),
+      requestId,
+    );
   }
 
-  const parsed = ReadingRequestSchema.safeParse(body);
+  const parsed = ReadingRequestSchema.safeParse(bodyResult.value);
   if (!parsed.success) {
     logReading({ requestId, status: 400, latencyMs: performance.now() - start, outcome: 'invalid' });
     return withRequestId(
@@ -125,6 +137,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     },
   });
 
+  const spend = gateSnapshot();
   // Structured, redacted log: derived signals only, never question text (D4/D5).
   logReading({
     requestId,
@@ -139,6 +152,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     fallbackReason,
     inputTokens: usage?.inputTokens,
     outputTokens: usage?.outputTokens,
+    // H4 aggregate spend/ops counters. Process-local (see spend-guard.ts).
+    dailyProviderCalls: spend.calls,
+    dailyTotalTokens: spend.totalTokens,
+    estimatedCostUsd: spend.estimatedCostUsd,
+    providerConcurrencyActive: spend.concurrency.active,
+    providerConcurrencyQueued: spend.concurrency.queued,
   });
 
   return withRequestId(NextResponse.json(response, { status: 200 }), requestId);

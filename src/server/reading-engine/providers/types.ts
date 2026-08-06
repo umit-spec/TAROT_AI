@@ -11,6 +11,21 @@ import type { TokenUsage } from '../../../types/evaluation';
  */
 export interface InterpretationProvider {
   readonly name: string;
+  /**
+   * H4: is calling this provider free?
+   *
+   * The spend/concurrency gate applies to every provider EXCEPT those that
+   * declare themselves free. MockProvider must stay ungated — gating it would
+   * make the deterministic fallback unavailable at exactly the moment the gate
+   * is what triggered the fallback, turning a cost control into an outage.
+   *
+   * Phrased as `isFree` rather than `isPaid` so the DEFAULT IS FAIL-SAFE: a
+   * provider that declares nothing is gated. The opposite spelling would mean
+   * a new paid provider that forgot the flag silently bypassed the spend
+   * ceiling, which is precisely the failure this gate exists to prevent.
+   * Declaring a provider free is a deliberate, visible act.
+   */
+  readonly isFree?: boolean;
   // Undefined for providers with no prompt concept (MockProvider - no LLM
   // call at all). Reported as "n/a" in the API's versions.prompt field.
   readonly promptVersion?: string;
