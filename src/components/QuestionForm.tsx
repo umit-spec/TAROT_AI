@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useId, useRef, useState } from 'react';
+import { MAX_QUESTION_CHARS } from '../server/limits';
 
 type TopicHint = 'relationship' | 'career' | 'self';
 
@@ -62,6 +63,7 @@ export function QuestionForm({
   const headingId = useId();
   const hintIdBase = useId();
   const scaffoldNoteId = useId();
+  const sensitiveNoteId = useId();
 
   useEffect(() => {
     // First compose entry: focus the screen heading (a calm entrance, not a
@@ -188,7 +190,8 @@ export function QuestionForm({
             onChange={(e) => setQuestion(e.target.value)}
             disabled={disabled}
             rows={4}
-            aria-describedby={scaffoldNoteId}
+            maxLength={MAX_QUESTION_CHARS}
+            aria-describedby={`${scaffoldNoteId} ${sensitiveNoteId}`}
             placeholder="Merak ettiğiniz bir şey varsa yazabilirsiniz - boş da bırakabilirsiniz."
             className="mt-2 min-h-[8rem] w-full resize-y rounded-2xl border border-border-subtle bg-surface-raised p-4 text-base text-foreground placeholder:text-foreground-muted focus:border-border-strong disabled:cursor-not-allowed disabled:opacity-60"
           />
@@ -199,6 +202,18 @@ export function QuestionForm({
             className="mt-3 rounded-xl border-l-2 border-gold/60 bg-violet-deep/10 px-3 py-2 text-[13px] text-foreground-secondary"
           >
             İpucu: &quot;ne olacak?&quot; yerine &quot;neyi düşünmeliyim?&quot; çoğu zaman daha çok işe yarar.
+          </p>
+
+          {/*
+            H1 sensitive-data helper. The consent modal states this once at the
+            start; this repeats it at the exact moment the user is typing,
+            which is when it can still change what they write. Wired into
+            aria-describedby so it is announced with the field, not left as
+            decoration a screen-reader user never hears.
+          */}
+          <p id={sensitiveNoteId} className="mt-2 px-3 text-[13px] text-foreground-muted">
+            Sorunuz, yorumu oluşturmak için üçüncü taraf bir yapay zeka sağlayıcısına (Anthropic - Claude) gönderilir.
+            Kimlik, iletişim, sağlık veya finansal bilgi gibi sizi tanımlayabilecek ayrıntıları yazmayın.
           </p>
         </div>
 

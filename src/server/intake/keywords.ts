@@ -70,22 +70,114 @@ export const SPIRITUAL_PREFERENCE_KEYWORDS = {
 } as const;
 
 /**
- * docs/02-ETHICAL_CONSTITUTION.md Crisis Detection categories, verbatim
- * trigger words. Any match here means the reading must not be delivered
- * by the caller (Intake Engine only flags - see IntakeContextSchema doc).
+ * docs/02-ETHICAL_CONSTITUTION.md Crisis Detection categories.
+ *
+ * H1 REMEDIATION — measured false positives removed. The previous list matched
+ * bare stems and generic verb phrases with `includes()`, which produced these
+ * measured results (docs/MASTER_PROGRAM_STATE_RECOVERY.md §5.2):
+ *
+ *   'zorla'              matched "zorlanıyorum" / "zorlamam"
+ *                        → "İşimde çok zorlanıyorum" flagged as SEXUAL ASSAULT
+ *   'istemeden'          means "unintentionally" and carries no assault sense
+ *                        → "İstemeden onu kırdım" flagged as SEXUAL ASSAULT
+ *   'bitirmek istiyorum' matched "projeyi bitirmek istiyorum"    → false suicide flag
+ *   'son vermek istiyorum' matched "ilişkiye son vermek istiyorum" → false suicide flag
+ *
+ * The rule now applied to every entry: a crisis keyword must be a phrase that
+ * cannot appear in an ordinary, non-crisis Turkish sentence. Bare stems that
+ * take common suffixes are not allowed. Entries that need an explicit object
+ * ("hayatıma son vermek") carry it.
+ *
+ * Matching is clause-scoped with negation and reported-speech exclusions —
+ * see ./crisis-match.ts. Any match means the caller must withhold the reading
+ * (the Intake Engine only flags; see IntakeContextSchema doc).
+ *
+ * Coverage additions below (overdose, partner violence, passive death wish)
+ * close measured false negatives. Morphology, transliteration, and typo
+ * tolerance remain H2 scope.
  */
 export const CRISIS_KEYWORDS = {
   crisis_suicide_detected: [
-    'intihar', 'kendime zarar', 'kendine zarar', 'son vermek istiyorum',
-    'artık yaşayamam', 'bitirmek istiyorum', 'yaşamak istemiyorum',
+    'intihar',
+    'kendime zarar',
+    'kendine zarar',
+    'canıma kıy',
+    'hayatıma son ver',
+    'yaşamıma son ver',
+    'hayatımı bitir',
+    'artık yaşayamam',
+    'yaşamak istemiyorum',
+    'yaşamak istemiyor',
+    'ölmek istiyorum',
+    'ölsem daha iyi',
+    'uyanmasam daha iyi',
+    'hiç uyanmasam',
+    // NOT included: 'yok olmak istiyorum' / 'ortadan kaybolmak istiyorum'.
+    // Both are ordinary Turkish idiom for wanting a break or escaping
+    // embarrassment ("Toplantıda yok olmak istedim") and produced false
+    // positives in H1 red-teaming. The explicit phrases above cover the real
+    // disclosures without them.
+    // Method / overdose disclosures. Bound to medication - a bare 'aşırı doz'
+    // matched "Kahve aşırı doz oldu" in red-teaming.
+    'ilaçlarımı bir kerede',
+    'bütün ilaçlarımı iç',
+    'aşırı doz ilaç',
+    'aşırı dozda ilaç',
+    'ilaç içip',
+    'bileklerimi kes',
+    'kendimi asmak',
   ],
   crisis_violence_detected: [
-    'öldürmek istiyorum', 'birine zarar vermek', 'yaralamak istiyorum', 'intikam almak istiyorum',
+    'öldürmek istiyorum',
+    'birine zarar vermek',
+    'yaralamak istiyorum',
+    'intikam almak istiyorum',
   ],
   crisis_medical_detected: [
-    'göğüs ağrısı', 'nefes alamıyorum', 'bayılıyorum', 'kanama var', 'kalp krizi',
+    'göğüs ağrısı',
+    'göğsümde ağrı',
+    'göğsümde şiddetli',
+    'nefes alamıyorum',
+    'bayılıyorum',
+    'kanama var',
+    'kalp krizi',
+    'felç geçir',
   ],
-  crisis_assault_detected: ['tecavüz', 'cinsel saldırı', 'zorla', 'istemeden'],
+  crisis_assault_detected: [
+    'tecavüz',
+    'cinsel saldırı',
+    'cinsel istismar',
+    'taciz ediyor',
+    'tacize uğradım',
+    'rızam dışında',
+    'rızası dışında',
+    // 'zorla' is NEVER a keyword on its own - it is a prefix of the very
+    // common 'zorlan-'/'zorlam-' stems ("İşimde zorlanıyorum"), which is what
+    // produced the measured sexual-assault false positives. It only appears
+    // here bound to an object that makes the coercion explicit.
+    'zorla dokun',
+    'zorla ilişki',
+    'zorla bir şey yap',
+    'zorla soy',
+    // Partner / domestic violence disclosures. 'bana vuruyor' is NOT listed
+    // bare - it matched "Güneş bana vuruyor" in red-teaming - so the
+    // perpetrator is named explicitly, or the verb is one with no benign
+    // reading ('dövüyor').
+    'eşim bana vuruyor',
+    'kocam bana vuruyor',
+    'karım bana vuruyor',
+    'sevgilim bana vuruyor',
+    'partnerim bana vuruyor',
+    'babam bana vuruyor',
+    'annem bana vuruyor',
+    'abim bana vuruyor',
+    'ağabeyim bana vuruyor',
+    'beni dövüyor',
+    'beni dövdü',
+    'bana şiddet uyguluyor',
+    'evde şiddet görüyorum',
+    'evde şiddet var',
+  ],
 } as const;
 
 /**

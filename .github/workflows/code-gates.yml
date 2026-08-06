@@ -16,6 +16,12 @@ on:
       - main
   workflow_dispatch:
 
+# H1: least privilege. This workflow only reads the checkout and reports a
+# check - it never writes to the repo, so the default (broader) token scope
+# was unnecessary standing authority on every PR run.
+permissions:
+  contents: read
+
 jobs:
   code-gates:
     name: lint / typecheck / test / build

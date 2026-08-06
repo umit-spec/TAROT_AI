@@ -80,6 +80,29 @@ export function ConsentModal({ onAccept, onDecline }: ConsentModalProps) {
           ))}
         </ul>
 
+        {/* H1 third-party AI disclosure. Placed BEFORE the "Anlıyorum"
+            checkbox: consent to continue is only meaningful if what the user
+            is consenting to is visible above the control they tick. */}
+        <p className="mt-5 text-xs font-semibold uppercase tracking-wide text-foreground-muted">
+          {CONSENT_MODAL_COPY.dataUseHeading}
+        </p>
+        <ul data-testid="consent-data-use" className="mt-2 space-y-1.5">
+          {CONSENT_MODAL_COPY.dataUse.map((item) => (
+            <li
+              key={item}
+              className="relative pl-4 text-sm text-foreground-secondary before:absolute before:left-0 before:top-[0.55em] before:h-1 before:w-1 before:rounded-full before:bg-foreground-muted"
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+        <p
+          data-testid="consent-sensitive-note"
+          className="mt-3 rounded-xl border border-border-subtle bg-surface-interactive/40 px-3 py-2 text-sm text-foreground-secondary"
+        >
+          {CONSENT_MODAL_COPY.sensitiveDataNote}
+        </p>
+
         <label
           htmlFor={checkboxId}
           className="mt-6 flex min-h-[44px] cursor-pointer items-center gap-3 rounded-xl border border-border-subtle px-3 py-2"

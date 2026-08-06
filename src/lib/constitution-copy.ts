@@ -20,6 +20,23 @@ export const CONSENT_MODAL_COPY = {
   checkboxLabel: 'Anlıyorum',
   acceptLabel: 'Devam Et',
   declineLabel: 'Çıkış',
+
+  /**
+   * H1 third-party AI disclosure. Before this, nothing in the product told a
+   * user that the text they type leaves the application and is sent to an
+   * external AI provider. Naming the provider is deliberate: "teknoloji
+   * ortaklarımız" is exactly the vague phrasing this disclosure exists to
+   * avoid. If the provider ever changes, this string changes with it - it is
+   * the single source, asserted by test.
+   */
+  dataUseHeading: 'VERİLERİNİZ:',
+  dataUse: [
+    'Yazdığınız soru, yorumu oluşturmak için üçüncü taraf bir yapay zeka sağlayıcısına (Anthropic - Claude) gönderilir.',
+    'Sorunuzun metni sunucu kayıtlarımıza yazılmaz.',
+    'Okumalarınız hesabınızda saklanmaz; bu sürümde kayıt tutulmaz.',
+  ],
+  sensitiveDataNote:
+    'Lütfen kimlik, iletişim, sağlık veya finansal bilgi gibi sizi tanımlayabilecek ayrıntıları yazmayın. Sorunuzu genel tutun.',
 } as const;
 
 export const RESULT_DISCLAIMER_COPY = {

@@ -4,6 +4,7 @@ import {
   CRISIS_KEYWORDS,
   PROMPT_INJECTION_PATTERNS,
 } from './keywords';
+import { matchesCrisisCategory } from './crisis-match';
 
 export const MIN_MEANINGFUL_INPUT_LENGTH = 3;
 
@@ -21,8 +22,11 @@ export function computeSafetyFlags(
 ): string[] {
   const flags: string[] = [];
 
+  // Clause-scoped, with negation and reported-speech exclusions (H1). NOT a
+  // plain substring scan - see ./crisis-match.ts for why message-level
+  // negation would be unsafe.
   for (const [flag, keywords] of Object.entries(CRISIS_KEYWORDS)) {
-    if (countMatches(normalizedText, keywords) > 0) flags.push(flag);
+    if (matchesCrisisCategory(normalizedText, flag, keywords)) flags.push(flag);
   }
 
   for (const [flag, keywords] of Object.entries(ABSOLUTE_ADVICE_KEYWORDS)) {
