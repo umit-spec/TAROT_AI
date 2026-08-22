@@ -29,6 +29,9 @@
     "evaluation:cost": "tsx scripts/evaluation/cost.ts",
     "evaluation:cleanup-raw": "tsx scripts/evaluation/cleanup-raw.ts",
     "evaluation:report": "tsx scripts/evaluation/report.ts",
+    "cards:audit": "tsx scripts/generate-card-interpretations.ts --audit",
+    "cards:generate": "tsx scripts/generate-card-interpretations.ts",
+    "cards:validate": "tsx scripts/generate-card-interpretations.ts --validate",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\""
   },
