@@ -8,7 +8,7 @@
       "arcana": "major",
       "number": 0,
       "symbolicMeaning": "Yeni bir başlangıç, bilinmeyene ilk adım, saf potansiyel.",
-      "psychologicalReflection": "Kontrolü bırakıp güvenle ilerleme kapasitesi; bilinmezlik karşısında meraklı kalabilme.",
+      "psychologicalReflection": "Kontrolü bırakıp güvenle ilerleme kapasitesi; bilinmezlik karşısında meraklı ve açık kalabilme becerisi.",
       "keywords": [
         "başlangıç",
         "cesaret",
@@ -78,7 +78,7 @@
       "arcana": "major",
       "number": 2,
       "symbolicMeaning": "Sezgi, henüz sözcüklere dökülmemiş bilgi, iç sesi dinleme.",
-      "psychologicalReflection": "Analitik zihnin ötesinde, bedensel ve duygusal sezgiye güvenme kapasitesi.",
+      "psychologicalReflection": "Analitik zihnin ötesinde, bedensel ve duygusal sezgiye güvenip sabırla dinleme kapasitesi.",
       "keywords": [
         "sezgi",
         "içgörü",
@@ -112,8 +112,8 @@
       "name_tr": "İmparatoriçe",
       "arcana": "major",
       "number": 3,
-      "symbolicMeaning": "Bereket, yaratıcılık, besleyici büyüme.",
-      "psychologicalReflection": "Kendine ve başkalarına şefkatle bakabilme, yaratıcı süreçlere alan açma.",
+      "symbolicMeaning": "Bereket, yaratıcılık, sabırla beslenen ve zamanla olgunlaşan büyüme süreci.",
+      "psychologicalReflection": "Kendine ve başkalarına şefkatle bakabilme; yaratıcı süreçlere sabırla ve güvenle alan açma.",
       "keywords": [
         "bereket",
         "yaratıcılık",
@@ -147,8 +147,8 @@
       "name_tr": "İmparator",
       "arcana": "major",
       "number": 4,
-      "symbolicMeaning": "Yapı, düzen, sınır koyma.",
-      "psychologicalReflection": "İstikrar arayışı; kontrolün sağlıklı ile katı arasındaki sınırı.",
+      "symbolicMeaning": "Yapı kurma, düzen oluşturma, sağlıklı sınırlar koyabilme kapasitesi.",
+      "psychologicalReflection": "İstikrar arayışı; kontrolün sağlıklı yönlendirme ile katı baskıya dönüşmesi arasındaki ince sınırı fark etme.",
       "keywords": [
         "yapı",
         "otorite",
@@ -182,7 +182,7 @@
       "name_tr": "Hiyerofant",
       "arcana": "major",
       "number": 5,
-      "symbolicMeaning": "Gelenek, öğrenme, paylaşılan değerler.",
+      "symbolicMeaning": "Gelenek, öğrenme ve bir topluluğun paylaştığı ortak değerler.",
       "psychologicalReflection": "Bir topluluğa ya da inanç sistemine ait olma ihtiyacı; öğrenilenle kendi yolunu bulma arasındaki gerilim.",
       "keywords": [
         "gelenek",
@@ -216,7 +216,7 @@
       "name_tr": "Âşıklar",
       "arcana": "major",
       "number": 6,
-      "symbolicMeaning": "Seçim, uyum, değerlerin hizalanması.",
+      "symbolicMeaning": "Seçim yapma, uyum arama, değerlerin gerçek anlamda hizalanması.",
       "psychologicalReflection": "Kendi değerleriyle uyumlu bir seçim yapma kapasitesi; başka bir kişiyle gerçek bağlantı kurma.",
       "keywords": [
         "seçim",
@@ -252,7 +252,7 @@
       "arcana": "major",
       "number": 7,
       "symbolicMeaning": "Odaklanmış irade, zıt güçleri aynı yöne kanalize etme.",
-      "psychologicalReflection": "İç çatışmaları bir hedef etrafında birleştirme becerisi.",
+      "psychologicalReflection": "İç çatışmaları bastırmadan tanıyıp, hepsini ortak bir hedef etrafında birleştirme becerisi.",
       "keywords": [
         "odak",
         "irade",
@@ -286,7 +286,7 @@
       "arcana": "major",
       "number": 8,
       "symbolicMeaning": "Zorlamadan değil sabırla ve şefkatle güç gösterme.",
-      "psychologicalReflection": "İçsel dürtüleri bastırmak yerine onlarla nazikçe ilişki kurma.",
+      "psychologicalReflection": "İçsel dürtüleri bastırmak yerine onlarla sabırla ve nazikçe ilişki kurabilme kapasitesi.",
       "keywords": [
         "sabır",
         "şefkat",
@@ -320,7 +320,7 @@
       "arcana": "major",
       "number": 9,
       "symbolicMeaning": "İçe çekilme, yalnız düşünme, kendi rehberliğini arama.",
-      "psychologicalReflection": "Dış gürültüden uzaklaşıp kendi iç sesine alan açma.",
+      "psychologicalReflection": "Dış gürültüden bilinçli biçimde uzaklaşıp kendi iç sesine sabırla alan açma.",
       "keywords": [
         "içe dönüş",
         "yalnızlık",
@@ -354,8 +354,8 @@
       "name_tr": "Kaderin Tekerleği",
       "arcana": "major",
       "number": 10,
-      "symbolicMeaning": "Döngüler, değişim, kontrolünüz dışındaki etkenler.",
-      "psychologicalReflection": "Değişimin kaçınılmaz olduğunu kabul edip esneklik geliştirme.",
+      "symbolicMeaning": "Döngüler, kaçınılmaz değişim ve kontrolünüz dışında kalan etkenler.",
+      "psychologicalReflection": "Değişimin kaçınılmaz olduğunu kabul edip, kontrol edemediğiniz şeyler karşısında esneklik geliştirme.",
       "keywords": [
         "değişim",
         "döngü",
@@ -389,8 +389,8 @@
       "name_tr": "Adalet",
       "arcana": "major",
       "number": 11,
-      "symbolicMeaning": "Denge, hesap verebilirlik, adil karar.",
-      "psychologicalReflection": "Kendi eylemlerinizin sonuçlarını dürüstçe değerlendirme.",
+      "symbolicMeaning": "Denge, dürüst hesap verebilirlik ve adil bir karar süreci.",
+      "psychologicalReflection": "Kendi eylemlerinizin sonuçlarını dürüstçe değerlendirip, sorumluluğu üstlenme kapasitesi; suçlamadan hesap sorma.",
       "keywords": [
         "denge",
         "sorumluluk",
@@ -424,8 +424,8 @@
       "name_tr": "Asılı Adam",
       "arcana": "major",
       "number": 12,
-      "symbolicMeaning": "Duraklama, bakış açısını değiştirme, teslimiyet.",
-      "psychologicalReflection": "Kontrolü bırakıp farklı bir açıdan bakmayı kabul etme.",
+      "symbolicMeaning": "Duraklama, bilinçli bir bakış açısı değişimi ve teslimiyet.",
+      "psychologicalReflection": "Kontrolü bırakıp, ilerlemek yerine durup farklı bir açıdan bakmayı kabul etme.",
       "keywords": [
         "duraklama",
         "perspektif",
@@ -494,7 +494,7 @@
       "arcana": "major",
       "number": 14,
       "symbolicMeaning": "Ölçülülük, sabırlı harmanlama, uçların arasında orta yolu bulma.",
-      "psychologicalReflection": "Zıt ihtiyaçlar arasında sürdürülebilir bir denge kurma.",
+      "psychologicalReflection": "Zıt görünen ihtiyaçlar arasında sabırla ve ölçülü biçimde sürdürülebilir bir denge kurma.",
       "keywords": [
         "denge",
         "ölçülülük",
@@ -527,7 +527,7 @@
       "name_tr": "Şeytan",
       "arcana": "major",
       "number": 15,
-      "symbolicMeaning": "Bağlanma, alışkanlık, kendi kendine koyduğu sınırlar.",
+      "symbolicMeaning": "Bağlanma, alışkanlık ve kendi kendine koyduğunuz görünmez sınırlar.",
       "psychologicalReflection": "Özgür hissetmeyi engelleyen alışkanlık ya da bağımlılık örüntülerini fark etme.",
       "keywords": [
         "bağlanma",
@@ -631,8 +631,8 @@
       "name_tr": "Ay",
       "arcana": "major",
       "number": 18,
-      "symbolicMeaning": "Belirsizlik, bilinçaltı, netleşmemiş korkular.",
-      "psychologicalReflection": "Net olmayan bir durumda kaygıyı fark edip yönetme.",
+      "symbolicMeaning": "Belirsizlik, bilinçaltının derinlerinde saklı, henüz netleşmemiş korkular.",
+      "psychologicalReflection": "Net olmayan bir durumda beliren kaygıyı fark edip, onunla sabırla ilişki kurma.",
       "keywords": [
         "belirsizlik",
         "sezgi",
@@ -667,7 +667,7 @@
       "arcana": "major",
       "number": 19,
       "symbolicMeaning": "Netlik, canlılık, kendini olduğun gibi ifade etme.",
-      "psychologicalReflection": "İçsel bir netlik ve kendine güvenle görünür olma.",
+      "psychologicalReflection": "İçsel bir netlik ve kendine güvenle, olduğun gibi görünür olabilme kapasitesi.",
       "keywords": [
         "netlik",
         "canlılık",
@@ -701,7 +701,7 @@
       "arcana": "major",
       "number": 20,
       "symbolicMeaning": "Hesaplaşma, kendini değerlendirme, bir çağrıya yanıt verme.",
-      "psychologicalReflection": "Geçmişi dürüstçe değerlendirip bilinçli bir sonraki adım atma.",
+      "psychologicalReflection": "Geçmişi dürüstçe değerlendirip, suçlamadan bilinçli bir sonraki adımı atabilme kapasitesi.",
       "keywords": [
         "hesaplaşma",
         "netleşme",
@@ -735,8 +735,8 @@
       "name_tr": "Dünya",
       "arcana": "major",
       "number": 21,
-      "symbolicMeaning": "Tamamlanma, bütünlük, bir döngünün başarıyla kapanması.",
-      "psychologicalReflection": "Bir sürecin bütünlüğünü görüp emeğin karşılığını kabul etme.",
+      "symbolicMeaning": "Tamamlanma, bütünlük ve bir döngünün emekle başarıyla kapanması.",
+      "psychologicalReflection": "Bir sürecin bütünlüğünü görüp, emeğin karşılığını içtenlikle kabul edebilme kapasitesi.",
       "keywords": [
         "tamamlanma",
         "bütünlük",
