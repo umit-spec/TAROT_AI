@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { mkdtempSync, rmSync, copyFileSync, readFileSync } from 'fs';
+import { mkdtempSync, rmSync, copyFileSync, readFileSync, writeFileSync } from 'fs';
 import { tmpdir } from 'os';
 import { join } from 'path';
 import {
@@ -232,6 +232,73 @@ describe('CardInterpreterSkill', () => {
       const audit = skill.auditInterpretations(false);
       expect(audit.total).toBe(22);
       expect(audit.valid).toBe(22);
+    });
+  });
+
+  describe('auditBundleIntegrity (cross-card consistency)', () => {
+    // Per-card validateInterpretation() only ever looks at one card, so it
+    // cannot catch a duplicated number, a copy-pasted sentence reused across
+    // two cards, or a pairRelations entry pointing at a cardId that doesn't
+    // exist. This is what actually checks that.
+    it('should report the current bundle as internally consistent', () => {
+      const result = skill.auditBundleIntegrity();
+      expect(result.valid).toBe(true);
+      expect(result.issues).toHaveLength(0);
+    });
+
+    it('should detect a duplicated card number', () => {
+      const tempDir = mkdtempSync(join(tmpdir(), 'card-interpreter-test-'));
+      try {
+        const bundle = JSON.parse(
+          readFileSync(join(process.cwd(), 'data', 'knowledge', 'bundle-v0.1.0.json'), 'utf-8')
+        );
+        bundle.cards[1].number = bundle.cards[0].number; // duplicate 0-fool's number onto 1-magician
+        writeFileSync(join(tempDir, 'bundle-v0.1.0.json'), JSON.stringify(bundle));
+
+        const scoped = new CardInterpreterSkill(tempDir);
+        const result = scoped.auditBundleIntegrity();
+        expect(result.valid).toBe(false);
+        expect(result.issues.some((i) => i.includes('Duplicate card numbers'))).toBe(true);
+        expect(result.issues.some((i) => i.includes('Missing card numbers'))).toBe(true);
+      } finally {
+        rmSync(tempDir, { recursive: true, force: true });
+      }
+    });
+
+    it('should detect duplicated interpretive text reused across two cards', () => {
+      const tempDir = mkdtempSync(join(tmpdir(), 'card-interpreter-test-'));
+      try {
+        const bundle = JSON.parse(
+          readFileSync(join(process.cwd(), 'data', 'knowledge', 'bundle-v0.1.0.json'), 'utf-8')
+        );
+        bundle.cards[1].symbolicMeaning = bundle.cards[0].symbolicMeaning; // copy-paste artifact
+        writeFileSync(join(tempDir, 'bundle-v0.1.0.json'), JSON.stringify(bundle));
+
+        const scoped = new CardInterpreterSkill(tempDir);
+        const result = scoped.auditBundleIntegrity();
+        expect(result.valid).toBe(false);
+        expect(result.issues.some((i) => i.includes('Duplicate symbolicMeaning'))).toBe(true);
+      } finally {
+        rmSync(tempDir, { recursive: true, force: true });
+      }
+    });
+
+    it('should detect a pairRelations entry pointing at an unknown cardId', () => {
+      const tempDir = mkdtempSync(join(tmpdir(), 'card-interpreter-test-'));
+      try {
+        const bundle = JSON.parse(
+          readFileSync(join(process.cwd(), 'data', 'knowledge', 'bundle-v0.1.0.json'), 'utf-8')
+        );
+        bundle.pairRelations.push({ previousCardId: '99-nonexistent', focusCardId: '01-magician' });
+        writeFileSync(join(tempDir, 'bundle-v0.1.0.json'), JSON.stringify(bundle));
+
+        const scoped = new CardInterpreterSkill(tempDir);
+        const result = scoped.auditBundleIntegrity();
+        expect(result.valid).toBe(false);
+        expect(result.issues.some((i) => i.includes('99-nonexistent'))).toBe(true);
+      } finally {
+        rmSync(tempDir, { recursive: true, force: true });
+      }
     });
   });
 

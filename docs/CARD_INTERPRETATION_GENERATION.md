@@ -26,7 +26,8 @@ The main skill class with all generation and validation logic.
 - `getNonReferenceCards()`: Get the 21 other cards
 - `generatePromptForCard()`: Create a complete Claude prompt, reading the reference card live from the bundle (not a hardcoded copy) so the prompt can never drift from what `01-magician` actually contains
 - `validateInterpretation()`: Check output against reference quality standards — structure, word-count gates, a 2-3 item `redFlags.avoid` range, and a heuristic check for English content leaking into the Turkish-only fields
-- `auditInterpretations()`: Run a full audit across all 22 cards, **strict by default**
+- `auditInterpretations()`: Run a full per-card audit across all 22 cards, **strict by default**
+- `auditBundleIntegrity()`: Cross-card consistency checks a per-card audit cannot see — duplicate/missing card numbers, duplicate `cardId`/`name_en`/`name_tr`, interpretive text copy-pasted verbatim across two different cards, and `pairRelations` entries pointing at a `cardId` that doesn't exist
 - `upsertCard()`: Insert or replace one card (matched by `cardId`) in the bundle and persist it
 - `saveBundle()`: Persist a full bundle to disk (used internally by `upsertCard()`)
 
@@ -72,6 +73,12 @@ This runs **strict** by default (word-count gates, redFlags range, English-leak
 check all included). Call `auditInterpretations(false)` directly if a looser,
 structure-only pass is ever needed — the CLI does not expose that option
 because a looser default is what let 18/22 cards silently fail before.
+
+`npm run cards:audit` also runs `auditBundleIntegrity()` right after the
+per-card pass — a separate cross-card check for duplicate numbers/ids/names
+and interpretive text copy-pasted across two different cards, neither of
+which a per-card check can ever see. Exit code is non-zero if either pass
+finds a problem, so this is CI-safe.
 
 ### 2. Generate Prompt for One Card
 ```bash

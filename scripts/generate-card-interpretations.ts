@@ -59,7 +59,7 @@ async function main() {
 
   // Handle --audit flag
   if (args.includes('--audit')) {
-    console.log('Running audit on existing interpretations...\n');
+    console.log('Running per-card audit (strict)...\n');
     const audit = skill.auditInterpretations();
 
     console.log(`Total cards: ${audit.total}`);
@@ -74,6 +74,21 @@ async function main() {
           console.log(`    • ${issue}`);
         }
       }
+    }
+
+    console.log('\nRunning bundle-wide consistency audit (cross-card)...\n');
+    const integrity = skill.auditBundleIntegrity();
+    if (integrity.valid) {
+      console.log('✓ No cross-card consistency issues (numbering, ids, names, duplicated text, pairRelations).');
+    } else {
+      console.log(`✗ ${integrity.issues.length} cross-card issue(s) found:\n`);
+      for (const issue of integrity.issues) {
+        console.log(`  • ${issue}`);
+      }
+    }
+
+    if (audit.warnings.length > 0 || !integrity.valid) {
+      process.exitCode = 1;
     }
     return;
   }

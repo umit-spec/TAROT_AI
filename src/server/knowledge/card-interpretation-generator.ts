@@ -44,6 +44,7 @@ export interface CardInterpretation {
 export interface KnowledgeBundle {
   version: string;
   cards: CardInterpretation[];
+  pairRelations?: Array<{ previousCardId: string; focusCardId: string }>;
 }
 
 /**
@@ -379,6 +380,69 @@ OUTPUT (MUST BE VALID JSON, no markdown, no extra text):
       valid: bundle.cards.length - warnings.length,
       warnings
     };
+  }
+
+  /**
+   * Cross-card consistency checks that per-card validateInterpretation()
+   * cannot catch, since it only ever looks at one card in isolation:
+   * - number/cardId/name uniqueness and complete 0-21 coverage
+   * - duplicated interpretive text reused verbatim across different cards
+   *   (a copy-paste artifact, not a legitimate shared phrase)
+   * - pairRelations entries pointing at a cardId that doesn't exist
+   */
+  auditBundleIntegrity(): { valid: boolean; issues: string[] } {
+    const bundle = this.loadBundle();
+    const issues: string[] = [];
+
+    const numbers = bundle.cards.map((c) => c.number);
+    const expectedNumbers = Array.from({ length: 22 }, (_, i) => i);
+    const missingNumbers = expectedNumbers.filter((n) => !numbers.includes(n));
+    if (missingNumbers.length > 0) {
+      issues.push(`Missing card numbers: ${missingNumbers.join(', ')}`);
+    }
+    const dupeNumbers = [...new Set(numbers.filter((n, i) => numbers.indexOf(n) !== i))];
+    if (dupeNumbers.length > 0) {
+      issues.push(`Duplicate card numbers: ${dupeNumbers.join(', ')}`);
+    }
+
+    for (const field of ['cardId', 'name_en', 'name_tr'] as const) {
+      const values = bundle.cards.map((c) => c[field]);
+      const dupes = [...new Set(values.filter((v, i) => values.indexOf(v) !== i))];
+      if (dupes.length > 0) {
+        issues.push(`Duplicate ${field}: ${dupes.join(', ')}`);
+      }
+    }
+
+    const textFields: Array<[string, (c: CardInterpretation) => string | undefined]> = [
+      ['symbolicMeaning', (c) => c.symbolicMeaning],
+      ['psychologicalReflection', (c) => c.psychologicalReflection],
+      ['redFlags.instead', (c) => c.redFlags?.instead]
+    ];
+    for (const [label, getter] of textFields) {
+      const seen = new Map<string, string>();
+      for (const card of bundle.cards) {
+        const value = getter(card);
+        if (!value) continue;
+        const existing = seen.get(value);
+        if (existing) {
+          issues.push(`Duplicate ${label} text shared by ${existing} and ${card.cardId}: "${value}"`);
+        } else {
+          seen.set(value, card.cardId);
+        }
+      }
+    }
+
+    const ids = new Set(bundle.cards.map((c) => c.cardId));
+    for (const rel of bundle.pairRelations ?? []) {
+      if (!ids.has(rel.previousCardId)) {
+        issues.push(`pairRelations references unknown previousCardId: ${rel.previousCardId}`);
+      }
+      if (!ids.has(rel.focusCardId)) {
+        issues.push(`pairRelations references unknown focusCardId: ${rel.focusCardId}`);
+      }
+    }
+
+    return { valid: issues.length === 0, issues };
   }
 
   /**
