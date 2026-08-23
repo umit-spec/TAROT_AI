@@ -146,8 +146,20 @@ export class CardInterpreterSkill {
     if (!Array.isArray(card.reflectionQuestions) || card.reflectionQuestions.length !== 2) {
       errors.push('reflectionQuestions must be exactly 2 items');
     }
-    if (!card.redFlags?.avoid || !Array.isArray(card.redFlags.avoid)) {
-      errors.push('redFlags.avoid must be non-empty array');
+    // redFlags.avoid is an array field: `!card.redFlags.avoid` is false for `[]`
+    // (empty arrays are truthy), so an empty array was silently passing this
+    // check despite the error text claiming "non-empty". Check length instead,
+    // and match the 2-3 item range the generation prompt actually asks for.
+    if (
+      !Array.isArray(card.redFlags?.avoid) ||
+      card.redFlags.avoid.length < 2 ||
+      card.redFlags.avoid.length > 3 ||
+      card.redFlags.avoid.some((a) => !a || !a.trim())
+    ) {
+      errors.push('redFlags.avoid must be an array of 2-3 non-empty items');
+    }
+    if (!card.redFlags?.instead || !card.redFlags.instead.trim()) {
+      errors.push('redFlags.instead is required');
     }
 
     // Content length checks (from Magician reference)
@@ -175,10 +187,54 @@ export class CardInterpreterSkill {
       errors.push('All contextualMeanings required (relationship, career, general)');
     }
 
+    // Turkish-only check: the docstring above has always promised this, but no
+    // check ever existed - an English sentence could reach the bundle silently.
+    const englishHits = this.findSuspectedEnglish(card);
+    if (englishHits.length > 0) {
+      errors.push(`Suspected English content (Turkish-only fields): ${englishHits.join(', ')}`);
+    }
+
     return {
       valid: errors.length === 0,
       errors
     };
+  }
+
+  /**
+   * Heuristic English-word detector for the Turkish-only interpretive fields.
+   * Not a language classifier - just catches the common failure mode of an
+   * un-translated or partially-translated English sentence slipping through
+   * (e.g. "the journey", "you must", "this card means").
+   */
+  private findSuspectedEnglish(card: CardInterpretation): string[] {
+    const ENGLISH_MARKERS =
+      /\b(the|and|you|your|this|that|with|for|of|is|are|means|card|represents|journey|must|will)\b/i;
+
+    const fields: Array<[string, string | undefined]> = [
+      ['symbolicMeaning', card.symbolicMeaning],
+      ['psychologicalReflection', card.psychologicalReflection],
+      ['positionMeanings.past', card.positionMeanings?.past],
+      ['positionMeanings.present', card.positionMeanings?.present],
+      ['positionMeanings.future', card.positionMeanings?.future],
+      ['contextualMeanings.relationship', card.contextualMeanings?.relationship],
+      ['contextualMeanings.career', card.contextualMeanings?.career],
+      ['contextualMeanings.general', card.contextualMeanings?.general],
+      ['redFlags.instead', card.redFlags?.instead]
+    ];
+
+    const hits: string[] = [];
+    for (const [name, value] of fields) {
+      if (value && ENGLISH_MARKERS.test(value)) {
+        hits.push(name);
+      }
+    }
+    for (const q of card.reflectionQuestions ?? []) {
+      if (ENGLISH_MARKERS.test(q)) {
+        hits.push('reflectionQuestions');
+        break;
+      }
+    }
+    return hits;
   }
 
   /**
@@ -196,10 +252,15 @@ export class CardInterpreterSkill {
     cardName_tr: string,
     archetypalThemes: string
   ): string {
+    // Read the reference from the live bundle rather than the hardcoded
+    // MAGICIAN_REFERENCE constant below - if the Magician entry is ever
+    // edited in the bundle, this prompt must reflect that edit instead of
+    // silently generating new cards against a stale, drifted pattern.
+    const reference = this.getReferenceCard();
     return `You are a Turkish tarot interpretation specialist. Generate a structured interpretation for this card following THE MAGICIAN pattern EXACTLY.
 
 REFERENCE CARD (THE MAGICIAN - your structural and tonal pattern):
-${JSON.stringify(MAGICIAN_REFERENCE, null, 2)}
+${JSON.stringify(reference, null, 2)}
 
 TARGET CARD (generate interpretation for this):
 - name_en: ${cardName_en}
@@ -289,9 +350,16 @@ OUTPUT (MUST BE VALID JSON, no markdown, no extra text):
   }
 
   /**
-   * Report on interpretation quality across all cards
+   * Report on interpretation quality across all cards.
+   *
+   * Defaults to strict=true: an earlier version of this method audited with
+   * strict=false, so `npm run cards:audit` reported "22/22 valid" while 18 of
+   * those 22 cards were actually failing the Magician length pattern - the
+   * audit command silently couldn't catch the exact problem it exists to
+   * catch. Strict is now the default; pass `strict: false` explicitly if a
+   * looser structural-only pass is ever needed.
    */
-  auditInterpretations(): {
+  auditInterpretations(strict = true): {
     total: number;
     valid: number;
     warnings: Array<{ cardId: string; issues: string[] }>;
@@ -300,7 +368,7 @@ OUTPUT (MUST BE VALID JSON, no markdown, no extra text):
     const warnings: Array<{ cardId: string; issues: string[] }> = [];
 
     for (const card of bundle.cards) {
-      const result = this.validateInterpretation(card, false);
+      const result = this.validateInterpretation(card, strict);
       if (!result.valid) {
         warnings.push({ cardId: card.cardId, issues: result.errors });
       }
@@ -311,6 +379,24 @@ OUTPUT (MUST BE VALID JSON, no markdown, no extra text):
       valid: bundle.cards.length - warnings.length,
       warnings
     };
+  }
+
+  /**
+   * Insert or replace a card in the bundle (matched by cardId) and persist it.
+   * Closes the generate -> validate -> save loop: previously saveBundle()
+   * existed but nothing in the CLI workflow ever called it, so a validated
+   * card had to be spliced into the JSON file by hand.
+   */
+  upsertCard(card: CardInterpretation): void {
+    const bundle = this.loadBundle();
+    const index = bundle.cards.findIndex((c) => c.cardId === card.cardId);
+    if (index >= 0) {
+      bundle.cards[index] = card;
+    } else {
+      bundle.cards.push(card);
+    }
+    bundle.cards.sort((a, b) => a.number - b.number);
+    this.saveBundle(bundle);
   }
 }
 

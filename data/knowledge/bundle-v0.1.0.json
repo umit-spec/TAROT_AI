@@ -205,7 +205,8 @@
       ],
       "redFlags": {
         "avoid": [
-          "dini/dogmatik kesinlik iddiası"
+          "dini/dogmatik kesinlik iddiası",
+          "tek doğru yol olduğu iması"
         ],
         "instead": "Değerlerinizi kendi bağlamınızda sorgulamayı önerin."
       }
@@ -274,7 +275,8 @@
       ],
       "redFlags": {
         "avoid": [
-          "kesin zafer vaadi"
+          "kesin zafer vaadi",
+          "rakipleri ezme ya da yok etme çağrısı"
         ],
         "instead": "İlerlemenin süreklilik gerektirdiğini hatırlatın."
       }
@@ -308,7 +310,8 @@
       ],
       "redFlags": {
         "avoid": [
-          "fiziksel şiddeti öven ifade"
+          "fiziksel şiddeti öven ifade",
+          "duygusal ihtiyaçları bastırma önerisi"
         ],
         "instead": "Gücün her zaman sertlik anlamına gelmediğini vurgulayın."
       }
@@ -447,7 +450,8 @@
       ],
       "redFlags": {
         "avoid": [
-          "pasifliği/çaresizliği özendiren dil"
+          "pasifliği/çaresizliği özendiren dil",
+          "karar vermekten tamamen kaçınmayı özendirme"
         ],
         "instead": "Beklemenin bilinçli bir tercih olabileceğini vurgulayın."
       }
@@ -516,7 +520,8 @@
       ],
       "redFlags": {
         "avoid": [
-          "hızlı çözüm vaadi"
+          "hızlı çözüm vaadi",
+          "aşırı sabrı sınır koymamayı meşrulaştırmak için kullanma"
         ],
         "instead": "Dengenin zaman ve sabır gerektirdiğini vurgulayın."
       }
@@ -620,7 +625,8 @@
       ],
       "redFlags": {
         "avoid": [
-          "mucize/garanti iyileşme vaadi"
+          "mucize/garanti iyileşme vaadi",
+          "gerçekçi olmayan beklenti yaratma"
         ],
         "instead": "Umudun bir süreç olduğunu, anlık bir sonuç olmadığını vurgulayın."
       }
@@ -689,7 +695,8 @@
       ],
       "redFlags": {
         "avoid": [
-          "abartılı mutluluk/başarı garantisi"
+          "abartılı mutluluk/başarı garantisi",
+          "herkesin aynı şekilde mutlu olması gerektiği iması"
         ],
         "instead": "Bu netliğin sürdürülebilir küçük adımlarla geldiğini vurgulayın."
       }
@@ -758,7 +765,8 @@
       ],
       "redFlags": {
         "avoid": [
-          "mutlak/final bir mutluluk vaadi"
+          "mutlak/final bir mutluluk vaadi",
+          "artık hiçbir çaba gerekmediği iması"
         ],
         "instead": "Tamamlanmanın da yeni bir başlangıcın parçası olduğunu vurgulayın."
       }

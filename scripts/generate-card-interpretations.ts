@@ -19,29 +19,34 @@
 
 import { CardInterpreterSkill, type CardInterpretation } from '../src/server/knowledge/card-interpretation-generator';
 
+// cardId is listed explicitly and must match data/knowledge/bundle-v0.1.0.json
+// exactly. It used to be reconstructed as `${number}-${name_en.slug}`, which
+// silently produced "00-the-fool" / "01-the-magician" / etc. (the bundle
+// drops the "The " prefix) - every "--card <id>" lookup for a "The ..." card
+// failed with "Card not found" as a result.
 const CARD_METADATA = [
-  { number: 0, name_en: 'The Fool', name_tr: 'Deli', archetype: 'beginning, courage, open-mindedness' },
-  { number: 1, name_en: 'The Magician', name_tr: 'Büyücü', archetype: 'will, skill, intention' },
-  { number: 2, name_en: 'The High Priestess', name_tr: 'Yüksek Rahibe', archetype: 'intuition, wisdom, mystery' },
-  { number: 3, name_en: 'The Empress', name_tr: 'İmparatoriçe', archetype: 'fertility, creation, abundance' },
-  { number: 4, name_en: 'The Emperor', name_tr: 'İmparator', archetype: 'authority, structure, power' },
-  { number: 5, name_en: 'The Hierophant', name_tr: 'Hiyerofant', archetype: 'tradition, wisdom, belief' },
-  { number: 6, name_en: 'The Lovers', name_tr: 'Âşıklar', archetype: 'love, choice, connection' },
-  { number: 7, name_en: 'The Chariot', name_tr: 'Savaş Arabası', archetype: 'will, determination, control' },
-  { number: 8, name_en: 'Strength', name_tr: 'Güç', archetype: 'inner strength, patience, compassion' },
-  { number: 9, name_en: 'The Hermit', name_tr: 'Ermiş', archetype: 'introspection, search, wisdom' },
-  { number: 10, name_en: 'Wheel of Fortune', name_tr: 'Kaderin Tekerleği', archetype: 'destiny, cycles, change' },
-  { number: 11, name_en: 'Justice', name_tr: 'Adalet', archetype: 'truth, accountability, fairness' },
-  { number: 12, name_en: 'The Hanged Man', name_tr: 'Asılı Adam', archetype: 'perspective, pause, sacrifice' },
-  { number: 13, name_en: 'Death', name_tr: 'Ölüm', archetype: 'transformation, endings, renewal' },
-  { number: 14, name_en: 'Temperance', name_tr: 'Denge', archetype: 'balance, moderation, patience' },
-  { number: 15, name_en: 'The Devil', name_tr: 'Şeytan', archetype: 'bondage, materialism, shadow' },
-  { number: 16, name_en: 'The Tower', name_tr: 'Kule', archetype: 'upheaval, revelation, ruin' },
-  { number: 17, name_en: 'The Star', name_tr: 'Yıldız', archetype: 'hope, inspiration, serenity' },
-  { number: 18, name_en: 'The Moon', name_tr: 'Ay', archetype: 'illusion, fear, dreams' },
-  { number: 19, name_en: 'The Sun', name_tr: 'Güneş', archetype: 'joy, success, warmth' },
-  { number: 20, name_en: 'Judgement', name_tr: 'Yargı', archetype: 'awakening, renewal, reckoning' },
-  { number: 21, name_en: 'The World', name_tr: 'Dünya', archetype: 'completion, fulfillment, wholeness' }
+  { cardId: '00-fool', number: 0, name_en: 'The Fool', name_tr: 'Deli', archetype: 'beginning, courage, open-mindedness' },
+  { cardId: '01-magician', number: 1, name_en: 'The Magician', name_tr: 'Büyücü', archetype: 'will, skill, intention' },
+  { cardId: '02-high-priestess', number: 2, name_en: 'The High Priestess', name_tr: 'Yüksek Rahibe', archetype: 'intuition, wisdom, mystery' },
+  { cardId: '03-empress', number: 3, name_en: 'The Empress', name_tr: 'İmparatoriçe', archetype: 'fertility, creation, abundance' },
+  { cardId: '04-emperor', number: 4, name_en: 'The Emperor', name_tr: 'İmparator', archetype: 'authority, structure, power' },
+  { cardId: '05-hierophant', number: 5, name_en: 'The Hierophant', name_tr: 'Hiyerofant', archetype: 'tradition, wisdom, belief' },
+  { cardId: '06-lovers', number: 6, name_en: 'The Lovers', name_tr: 'Âşıklar', archetype: 'love, choice, connection' },
+  { cardId: '07-chariot', number: 7, name_en: 'The Chariot', name_tr: 'Savaş Arabası', archetype: 'will, determination, control' },
+  { cardId: '08-strength', number: 8, name_en: 'Strength', name_tr: 'Güç', archetype: 'inner strength, patience, compassion' },
+  { cardId: '09-hermit', number: 9, name_en: 'The Hermit', name_tr: 'Ermiş', archetype: 'introspection, search, wisdom' },
+  { cardId: '10-wheel-of-fortune', number: 10, name_en: 'Wheel of Fortune', name_tr: 'Kaderin Tekerleği', archetype: 'destiny, cycles, change' },
+  { cardId: '11-justice', number: 11, name_en: 'Justice', name_tr: 'Adalet', archetype: 'truth, accountability, fairness' },
+  { cardId: '12-hanged-man', number: 12, name_en: 'The Hanged Man', name_tr: 'Asılı Adam', archetype: 'perspective, pause, sacrifice' },
+  { cardId: '13-death', number: 13, name_en: 'Death', name_tr: 'Ölüm', archetype: 'transformation, endings, renewal' },
+  { cardId: '14-temperance', number: 14, name_en: 'Temperance', name_tr: 'Denge', archetype: 'balance, moderation, patience' },
+  { cardId: '15-devil', number: 15, name_en: 'The Devil', name_tr: 'Şeytan', archetype: 'bondage, materialism, shadow' },
+  { cardId: '16-tower', number: 16, name_en: 'The Tower', name_tr: 'Kule', archetype: 'upheaval, revelation, ruin' },
+  { cardId: '17-star', number: 17, name_en: 'The Star', name_tr: 'Yıldız', archetype: 'hope, inspiration, serenity' },
+  { cardId: '18-moon', number: 18, name_en: 'The Moon', name_tr: 'Ay', archetype: 'illusion, fear, dreams' },
+  { cardId: '19-sun', number: 19, name_en: 'The Sun', name_tr: 'Güneş', archetype: 'joy, success, warmth' },
+  { cardId: '20-judgement', number: 20, name_en: 'Judgement', name_tr: 'Yargı', archetype: 'awakening, renewal, reckoning' },
+  { cardId: '21-world', number: 21, name_en: 'The World', name_tr: 'Dünya', archetype: 'completion, fulfillment, wholeness' }
 ];
 
 async function main() {
@@ -79,10 +84,7 @@ async function main() {
     const cardId = args[cardIndex];
     console.log(`Generating prompt for card: ${cardId}\n`);
 
-    const cardMeta = CARD_METADATA.find((c) => {
-      const id = `${c.number.toString().padStart(2, '0')}-${c.name_en.toLowerCase().replace(/ /g, '-')}`;
-      return id === cardId;
-    });
+    const cardMeta = CARD_METADATA.find((c) => c.cardId === cardId);
 
     if (!cardMeta) {
       console.error(`Card not found: ${cardId}`);
@@ -106,8 +108,9 @@ async function main() {
     return;
   }
 
-  // Handle --validate flag
+  // Handle --validate flag (add --save to also write the card into the bundle)
   if (args.includes('--validate')) {
+    const shouldSave = args.includes('--save');
     console.log('Paste generated card interpretation JSON (Ctrl+D to end):\n');
     let jsonInput = '';
     process.stdin.setEncoding('utf8');
@@ -127,6 +130,13 @@ async function main() {
           console.log('✓ Card interpretation is VALID');
           console.log(`\nCard: ${card.name_tr} (${card.name_en})`);
           console.log(`ID: ${card.cardId}`);
+
+          if (shouldSave) {
+            skill.upsertCard(card);
+            console.log(`\n✓ Saved into bundle: ${card.cardId}`);
+          } else {
+            console.log('\n(Not saved - re-run with --validate --save to write this card into the bundle.)');
+          }
         } else {
           console.log('✗ Card interpretation has issues:\n');
           for (const error of validation.errors) {
@@ -157,19 +167,17 @@ async function main() {
   console.log('    → Generate prompt for specific card');
   console.log('    → Examples:');
   CARD_METADATA.slice(0, 3).forEach((c) => {
-    const id = `${c.number.toString().padStart(2, '0')}-${c.name_en.toLowerCase().replace(/ /g, '-')}`;
-    console.log(`       ${id}`);
+    console.log(`       ${c.cardId}`);
   });
   console.log('    → ... and 19 others\n');
-  console.log('  npx ts-node scripts/generate-card-interpretations.ts --validate');
-  console.log('    → Validate generated JSON output\n');
+  console.log('  npx ts-node scripts/generate-card-interpretations.ts --validate [--save]');
+  console.log('    → Validate generated JSON output; --save also writes it into the bundle\n');
 
   console.log('WORKFLOW:');
   console.log('  1. Run: --audit (check current state)');
   console.log('  2. Run: --card <ID> (get prompt for one card)');
   console.log('  3. Send prompt to Claude, get JSON');
-  console.log('  4. Run: --validate (check output)');
-  console.log('  5. Update bundle manually or implement API integration\n');
+  console.log('  4. Run: --validate --save (check output and write it into the bundle)\n');
 }
 
 main().catch(console.error);

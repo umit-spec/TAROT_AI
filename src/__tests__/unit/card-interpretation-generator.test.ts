@@ -1,4 +1,7 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { mkdtempSync, rmSync, copyFileSync, readFileSync } from 'fs';
+import { tmpdir } from 'os';
+import { join } from 'path';
 import {
   CardInterpreterSkill,
   MAGICIAN_REFERENCE,
@@ -32,6 +35,15 @@ describe('CardInterpreterSkill', () => {
       expect(MAGICIAN_REFERENCE.reflectionQuestions).toHaveLength(2);
       expect(MAGICIAN_REFERENCE.redFlags).toHaveProperty('avoid');
       expect(MAGICIAN_REFERENCE.redFlags).toHaveProperty('instead');
+    });
+
+    it('must stay in sync with the bundle\'s own 01-magician entry', () => {
+      // generatePromptForCard() reads the live bundle, not this constant, so
+      // this constant is now only used by tests/exports. If the bundle's
+      // Magician entry is ever edited without updating this constant, this
+      // test is what catches the drift.
+      const liveReference = skill.getReferenceCard();
+      expect(MAGICIAN_REFERENCE).toEqual(liveReference);
     });
   });
 
@@ -113,6 +125,48 @@ describe('CardInterpreterSkill', () => {
       expect(result.valid).toBe(false);
       expect(result.errors.some((e) => e.includes('contextualMeanings'))).toBe(true);
     });
+
+    it('should reject an empty redFlags.avoid array (previously passed silently)', () => {
+      // `!card.redFlags.avoid` is false for `[]` since empty arrays are
+      // truthy in JS - the old check only tested for that falsy case, so an
+      // empty array satisfied a rule whose error text claimed "non-empty".
+      const emptyAvoid = { ...MAGICIAN_REFERENCE, redFlags: { ...MAGICIAN_REFERENCE.redFlags, avoid: [] } };
+      const result = skill.validateInterpretation(emptyAvoid);
+      expect(result.valid).toBe(false);
+      expect(result.errors.some((e) => e.includes('redFlags.avoid'))).toBe(true);
+    });
+
+    it('should reject more than 3 redFlags.avoid items', () => {
+      const tooMany = {
+        ...MAGICIAN_REFERENCE,
+        redFlags: { ...MAGICIAN_REFERENCE.redFlags, avoid: ['a', 'b', 'c', 'd'] }
+      };
+      const result = skill.validateInterpretation(tooMany);
+      expect(result.valid).toBe(false);
+      expect(result.errors.some((e) => e.includes('redFlags.avoid'))).toBe(true);
+    });
+
+    it('should require redFlags.instead', () => {
+      const missingInstead = { ...MAGICIAN_REFERENCE, redFlags: { avoid: MAGICIAN_REFERENCE.redFlags.avoid, instead: '' } };
+      const result = skill.validateInterpretation(missingInstead);
+      expect(result.valid).toBe(false);
+      expect(result.errors.some((e) => e.includes('redFlags.instead'))).toBe(true);
+    });
+
+    it('should flag suspected English content in Turkish-only fields', () => {
+      const englishLeak = {
+        ...MAGICIAN_REFERENCE,
+        symbolicMeaning: 'This card represents the journey you must take with your will.'
+      };
+      const result = skill.validateInterpretation(englishLeak);
+      expect(result.valid).toBe(false);
+      expect(result.errors.some((e) => e.includes('Suspected English'))).toBe(true);
+    });
+
+    it('should not flag genuine Turkish content as English', () => {
+      const result = skill.validateInterpretation(MAGICIAN_REFERENCE);
+      expect(result.errors.some((e) => e.includes('Suspected English'))).toBe(false);
+    });
   });
 
   describe('Prompt Generation', () => {
@@ -148,12 +202,22 @@ describe('CardInterpreterSkill', () => {
   });
 
   describe('Audit', () => {
-    it('should run audit on all cards', () => {
+    it('should default to strict validation', () => {
+      // auditInterpretations() used to default to strict=false, so
+      // "npm run cards:audit" reported 22/22 valid while 18 of those cards
+      // were actually failing the Magician length pattern - the audit
+      // command couldn't catch the exact problem it exists to catch.
+      const strictDefault = skill.auditInterpretations();
+      const explicitStrict = skill.auditInterpretations(true);
+      expect(strictDefault).toEqual(explicitStrict);
+    });
+
+    it('should run audit on all cards and report all 22 as valid', () => {
       const audit = skill.auditInterpretations();
 
       expect(audit.total).toBe(22);
-      expect(audit.valid).toBeGreaterThan(0);
-      expect(Array.isArray(audit.warnings)).toBe(true);
+      expect(audit.valid).toBe(22);
+      expect(audit.warnings).toHaveLength(0);
     });
 
     it('should identify valid cards', () => {
@@ -162,6 +226,63 @@ describe('CardInterpreterSkill', () => {
       // At minimum, Magician should be valid
       const magicianWarning = audit.warnings.find((w) => w.cardId === '01-magician');
       expect(magicianWarning).toBeUndefined();
+    });
+
+    it('should support an explicit non-strict pass', () => {
+      const audit = skill.auditInterpretations(false);
+      expect(audit.total).toBe(22);
+      expect(audit.valid).toBe(22);
+    });
+  });
+
+  describe('upsertCard + saveBundle', () => {
+    let tempDir: string;
+    let scopedSkill: CardInterpreterSkill;
+
+    beforeEach(() => {
+      tempDir = mkdtempSync(join(tmpdir(), 'card-interpreter-test-'));
+      copyFileSync(
+        join(process.cwd(), 'data', 'knowledge', 'bundle-v0.1.0.json'),
+        join(tempDir, 'bundle-v0.1.0.json')
+      );
+      scopedSkill = new CardInterpreterSkill(tempDir);
+    });
+
+    afterEach(() => {
+      rmSync(tempDir, { recursive: true, force: true });
+    });
+
+    it('should persist a new card into the bundle file', () => {
+      const newCard: CardInterpretation = {
+        ...MAGICIAN_REFERENCE,
+        cardId: '99-test-card',
+        name_en: 'Test Card',
+        name_tr: 'Test Kartı',
+        number: 99
+      };
+
+      scopedSkill.upsertCard(newCard);
+
+      const written = JSON.parse(readFileSync(join(tempDir, 'bundle-v0.1.0.json'), 'utf-8'));
+      const found = written.cards.find((c: CardInterpretation) => c.cardId === '99-test-card');
+      expect(found).toBeDefined();
+      expect(found.name_tr).toBe('Test Kartı');
+      expect(written.cards).toHaveLength(23);
+    });
+
+    it('should replace an existing card by cardId rather than duplicate it', () => {
+      const updatedMagician: CardInterpretation = {
+        ...MAGICIAN_REFERENCE,
+        symbolicMeaning: 'Değiştirilmiş test içeriği, en az yedi kelimeden oluşan bir cümle.'
+      };
+
+      scopedSkill.upsertCard(updatedMagician);
+
+      const written = JSON.parse(readFileSync(join(tempDir, 'bundle-v0.1.0.json'), 'utf-8'));
+      const magicianEntries = written.cards.filter((c: CardInterpretation) => c.cardId === '01-magician');
+      expect(magicianEntries).toHaveLength(1);
+      expect(magicianEntries[0].symbolicMeaning).toBe(updatedMagician.symbolicMeaning);
+      expect(written.cards).toHaveLength(22);
     });
   });
 
